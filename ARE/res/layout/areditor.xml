@@ -1,0 +1,160 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <HorizontalScrollView
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/holo_orange_dark"
+        android:scrollbarAlwaysDrawHorizontalTrack="false"
+        android:scrollbars="none"
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/rteEmoji"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:src="@drawable/emoji" />
+
+			<ImageView
+                android:id="@+id/rteFontsize"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:src="@drawable/fontsize" />
+			
+			<ImageView
+                android:id="@+id/rteFontface"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:src="@drawable/fontface" />
+                        
+            <ImageView
+                android:id="@+id/rteBold"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:src="@drawable/bold" />
+
+            <ImageView
+                android:id="@+id/rteItalic"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:src="@drawable/italic" />
+
+            <ImageView
+                android:id="@+id/rteUnderline"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:src="@drawable/underline" />
+            
+             <ImageView
+                android:id="@+id/rteStrikethrough"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:src="@drawable/strikethrough" />
+             
+             <ImageView
+                android:id="@+id/rteBackground"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:src="@drawable/background" />
+            
+            <ImageView
+                android:id="@+id/rteListNumber"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:src="@drawable/listnumber" />
+            
+            <ImageView
+                android:id="@+id/rteListBullet"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:src="@drawable/listbullet" />
+            
+            <ImageView
+                android:id="@+id/rteIndentRight"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:src="@drawable/indentright" />
+                        
+            <ImageView
+                android:id="@+id/rteIndentLeft"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:src="@drawable/indentleft" />
+            
+            <ImageView
+                android:id="@+id/rteAlignLeft"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:src="@drawable/alignleft" />
+            
+            <ImageView
+                android:id="@+id/rteAlignCenter"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:src="@drawable/aligncenter" />
+                        
+            <ImageView
+                android:id="@+id/rteAlignRight"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:src="@drawable/alignright" />
+            
+            <ImageView
+                android:id="@+id/rteInsertImage"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:src="@drawable/image" />
+            
+            <ImageView
+                android:id="@+id/rteAt"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:src="@drawable/at" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <com.chinalwb.are.AREditText
+        android:id="@+id/are"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/toolbar"
+        android:gravity="top"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:textSize="12sp"
+        android:lineSpacingMultiplier="1.0"
+        android:background="@android:color/holo_orange_light"
+        android:textColor="@android:color/white"
+        android:textCursorDrawable="@drawable/cursor"
+        android:focusableInTouchMode="true"
+        android:hint="Type here..." />
+
+</merge>
