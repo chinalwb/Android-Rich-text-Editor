@@ -9,4 +9,4 @@ This is written by pure Java
 
 The latest functionalities:
 
-![image] (https://github.com/chinalwb/are/blob/master/ARE/demo/device-2017-06-04-215321.png)
+ ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/device-2017-06-04-215321.png)
