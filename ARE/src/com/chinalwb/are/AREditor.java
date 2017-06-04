@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.text.Editable;
+import android.text.Layout.Alignment;
 import android.text.TextWatcher;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.CharacterStyle;
@@ -20,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.chinalwb.are.AREditText.ISelectionChangedListener;
+import com.chinalwb.are.styles.ARE_Alignment;
 import com.chinalwb.are.styles.ARE_At;
 import com.chinalwb.are.styles.ARE_BackgroundColor;
 import com.chinalwb.are.styles.ARE_Bold;
@@ -137,6 +139,21 @@ public class AREditor extends RelativeLayout implements ISelectionChangedListene
   private ARE_IndentLeft mIndentLeftStyle;
   
   /**
+   * Align left.
+   */
+  private ARE_Alignment mAlignLeft;
+  
+  /**
+   * Align center.
+   */
+  private ARE_Alignment mAlignCenter;
+  
+  /**
+   * Align right.
+   */
+  private ARE_Alignment mAlignRight;
+  
+  /**
    * Insert image style.
    */
   private ARE_Image mImageStyle;
@@ -215,7 +232,6 @@ public class AREditor extends RelativeLayout implements ISelectionChangedListene
    * Align right.
    */
   private ImageView mRteAlignRight;
-  
   
   /**
    * Decrease. Indent to left.
@@ -320,6 +336,12 @@ public class AREditor extends RelativeLayout implements ISelectionChangedListene
     
     this.mRteIndentLeft = (ImageView) this.findViewById(R.id.rteIndentLeft);
     
+    this.mRteAlignLeft = (ImageView) this.findViewById(R.id.rteAlignLeft);
+    
+    this.mRteAlignCenter = (ImageView) this.findViewById(R.id.rteAlignCenter);
+    
+    this.mRteAlignRight = (ImageView) this.findViewById(R.id.rteAlignRight);
+    
     this.mRteInsertImage = (ImageView) this.findViewById(R.id.rteInsertImage);
     
     this.mRteAtImage = (ImageView) this.findViewById(R.id.rteAt);
@@ -342,6 +364,9 @@ public class AREditor extends RelativeLayout implements ISelectionChangedListene
     this.mListBulletStyle = new ARE_ListBullet(this.mRteListBullet, this.mEditText);
     this.mIndentRightStyle = new ARE_IndentRight(this.mRteIndentRight, this.mEditText);
     this.mIndentLeftStyle = new ARE_IndentLeft(this.mRteIndentLeft, this.mEditText);
+    this.mAlignLeft = new ARE_Alignment(this.mRteAlignLeft, this.mEditText, Alignment.ALIGN_NORMAL);
+    this.mAlignCenter = new ARE_Alignment(this.mRteAlignCenter, this.mEditText, Alignment.ALIGN_CENTER);
+    this.mAlignRight = new ARE_Alignment(this.mRteAlignRight, this.mEditText, Alignment.ALIGN_OPPOSITE);
     this.mImageStyle = new ARE_Image(this.mRteInsertImage, this.mEditText);
     this.mAtStyle = new ARE_At(this.mRteAtImage, this.mEditText);
     
@@ -357,6 +382,9 @@ public class AREditor extends RelativeLayout implements ISelectionChangedListene
     this.mStylesList.add(this.mListBulletStyle);
     this.mStylesList.add(this.mIndentRightStyle);
     this.mStylesList.add(this.mIndentLeftStyle);
+    this.mStylesList.add(this.mAlignLeft);
+    this.mStylesList.add(this.mAlignCenter);
+    this.mStylesList.add(this.mAlignRight);
     this.mStylesList.add(this.mImageStyle);
     this.mStylesList.add(this.mAtStyle);
   }
