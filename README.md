@@ -1,4 +1,4 @@
-# are
+# ARE
 Android Rich Editor
 
 
