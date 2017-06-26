@@ -7,6 +7,6 @@ This is written by pure Java
 
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/demo.gif)
 
-The latest functionalities:
+You can download the APK here:
 
- ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/device-2017-06-04-215321.png)
+[Click here to download](https://github.com/chinalwb/are/blob/master/ARE/demo/ARE.apk)
