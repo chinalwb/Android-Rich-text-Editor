@@ -5,7 +5,7 @@ Android Rich Editor
 This is written by pure Java
 
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/demo.gif)
- //![image](https://github.com/chinalwb/are/blob/master/ARE/demo/styles.png)
+ 
  
 Supported styles:
 ------------------
