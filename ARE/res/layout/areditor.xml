@@ -1,7 +1,8 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    >
 
     <HorizontalScrollView
         android:id="@+id/toolbar"
@@ -154,7 +155,7 @@
                 android:id="@+id/are"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@android:color/holo_orange_light"
+                android:background="@android:color/white"
                 android:focusableInTouchMode="true"
                 android:gravity="top"
                 android:hint="Type here..."
@@ -163,9 +164,8 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
-                android:textColor="@android:color/white"
                 android:textCursorDrawable="@drawable/cursor"
-                android:textSize="12sp" />
+                 />
         </LinearLayout>
     </ScrollView>
 

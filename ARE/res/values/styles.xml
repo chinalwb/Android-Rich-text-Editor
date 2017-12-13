@@ -14,5 +14,6 @@
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
+        <!-- <item name="colorAccent">#ffff8800</item> TODO: Change the cursor handler color -->
     </style>
 </resources>
