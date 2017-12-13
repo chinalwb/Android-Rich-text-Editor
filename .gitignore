@@ -4,3 +4,9 @@ ARE/bin/res/crunch/drawable-hdpi/image.png
 ARE/bin/res/crunch/drawable-hdpi/ic_launcher.png
 ARE/bin/*
 *.keystore
+ARE/res/.DS_Store
+ARE/res/layout/.DS_Store
+ARE/libs/.DS_Store
+ARE/.DS_Store
+ARE/.DS_Store
+ARE/.DS_Store
