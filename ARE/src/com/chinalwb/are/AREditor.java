@@ -18,7 +18,9 @@ import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 
 import com.chinalwb.are.AREditText.ISelectionChangedListener;
 import com.chinalwb.are.styles.ARE_Alignment;
@@ -67,6 +69,16 @@ public class AREditor extends RelativeLayout implements ISelectionChangedListene
    * Context.
    */
   private Context mContext;
+  
+  /**
+   * The root scroll view.
+   */
+  private ScrollView mRootScrollView;
+  
+  /**
+   * The root container.
+   */
+  private LinearLayout mRootLinearLayout;
   
   /**
    * Edit Text.
@@ -308,6 +320,10 @@ public class AREditor extends RelativeLayout implements ISelectionChangedListene
    * Init views.
    */
   private void initViews() {
+	this.mRootScrollView = (ScrollView) this.findViewById(R.id.rootScrollView);
+	
+	this.mRootLinearLayout = (LinearLayout) this.findViewById(R.id.rootLinearLayout);
+	
     this.mEditText = (AREditText) this.findViewById(R.id.are);
     
     this.mEditable = this.mEditText.getEditableText();
