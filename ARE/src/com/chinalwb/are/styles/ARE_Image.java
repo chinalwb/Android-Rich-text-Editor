@@ -93,11 +93,11 @@ public class ARE_Image implements IARE_Style {
 	  //
 	  // 1. Left
 	  AREditText leftEditText = new AREditText(mContext);
-	  LinearLayout.LayoutParams editTextLayoutParams = new LinearLayout.LayoutParams(
+	  LinearLayout.LayoutParams leftEditTextLayoutParams = new LinearLayout.LayoutParams(
 			  LinearLayout.LayoutParams.WRAP_CONTENT, // Width
 			  LinearLayout.LayoutParams.MATCH_PARENT  // Height
 	  );
-	  leftEditText.setLayoutParams(editTextLayoutParams);
+	  leftEditText.setLayoutParams(leftEditTextLayoutParams);
 	  imageContainerLayout.addView(leftEditText);
 	  
 	  //
