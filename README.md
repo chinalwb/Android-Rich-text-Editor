@@ -36,7 +36,7 @@ In progress items:
 
 Known issues:
 -----------------
-* Scrolling issue after inserted images
+* Scrolling issue after inserted images -- 【Doing code refactor for resolving this issue】
 * Calculation of the image size to a proper value
 * Indent cooperates with List
 
@@ -44,3 +44,6 @@ Known issues:
 You can download the APK here:
 
 [Click here to download](https://github.com/chinalwb/are/blob/master/ARE/demo/ARE.apk)
+
+-------------------
+* The first release plans to be roll out before 2018/1/31.
