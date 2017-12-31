@@ -156,7 +156,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/white"
-                android:focusableInTouchMode="true"
                 android:gravity="top"
                 android:hint="Type here..."
                 android:lineSpacingMultiplier="1.0"
@@ -164,7 +163,6 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
-                android:textCursorDrawable="@drawable/cursor"
                  />
         </LinearLayout>
     </ScrollView>
