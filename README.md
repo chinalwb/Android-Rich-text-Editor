@@ -42,7 +42,7 @@ Known issues:
 
 You can download the APK here:
 
-[Click here to download](https://github.com/chinalwb/are/blob/master/ARE/demo/ARE.apk)
+[Click here to download](https://github.com/chinalwb/are/blob/master/ARE/demo/ARE_20180101.apk)
 
 -------------------
 * The first release plans to be roll out before 2018/1/31.
