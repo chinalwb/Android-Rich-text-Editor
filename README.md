@@ -5,7 +5,6 @@ Android Rich Editor
 This is implemented by Java
 
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/demo.gif)
- ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/imagesAndTexts.gif)
  
  
 Supported styles:
@@ -37,7 +36,6 @@ In progress items:
 
 Known issues:
 -----------------
-* Scrolling issue after inserted images -- 【Doing code refactor for resolving this issue】
 * Calculation of the image size to a proper value
 * Indent cooperates with List
 
