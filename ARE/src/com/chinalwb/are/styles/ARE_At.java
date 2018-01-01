@@ -11,12 +11,9 @@ import android.widget.ImageView;
 
 import com.chinalwb.are.spans.AtSpan;
 
-public class ARE_At implements IARE_Style {
+public class ARE_At extends ARE_ABS_Style {
 
-	private EditText mEditText;
-
-	public ARE_At(ImageView atImageView, EditText editText) {
-		this.mEditText = editText;
+	public ARE_At(ImageView atImageView) {
 		setListenerForImageView(atImageView);
 	}
 
@@ -25,10 +22,11 @@ public class ARE_At implements IARE_Style {
 		imageView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				int selectionStart = mEditText.getSelectionStart();
-				int selectionEnd = mEditText.getSelectionEnd();
+				EditText editText = getEditText();
+				int selectionStart = editText.getSelectionStart();
+				int selectionEnd = editText.getSelectionEnd();
 
-				Editable editable = mEditText.getText();
+				Editable editable = editText.getText();
 				SpannableStringBuilder ssb = new SpannableStringBuilder();
 				
 				// The name of the people to @

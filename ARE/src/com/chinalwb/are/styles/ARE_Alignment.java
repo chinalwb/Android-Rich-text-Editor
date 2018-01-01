@@ -14,17 +14,14 @@ import android.widget.ImageView;
 import com.chinalwb.are.Constants;
 import com.chinalwb.are.Util;
 
-public class ARE_Alignment implements IARE_Style {
+public class ARE_Alignment extends ARE_ABS_Style {
 
 	  private ImageView mAlignmentImageView;
 	  
-	  private EditText mEditText;
-	  
 	  private Alignment mAlignment;
 	  
-	  public ARE_Alignment(ImageView imageView, EditText editText, Alignment alignment) {
+	  public ARE_Alignment(ImageView imageView, Alignment alignment) {
 	    this.mAlignmentImageView = imageView;
-	    this.mEditText = editText;
 	    this.mAlignment = alignment;
 	    setListenerForImageView(this.mAlignmentImageView);
 	  }
@@ -34,11 +31,12 @@ public class ARE_Alignment implements IARE_Style {
 		imageView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				int currentLine = Util.getCurrentCursorLine(mEditText);
-				int start = Util.getThisLineStart(mEditText, currentLine);
-				int end = Util.getThisLineEnd(mEditText, currentLine);
+				EditText editText = getEditText();
+				int currentLine = Util.getCurrentCursorLine(editText);
+				int start = Util.getThisLineStart(editText, currentLine);
+				int end = Util.getThisLineEnd(editText, currentLine);
 				
-				Editable editable = mEditText.getEditableText();
+				Editable editable = editText.getEditableText();
 				
 				Standard[] alignmentSpans = editable.getSpans(start, end, Standard.class);
 				if (null != alignmentSpans) {
@@ -50,7 +48,7 @@ public class ARE_Alignment implements IARE_Style {
 				AlignmentSpan alignCenterSpan = new Standard(mAlignment);
 				if (start == end) {
 					editable.insert(start, Constants.ZERO_WIDTH_SPACE_STR);
-					end = Util.getThisLineEnd(mEditText, currentLine);
+					end = Util.getThisLineEnd(editText, currentLine);
 				}
 				editable.setSpan(alignCenterSpan, start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);	
 			}
@@ -113,13 +111,14 @@ public class ARE_Alignment implements IARE_Style {
 	}
 	
 	private void markLineAsAlignmentSpan(Alignment alignment) {
-		int currentLine = Util.getCurrentCursorLine(mEditText);
-		int start = Util.getThisLineStart(mEditText, currentLine);
-		int end = Util.getThisLineEnd(mEditText, currentLine);
-		Editable editable = mEditText.getText();
+		EditText editText = getEditText();
+		int currentLine = Util.getCurrentCursorLine(editText);
+		int start = Util.getThisLineStart(editText, currentLine);
+		int end = Util.getThisLineEnd(editText, currentLine);
+		Editable editable = editText.getText();
 		editable.insert(start, Constants.ZERO_WIDTH_SPACE_STR);
-		start = Util.getThisLineStart(mEditText, currentLine);
-		end = Util.getThisLineEnd(mEditText, currentLine);
+		start = Util.getThisLineStart(editText, currentLine);
+		end = Util.getThisLineEnd(editText, currentLine);
 
 		if (editable.charAt(end - 1) == Constants.CHAR_NEW_LINE) {
 			end--;

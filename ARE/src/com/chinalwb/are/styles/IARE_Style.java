@@ -1,6 +1,7 @@
 package com.chinalwb.are.styles;
 
 import android.text.Editable;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 public interface IARE_Style {
@@ -36,5 +37,12 @@ public interface IARE_Style {
    * @param isChecked
    */
   public void setChecked(boolean isChecked);
+  
+  /**
+   * Gets the EditText being operated.
+   * 
+   * @return
+   */
+  public EditText getEditText();
   
 }

@@ -10,7 +10,7 @@ import android.widget.ImageView;
 
 import com.chinalwb.are.Util;
 
-public class ARE_BackgroundColor implements IARE_Style {
+public class ARE_BackgroundColor extends ARE_ABS_Style {
   
   private ImageView mBackgroundImageView;
   

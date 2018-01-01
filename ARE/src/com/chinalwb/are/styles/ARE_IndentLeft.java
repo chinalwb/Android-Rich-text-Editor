@@ -10,12 +10,9 @@ import android.widget.ImageView;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.spans.AreLeadingMarginSpan;
 
-public class ARE_IndentLeft implements IARE_Style {
+public class ARE_IndentLeft extends ARE_ABS_Style {
 
-	private EditText mEditText;
-
-	public ARE_IndentLeft(ImageView atImageView, EditText editText) {
-		this.mEditText = editText;
+	public ARE_IndentLeft(ImageView atImageView) {
 		setListenerForImageView(atImageView);
 	}
 
@@ -24,11 +21,12 @@ public class ARE_IndentLeft implements IARE_Style {
 		imageView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				int currentLine = Util.getCurrentCursorLine(mEditText);
-				int start = Util.getThisLineStart(mEditText, currentLine);
-				int end = Util.getThisLineEnd(mEditText, currentLine);
+				EditText editText = getEditText();
+				int currentLine = Util.getCurrentCursorLine(editText);
+				int start = Util.getThisLineStart(editText, currentLine);
+				int end = Util.getThisLineEnd(editText, currentLine);
 
-				Editable editable = mEditText.getText();
+				Editable editable = editText.getText();
 				AreLeadingMarginSpan[] existingLMSpans = editable.getSpans(start, end, AreLeadingMarginSpan.class);
 				if (null != existingLMSpans && existingLMSpans.length == 1) {
 					AreLeadingMarginSpan currentLeadingMarginSpan = existingLMSpans[0];

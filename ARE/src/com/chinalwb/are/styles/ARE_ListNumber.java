@@ -19,15 +19,12 @@ import com.chinalwb.are.spans.ListNumberSpan;
  * @author Wenbin Liu
  * 
  */
-public class ARE_ListNumber implements IARE_Style {
+public class ARE_ListNumber extends ARE_ABS_Style {
 
 	private ImageView mListNumberImageView;
 
-	private EditText mEditText;
-
-	public ARE_ListNumber(ImageView imageView, EditText editText) {
+	public ARE_ListNumber(ImageView imageView) {
 		this.mListNumberImageView = imageView;
-		this.mEditText = editText;
 		setListenerForImageView(this.mListNumberImageView);
 	}
 
@@ -36,11 +33,12 @@ public class ARE_ListNumber implements IARE_Style {
 		imageView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				int currentLine = Util.getCurrentCursorLine(mEditText);
-				int start = Util.getThisLineStart(mEditText, currentLine);
-				int end = Util.getThisLineEnd(mEditText, currentLine);
+				EditText editText = getEditText();
+				int currentLine = Util.getCurrentCursorLine(editText);
+				int start = Util.getThisLineStart(editText, currentLine);
+				int end = Util.getThisLineEnd(editText, currentLine);
 
-				Editable editable = mEditText.getText();
+				Editable editable = editText.getText();
 				
 				//
 				// Check if there is any ListNumberSpan first.
@@ -60,8 +58,8 @@ public class ARE_ListNumber implements IARE_Style {
 				// 1. bb
 				// * cc
 				
-				int selectionStart = mEditText.getSelectionStart();
-				int selectionEnd = mEditText.getSelectionEnd();
+				int selectionStart = editText.getSelectionStart();
+				int selectionEnd = editText.getSelectionEnd();
 				ListBulletSpan[] listBulletSpans = editable.getSpans(selectionStart,
 						selectionEnd, ListBulletSpan.class);
 				if (null != listBulletSpans && listBulletSpans.length > 0) {
@@ -365,13 +363,14 @@ public class ARE_ListNumber implements IARE_Style {
    * 
    */
 	private ListNumberSpan makeLineAsList(int num) {
-		int currentLine = Util.getCurrentCursorLine(mEditText);
-		int start = Util.getThisLineStart(mEditText, currentLine);
-		int end = Util.getThisLineEnd(mEditText, currentLine);
-		Editable editable = mEditText.getText();
+		EditText editText = getEditText();
+		int currentLine = Util.getCurrentCursorLine(editText);
+		int start = Util.getThisLineStart(editText, currentLine);
+		int end = Util.getThisLineEnd(editText, currentLine);
+		Editable editable = editText.getText();
 		editable.insert(start, Constants.ZERO_WIDTH_SPACE_STR);
-		start = Util.getThisLineStart(mEditText, currentLine);
-		end = Util.getThisLineEnd(mEditText, currentLine);
+		start = Util.getThisLineStart(editText, currentLine);
+		end = Util.getThisLineEnd(editText, currentLine);
 
 		if (editable.charAt(end - 1) == Constants.CHAR_NEW_LINE) {
 			end--;

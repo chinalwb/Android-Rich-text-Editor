@@ -11,7 +11,7 @@ import android.widget.ImageView;
 
 import com.chinalwb.are.Util;
 
-public class ARE_Italic implements IARE_Style {
+public class ARE_Italic extends ARE_ABS_Style {
 
   private ImageView mItalicImageView;
   

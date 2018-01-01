@@ -1,6 +1,5 @@
 package com.chinalwb.are.styles;
 
-import android.content.Context;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.Spanned;
@@ -13,15 +12,9 @@ import com.chinalwb.are.Constants;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.spans.AreLeadingMarginSpan;
 
-public class ARE_IndentRight implements IARE_Style {
+public class ARE_IndentRight extends ARE_ABS_Style {
 
-	private Context mContext;
-	
-	private EditText mEditText;
-
-	public ARE_IndentRight(ImageView atImageView, EditText editText) {
-		this.mEditText = editText;
-		this.mContext = editText.getContext();
+	public ARE_IndentRight(ImageView atImageView) {
 		setListenerForImageView(atImageView);
 	}
 
@@ -30,11 +23,12 @@ public class ARE_IndentRight implements IARE_Style {
 		imageView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				int currentLine = Util.getCurrentCursorLine(mEditText);
-				int start = Util.getThisLineStart(mEditText, currentLine);
-				int end = Util.getThisLineEnd(mEditText, currentLine);
+				EditText editText = getEditText();
+				int currentLine = Util.getCurrentCursorLine(editText);
+				int start = Util.getThisLineStart(editText, currentLine);
+				int end = Util.getThisLineEnd(editText, currentLine);
 
-				Editable editable = mEditText.getText();
+				Editable editable = editText.getText();
 				// Checks if current line has leading margin already
 				// If any, remove;
 				// Then apply new leading margin.
@@ -49,8 +43,8 @@ public class ARE_IndentRight implements IARE_Style {
 				}
 				else {
 					editable.insert(start, Constants.ZERO_WIDTH_SPACE_STR);
-					start = Util.getThisLineStart(mEditText, currentLine);
-					end = Util.getThisLineEnd(mEditText, currentLine);
+					start = Util.getThisLineStart(editText, currentLine);
+					end = Util.getThisLineEnd(editText, currentLine);
 					AreLeadingMarginSpan leadingMarginSpan = new AreLeadingMarginSpan(mContext);
 					leadingMarginSpan.increaseLevel();
 					editable.setSpan(leadingMarginSpan, start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
@@ -132,13 +126,14 @@ public class ARE_IndentRight implements IARE_Style {
 
 	
 	private AreLeadingMarginSpan makeLineAsLeadingSpan(int level) {
-		int currentLine = Util.getCurrentCursorLine(mEditText);
-		int start = Util.getThisLineStart(mEditText, currentLine);
-		int end = Util.getThisLineEnd(mEditText, currentLine);
-		Editable editable = mEditText.getText();
+		EditText editText = getEditText();
+		int currentLine = Util.getCurrentCursorLine(editText);
+		int start = Util.getThisLineStart(editText, currentLine);
+		int end = Util.getThisLineEnd(editText, currentLine);
+		Editable editable = editText.getText();
 		editable.insert(start, Constants.ZERO_WIDTH_SPACE_STR);
-		start = Util.getThisLineStart(mEditText, currentLine);
-		end = Util.getThisLineEnd(mEditText, currentLine);
+		start = Util.getThisLineStart(editText, currentLine);
+		end = Util.getThisLineEnd(editText, currentLine);
 
 		if (editable.charAt(end - 1) == Constants.CHAR_NEW_LINE) {
 			end--;

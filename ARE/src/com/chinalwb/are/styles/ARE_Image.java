@@ -1,7 +1,6 @@
 package com.chinalwb.are.styles;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.Editable;
@@ -13,25 +12,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.chinalwb.are.AREditText;
-import com.chinalwb.are.AREditor;
-import com.chinalwb.are.Constants;
+import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
-public class ARE_Image implements IARE_Style {
+public class ARE_Image extends ARE_ABS_Style {
 
 	private ImageView mInsertImageView;
-
-	private EditText mEditText;
-
-	private Context mContext;
 
 	/**
 	 * 
 	 * @param emojiImageView
 	 */
-	public ARE_Image(ImageView emojiImageView, EditText editText) {
+	public ARE_Image(ImageView emojiImageView) {
 		this.mInsertImageView = emojiImageView;
-		this.mEditText = editText;
-		this.mContext = editText.getContext();
 		setListenerForImageView(this.mInsertImageView);
 	}
 
@@ -53,7 +45,7 @@ public class ARE_Image implements IARE_Style {
 		intent.setType("image/*");
 		intent.setAction(Intent.ACTION_GET_CONTENT);
 		((Activity) this.mContext).startActivityForResult(intent,
-				AREditor.REQ_IMAGE);
+				ARE_Toolbar.REQ_IMAGE);
 	}
 
 	/**
@@ -73,10 +65,10 @@ public class ARE_Image implements IARE_Style {
 		// ssb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		//
 		// editable.replace(start, end, ssb);s
-		
 
-		LinearLayout rootContainerLayout = (LinearLayout) this.mEditText
-				.getParent();
+		EditText editText = this.getEditText();
+		
+		LinearLayout rootContainerLayout = (LinearLayout) editText.getParent();
 		LinearLayout imageContainerLayout = new LinearLayout(mContext);
 		LinearLayout.LayoutParams imageContainerLayoutParams = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.MATCH_PARENT, // Width
@@ -113,28 +105,28 @@ public class ARE_Image implements IARE_Style {
 
 		//
 		// 3. Right
-		final AREditText rightEditText = new AREditText(mContext);
-		LinearLayout.LayoutParams rightEditTextLayoutParams = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.WRAP_CONTENT, // Width
-				LinearLayout.LayoutParams.MATCH_PARENT // Height
-		);
-		rightEditText.setPadding(5, 5, 5, 5);
-		rightEditText.setText(Constants.ZERO_WIDTH_SPACE_STR);
-		rightEditText.setGravity(Gravity.BOTTOM);
-		rightEditText.setFocusableInTouchMode(true);
-		rightEditText.setLayoutParams(rightEditTextLayoutParams);
-		imageContainerLayout.addView(rightEditText);
+//		final AREditText rightEditText = new AREditText(mContext);
+//		LinearLayout.LayoutParams rightEditTextLayoutParams = new LinearLayout.LayoutParams(
+//				LinearLayout.LayoutParams.WRAP_CONTENT, // Width
+//				LinearLayout.LayoutParams.MATCH_PARENT // Height
+//		);
+//		rightEditText.setPadding(5, 5, 5, 5);
+//		rightEditText.setText(Constants.ZERO_WIDTH_SPACE_STR);
+//		rightEditText.setGravity(Gravity.BOTTOM);
+//		rightEditText.setFocusableInTouchMode(true);
+//		rightEditText.setLayoutParams(rightEditTextLayoutParams);
+//		imageContainerLayout.addView(rightEditText);
+//
+//		imageContainerLayout.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				rightEditText.setText(Constants.ZERO_WIDTH_SPACE_STR);
+//				rightEditText.requestFocus();
+//			}
+//		});
 
-		imageContainerLayout.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				rightEditText.setText(Constants.ZERO_WIDTH_SPACE_STR);
-				rightEditText.requestFocus();
-			}
-		});
-
-		int index = rootContainerLayout.indexOfChild(mEditText);
+		int index = rootContainerLayout.indexOfChild(editText);
 		rootContainerLayout.addView(imageContainerLayout, index + 1);
 		
 		AREditText newEditText = new AREditText(mContext);
@@ -146,15 +138,15 @@ public class ARE_Image implements IARE_Style {
 		
 		
 		
-		Editable editable = this.mEditText.getEditableText();
-		int selectionStart = this.mEditText.getSelectionStart();
-		int selectionEnd = this.mEditText.getSelectionEnd();
+		Editable editable = editText.getEditableText();
+		int selectionStart = editText.getSelectionStart();
+		int selectionEnd = editText.getSelectionEnd();
 		int length = editable.length();
 		if (selectionEnd < length) {
 			CharSequence textBeforeFocus = editable.subSequence(0, selectionStart);
 			CharSequence textAfterFocus = editable.subSequence(selectionEnd, length);
 			
-			mEditText.setText(textBeforeFocus);
+			editText.setText(textBeforeFocus);
 			newEditText.setText(textAfterFocus);
 		}
 	}
