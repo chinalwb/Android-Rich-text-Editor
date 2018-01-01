@@ -36,7 +36,6 @@ In progress items:
 
 Known issues:
 -----------------
-* Calculation of the image size to a proper value
 * Indent cooperates with List
 
 
