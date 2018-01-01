@@ -2,9 +2,10 @@
 Android Rich Editor
 ===================
 
-This is written by pure Java
+This is implemented by Java
 
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/demo.gif)
+ ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/imagesAndTexts.gif)
  
  
 Supported styles:
