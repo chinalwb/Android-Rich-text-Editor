@@ -339,6 +339,23 @@ public class ARE_Toolbar extends HorizontalScrollView {
 		return this.mBoldStyle;
 	}
 	
+	public ARE_Italic getItalicStyle() {
+		return this.mItalicStyle;
+	}
+	
+	public ARE_Underline getUnderlineStyle() {
+		return mUnderlineStyle;
+	}
+	
+	public ARE_Strikethrough getStrikethroughStyle() {
+		return mStrikethroughStyle;
+	}
+	
+	public ARE_BackgroundColor getBackgroundColoStyle() {
+		return mBackgroundColoStyle;
+	}
+	
+	
 	public List<IARE_Style> getStylesList() {
 		return this.mStylesList;
 	}

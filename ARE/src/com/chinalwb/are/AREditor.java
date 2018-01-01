@@ -1,16 +1,12 @@
 package com.chinalwb.are;
 
-import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.text.Editable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
 /**
  * All Rights Reserved.
@@ -37,16 +33,6 @@ public class AREditor extends RelativeLayout {
 	 * The toolbar.
 	 */
 	private ARE_Toolbar mToolbar;
-
-	/**
-	 * Edit Text.
-	 */
-	private AREditText mEditText;
-
-	/**
-	 * Editable instance get from {@link #mEditText}
-	 */
-	private Editable mEditable;
 
 	/*
 	 * -------------------------------------------- * Constructors Area
@@ -108,11 +94,7 @@ public class AREditor extends RelativeLayout {
 	 */
 	private void initViews() {
 		this.mToolbar = (ARE_Toolbar) this.findViewById(R.id.toolbar);
-		this.mEditText = (AREditText) this.findViewById(R.id.are);
-		this.mEditable = this.mEditText.getEditableText();
 	}
-
-	
 
 	/**
 	 * 

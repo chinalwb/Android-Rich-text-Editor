@@ -226,9 +226,9 @@ public class AREditText extends EditText {
 		//
 		// Set style checked status
 		ARE_Helper.updateCheckStatus(sToolbar.getBoldStyle(), boldExists);
-//		ARE_Helper.updateCheckStatus(this.mItalicStyle, italicsExists);
-//		ARE_Helper.updateCheckStatus(this.mUnderlineStyle, underlinedExists);
-//		ARE_Helper.updateCheckStatus(this.mStrikethroughStyle, striketrhoughExists);
-//		ARE_Helper.updateCheckStatus(this.mBackgroundColoStyle, backgroundColorExists);
+		ARE_Helper.updateCheckStatus(sToolbar.getItalicStyle(), italicsExists);
+		ARE_Helper.updateCheckStatus(sToolbar.getUnderlineStyle(), underlinedExists);
+		ARE_Helper.updateCheckStatus(sToolbar.getStrikethroughStyle(), striketrhoughExists);
+		ARE_Helper.updateCheckStatus(sToolbar.getBackgroundColoStyle(), backgroundColorExists);
 	} // #End of method:: onSelectionChanged
 }
