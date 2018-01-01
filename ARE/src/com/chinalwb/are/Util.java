@@ -46,6 +46,9 @@ public class Util {
     int selectionStart = Selection.getSelectionStart(editText.getText());
     Layout layout = editText.getLayout();
 
+    if (null == layout) {
+    	return -1;
+    }
     if (selectionStart != -1) {
       return layout.getLineForOffset(selectionStart);
     }
@@ -156,17 +159,5 @@ public class Util {
 	 widthAndHeight[0] = outSize.x;
 	 widthAndHeight[1] = outSize.y;
 	 return widthAndHeight;
-  }
-  
-  /**
-   * Gets pixels by dp.
-   * @param context
-   * @param dp
-   * @return
-   */
-  public static int dpToPix(Context context, int dp) {
-      final float scale = context.getResources().getDisplayMetrics().density;
-      int pixels = (int) (dp * scale + 0.5f);
-      return pixels;
   }
 }

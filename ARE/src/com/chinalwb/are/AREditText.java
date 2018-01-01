@@ -2,10 +2,6 @@ package com.chinalwb.are;
 
 import java.util.List;
 
-import com.chinalwb.are.styles.ARE_Helper;
-import com.chinalwb.are.styles.IARE_Style;
-import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.text.Editable;
@@ -16,10 +12,15 @@ import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+
+import com.chinalwb.are.styles.ARE_Helper;
+import com.chinalwb.are.styles.IARE_Style;
+import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
 /**
  * All Rights Reserved.
@@ -29,15 +30,25 @@ import android.widget.EditText;
  */
 public class AREditText extends EditText {
 
-
 	private static boolean LOG = true;
 	
+	/**
+	 * When the user 1st time presses DEL and the focus is at a start pos = 0
+	 * Then mark this as true;
+	 * When the user 2nd time presses DEL and the focus is at start pos = 0
+	 * Then go to the previous edit text.
+	 * 
+	 * Needs to reset it as false when user types other keys or user changes
+	 * the edit text.
+	 */
+	private static boolean sToDetectDel = false;
+
 	private ARE_Toolbar sToolbar;
-	
+
 	private static List<IARE_Style> sStylesList;
-	
+
 	private Context mContext;
-	
+
 	public AREditText(Context context) {
 		this(context, null);
 	}
@@ -59,46 +70,70 @@ public class AREditText extends EditText {
 	private void init() {
 		this.setFocusableInTouchMode(true);
 		this.setBackgroundColor(Color.WHITE);
-		this.setInputType(EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE | EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+		this.setInputType(EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE
+				| EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
 		int padding = 8;
-		padding = Util.dpToPix(mContext, padding);
-		this.setPadding(padding,padding, padding, padding);
-		
+		padding = Util.getPixelByDp(mContext, padding);
+		this.setPadding(padding, padding, padding, padding);
+
 		this.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
-				Log.e("AREditText", "has focus == " + hasFocus);
 				if (hasFocus) {
 					ARE_Toolbar.getInstance().setEditText(AREditText.this);
 				}
 			}
 		});
 	}
-	
-//	/**
-//	 * 
-//	 * @param selectionChangedListener
-//	 */
-//	public void setSelectionChangedListener(ISelectionChangedListener selectionChangedListener) {
-//		this.selectionChangedListener = selectionChangedListener;
-//	}
-//	
-//	/**
-//	 * 
-//	 * 
-//	 * @author Wenbin Liu
-//	 *
-//	 */
-//	public interface ISelectionChangedListener {
-//		public void onSelectionChanged(int selStart, int selEnd);
-//	}
-
-
 
 	/**
 	 * Sets up listeners for controls.
 	 */
 	private void setupListener() {
+		setupKeyListener();
+		setupTextWatcher();
+	} // #End of setupListener()
+
+	private void setupKeyListener() {
+		this.setOnKeyListener(new OnKeyListener() {
+			
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				if (keyCode == Constants.KEY_DEL) {
+					int startPos = AREditText.this.getSelectionStart();
+					if (startPos == 0) {
+						if (sToDetectDel) {
+							focusToPrevious();
+							sToDetectDel = false;
+							return true;
+						}
+						
+						sToDetectDel = true;
+					}
+				}
+				else {
+					sToDetectDel = false;
+				}
+				return false;
+			}
+		});
+	}
+	
+	private void focusToPrevious() {
+		LinearLayout parentLayout = (LinearLayout) this.getParent();
+		int index = parentLayout.indexOfChild(this);
+		if (index > 0) {
+			int previousIndex = index - 1;
+			LinearLayout imageLayout = (LinearLayout) parentLayout.getChildAt(previousIndex);
+			AREditTextPlaceHolder placeHolderEdit = (AREditTextPlaceHolder) imageLayout.getChildAt(1);
+			placeHolderEdit.enforceFocus();
+		}
+	}
+	
+	/**
+	 * Monitoring text changes.
+	 */
+	private void setupTextWatcher() {
 		TextWatcher textWatcher = new TextWatcher() {
 
 			int startPos = 0;
@@ -128,8 +163,11 @@ public class AREditText extends EditText {
 				if (LOG) {
 					Util.log("afterTextChanged:: s = " + s);
 				}
+				
+				if (endPos <= startPos) {
+					Util.log("User deletes: start == " + startPos + " endPos == " + endPos);
+				}
 
-				// TODO use toolbar!
 				for (IARE_Style style : sStylesList) {
 					style.applyStyle(getEditableText(), startPos, endPos);
 				}
@@ -137,8 +175,7 @@ public class AREditText extends EditText {
 		};
 
 		this.addTextChangedListener(textWatcher);
-
-	} // #End of setupListener()
+	}
 
 	/*
 	 * ----------------------------------------- * Rich Text Style Area
@@ -147,8 +184,10 @@ public class AREditText extends EditText {
 
 	@Override
 	public void onSelectionChanged(int selStart, int selEnd) {
-		if (sToolbar == null) { return; }
-		
+		if (sToolbar == null) {
+			return;
+		}
+
 		boolean boldExists = false;
 		boolean italicsExists = false;
 		boolean underlinedExists = false;

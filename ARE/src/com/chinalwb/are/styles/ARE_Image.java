@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.chinalwb.are.AREditText;
+import com.chinalwb.are.AREditTextPlaceHolder;
+import com.chinalwb.are.Constants;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
 public class ARE_Image extends ARE_ABS_Style {
@@ -105,26 +107,24 @@ public class ARE_Image extends ARE_ABS_Style {
 
 		//
 		// 3. Right
-//		final AREditText rightEditText = new AREditText(mContext);
-//		LinearLayout.LayoutParams rightEditTextLayoutParams = new LinearLayout.LayoutParams(
-//				LinearLayout.LayoutParams.WRAP_CONTENT, // Width
-//				LinearLayout.LayoutParams.MATCH_PARENT // Height
-//		);
-//		rightEditText.setPadding(5, 5, 5, 5);
-//		rightEditText.setText(Constants.ZERO_WIDTH_SPACE_STR);
-//		rightEditText.setGravity(Gravity.BOTTOM);
-//		rightEditText.setFocusableInTouchMode(true);
-//		rightEditText.setLayoutParams(rightEditTextLayoutParams);
-//		imageContainerLayout.addView(rightEditText);
-//
-//		imageContainerLayout.setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				rightEditText.setText(Constants.ZERO_WIDTH_SPACE_STR);
-//				rightEditText.requestFocus();
-//			}
-//		});
+		final AREditTextPlaceHolder rightEditText = new AREditTextPlaceHolder(mContext);
+		LinearLayout.LayoutParams rightEditTextLayoutParams = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.WRAP_CONTENT, // Width
+				LinearLayout.LayoutParams.MATCH_PARENT // Height
+		);
+		rightEditText.setPadding(5, 5, 5, 5);
+		rightEditText.setText(Constants.ZERO_WIDTH_SPACE_STR);
+		rightEditText.setGravity(Gravity.BOTTOM);
+		rightEditText.setFocusableInTouchMode(true);
+		rightEditText.setLayoutParams(rightEditTextLayoutParams);
+		imageContainerLayout.addView(rightEditText);
+
+		imageContainerLayout.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				rightEditText.enforceFocus();
+			}
+		});
 
 		int index = rootContainerLayout.indexOfChild(editText);
 		rootContainerLayout.addView(imageContainerLayout, index + 1);
@@ -149,6 +149,9 @@ public class ARE_Image extends ARE_ABS_Style {
 			editText.setText(textBeforeFocus);
 			newEditText.setText(textAfterFocus);
 		}
+		
+		newEditText.requestFocus();
+		newEditText.setSelection(0);
 	}
 
 	@Override
