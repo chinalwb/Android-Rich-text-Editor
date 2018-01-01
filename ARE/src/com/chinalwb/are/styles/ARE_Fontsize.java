@@ -63,10 +63,4 @@ public class ARE_Fontsize extends ARE_ABS_Style {
 		// Do nothing.
 	}
 
-	@Override
-	public EditText getEditText() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
