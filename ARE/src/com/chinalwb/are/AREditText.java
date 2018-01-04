@@ -164,6 +164,8 @@ public class AREditText extends EditText {
 					Util.log("afterTextChanged:: s = " + s);
 				}
 				
+				AREditText.this.clearComposingText();
+				
 				if (endPos <= startPos) {
 					Util.log("User deletes: start == " + startPos + " endPos == " + endPos);
 				}
@@ -188,6 +190,8 @@ public class AREditText extends EditText {
 			return;
 		}
 
+		this.clearComposingText();
+		
 		boolean boldExists = false;
 		boolean italicsExists = false;
 		boolean underlinedExists = false;
