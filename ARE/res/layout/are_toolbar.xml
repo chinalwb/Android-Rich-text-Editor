@@ -14,21 +14,27 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:padding="5dp"
-            android:src="@drawable/emoji" />
+            android:src="@drawable/emoji" 
+            android:visibility="gone"
+            />
 
         <ImageView
             android:id="@+id/rteFontsize"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:padding="5dp"
-            android:src="@drawable/fontsize" />
+            android:src="@drawable/fontsize" 
+            android:visibility="gone"
+            />
 
         <ImageView
             android:id="@+id/rteFontface"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:padding="5dp"
-            android:src="@drawable/fontface" />
+            android:src="@drawable/fontface" 
+            android:visibility="gone"
+            />
 
         <ImageView
             android:id="@+id/rteBold"
@@ -63,7 +69,9 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:padding="5dp"
-            android:src="@drawable/background" />
+            android:src="@drawable/background"
+            android:visibility="gone"
+            />
 
         <ImageView
             android:id="@+id/rteListNumber"
@@ -84,14 +92,18 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:padding="5dp"
-            android:src="@drawable/indentright" />
+            android:src="@drawable/indentright"
+            android:visibility="gone"
+             />
 
         <ImageView
             android:id="@+id/rteIndentLeft"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:padding="5dp"
-            android:src="@drawable/indentleft" />
+            android:src="@drawable/indentleft" 
+            android:visibility="gone"
+            />
 
         <ImageView
             android:id="@+id/rteAlignLeft"
