@@ -4,8 +4,6 @@ Android Rich Editor
 
 This is implemented by Java
 
- ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/demo.gif)
- 
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/demo2.gif)
  
 Supported styles:
