@@ -23,6 +23,8 @@ R - 27. Leading margin - 回车 和 退格 的问题
     退格应该:
     1. 如果当前行存在LeadingMarginSpan, 那么当 span start == span end 的时候，删除当前行的LeadingMarginSpan
 
+R - 26. 插入图片之后的滚动问题
+
 16. 居中 / 居左 / 居右 - AlignmentSpan - android.text.Layout.Alignment.ALIGN_CENTER
 18. 引用 - QuoteSpan
 13. 链接 - URLSpan
@@ -38,7 +40,7 @@ R - 27. Leading margin - 回车 和 退格 的问题
 24. 允许用户选择字符样式
 25. android:lineSpacingMultiplier="1.2" 图片大小与行间距之间的冲突，插入图片会占垂直位置很多空间
 14. 插图位置、大小、 等问题 
-26. 插入图片之后的滚动问题
+
 28. 缩进 与 列表的联动
 29. 改变光标颜色
 30. 选择字符区间，点击样式，改变选择字符样式
