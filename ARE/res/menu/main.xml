@@ -3,9 +3,9 @@
     tools:context="com.chinalwb.acke.MainActivity" >
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_save"
         android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/action_settings"/>
+        android:showAsAction="always"
+        android:title="Save"/>
 
 </menu>

@@ -102,6 +102,7 @@ public class ARE_Image extends ARE_ABS_Style {
 				LinearLayout.LayoutParams.WRAP_CONTENT // Height
 		);
 		imageView.setImageURI(uri);
+		imageView.setTag(uri);
 		imageView.setLayoutParams(imageViewLayoutParams);
 		imageContainerLayout.addView(imageView);
 

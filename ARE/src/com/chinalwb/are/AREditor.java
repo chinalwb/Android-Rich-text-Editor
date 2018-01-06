@@ -2,8 +2,13 @@ package com.chinalwb.are;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.text.Html;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
@@ -17,12 +22,9 @@ import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 public class AREditor extends RelativeLayout {
 
 	/*
-	 * -------------------------------------------- 
-	 * * Instance Fields Area
+	 * -------------------------------------------- * Instance Fields Area
 	 * --------------------------------------------
 	 */
-
-
 
 	/**
 	 * Context.
@@ -33,6 +35,11 @@ public class AREditor extends RelativeLayout {
 	 * The toolbar.
 	 */
 	private ARE_Toolbar mToolbar;
+	
+	/**
+	 * The root linear layout.
+	 */
+	private LinearLayout mRootLinearLayout;
 
 	/*
 	 * -------------------------------------------- * Constructors Area
@@ -94,6 +101,49 @@ public class AREditor extends RelativeLayout {
 	 */
 	private void initViews() {
 		this.mToolbar = (ARE_Toolbar) this.findViewById(R.id.toolbar);
+		this.mRootLinearLayout = (LinearLayout) this.findViewById(R.id.rootLinearLayout);
+	}
+	
+	/**
+	 * Save the content into file path with HTML format.
+	 * @param filePath
+	 */
+	public void saveHtml(String filePath) {
+		int childCount = this.mRootLinearLayout.getChildCount();
+		StringBuffer html = new StringBuffer();
+		html.append("<html>");
+		for (int i = 0; i < childCount; i++) {
+			View child = this.mRootLinearLayout.getChildAt(i);
+			if (child instanceof AREditText) {
+				appendAREditText((AREditText) child, html);
+			}
+			else if (child instanceof LinearLayout) {
+				appendLinearLayout((LinearLayout) child, html);
+			}
+		}
+		html.append("</html>");
+		System.out.println(html);
+	}
+
+	private void appendAREditText(AREditText editText, StringBuffer html) {
+		String editTextHtml = Html.toHtml(editText.getEditableText());
+		html.append(editTextHtml);
+	}
+	
+	private void appendLinearLayout(LinearLayout linearLayout, StringBuffer html) {
+		View child = linearLayout.getChildAt(0);
+		if (child instanceof ImageView) {
+			appendImage((ImageView) child, html);
+		}
+	}
+	
+	private void appendImage(ImageView imageView, StringBuffer html) {
+		StringBuffer imageHtml = new StringBuffer();
+		imageHtml.append("<img src=\"");
+		Uri imageUri = (Uri) imageView.getTag();
+		imageHtml.append(imageUri.toString());
+		imageHtml.append("\" />");
+		html.append(imageHtml);
 	}
 
 	/**
