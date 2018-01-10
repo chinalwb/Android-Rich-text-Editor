@@ -3,12 +3,12 @@ package com.chinalwb.are.styles;
 
 import android.text.Editable;
 import android.text.Spanned;
-import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 
 import com.chinalwb.are.Util;
+import com.chinalwb.are.spans.AreUnderlineSpan;
 
 public class ARE_Underline extends ARE_ABS_Style {
   
@@ -43,23 +43,23 @@ public class ARE_Underline extends ARE_ABS_Style {
         // 
         // User inputs
         boolean hasUnderlineSpan = false;
-        UnderlineSpan[] spans = editable.getSpans(start, end, UnderlineSpan.class);
+        AreUnderlineSpan[] spans = editable.getSpans(start, end, AreUnderlineSpan.class);
         if (spans.length > 0) {
           hasUnderlineSpan = true;
         }
         
         if (!hasUnderlineSpan) {
-          UnderlineSpan underlineSpan = new UnderlineSpan();
+          AreUnderlineSpan underlineSpan = new AreUnderlineSpan();
           editable.setSpan(underlineSpan, start, end, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
         }
       }
       else {
         //
         // User deletes
-        UnderlineSpan[] spans = editable.getSpans(start, end, UnderlineSpan.class);
+        AreUnderlineSpan[] spans = editable.getSpans(start, end, AreUnderlineSpan.class);
         if (spans.length > 0) {
 
-          UnderlineSpan span = spans[0];
+          AreUnderlineSpan span = spans[0];
           if (null != span) {
             int italicStart = editable.getSpanStart(span);
             int italicEnd = editable.getSpanEnd(span);
@@ -86,9 +86,9 @@ public class ARE_Underline extends ARE_ABS_Style {
       if (end > start) {
         // 
         // User inputs
-        UnderlineSpan[] spans = editable.getSpans(start, end, UnderlineSpan.class);
+        AreUnderlineSpan[] spans = editable.getSpans(start, end, AreUnderlineSpan.class);
         if (spans.length > 0) {
-          UnderlineSpan span = spans[0];
+          AreUnderlineSpan span = spans[0];
           if (null != span) {
             //
             // User stops the UNDERLINE style, and wants to show un-UNDERLINE characters
@@ -106,9 +106,9 @@ public class ARE_Underline extends ARE_ABS_Style {
       else {
         //
         // User deletes
-        UnderlineSpan[] spans = editable.getSpans(start, end, UnderlineSpan.class);
+        AreUnderlineSpan[] spans = editable.getSpans(start, end, AreUnderlineSpan.class);
         if (spans.length > 0) {
-          UnderlineSpan span = spans[0];
+          AreUnderlineSpan span = spans[0];
           if (null != span) {
             int italicStart = editable.getSpanStart(span);
             int italicEnd = editable.getSpanEnd(span);

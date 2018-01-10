@@ -18,6 +18,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.chinalwb.are.spans.AreUnderlineSpan;
 import com.chinalwb.are.styles.ARE_Helper;
 import com.chinalwb.are.styles.IARE_Style;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
@@ -164,8 +165,6 @@ public class AREditText extends EditText {
 					Util.log("afterTextChanged:: s = " + s);
 				}
 				
-				AREditText.this.clearComposingText();
-				
 				if (endPos <= startPos) {
 					Util.log("User deletes: start == " + startPos + " endPos == " + endPos);
 				}
@@ -189,8 +188,6 @@ public class AREditText extends EditText {
 		if (sToolbar == null) {
 			return;
 		}
-
-		this.clearComposingText();
 		
 		boolean boldExists = false;
 		boolean italicsExists = false;
@@ -214,7 +211,7 @@ public class AREditText extends EditText {
 					} else if (((StyleSpan) styleSpans[i]).getStyle() == android.graphics.Typeface.BOLD_ITALIC) {
 						// TODO
 					}
-				} else if (styleSpans[i] instanceof UnderlineSpan) {
+				} else if (styleSpans[i] instanceof AreUnderlineSpan) {
 					underlinedExists = true;
 				} else if (styleSpans[i] instanceof StrikethroughSpan) {
 					striketrhoughExists = true;
