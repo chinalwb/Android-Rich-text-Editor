@@ -1,5 +1,5 @@
 # ARE
-(Want to be the best open source) Android Rich text Editor
+Android Rich text Editor
 ===================
 
 This is implemented by Java
