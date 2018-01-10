@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import com.chinalwb.are.AREditText;
 import com.chinalwb.are.AREditTextPlaceHolder;
 import com.chinalwb.are.Constants;
+import com.chinalwb.are.Util;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
 public class ARE_Image extends ARE_ABS_Style {
@@ -140,14 +141,17 @@ public class ARE_Image extends ARE_ABS_Style {
 		
 		
 		Editable editable = editText.getEditableText();
-		int selectionStart = editText.getSelectionStart();
+//		int selectionStart = editText.getSelectionStart();
 		int selectionEnd = editText.getSelectionEnd();
 		int length = editable.length();
 		if (selectionEnd < length) {
-			CharSequence textBeforeFocus = editable.subSequence(0, selectionStart);
-			CharSequence textAfterFocus = editable.subSequence(selectionEnd, length);
+//			CharSequence textBeforeFocus = editable.subSequence(0, selectionStart);
+			CharSequence textAfterFocus = editable.subSequence(selectionEnd + 1, length);
 			
-			editText.setText(textBeforeFocus);
+//			Util.log("text before focus == " + textBeforeFocus);
+			Util.log("text after focus == " + textAfterFocus);
+			
+			editText.getEditableText().delete(selectionEnd, length);
 			newEditText.setText(textAfterFocus);
 		}
 		

@@ -332,6 +332,9 @@ public class ARE_ListNumber extends ARE_ABS_Style {
 			int se = editable.getSpanEnd(span);
 			Util.log("List All: " + span.getNumber() + " :: start == " + ss
 					+ ", end == " + se);
+			for (int i = ss; i< se; i++) {
+				Util.log("char at " + i + " = " + editable.charAt(i));
+			}
 		}
 	}
 

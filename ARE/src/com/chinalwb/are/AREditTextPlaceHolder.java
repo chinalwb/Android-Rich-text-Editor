@@ -111,11 +111,21 @@ public class AREditTextPlaceHolder extends EditText {
 
 		int index = parentLayout.indexOfChild(imageLayout);
 		int nextEditIndex = index + 1;
-		AREditText editText = (AREditText) parentLayout.getChildAt(nextEditIndex);
-		if (null == editText) {
+		AREditText nextEditText = (AREditText) parentLayout.getChildAt(nextEditIndex);
+		if (null == nextEditText) {
 			return;
 		}
-		editText.requestFocus();
-		editText.onKeyDown(keyCode, event);
+		
+		nextEditText.requestFocus();
+		
+		//
+		// If key code == 66, it means user clicks the Enter
+		// Then just let the next edit text get focus but not
+		// prepend the \n into the next edit text. Or else there
+		// will be extra blank lines
+		if (keyCode == 66) {
+			return;
+		}
+		nextEditText.onKeyDown(keyCode, event);
 	}
 }
