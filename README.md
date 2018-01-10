@@ -12,7 +12,7 @@ New feature:
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/saveHtml.png)
 
  HTML print as:
- >
+```
  <html>
   <p style="text-align:center;"><b>Todo list</b></p> 
   <p style="text-align:start;">Today I need to work on these things list as below, some are must do, some are optional, let me list them here so I can have a clear picture for what to do:</p> 
@@ -28,6 +28,7 @@ New feature:
   <img src="file:///mnt/sdcard/Download/20170830155756-d629c9cd.jpg" />
   <p style="text-align:start;"><i>Have a nice day.</i></p> 
 </html>
+```
 
 Supported styles:
 ------------------
