@@ -10,7 +10,6 @@ import android.text.style.BackgroundColorSpan;
 import android.text.style.CharacterStyle;
 import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
-import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.View;
@@ -244,7 +243,7 @@ public class AREditText extends EditText {
 							boldExists = true;
 						}
 					}
-				} else if (styleSpans[i] instanceof UnderlineSpan) {
+				} else if (styleSpans[i] instanceof AreUnderlineSpan) {
 					if (this.getEditableText().getSpanStart(styleSpans[i]) <= selStart
 							&& this.getEditableText().getSpanEnd(styleSpans[i]) >= selEnd) {
 						underlinedExists = true;
