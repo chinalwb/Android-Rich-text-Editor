@@ -30,7 +30,7 @@ import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
  */
 public class AREditText extends EditText {
 
-	private static boolean LOG = true;
+	private static boolean LOG = false;
 	
 	/**
 	 * When the user 1st time presses DEL and the focus is at a start pos = 0

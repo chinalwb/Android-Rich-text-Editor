@@ -3,9 +3,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.text.Layout;
 import android.text.Spanned;
-import android.text.style.LeadingMarginSpan;
 
-public class ListNumberSpan implements LeadingMarginSpan {
+public class ListNumberSpan implements AreListSpan {
   protected static final int LEADING_MARGIN = 30;
 
   private int mNumber;

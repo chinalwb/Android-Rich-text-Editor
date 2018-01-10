@@ -50,7 +50,7 @@ public class ARE_Alignment extends ARE_ABS_Style {
 					editable.insert(start, Constants.ZERO_WIDTH_SPACE_STR);
 					end = Util.getThisLineEnd(editText, currentLine);
 				}
-				editable.setSpan(alignCenterSpan, start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);	
+				editable.setSpan(alignCenterSpan, start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
 			}
 		});
 	}

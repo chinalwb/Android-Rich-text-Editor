@@ -17,6 +17,13 @@
 package com.chinalwb.are.android.inner;
 
 //import com.android.internal.util.ArrayUtils;
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.ccil.cowan.tagsoup.HTMLSchema;
 import org.ccil.cowan.tagsoup.Parser;
 import org.xml.sax.Attributes;
@@ -25,8 +32,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
-
-import com.chinalwb.are.R;
 
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -52,18 +57,13 @@ import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.text.style.SubscriptSpan;
 import android.text.style.SuperscriptSpan;
-import android.text.style.TextAppearanceSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.chinalwb.are.R;
+import com.chinalwb.are.spans.AreListSpan;
+import com.chinalwb.are.spans.ListNumberSpan;
 
 /**
  * This class processes HTML strings into displayable styled text.
@@ -355,15 +355,16 @@ public class Html {
 //
 //        int paraDir = AndroidBidi.bidi(Layout.DIR_REQUEST_DEFAULT_LTR, buffer, levels, len,
 //                false /* no info */);
-    	int paraDir = Layout.DIR_LEFT_TO_RIGHT;
-
-        switch (paraDir) {
-          case Layout.DIR_RIGHT_TO_LEFT:
-            return "<p dir=\"rtl\">";
-          case Layout.DIR_LEFT_TO_RIGHT:
-          default:
-            return "<p>";
-        }
+//    	int paraDir = Layout.DIR_LEFT_TO_RIGHT;
+//
+//        switch (paraDir) {
+//          case Layout.DIR_RIGHT_TO_LEFT:
+//            return "<p dir=\"rtl\">";
+//          case Layout.DIR_LEFT_TO_RIGHT:
+//          default:
+//            return "<p>";
+//        }
+    	return "";
     }
 
     private static String getTextStyles(Spanned text, int start, int end,
@@ -372,7 +373,9 @@ public class Html {
         String textAlign = null;
 
         if (forceNoVerticalMargin) {
-            margin = "margin-top:0; margin-bottom:0;";
+        	// chinalwb:
+        	// Do not set margin for p tag for now.
+            // margin = "margin-top:0; margin-bottom:0;";
         }
         if (includeTextAlign) {
             final AlignmentSpan[] alignmentSpans = text.getSpans(start, end, AlignmentSpan.class);
@@ -380,7 +383,7 @@ public class Html {
             // Only use the last AlignmentSpan with flag SPAN_PARAGRAPH
             for (int i = alignmentSpans.length - 1; i >= 0; i--) {
                 AlignmentSpan s = alignmentSpans[i];
-                if ((text.getSpanFlags(s) & Spanned.SPAN_PARAGRAPH) == Spanned.SPAN_PARAGRAPH) {
+                //if ((text.getSpanFlags(s) & Spanned.SPAN_PARAGRAPH) == Spanned.SPAN_PARAGRAPH) {
                     final Layout.Alignment alignment = s.getAlignment();
                     if (alignment == Layout.Alignment.ALIGN_NORMAL) {
                         textAlign = "text-align:start;";
@@ -389,8 +392,8 @@ public class Html {
                     } else if (alignment == Layout.Alignment.ALIGN_OPPOSITE) {
                         textAlign = "text-align:end;";
                     }
-                    break;
-                }
+                    // break;
+                // }
             }
         }
 
@@ -423,6 +426,7 @@ public class Html {
             int end) {
         boolean isInList = false;
         int next;
+        String listType = "ul";
         for (int i = start; i <= end; i = next) {
             next = TextUtils.indexOf(text, '\n', i, end);
             if (next < 0) {
@@ -433,7 +437,7 @@ public class Html {
                 if (isInList) {
                     // Current paragraph is no longer a list item; close the previously opened list
                     isInList = false;
-                    out.append("</ul>\n");
+                    out.append("</" + listType + ">\n");
                 }
                 out.append("<br>\n");
             } else {
@@ -441,17 +445,26 @@ public class Html {
                 ParagraphStyle[] paragraphStyles = text.getSpans(i, next, ParagraphStyle.class);
                 for (ParagraphStyle paragraphStyle : paragraphStyles) {
                     final int spanFlags = text.getSpanFlags(paragraphStyle);
-                    if ((spanFlags & Spanned.SPAN_PARAGRAPH) == Spanned.SPAN_PARAGRAPH
-                            && paragraphStyle instanceof BulletSpan) {
+                    if (
+                    		// (spanFlags & Spanned.SPAN_PARAGRAPH) == Spanned.SPAN_PARAGRAPH
+                            // && 
+                    		paragraphStyle instanceof AreListSpan) {
                         isListItem = true;
+                        
+                        if (paragraphStyle instanceof ListNumberSpan) {
+                        	listType = "ol";
+                        }
                         break;
                     }
                 }
 
+                
+                
+                
                 if (isListItem && !isInList) {
                     // Current paragraph is the first item in a list
                     isInList = true;
-                    out.append("<ul")
+                    out.append("<" + listType)
                             .append(getTextStyles(text, i, next, true, false))
                             .append(">\n");
                 }
@@ -459,13 +472,13 @@ public class Html {
                 if (isInList && !isListItem) {
                     // Current paragraph is no longer a list item; close the previously opened list
                     isInList = false;
-                    out.append("</ul>\n");
+                    out.append("</" + listType + ">\n");
                 }
 
                 String tagType = isListItem ? "li" : "p";
                 out.append("<").append(tagType)
                         .append(getTextDirection(text, i, next))
-                        .append(getTextStyles(text, i, next, !isListItem, true))
+                        .append(getTextStyles(text, i, next, !isListItem, !isListItem))
                         .append(">");
 
                 withinParagraph(out, text, i, next);

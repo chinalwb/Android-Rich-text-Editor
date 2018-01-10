@@ -4,9 +4,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.text.Layout;
 import android.text.Spanned;
-import android.text.style.LeadingMarginSpan;
 
-public class ListBulletSpan implements LeadingMarginSpan {
+public class ListBulletSpan implements AreListSpan {
 
 	public ListBulletSpan() {
 		//

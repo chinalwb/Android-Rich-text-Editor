@@ -3,7 +3,6 @@ package com.chinalwb.are;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.text.Html;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.chinalwb.are.android.inner.Html;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
 /**
@@ -22,7 +22,8 @@ import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 public class AREditor extends RelativeLayout {
 
 	/*
-	 * -------------------------------------------- * Instance Fields Area
+	 * -------------------------------------------- 
+	 * Instance Fields Area
 	 * --------------------------------------------
 	 */
 
@@ -42,7 +43,8 @@ public class AREditor extends RelativeLayout {
 	private LinearLayout mRootLinearLayout;
 
 	/*
-	 * -------------------------------------------- * Constructors Area
+	 * --------------------------------------------
+	 * Constructors Area
 	 * --------------------------------------------
 	 */
 
@@ -79,7 +81,8 @@ public class AREditor extends RelativeLayout {
 	}
 
 	/*
-	 * -------------------------------------------- * Business Methods Area
+	 * --------------------------------------------
+	 *  Business Methods Area
 	 * --------------------------------------------
 	 */
 	/**
@@ -122,11 +125,12 @@ public class AREditor extends RelativeLayout {
 			}
 		}
 		html.append("</html>");
-		System.out.println(html);
+		String htmlContent = html.toString().replaceAll("&#8203;", "");
+		System.out.println(htmlContent);
 	}
 
 	private void appendAREditText(AREditText editText, StringBuffer html) {
-		String editTextHtml = Html.toHtml(editText.getEditableText());
+		String editTextHtml = Html.toHtml(editText.getEditableText(), Html.TO_HTML_PARAGRAPH_LINES_INDIVIDUAL);
 		html.append(editTextHtml);
 	}
 	

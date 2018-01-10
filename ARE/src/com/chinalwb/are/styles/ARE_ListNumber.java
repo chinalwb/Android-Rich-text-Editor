@@ -372,7 +372,7 @@ public class ARE_ListNumber extends ARE_ABS_Style {
 		start = Util.getThisLineStart(editText, currentLine);
 		end = Util.getThisLineEnd(editText, currentLine);
 
-		if (editable.charAt(end - 1) == Constants.CHAR_NEW_LINE) {
+		if (end > 0 && editable.charAt(end - 1) == Constants.CHAR_NEW_LINE) {
 			end--;
 		}
 
