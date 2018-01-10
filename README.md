@@ -1,5 +1,5 @@
 # ARE
-Android Rich Editor
+(Want to be the best open source) Android Rich text Editor
 ===================
 
 This is implemented by Java
@@ -61,7 +61,16 @@ Known issues:
 -----------------
 * Indent cooperates with List
 
-
+How to use?
+Before the general release, you need to checkout the code and add this to a layout file and include the layout file in your Activity. Just refer to the MainActivity.java in the source code.
+```
+<com.chinalwb.are.AREditor xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/areditor"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white" />
+```
 You can download the APK here:
 
 [Click ARE_20180101.apk to download](https://github.com/chinalwb/are/blob/master/ARE/demo/ARE_20180101.apk)
