@@ -6,32 +6,55 @@ This is implemented by Java
 
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/demo2.gif)
  
+New feature:
+* To HTML, added saveHtml()
+
+ ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/saveHtml.png)
+
+ HTML print as:
+ >
+ <html>
+  <p style="text-align:center;"><b>Todo list</b></p> 
+  <p style="text-align:start;">Today I need to work on these things list as below, some are must do, some are optional, let me list them here so I can have a clear picture for what to do:</p> 
+  <ol> 
+   <li>React Native</li> 
+   <li>Weex</li> 
+   <li>Gulp</li> 
+   <li>Webpack</li> 
+  </ol> 
+  <p style="text-align:start;">Hope I can have all them done today!</p> 
+  <p style="text-align:start;"></p> 
+  <p style="text-align:start;"></p> 
+  <img src="file:///mnt/sdcard/Download/20170830155756-d629c9cd.jpg" />
+  <p style="text-align:start;"><i>Have a nice day.</i></p> 
+</html>
+
 Supported styles:
 ------------------
 * Bold
 * Italic
 * Underline
 * Strikethrough
-* Background color
 * Numeric list
 * Bullet list
-* Indent right
-* Indent left
 * Align left
 * Align center
 * Align right
 * Insert image
 * @
-* Emoji icon
-* Font size
-* Font family
+
 
 In progress items:
 -----------------
+* Background color
+* Indent right
+* Indent left
+* Emoji icon
+* Font size
+* Font family
 * Quote
 * Hyper link
 * Foreground color
-* To HTML
 
 Known issues:
 -----------------
