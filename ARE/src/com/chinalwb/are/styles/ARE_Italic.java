@@ -44,9 +44,7 @@ public class ARE_Italic extends ARE_ABS_Style {
 				mItalicChecked = !mItalicChecked;
 				ARE_Helper.updateCheckStatus(ARE_Italic.this, mItalicChecked);
 				if (null != mEditText) {
-					applyStyle(mEditText.getEditableText(),
-							mEditText.getSelectionStart(),
-							mEditText.getSelectionEnd());
+					applyStyle(mEditText.getEditableText(), mEditText.getSelectionStart(), mEditText.getSelectionEnd());
 				}
 			}
 		});
@@ -78,8 +76,7 @@ public class ARE_Italic extends ARE_ABS_Style {
 					if (existingItalicSpanStart <= start && existingItalicSpanEnd >= end) {
 						// The selection is just within an existing italic span
 						// Do nothing for this case
-					}
-					else {
+					} else {
 						checkAndMergeSpan(editable, start, end);
 					}
 				}
@@ -127,21 +124,25 @@ public class ARE_Italic extends ARE_ABS_Style {
 							//
 							// User stops the ITALIC style, and wants to show
 							// un-ITALIC characters
-							int ess = editable.getSpanStart(span); // ess == existing span start
-							int ese = editable.getSpanEnd(span); // ese = existing span end
+							int ess = editable.getSpanStart(span); // ess ==
+																	// existing
+																	// span
+																	// start
+							int ese = editable.getSpanEnd(span); // ese =
+																	// existing
+																	// span end
 							if (start >= ese) {
-								// User inputs to the end of the existing italic span
+								// User inputs to the end of the existing italic
+								// span
 								// End existing italic span
 								editable.removeSpan(span);
 								editable.setSpan(span, ess, start - 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-							}
-							else if (start == ess && end == ese) {
+							} else if (start == ess && end == ese) {
 								// Case 1 desc:
 								// *BBBBBB*
 								// All selected, and un-check italic
 								editable.removeSpan(span);
-							}
-							else if (start > ess && end < ese) {
+							} else if (start > ess && end < ese) {
 								// Case 2 desc:
 								// BB*BB*BB
 								// *BB* is selected, and un-check italic
@@ -150,16 +151,14 @@ public class ARE_Italic extends ARE_ABS_Style {
 								editable.setSpan(spanLeft, ess, start, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
 								StyleSpan spanRight = new StyleSpan(Typeface.ITALIC);
 								editable.setSpan(spanRight, end, ese, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-							}
-							else if (start == ess && end < ese) {
+							} else if (start == ess && end < ese) {
 								// Case 3 desc:
 								// *BBBB*BB
 								// *BBBB* is selected, and un-check italic
 								editable.removeSpan(span);
 								StyleSpan newSpan = new StyleSpan(Typeface.ITALIC);
 								editable.setSpan(newSpan, end, ese, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-							}
-							else if (start > ess && end == ese) {
+							} else if (start > ess && end == ese) {
 								// Case 4 desc:
 								// BB*BBBB*
 								// *BBBB* is selected, and un-check italic
@@ -167,14 +166,13 @@ public class ARE_Italic extends ARE_ABS_Style {
 								StyleSpan newSpan = new StyleSpan(Typeface.ITALIC);
 								editable.setSpan(newSpan, ess, start, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
 							}
-							
 
 							break;
 						}
 					}
 				}
 			} else if (end == start) {
-				// 
+				//
 				// User changes focus position
 				// Do nothing for this case
 			} else {
@@ -196,7 +194,8 @@ public class ARE_Italic extends ARE_ABS_Style {
 								//
 								// Do nothing, the default behavior is to extend
 								// the span's area.
-								// The proceeding characters should be also ITALIC
+								// The proceeding characters should be also
+								// ITALIC
 								this.mItalicChecked = true;
 								ARE_Helper.updateCheckStatus(this, true);
 							}
@@ -207,7 +206,7 @@ public class ARE_Italic extends ARE_ABS_Style {
 			}
 		}
 	}
-	
+
 	private void checkAndMergeSpan(Editable editable, int start, int end) {
 		StyleSpan leftSpan = null;
 
@@ -221,7 +220,7 @@ public class ARE_Italic extends ARE_ABS_Style {
 				}
 			}
 		}
-		
+
 		StyleSpan rightSpan = null;
 		StyleSpan[] rightSpans = editable.getSpans(end, end, StyleSpan.class);
 		if (rightSpans.length > 0) {
@@ -233,31 +232,32 @@ public class ARE_Italic extends ARE_ABS_Style {
 				}
 			}
 		}
-	
-		
+
+		int leftSpanStart = editable.getSpanStart(leftSpan);
+		int rightSpanEnd = editable.getSpanEnd(rightSpan);
+		removeAllSpans(editable, start, end);
 		if (leftSpan != null && rightSpan != null) {
-			int leftSpanStart = editable.getSpanStart(leftSpan);
-			int rightSpanEnd = editable.getSpanEnd(rightSpan);
-			editable.removeSpan(leftSpan);
-			editable.removeSpan(rightSpan);
 			StyleSpan italicSpan = new StyleSpan(Typeface.ITALIC);
 			editable.setSpan(italicSpan, leftSpanStart, rightSpanEnd, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-		}
-		else if (leftSpan != null && rightSpan == null) {
-			int leftSpanStart = editable.getSpanStart(leftSpan);
-			editable.removeSpan(leftSpan);
-			StyleSpan italicSpan = new StyleSpan(Typeface.ITALIC);
-			editable.setSpan(italicSpan, leftSpanStart, end, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-		}
-		else if (leftSpan == null && rightSpan != null) {
-			int rightSpanEnd = editable.getSpanEnd(rightSpan);
-			editable.removeSpan(rightSpan);
-			StyleSpan italicSpan = new StyleSpan(Typeface.ITALIC);
-			editable.setSpan(italicSpan, start, rightSpanEnd, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-		}
-		else {
+		} else if (leftSpan != null && rightSpan == null) {
+			StyleSpan boldSpan = new StyleSpan(Typeface.ITALIC);
+			editable.setSpan(boldSpan, leftSpanStart, end, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+		} else if (leftSpan == null && rightSpan != null) {
+			StyleSpan boldSpan = new StyleSpan(Typeface.ITALIC);
+			editable.setSpan(boldSpan, start, rightSpanEnd, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+		} else {
 			StyleSpan italicSpan = new StyleSpan(Typeface.ITALIC);
 			editable.setSpan(italicSpan, start, end, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+		}
+	}
+
+	private void removeAllSpans(Editable editable, int start, int end) {
+		StyleSpan[] allSpans = editable.getSpans(start, end, StyleSpan.class);
+		for (StyleSpan span : allSpans) {
+			int spanStyle = span.getStyle();
+			if (spanStyle == Typeface.ITALIC) {
+				editable.removeSpan(span);
+			}
 		}
 	}
 

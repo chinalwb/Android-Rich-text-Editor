@@ -199,26 +199,28 @@ public class ARE_Underline extends ARE_ABS_Style {
 		}
 	
 
+		int leftSpanStart = editable.getSpanStart(leftSpan);
+		int rightSpanEnd = editable.getSpanEnd(rightSpan);
+		removeAllSpans(editable, start, end);
 		if (leftSpan != null && rightSpan != null) {
-			int leftSpanStart = editable.getSpanStart(leftSpan);
-			int rightSpanEnd = editable.getSpanEnd(rightSpan);
-			editable.removeSpan(leftSpan);
-			editable.removeSpan(rightSpan);
 			AreUnderlineSpan underlineSpan = new AreUnderlineSpan();
 			editable.setSpan(underlineSpan, leftSpanStart, rightSpanEnd, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
 		} else if (leftSpan != null && rightSpan == null) {
-			int leftSpanStart = editable.getSpanStart(leftSpan);
-			editable.removeSpan(leftSpan);
-			AreUnderlineSpan underlineSpan = new AreUnderlineSpan();
-			editable.setSpan(underlineSpan, leftSpanStart, end, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+			AreUnderlineSpan strikethroughSpan = new AreUnderlineSpan();
+			editable.setSpan(strikethroughSpan, leftSpanStart, end, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
 		} else if (leftSpan == null && rightSpan != null) {
-			int rightSpanEnd = editable.getSpanEnd(rightSpan);
-			editable.removeSpan(rightSpan);
-			AreUnderlineSpan underlineSpan = new AreUnderlineSpan();
-			editable.setSpan(underlineSpan, start, rightSpanEnd, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+			AreUnderlineSpan strikethroughSpan = new AreUnderlineSpan();
+			editable.setSpan(strikethroughSpan, start, rightSpanEnd, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
 		} else {
 			AreUnderlineSpan underlineSpan = new AreUnderlineSpan();
 			editable.setSpan(underlineSpan, start, end, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+		}
+	}
+
+	private void removeAllSpans(Editable editable, int start, int end) {
+		AreUnderlineSpan[] allSpans = editable.getSpans(start, end, AreUnderlineSpan.class);
+		for (AreUnderlineSpan span : allSpans) {
+			editable.removeSpan(span);
 		}
 	}
 

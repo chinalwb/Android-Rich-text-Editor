@@ -199,26 +199,30 @@ public class ARE_Strikethrough extends ARE_ABS_Style {
 			rightSpan = rightSpans[0];
 		}
 
+		int leftSpanStart = editable.getSpanStart(leftSpan);
+		int rightSpanEnd = editable.getSpanEnd(rightSpan);
+		removeAllSpans(editable, start, end);
 		if (leftSpan != null && rightSpan != null) {
-			int leftSpanStart = editable.getSpanStart(leftSpan);
-			int rightSpanEnd = editable.getSpanEnd(rightSpan);
 			editable.removeSpan(leftSpan);
 			editable.removeSpan(rightSpan);
 			StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
 			editable.setSpan(strikethroughSpan, leftSpanStart, rightSpanEnd, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
 		} else if (leftSpan != null && rightSpan == null) {
-			int leftSpanStart = editable.getSpanStart(leftSpan);
-			editable.removeSpan(leftSpan);
 			StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
 			editable.setSpan(strikethroughSpan, leftSpanStart, end, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
 		} else if (leftSpan == null && rightSpan != null) {
-			int rightSpanEnd = editable.getSpanEnd(rightSpan);
-			editable.removeSpan(rightSpan);
 			StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
 			editable.setSpan(strikethroughSpan, start, rightSpanEnd, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
 		} else {
 			StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
 			editable.setSpan(strikethroughSpan, start, end, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+		}
+	}
+
+	private void removeAllSpans(Editable editable, int start, int end) {
+		StrikethroughSpan[] allSpans = editable.getSpans(start, end, StrikethroughSpan.class);
+		for (StrikethroughSpan span : allSpans) {
+			editable.removeSpan(span);
 		}
 	}
 

@@ -232,31 +232,35 @@ public class ARE_Bold extends ARE_ABS_Style {
 				}
 			}
 		}
-	
 		
+		int leftSpanStart = editable.getSpanStart(leftSpan);
+		int rightSpanEnd = editable.getSpanEnd(rightSpan);
+		removeAllSpans(editable, start, end);
 		if (leftSpan != null && rightSpan != null) {
-			int leftSpanStart = editable.getSpanStart(leftSpan);
-			int rightSpanEnd = editable.getSpanEnd(rightSpan);
-			editable.removeSpan(leftSpan);
-			editable.removeSpan(rightSpan);
 			StyleSpan boldSpan = new StyleSpan(Typeface.BOLD);
 			editable.setSpan(boldSpan, leftSpanStart, rightSpanEnd, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
 		}
 		else if (leftSpan != null && rightSpan == null) {
-			int leftSpanStart = editable.getSpanStart(leftSpan);
-			editable.removeSpan(leftSpan);
 			StyleSpan boldSpan = new StyleSpan(Typeface.BOLD);
 			editable.setSpan(boldSpan, leftSpanStart, end, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
 		}
 		else if (leftSpan == null && rightSpan != null) {
-			int rightSpanEnd = editable.getSpanEnd(rightSpan);
-			editable.removeSpan(rightSpan);
 			StyleSpan boldSpan = new StyleSpan(Typeface.BOLD);
 			editable.setSpan(boldSpan, start, rightSpanEnd, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
 		}
 		else {
 			StyleSpan boldSpan = new StyleSpan(Typeface.BOLD);
 			editable.setSpan(boldSpan, start, end, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+		}
+	}
+
+	private void removeAllSpans(Editable editable, int start, int end) {
+		StyleSpan[] allSpans = editable.getSpans(start, end, StyleSpan.class);
+		for (StyleSpan span : allSpans) {
+			int spanStyle = span.getStyle();
+			if (spanStyle == Typeface.BOLD) {
+				editable.removeSpan(span);
+			}
 		}
 	}
 
