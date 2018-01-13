@@ -31,11 +31,7 @@ Supported styles:
 * Align right
 * Insert image
 
-Release plan for 0.0.1, will be before 2018-01-20:
------------------
-* Current supported styles
-* Add the support for selecting a text range for B / I / U / S
-* Save as HTML file
+Released [v0.0.1](https://github.com/chinalwb/are/releases/tag/v0.0.1)
 
 Release plan for 0.0.2, will be before 2018-02-28:
 -----------------
@@ -76,4 +72,4 @@ You can download the APK here:
 [Click ARE_20180114_0.0.1.apk to download](https://github.com/chinalwb/are/blob/master/ARE/demo/ARE_20180114_0.0.1.apk)
 
 -------------------
-
+You can contact me at 329055754@qq.com if you need any customization or any suggestion.
