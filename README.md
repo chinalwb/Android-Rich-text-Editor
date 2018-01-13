@@ -31,9 +31,9 @@ Supported styles:
 * Align right
 * Insert image
 
-Released [v0.0.1](https://github.com/chinalwb/are/releases/tag/v0.0.1)
 
-Release plan for 0.0.2, will be before 2018-02-28:
+
+Released [v0.0.1](https://github.com/chinalwb/are/releases/tag/v0.0.1), plan for v0.0.2, will be before 2018-02-28:
 -----------------
 * Quote
 * Hyper link
