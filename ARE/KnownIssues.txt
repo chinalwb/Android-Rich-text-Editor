@@ -1,3 +1,10 @@
+Release plan:
+
+01/20 release 0.0.1
+	Current styles
+	Save as html file
+	Bold range
+
 Known issues:
 
 R - 1. 连续写两行未成list的文字，分别点击各行使其成为list，第二个被点击的那行会有问题，原因大概是因为第一行的list的start/end在第二行被点击的时候没有正确设定。
