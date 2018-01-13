@@ -106,12 +106,11 @@ public class AREditor extends RelativeLayout {
 		this.mToolbar = (ARE_Toolbar) this.findViewById(R.id.toolbar);
 		this.mRootLinearLayout = (LinearLayout) this.findViewById(R.id.rootLinearLayout);
 	}
-	
+
 	/**
-	 * Save the content into file path with HTML format.
-	 * @param filePath
+	 * 
 	 */
-	public void saveHtml(String filePath) {
+	public String getHtml() {
 		int childCount = this.mRootLinearLayout.getChildCount();
 		StringBuffer html = new StringBuffer();
 		html.append("<html>");
@@ -125,8 +124,9 @@ public class AREditor extends RelativeLayout {
 			}
 		}
 		html.append("</html>");
-		String htmlContent = html.toString().replaceAll("&#8203;", "");
+		String htmlContent = html.toString().replaceAll(Constants.ZERO_WIDTH_SPACE_STR_ESCAPE, "");
 		System.out.println(htmlContent);
+		return htmlContent;
 	}
 
 	private void appendAREditText(AREditText editText, StringBuffer html) {

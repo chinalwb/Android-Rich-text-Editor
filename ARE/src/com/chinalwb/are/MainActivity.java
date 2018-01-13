@@ -1,9 +1,13 @@
 package com.chinalwb.are;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,16 +42,44 @@ public class MainActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int menuId = item.getItemId();
 		if (menuId == R.id.action_save) {
-			DateFormat dateFormat = SimpleDateFormat.getDateTimeInstance(); //new SimpleDateFormat("yyyy-MM-dd_hh:mm:ss");
-			String time = dateFormat.format(new Date());
-			String fileName = time.concat(".html");
-			String filePath = Environment.getExternalStorageState().concat("/ARE/").concat(fileName);
-			this.arEditor.saveHtml(filePath);
+			String html = this.arEditor.getHtml();
+			saveHtml(html);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 	
+	@SuppressLint("SimpleDateFormat") private void saveHtml(String html) {
+		try {
+			String filePath = Environment.getExternalStorageDirectory() + File.separator + "ARE" + File.separator;
+			File dir = new File(filePath);
+			if (!dir.exists()) {
+				dir.mkdir();
+			}
+			
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_hh_mm_ss");
+			String time = dateFormat.format(new Date());
+			String fileName = time.concat(".html");
+			
+			File file = new File(filePath + fileName);
+			if (!file.exists()) {
+				boolean isCreated = file.createNewFile();
+				if (!isCreated) {
+					Util.toast(this, "Cannot create file at: " + filePath);
+					return;
+				}
+			}
+			
+			FileWriter fileWriter = new FileWriter(file);
+			fileWriter.write(html);
+			fileWriter.close();
+			
+			Util.toast(this, fileName + " has been saved at " + filePath);
+		} catch (IOException e) {
+			e.printStackTrace();
+			Util.toast(this, "Run into error: " + e.getMessage());
+		}
+	}
 	
 	
 	/**
