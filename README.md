@@ -1,6 +1,8 @@
 # ARE
 Android Rich text Editor
 ===================
+If you are looking for a good rich text editor on Android, DON'T MISS THIS! 
+It's still in progress now, but it will be (one of the) best open source Android rich text editor.
 
 This is implemented by Java
 
