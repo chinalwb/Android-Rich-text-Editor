@@ -42,8 +42,19 @@ Supported styles:
 * Align center
 * Align right
 * Insert image
-* @
 
+Release plan for 0.0.1, will be before 2018-01-20:
+-----------------
+* Current supported styles
+* Add the support for selecting a text range for B / I / U / S
+* Save as HTML file
+
+Release plan for 0.0.2, will be before 2018-02-28:
+-----------------
+* Quote
+* Hyper link
+* @
+* Save as HTML file
 
 In progress items:
 -----------------
@@ -56,6 +67,7 @@ In progress items:
 * Quote
 * Hyper link
 * Foreground color
+* @
 
 Known issues:
 -----------------
