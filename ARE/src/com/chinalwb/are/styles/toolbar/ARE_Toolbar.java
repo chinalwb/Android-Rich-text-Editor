@@ -329,6 +329,11 @@ public class ARE_Toolbar extends HorizontalScrollView {
 	
 	public void setEditText(AREditText editText) {
 		this.mEditText = editText;
+		bindToolbar();
+	}
+	
+	private void bindToolbar() {
+		this.mBoldStyle.setEditText(this.mEditText);
 	}
 	
 	public EditText getEditText() {

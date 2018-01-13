@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 
+import com.chinalwb.are.AREditText;
 import com.chinalwb.are.Util;
 
 public class ARE_Bold extends ARE_ABS_Style {
@@ -16,6 +17,8 @@ public class ARE_Bold extends ARE_ABS_Style {
 
 	private boolean mBoldChecked;
 
+	private AREditText mEditText;
+	
 	/**
 	 * 
 	 * @param boldImage
@@ -25,6 +28,14 @@ public class ARE_Bold extends ARE_ABS_Style {
 		setListenerForImageView(this.mBoldImageView);
 	}
 
+	/**
+	 * 
+	 * @param editText
+	 */
+	public void setEditText(AREditText editText) {
+		this.mEditText = editText;
+	}
+	
 	@Override
 	public void setListenerForImageView(final ImageView imageView) {
 		imageView.setOnClickListener(new OnClickListener() {
@@ -32,6 +43,11 @@ public class ARE_Bold extends ARE_ABS_Style {
 			public void onClick(View v) {
 				mBoldChecked = !mBoldChecked;
 				ARE_Helper.updateCheckStatus(ARE_Bold.this, mBoldChecked);
+				if (null != mEditText) {
+					applyStyle(mEditText.getEditableText(),
+							mEditText.getSelectionStart(),
+							mEditText.getSelectionEnd());
+				}
 			}
 		});
 	}
@@ -41,22 +57,31 @@ public class ARE_Bold extends ARE_ABS_Style {
 		if (this.mBoldChecked) {
 			if (end > start) {
 				//
-				// User inputs
-				boolean hasBoldSpan = false;
+				// User inputs or user selects a range
 				StyleSpan[] spans = editable.getSpans(start, end, StyleSpan.class);
+				StyleSpan existingBoldSpan = null;
 				if (spans.length > 0) {
 					for (StyleSpan span : spans) {
 						int spanStyle = span.getStyle();
 						if (spanStyle == Typeface.BOLD) {
-							hasBoldSpan = true;
+							existingBoldSpan = span;
 							break;
 						}
 					}
 				}
 
-				if (!hasBoldSpan) {
-					StyleSpan boldSpan = new StyleSpan(Typeface.BOLD);
-					editable.setSpan(boldSpan, start, end, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+				if (existingBoldSpan == null) {
+					checkAndMergeSpan(editable, start, end);
+				} else {
+					int existingBoldSpanStart = editable.getSpanStart(existingBoldSpan);
+					int existingBoldSpanEnd = editable.getSpanEnd(existingBoldSpan);
+					if (existingBoldSpanStart <= start && existingBoldSpanEnd >= end) {
+						// The selection is just within an existing bold span
+						// Do nothing for this case
+					}
+					else {
+						checkAndMergeSpan(editable, start, end);
+					}
 				}
 			} else {
 				//
@@ -93,7 +118,7 @@ public class ARE_Bold extends ARE_ABS_Style {
 
 			if (end > start) {
 				//
-				// User inputs
+				// User inputs or user selects a range
 				StyleSpan[] spans = editable.getSpans(start, end, StyleSpan.class);
 				if (spans.length > 0) {
 					for (StyleSpan span : spans) {
@@ -102,25 +127,56 @@ public class ARE_Bold extends ARE_ABS_Style {
 							//
 							// User stops the BOLD style, and wants to show
 							// un-BOLD characters
-							// Remove the BOLD span -- to stop the previous BOLD
-							// style
-							// Make new BOLD span, with new START and END
-							// settings.
-							// The new START should be the same as before,
-							// the new END should be (N - 1), i.e.: the cursor
-							// of typing position - 1.
-							int boldStart = editable.getSpanStart(span);
-							int newBoldEnd = start;
-							if (boldStart > newBoldEnd) {
-								return;
+							int ess = editable.getSpanStart(span); // ess == existing span start
+							int ese = editable.getSpanEnd(span); // ese = existing span end
+							if (start >= ese) {
+								// User inputs to the end of the existing bold span
+								// End existing bold span
+								editable.removeSpan(span);
+								editable.setSpan(span, ess, start - 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
 							}
-							editable.removeSpan(span);
-							editable.setSpan(span, boldStart, newBoldEnd, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+							else if (start == ess && end == ese) {
+								// Case 1 desc:
+								// *BBBBBB*
+								// All selected, and un-check bold
+								editable.removeSpan(span);
+							}
+							else if (start > ess && end < ese) {
+								// Case 2 desc:
+								// BB*BB*BB
+								// *BB* is selected, and un-check bold
+								editable.removeSpan(span);
+								StyleSpan spanLeft = new StyleSpan(Typeface.BOLD);
+								editable.setSpan(spanLeft, ess, start, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+								StyleSpan spanRight = new StyleSpan(Typeface.BOLD);
+								editable.setSpan(spanRight, end, ese, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+							}
+							else if (start == ess && end < ese) {
+								// Case 3 desc:
+								// *BBBB*BB
+								// *BBBB* is selected, and un-check bold
+								editable.removeSpan(span);
+								StyleSpan newSpan = new StyleSpan(Typeface.BOLD);
+								editable.setSpan(newSpan, end, ese, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+							}
+							else if (start > ess && end == ese) {
+								// Case 4 desc:
+								// BB*BBBB*
+								// *BBBB* is selected, and un-check bold
+								editable.removeSpan(span);
+								StyleSpan newSpan = new StyleSpan(Typeface.BOLD);
+								editable.setSpan(newSpan, ess, start, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+							}
+							
 
 							break;
 						}
 					}
 				}
+			} else if (end == start) {
+				// 
+				// User changes focus position
+				// Do nothing for this case
 			} else {
 				//
 				// User deletes
@@ -151,6 +207,62 @@ public class ARE_Bold extends ARE_ABS_Style {
 			}
 		}
 	} // #End of method
+
+	private void checkAndMergeSpan(Editable editable, int start, int end) {
+		StyleSpan leftSpan = null;
+		if (start > 0) {
+			StyleSpan[] leftSpans = editable.getSpans(start - 1, start, StyleSpan.class);
+			if (leftSpans.length > 0) {
+				for (StyleSpan span : leftSpans) {
+					int spanStyle = span.getStyle();
+					if (spanStyle == Typeface.BOLD) {
+						leftSpan = span;
+						break;
+					}
+				}
+			}
+		}
+		
+		StyleSpan rightSpan = null;
+		int totalLength = editable.length();
+		if (end < totalLength) {
+			StyleSpan[] rightSpans = editable.getSpans(end, end + 1, StyleSpan.class);
+			if (rightSpans.length > 0) {
+				for (StyleSpan span : rightSpans) {
+					int spanStyle = span.getStyle();
+					if (spanStyle == Typeface.BOLD) {
+						rightSpan = span;
+						break;
+					}
+				}
+			}
+		}
+		
+		if (leftSpan != null && rightSpan != null) {
+			int leftSpanStart = editable.getSpanStart(leftSpan);
+			int rightSpanEnd = editable.getSpanEnd(rightSpan);
+			editable.removeSpan(leftSpan);
+			editable.removeSpan(rightSpan);
+			StyleSpan boldSpan = new StyleSpan(Typeface.BOLD);
+			editable.setSpan(boldSpan, leftSpanStart, rightSpanEnd, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+		}
+		else if (leftSpan != null && rightSpan == null) {
+			int leftSpanStart = editable.getSpanStart(leftSpan);
+			editable.removeSpan(leftSpan);
+			StyleSpan boldSpan = new StyleSpan(Typeface.BOLD);
+			editable.setSpan(boldSpan, leftSpanStart, end, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+		}
+		else if (leftSpan == null && rightSpan != null) {
+			int rightSpanEnd = editable.getSpanEnd(rightSpan);
+			editable.removeSpan(rightSpan);
+			StyleSpan boldSpan = new StyleSpan(Typeface.BOLD);
+			editable.setSpan(boldSpan, start, rightSpanEnd, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+		}
+		else {
+			StyleSpan boldSpan = new StyleSpan(Typeface.BOLD);
+			editable.setSpan(boldSpan, start, end, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+		}
+	}
 
 	@Override
 	public ImageView getImageView() {
