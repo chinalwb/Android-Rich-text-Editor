@@ -334,6 +334,7 @@ public class ARE_Toolbar extends HorizontalScrollView {
 	
 	private void bindToolbar() {
 		this.mBoldStyle.setEditText(this.mEditText);
+		this.mItalicStyle.setEditText(this.mEditText);
 	}
 	
 	public EditText getEditText() {

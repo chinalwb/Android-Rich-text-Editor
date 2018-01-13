@@ -210,33 +210,30 @@ public class ARE_Bold extends ARE_ABS_Style {
 
 	private void checkAndMergeSpan(Editable editable, int start, int end) {
 		StyleSpan leftSpan = null;
-		if (start > 0) {
-			StyleSpan[] leftSpans = editable.getSpans(start - 1, start, StyleSpan.class);
-			if (leftSpans.length > 0) {
-				for (StyleSpan span : leftSpans) {
-					int spanStyle = span.getStyle();
-					if (spanStyle == Typeface.BOLD) {
-						leftSpan = span;
-						break;
-					}
+
+		StyleSpan[] leftSpans = editable.getSpans(start, start, StyleSpan.class);
+		if (leftSpans.length > 0) {
+			for (StyleSpan span : leftSpans) {
+				int spanStyle = span.getStyle();
+				if (spanStyle == Typeface.BOLD) {
+					leftSpan = span;
+					break;
 				}
 			}
 		}
-		
+
 		StyleSpan rightSpan = null;
-		int totalLength = editable.length();
-		if (end < totalLength) {
-			StyleSpan[] rightSpans = editable.getSpans(end, end + 1, StyleSpan.class);
-			if (rightSpans.length > 0) {
-				for (StyleSpan span : rightSpans) {
-					int spanStyle = span.getStyle();
-					if (spanStyle == Typeface.BOLD) {
-						rightSpan = span;
-						break;
-					}
+		StyleSpan[] rightSpans = editable.getSpans(end, end, StyleSpan.class);
+		if (rightSpans.length > 0) {
+			for (StyleSpan span : rightSpans) {
+				int spanStyle = span.getStyle();
+				if (spanStyle == Typeface.BOLD) {
+					rightSpan = span;
+					break;
 				}
 			}
 		}
+	
 		
 		if (leftSpan != null && rightSpan != null) {
 			int leftSpanStart = editable.getSpanStart(leftSpan);
