@@ -210,7 +210,6 @@ public class ARE_Bold extends ARE_ABS_Style {
 
 	private void checkAndMergeSpan(Editable editable, int start, int end) {
 		StyleSpan leftSpan = null;
-
 		StyleSpan[] leftSpans = editable.getSpans(start, start, StyleSpan.class);
 		if (leftSpans.length > 0) {
 			for (StyleSpan span : leftSpans) {
