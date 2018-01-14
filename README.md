@@ -9,29 +9,14 @@ This is implemented by Java
 
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/demo2.gif)
  
-New feature:
-* To HTML, added saveHtml()
+Release 0.0.1:
+* Editing at ARE:
 
- ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/saveHtml.png)
+ ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/ARE_editing.png)
 
- HTML print as:
-```
- <html>
-  <p style="text-align:center;"><b>Todo list</b></p> 
-  <p style="text-align:start;">Today I need to work on these things list as below, some are must do, some are optional, let me list them here so I can have a clear picture for what to do:</p> 
-  <ol> 
-   <li>React Native</li> 
-   <li>Weex</li> 
-   <li>Gulp</li> 
-   <li>Webpack</li> 
-  </ol> 
-  <p style="text-align:start;">Hope I can have all them done today!</p> 
-  <p style="text-align:start;"></p> 
-  <p style="text-align:start;"></p> 
-  <img src="file:///mnt/sdcard/Download/20170830155756-d629c9cd.jpg" />
-  <p style="text-align:start;"><i>Have a nice day.</i></p> 
-</html>
-```
+ HTML Viewer shows:
+
+ ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/HTMLViewer.png)
 
 Supported styles:
 ------------------
@@ -46,13 +31,9 @@ Supported styles:
 * Align right
 * Insert image
 
-Release plan for 0.0.1, will be before 2018-01-20:
------------------
-* Current supported styles
-* Add the support for selecting a text range for B / I / U / S
-* Save as HTML file
 
-Release plan for 0.0.2, will be before 2018-02-28:
+
+Released [v0.0.1](https://github.com/chinalwb/are/releases/tag/v0.0.1), plan for v0.0.2, will be before 2018-02-28:
 -----------------
 * Quote
 * Hyper link
@@ -88,7 +69,7 @@ Before the general release, you need to checkout the code and add this to a layo
 ```
 You can download the APK here:
 
-[Click ARE_20180101.apk to download](https://github.com/chinalwb/are/blob/master/ARE/demo/ARE_20180101.apk)
+[Click ARE_20180114_0.0.1.apk to download](https://github.com/chinalwb/are/blob/master/ARE/demo/ARE_20180114_0.0.1.apk)
 
 -------------------
-* The first release plans to be roll out before 2018/1/31.
+You can contact me at 329055754@qq.com if you need any customization or any suggestion.
