@@ -8,5 +8,7 @@ ARE/res/.DS_Store
 ARE/res/layout/.DS_Store
 ARE/libs/.DS_Store
 ARE/.DS_Store
-ARE/.DS_Store
-ARE/.DS_Store
+ARE/.gradle
+ARE/.idea
+ARE/app
+ARE/build
