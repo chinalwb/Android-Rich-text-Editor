@@ -35,23 +35,31 @@ Supported styles:
 
 Released [v0.0.1](https://github.com/chinalwb/are/releases/tag/v0.0.1), plan for v0.0.2, will be before 2018-02-28:
 -----------------
-* Quote
+* Background color
 * Hyper link
 * @
+* Save as HTML file
+
+Plan for v0.0.3, target on 2018-03-31:
+-----------------
+* Indent right
+* Indent left
+* Quote
 * Save as HTML file
 
 In progress items:
 -----------------
 * Background color
+* Hyper link
+* @
 * Indent right
 * Indent left
+* Quote
 * Emoji icon
 * Font size
 * Font family
-* Quote
-* Hyper link
 * Foreground color
-* @
+
 
 Known issues:
 -----------------
