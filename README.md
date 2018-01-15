@@ -61,10 +61,6 @@ In progress items:
 * Foreground color
 
 
-Known issues:
------------------
-* Indent cooperates with List
-
 How to use?
 Before the general release, you need to checkout the code and add this to a layout file and include the layout file in your Activity. Just refer to the MainActivity.java in the source code.
 ```
