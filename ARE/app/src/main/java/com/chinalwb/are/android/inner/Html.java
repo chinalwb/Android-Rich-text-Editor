@@ -62,6 +62,7 @@ import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
 
 import com.chinalwb.are.R;
+import com.chinalwb.are.Util;
 import com.chinalwb.are.spans.AreListSpan;
 import com.chinalwb.are.spans.ListNumberSpan;
 
@@ -70,6 +71,10 @@ import com.chinalwb.are.spans.ListNumberSpan;
  * Not all HTML tags are supported.
  */
 public class Html {
+
+    public static final String OL = "ol";
+    public static final String UL = "ul";
+
     /**
      * Retrieves images for HTML &lt;img&gt; tags.
      */
@@ -426,7 +431,7 @@ public class Html {
             int end) {
         boolean isInList = false;
         int next;
-        String listType = "ul";
+        String listType = "";
         for (int i = start; i <= end; i = next) {
             next = TextUtils.indexOf(text, '\n', i, end);
             if (next < 0) {
@@ -449,18 +454,31 @@ public class Html {
                     		// (spanFlags & Spanned.SPAN_PARAGRAPH) == Spanned.SPAN_PARAGRAPH
                             // && 
                     		paragraphStyle instanceof AreListSpan) {
-                        isListItem = true;
-                        
+
+                        // Util.log("paragraphStyle == " + paragraphStyle.toString());
+                        boolean closed = false;
                         if (paragraphStyle instanceof ListNumberSpan) {
-                        	listType = "ol";
+                            closed = checkToClosePreviousList(out, listType, OL);
+                        	listType = OL;
                         }
+                        else {
+                            closed = checkToClosePreviousList(out, listType, UL);
+                            listType = UL;
+                        }
+
+                        if (closed) {
+                            // If the list item has been closed,
+                            // It will no longer be in list.
+                            // So set it as false then the following
+                            // logic can start a new list item again
+                            isInList = false;
+                        }
+
+                        isListItem = true;
                         break;
                     }
                 }
 
-                
-                
-                
                 if (isListItem && !isInList) {
                     // Current paragraph is the first item in a list
                     isInList = true;
@@ -495,6 +513,15 @@ public class Html {
 
             next++;
         }
+    }
+
+    private static boolean checkToClosePreviousList(StringBuilder out, String srcListType, String targetListType) {
+        // Util.log("src list type = " + srcListType + ", target list type == " + targetListType);
+        if (!srcListType.equals(targetListType) && !TextUtils.isEmpty(srcListType)) {
+            out.append("</" + srcListType + ">");
+            return true;
+        }
+        return false;
     }
 
     private static void withinBlockquoteConsecutive(StringBuilder out, Spanned text, int start,
