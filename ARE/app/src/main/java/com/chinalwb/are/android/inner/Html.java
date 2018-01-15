@@ -351,7 +351,7 @@ public class Html {
             }
         }
     }
-
+    
     private static String getTextDirection(Spanned text, int start, int end) {
 //        final int len = end - start;
 //        final byte[] levels = ArrayUtils.newUnpaddedByteArray(len);
