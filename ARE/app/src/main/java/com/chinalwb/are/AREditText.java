@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.style.BackgroundColorSpan;
@@ -28,7 +29,7 @@ import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
  * @author Wenbin Liu
  * 
  */
-public class AREditText extends EditText {
+public class AREditText extends AppCompatEditText {
 
 	private static boolean LOG = false;
 	
