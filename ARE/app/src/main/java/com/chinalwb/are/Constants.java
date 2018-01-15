@@ -15,4 +15,6 @@ public class Constants {
 	public static final char CHAR_NEW_LINE = '\n';
 
 	public static final int KEY_DEL = 67;
+
+	public static final int COLOR_BACKGROUND_DEFAULT = 0XFFFFCC80;
 }

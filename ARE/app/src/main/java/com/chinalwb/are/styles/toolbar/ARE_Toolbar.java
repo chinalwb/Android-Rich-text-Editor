@@ -16,6 +16,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 
 import com.chinalwb.are.AREditText;
+import com.chinalwb.are.Constants;
 import com.chinalwb.are.R;
 import com.chinalwb.are.styles.ARE_Alignment;
 import com.chinalwb.are.styles.ARE_At;
@@ -293,7 +294,7 @@ public class ARE_Toolbar extends HorizontalScrollView {
 		this.mItalicStyle = new ARE_Italic(this.mItalicImageView);
 		this.mUnderlineStyle = new ARE_Underline(this.mUnderlineImageView);
 		this.mStrikethroughStyle = new ARE_Strikethrough(this.mStrikethroughImageView);
-		this.mBackgroundColoStyle = new ARE_BackgroundColor(this.mBackgroundImageView, Color.GREEN);
+		this.mBackgroundColoStyle = new ARE_BackgroundColor(this.mBackgroundImageView, Color.YELLOW);
 		this.mListNumberStyle = new ARE_ListNumber(this.mRteListNumber);
 		this.mListBulletStyle = new ARE_ListBullet(this.mRteListBullet);
 		this.mIndentRightStyle = new ARE_IndentRight(this.mRteIndentRight);

@@ -64,11 +64,11 @@ public class ARE_BackgroundColor extends ARE_ABS_Style {
 
           BackgroundColorSpan span = spans[0];
           if (null != span) {
-            int italicStart = editable.getSpanStart(span);
-            int italicEnd = editable.getSpanEnd(span);
-            Util.log("italicStart == " + italicStart + ", italicEnd == " + italicEnd);
+            int backgroundStart = editable.getSpanStart(span);
+            int backgroundEnd = editable.getSpanEnd(span);
+            Util.log("backgroundStart == " + backgroundStart + ", backgroundEnd == " + backgroundEnd);
             
-            if (italicStart >= italicEnd) {
+            if (backgroundStart >= backgroundEnd) {
               editable.removeSpan(span);
               
               this.mBackgroundChecked = false;
@@ -99,10 +99,10 @@ public class ARE_BackgroundColor extends ARE_ABS_Style {
             // Make new Strikethrough span, with new START and END settings. 
             // The new START should be the same as before, 
             // the new END should be (N - 1), i.e.: the cursor of typing position - 1.
-            int italicStart = editable.getSpanStart(span);
+            int backgroundStart = editable.getSpanStart(span);
             editable.removeSpan(span);
             int newStrikethroughEnd = start;
-            editable.setSpan(span, italicStart, newStrikethroughEnd, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+            editable.setSpan(span, backgroundStart, newStrikethroughEnd, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
           }
         }
       }
@@ -113,10 +113,10 @@ public class ARE_BackgroundColor extends ARE_ABS_Style {
         if (spans.length > 0) {
           BackgroundColorSpan span = spans[0];
           if (null != span) {
-            int italicStart = editable.getSpanStart(span);
-            int italicEnd = editable.getSpanEnd(span);
+            int backgroundStart = editable.getSpanStart(span);
+            int backgroundEnd = editable.getSpanEnd(span);
             
-            if (italicStart >= italicEnd) {
+            if (backgroundStart >= backgroundEnd) {
               // 
               // Invalid case, this will never happen.
             }

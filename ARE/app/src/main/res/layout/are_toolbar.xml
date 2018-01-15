@@ -70,7 +70,6 @@
             android:layout_height="40dp"
             android:padding="5dp"
             android:src="@drawable/background"
-            android:visibility="gone"
             />
 
         <ImageView
