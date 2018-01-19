@@ -12,7 +12,7 @@ import com.chinalwb.are.Constants;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.spans.AreLeadingMarginSpan;
 
-public class ARE_IndentRight extends ARE_ABS_Style {
+public class ARE_IndentRight extends ARE_ABS_FreeStyle {
 
 	public ARE_IndentRight(ImageView atImageView) {
 		setListenerForImageView(atImageView);

@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import com.chinalwb.are.Constants;
 import com.chinalwb.are.Util;
 
-public class ARE_Alignment extends ARE_ABS_Style {
+public class ARE_Alignment extends ARE_ABS_FreeStyle {
 
 	  private ImageView mAlignmentImageView;
 	  
@@ -109,7 +109,7 @@ public class ARE_Alignment extends ARE_ABS_Style {
 			}
 		}
 	}
-	
+
 	private void markLineAsAlignmentSpan(Alignment alignment) {
 		EditText editText = getEditText();
 		int currentLine = Util.getCurrentCursorLine(editText);
@@ -136,7 +136,5 @@ public class ARE_Alignment extends ARE_ABS_Style {
 	@Override
 	public void setChecked(boolean isChecked) {
 		// TODO Auto-generated method stub
-
 	}
-
 }

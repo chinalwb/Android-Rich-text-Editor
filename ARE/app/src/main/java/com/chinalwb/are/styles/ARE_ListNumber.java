@@ -19,7 +19,7 @@ import com.chinalwb.are.spans.ListNumberSpan;
  * @author Wenbin Liu
  * 
  */
-public class ARE_ListNumber extends ARE_ABS_Style {
+public class ARE_ListNumber extends ARE_ABS_FreeStyle {
 
 	private ImageView mListNumberImageView;
 

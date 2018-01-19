@@ -16,9 +16,9 @@ public interface IARE_Style {
   public void setListenerForImageView(ImageView imageView);
   
   /**
-   * Apply the style to the change start at {@link start} end at {@link end}.
+   * Apply the style to the change start at start end at end.
    * 
-   * @param editText
+   * @param editable
    * @param start
    * @param end
    */
@@ -37,6 +37,13 @@ public interface IARE_Style {
    * @param isChecked
    */
   public void setChecked(boolean isChecked);
+
+  /**
+   * Returns if current style is checked.
+   *
+   * @return
+   */
+  public boolean getIsChecked();
   
   /**
    * Gets the EditText being operated.

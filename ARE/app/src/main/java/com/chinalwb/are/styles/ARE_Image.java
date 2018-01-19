@@ -17,7 +17,7 @@ import com.chinalwb.are.Constants;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
-public class ARE_Image extends ARE_ABS_Style {
+public class ARE_Image extends ARE_ABS_FreeStyle {
 
 	private ImageView mInsertImageView;
 

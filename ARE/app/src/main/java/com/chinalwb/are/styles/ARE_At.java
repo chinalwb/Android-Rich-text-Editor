@@ -11,7 +11,7 @@ import android.widget.ImageView;
 
 import com.chinalwb.are.spans.AtSpan;
 
-public class ARE_At extends ARE_ABS_Style {
+public class ARE_At extends ARE_ABS_FreeStyle {
 
 	public ARE_At(ImageView atImageView) {
 		setListenerForImageView(atImageView);

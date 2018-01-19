@@ -12,7 +12,7 @@ import com.chinalwb.are.R;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.spans.EmojiSpan;
 
-public class ARE_Emoji extends ARE_ABS_Style {
+public class ARE_Emoji extends ARE_ABS_FreeStyle {
 
 	private ImageView mEmojiImageView;
 

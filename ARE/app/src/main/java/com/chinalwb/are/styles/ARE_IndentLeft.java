@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.spans.AreLeadingMarginSpan;
 
-public class ARE_IndentLeft extends ARE_ABS_Style {
+public class ARE_IndentLeft extends ARE_ABS_FreeStyle {
 
 	public ARE_IndentLeft(ImageView atImageView) {
 		setListenerForImageView(atImageView);

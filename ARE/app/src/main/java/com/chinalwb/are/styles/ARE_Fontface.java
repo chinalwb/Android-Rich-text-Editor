@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import com.chinalwb.are.Constants;
 import com.chinalwb.are.spans.MyTypefaceSpan;
 
-public class ARE_Fontface extends ARE_ABS_Style {
+public class ARE_Fontface extends ARE_ABS_FreeStyle {
 
 	private ImageView mFontfaceImageView;
 

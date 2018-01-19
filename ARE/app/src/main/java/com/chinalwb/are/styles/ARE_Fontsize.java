@@ -11,7 +11,7 @@ import android.widget.ImageView;
 
 import com.chinalwb.are.Constants;
 
-public class ARE_Fontsize extends ARE_ABS_Style {
+public class ARE_Fontsize extends ARE_ABS_FreeStyle {
 
 	private ImageView mFontsizeImageView;
 
