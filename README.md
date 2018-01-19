@@ -37,7 +37,7 @@ Supported styles:
 
 Released [v0.0.1](https://github.com/chinalwb/are/releases/tag/v0.0.1), plan for v0.0.2, will be before 2018-02-28:
 -----------------
-* Background color - Added basic implementation
+* Background color - Done
 * Hyper link
 * @
 * Save as HTML file
