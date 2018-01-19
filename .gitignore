@@ -4,11 +4,10 @@ ARE/bin/res/crunch/drawable-hdpi/image.png
 ARE/bin/res/crunch/drawable-hdpi/ic_launcher.png
 ARE/bin/*
 *.keystore
-ARE/res/.DS_Store
-ARE/res/layout/.DS_Store
-ARE/libs/.DS_Store
-ARE/.DS_Store
+*/**/.DS_Store
 ARE/.gradle
 ARE/.idea
-ARE/app
 ARE/build
+ARE/app/build
+ARE/app/src/main/.DS_Store
+*.swp
