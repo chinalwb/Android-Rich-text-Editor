@@ -73,6 +73,14 @@
             />
 
         <ImageView
+            android:id="@+id/rteLink"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_insert_link_black_48dp"
+            />
+
+        <ImageView
             android:id="@+id/rteListNumber"
             android:layout_width="40dp"
             android:layout_height="40dp"
