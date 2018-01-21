@@ -77,5 +77,7 @@ You can download the APK here:
 
 [Click ARE_20180114_0.0.1.apk to download](https://github.com/chinalwb/are/blob/master/ARE/demo/ARE_20180114_0.0.1.apk)
 
+Known issues:
+* Background color - cursor invisible when put it in the range of BackgroundColorSpan
 -------------------
 You can contact me at 329055754@qq.com if you need any customization or any suggestion.
