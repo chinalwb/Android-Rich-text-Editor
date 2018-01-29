@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.Image;
 import android.net.Uri;
 import android.text.Layout.Alignment;
 import android.util.AttributeSet;
@@ -29,6 +30,7 @@ import com.chinalwb.are.styles.ARE_Image;
 import com.chinalwb.are.styles.ARE_IndentLeft;
 import com.chinalwb.are.styles.ARE_IndentRight;
 import com.chinalwb.are.styles.ARE_Italic;
+import com.chinalwb.are.styles.ARE_Link;
 import com.chinalwb.are.styles.ARE_ListBullet;
 import com.chinalwb.are.styles.ARE_ListNumber;
 import com.chinalwb.are.styles.ARE_Strikethrough;
@@ -92,6 +94,11 @@ public class ARE_Toolbar extends HorizontalScrollView {
 	 * Background color Style
 	 */
 	private ARE_BackgroundColor mBackgroundColoStyle;
+
+	/**
+	 * Link Style
+	 */
+	private ARE_Link mLinkStyle;
 
 	/**
 	 * List number Style
@@ -179,6 +186,11 @@ public class ARE_Toolbar extends HorizontalScrollView {
 	private ImageView mBackgroundImageView;
 
 	/**
+	 * Add link button.
+	 */
+	private ImageView mLinkImageView;
+
+	/**
 	 * List number button.
 	 */
 	private ImageView mRteListNumber;
@@ -263,6 +275,8 @@ public class ARE_Toolbar extends HorizontalScrollView {
 
 		this.mBackgroundImageView = (ImageView) this.findViewById(R.id.rteBackground);
 
+		this.mLinkImageView = (ImageView) this.findViewById(R.id.rteLink);
+
 		this.mRteListNumber = (ImageView) this.findViewById(R.id.rteListNumber);
 
 		this.mRteListBullet = (ImageView) this.findViewById(R.id.rteListBullet);
@@ -295,6 +309,7 @@ public class ARE_Toolbar extends HorizontalScrollView {
 		this.mUnderlineStyle = new ARE_Underline(this.mUnderlineImageView);
 		this.mStrikethroughStyle = new ARE_Strikethrough(this.mStrikethroughImageView);
 		this.mBackgroundColoStyle = new ARE_BackgroundColor(this.mBackgroundImageView, Color.YELLOW);
+		this.mLinkStyle = new ARE_Link(this.mLinkImageView);
 		this.mListNumberStyle = new ARE_ListNumber(this.mRteListNumber);
 		this.mListBulletStyle = new ARE_ListBullet(this.mRteListBullet);
 		this.mIndentRightStyle = new ARE_IndentRight(this.mRteIndentRight);
@@ -313,6 +328,7 @@ public class ARE_Toolbar extends HorizontalScrollView {
 		this.mStylesList.add(this.mUnderlineStyle);
 		this.mStylesList.add(this.mStrikethroughStyle);
 		this.mStylesList.add(this.mBackgroundColoStyle);
+		this.mStylesList.add(this.mLinkStyle);
 		this.mStylesList.add(this.mListNumberStyle);
 		this.mStylesList.add(this.mListBulletStyle);
 		this.mStylesList.add(this.mIndentRightStyle);
@@ -339,6 +355,7 @@ public class ARE_Toolbar extends HorizontalScrollView {
 		this.mUnderlineStyle.setEditText(this.mEditText);
 		this.mStrikethroughStyle.setEditText(this.mEditText);
 		this.mBackgroundColoStyle.setEditText(this.mEditText);
+		this.mLinkStyle.setEditText(this.mEditText);
 	}
 	
 	public EditText getEditText() {
