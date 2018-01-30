@@ -103,7 +103,7 @@ public class ARE_Link extends ARE_ABS_FreeStyle {
             int start = mEditText.getSelectionStart();
             int end = mEditText.getSelectionEnd();
             if (start == end) {
-                editable.append(url);
+                editable.insert(start, url);
                 end = start + url.length();
             }
             editable.setSpan(new URLSpan(url), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
