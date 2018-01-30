@@ -9,7 +9,7 @@ It's still in progress now, but I believe it will be (one of the) best open sour
 
 This is implemented by Java
 
- ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/demo2.gif)
+ ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/demo3.gif)
  
 Release 0.0.1:
 * Editing at ARE:
