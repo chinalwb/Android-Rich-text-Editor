@@ -80,4 +80,5 @@ You can download the APK here:
 Known issues:
 * Background color - cursor invisible when put it in the range of BackgroundColorSpan
 -------------------
+Your * encourages me to make more features open source, thanks for your support.
 You can contact me at 329055754@qq.com if you need any customization or any suggestion.
