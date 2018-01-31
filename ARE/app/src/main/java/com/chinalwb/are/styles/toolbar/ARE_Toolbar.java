@@ -318,7 +318,7 @@ public class ARE_Toolbar extends HorizontalScrollView {
 		this.mAlignCenter = new ARE_Alignment(this.mRteAlignCenter, Alignment.ALIGN_CENTER);
 		this.mAlignRight = new ARE_Alignment(this.mRteAlignRight, Alignment.ALIGN_OPPOSITE);
 		this.mImageStyle = new ARE_Image(this.mRteInsertImage);
-		this.mAtStyle = new ARE_At(this.mRteAtImage);
+		this.mAtStyle = new ARE_At();
 
 		this.mStylesList.add(this.mEmojiStyle);
 		this.mStylesList.add(this.mFontsizeStyle);
