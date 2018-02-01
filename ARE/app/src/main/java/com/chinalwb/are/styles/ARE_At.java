@@ -50,19 +50,26 @@ public class ARE_At extends ARE_ABS_FreeStyle {
 	@Override
 	public void applyStyle(Editable editable, int start, int end) {
 		AtSpan[] atSpans = editable.getSpans(0, editable.length(), AtSpan.class);
-		int lastAtSpanEnd = -1;
+		int lastAtPos = -1;
 		if (atSpans != null && atSpans.length > 0) {
 			AtSpan lastAtSpan = atSpans[atSpans.length - 1];
-			lastAtSpanEnd = editable.getSpanEnd(lastAtSpan);
+			int lastAtSpanEnd = editable.getSpanEnd(lastAtSpan);
+			if (lastAtSpanEnd > -1) {
+				String stringBehindLastAtSpan = editable.toString().substring(lastAtSpanEnd);
+				int tmp = stringBehindLastAtSpan.lastIndexOf(AT);
+				if (tmp > -1) {
+					lastAtPos = lastAtSpanEnd + tmp;
+				}
+			}
 		}
-		if (lastAtSpanEnd == -1) {
-			lastAtSpanEnd = editable.toString().lastIndexOf(AT);
+		if (lastAtPos == -1) {
+			lastAtPos = editable.toString().lastIndexOf(AT);
 		}
-		if (lastAtSpanEnd == -1) {
+		if (lastAtPos == -1) {
 			return;
 		}
 
-		String searchString = editable.subSequence(lastAtSpanEnd, end).toString();
+		String searchString = editable.subSequence(lastAtPos, end).toString();
 		System.out.println("search string == " + searchString);
 	}
 
