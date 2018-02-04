@@ -1,5 +1,7 @@
 package com.chinalwb.are.styles;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.text.Editable;
 import android.text.Spannable;
@@ -9,7 +11,9 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.chinalwb.are.activities.Are_AtPickerActivity;
 import com.chinalwb.are.spans.AtSpan;
+import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
 public class ARE_At extends ARE_ABS_FreeStyle {
 
@@ -49,28 +53,18 @@ public class ARE_At extends ARE_ABS_FreeStyle {
 
 	@Override
 	public void applyStyle(Editable editable, int start, int end) {
-		AtSpan[] atSpans = editable.getSpans(0, editable.length(), AtSpan.class);
-		int lastAtPos = -1;
-		if (atSpans != null && atSpans.length > 0) {
-			AtSpan lastAtSpan = atSpans[atSpans.length - 1];
-			int lastAtSpanEnd = editable.getSpanEnd(lastAtSpan);
-			if (lastAtSpanEnd > -1) {
-				String stringBehindLastAtSpan = editable.toString().substring(lastAtSpanEnd);
-				int tmp = stringBehindLastAtSpan.lastIndexOf(AT);
-				if (tmp > -1) {
-					lastAtPos = lastAtSpanEnd + tmp;
-				}
+		if (end > start) {
+			String typeString = editable.toString().substring(start, end);
+			if (typeString.equals(AT)) {
+				// Open contacts list
+				openAtPicker();
 			}
 		}
-		if (lastAtPos == -1) {
-			lastAtPos = editable.toString().lastIndexOf(AT);
-		}
-		if (lastAtPos == -1) {
-			return;
-		}
+	}
 
-		String searchString = editable.subSequence(lastAtPos, end).toString();
-		System.out.println("search string == " + searchString);
+	private void openAtPicker() {
+		Intent intent = new Intent(this.mContext, Are_AtPickerActivity.class);
+		((Activity) this.mContext).startActivityForResult(intent, 1);
 	}
 
 	@Override
