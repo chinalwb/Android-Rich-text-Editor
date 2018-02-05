@@ -143,7 +143,7 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
 								editable.removeSpan(previousListItemSpan);
 								editable.setSpan(previousListItemSpan, pStart,
 										pEnd - 1,
-										Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+										Spannable.SPAN_INCLUSIVE_INCLUSIVE);
 							}
 
 							int previousNumber = previousListItemSpan
@@ -266,7 +266,7 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
 							editable.removeSpan(previousListSpan);
 							editable.setSpan(previousListSpan,
 									lastListItemSpanStartPos, end - 1,
-									Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+									Spanned.SPAN_INCLUSIVE_INCLUSIVE);
 						}
 					}
 					int lastListItemNumber = previousListSpan.getNumber();
@@ -302,6 +302,9 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
 				reNumberBehindListItemSpans(spanStart, editable,
 						removedNumber - 1);
 			} else {
+				if (start > spanStart && end < spanEnd) {
+					return;
+				}
 				//
 				// Handle this case:
 				// 1. A
@@ -332,9 +335,9 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
 			int se = editable.getSpanEnd(span);
 			Util.log("List All: " + span.getNumber() + " :: start == " + ss
 					+ ", end == " + se);
-			for (int i = ss; i< se; i++) {
-				Util.log("char at " + i + " = " + editable.charAt(i));
-			}
+//			for (int i = ss; i< se; i++) {
+//				Util.log("char at " + i + " = " + editable.charAt(i));
+//			}
 		}
 	}
 
