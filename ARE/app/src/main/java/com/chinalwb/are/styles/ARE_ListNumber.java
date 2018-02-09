@@ -404,16 +404,16 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
         for (ListNumberSpan lns : compositeSpans) {
             editable.removeSpan(lns);
         }
-        if (targetEnd == 12) {
-            Util.log("merge remove list span");
-            logAllListItems(editable);
-        }
+//        if (targetEnd == 12) {
+//            Util.log("merge remove list span");
+//            logAllListItems(editable);
+//        }
         editable.setSpan(listSpan, spanStart, spanEnd,
                     Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         Util.log("merge span start == " + spanStart + " end == " + spanEnd);
-        if (spanEnd == 12) {
-            logAllListItems(editable);
-        }
+//        if (spanEnd == 12) {
+//            logAllListItems(editable);
+//        }
         int removedNumber = targetSpans[0].getNumber();
         reNumberBehindListItemSpans(spanEnd + 1, editable,
                 removedNumber - 1);
@@ -427,13 +427,13 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
             int se = editable.getSpanEnd(span);
             Util.log("List All: " + span.getNumber() + " :: start == " + ss
                     + ", end == " + se);
-       for (int i = ss; i < se; i++) {
-         Util.log("char at " + i + " = " + editable.charAt(i) + " int = " + ((int) (editable.charAt(i))));
-       }
-
-       if (editable.length() > se) {
-              Util.log("char at " + se + " = " + editable.charAt(se)+ " int = " + ((int) (editable.charAt(se))));
-       }
+//       for (int i = ss; i < se; i++) {
+//         Util.log("char at " + i + " = " + editable.charAt(i) + " int = " + ((int) (editable.charAt(i))));
+//       }
+//
+//       if (editable.length() > se) {
+//              Util.log("char at " + se + " = " + editable.charAt(se)+ " int = " + ((int) (editable.charAt(se))));
+//       }
         }
     }
 
