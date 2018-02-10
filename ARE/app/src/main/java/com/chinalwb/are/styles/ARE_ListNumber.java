@@ -8,13 +8,10 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.chinalwb.are.AREditText;
 import com.chinalwb.are.Constants;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.spans.ListBulletSpan;
 import com.chinalwb.are.spans.ListNumberSpan;
-
-import java.util.List;
 
 /**
  * All Rights Reserved.
@@ -318,7 +315,10 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
                 int removedNumber = theFirstSpan.getNumber();
                 reNumberBehindListItemSpans(spanStart, editable,
                         removedNumber - 1);
-            } else if (start == spanEnd) {
+            } else if (start == spanStart) {
+                Util.log("case 2");
+            } else if (start == spanEnd
+                    && (editable.length() > start && editable.charAt(start) != Constants.CHAR_NEW_LINE)) {
                 Util.log("case 3");
                 //
                 // User deletes the first char of the span
@@ -374,25 +374,8 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
             return;
         }
 
-        ListNumberSpan firstTargetSpan = targetSpans[0];
-        ListNumberSpan lastTargetSpan = targetSpans[0];
-        if (targetSpans.length > 1) {
-            int firstTargetSpanNumber = firstTargetSpan.getNumber();
-            int lastTargetSpanNumber = lastTargetSpan.getNumber();
-            for (ListNumberSpan lns : targetSpans) {
-                int lnsNumber = lns.getNumber();
-                if (lnsNumber < firstTargetSpanNumber) {
-                    firstTargetSpan = lns;
-                    firstTargetSpanNumber = lnsNumber;
-                }
-                if (lnsNumber > lastTargetSpanNumber) {
-                    lastTargetSpan = lns;
-                    lastTargetSpanNumber = lnsNumber;
-                }
-            }
-        }
-        int targetStart = editable.getSpanStart(firstTargetSpan);
-        int targetEnd = editable.getSpanEnd(lastTargetSpan);
+        int targetStart = editable.getSpanStart(targetSpans[0]);
+        int targetEnd = editable.getSpanEnd(targetSpans[0]);
         Util.log("merge to remove span start == " + targetStart + ", target end = " + targetEnd + ", target number = " + targetSpans[0].getNumber());
 
         int targetLength = targetEnd - targetStart;
@@ -404,19 +387,10 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
         for (ListNumberSpan lns : compositeSpans) {
             editable.removeSpan(lns);
         }
-//        if (targetEnd == 12) {
-//            Util.log("merge remove list span");
-//            logAllListItems(editable);
-//        }
         editable.setSpan(listSpan, spanStart, spanEnd,
                     Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         Util.log("merge span start == " + spanStart + " end == " + spanEnd);
-//        if (spanEnd == 12) {
-//            logAllListItems(editable);
-//        }
-        int removedNumber = targetSpans[0].getNumber();
-        reNumberBehindListItemSpans(spanEnd + 1, editable,
-                removedNumber - 1);
+        reNumberBehindListItemSpans(spanEnd + 1, editable, listSpan.getNumber());
     }
 
     private void logAllListItems(Editable editable) {
