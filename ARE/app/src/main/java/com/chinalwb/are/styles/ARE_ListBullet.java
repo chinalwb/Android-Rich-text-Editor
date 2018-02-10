@@ -145,7 +145,7 @@ public class ARE_ListBullet extends ARE_ABS_FreeStyle {
 								editable.removeSpan(previousListItemSpan);
 								editable.setSpan(previousListItemSpan, pStart,
 										pEnd - 1,
-										Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+										Spannable.SPAN_INCLUSIVE_INCLUSIVE);
 							}
 
 							makeLineAsBullet();
@@ -240,7 +240,7 @@ public class ARE_ListBullet extends ARE_ABS_FreeStyle {
 							editable.removeSpan(previousListSpan);
 							editable.setSpan(previousListSpan,
 									lastListItemSpanStartPos, end - 1,
-									Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+									Spanned.SPAN_INCLUSIVE_INCLUSIVE);
 						}
 					}
 					makeLineAsBullet();
@@ -249,11 +249,15 @@ public class ARE_ListBullet extends ARE_ABS_FreeStyle {
 		} else {
 			//
 			// User deletes
-			int spanStart = editable.getSpanStart(listSpans[0]);
-			int spanEnd = editable.getSpanEnd(listSpans[0]);
+			ListBulletSpan theFirstSpan = listSpans[0];
+			if (listSpans.length > 0) {
+				FindFirstAndLastBulletSpan findFirstAndLastBulletSpan = new FindFirstAndLastBulletSpan(editable, listSpans).invoke();
+				theFirstSpan = findFirstAndLastBulletSpan.getFirstTargetSpan();
+			}
+			int spanStart = editable.getSpanStart(theFirstSpan);
+			int spanEnd = editable.getSpanEnd(theFirstSpan);
 
-			Util.log("Delete spanStart = " + spanStart + ", spanEnd = "
-					+ spanEnd);
+			Util.log("Delete spanStart = " + spanStart + ", spanEnd = " + spanEnd);
 
 			if (spanStart >= spanEnd) {
 				//
@@ -267,11 +271,77 @@ public class ARE_ListBullet extends ARE_ABS_FreeStyle {
 				if (spanStart > 0) {
 					editable.delete(spanStart - 1, spanEnd);
 				}
+			} else if (start == spanStart) {
+				return;
+			} else if (start == spanEnd) {
+				Util.log("case 3");
+				//
+				// User deletes the first char of the span
+				// So we think he wants to remove the span
+				if (editable.length() > start) {
+					if (editable.charAt(start) == Constants.CHAR_NEW_LINE) {
+						// The error case to handle
+						Util.log("case 3-1");
+						ListBulletSpan[] spans = editable.getSpans(start, start, ListBulletSpan.class);
+						Util.log(" spans len == " + spans.length);
+						if (spans.length > 1) {
+							mergeForward(editable, theFirstSpan, spanStart, spanEnd);
+						}
+					} else {
+						mergeForward(editable, theFirstSpan, spanStart, spanEnd);
+					}
+				}
+			} else if (start > spanStart && end < spanEnd) {
+				//
+				// Handle this case:
+				// *. AAA1
+				// *. BBB2
+				// *. CCC3
+				//
+				// User deletes '1' / '2' / '3'
+				// Or any other character inside of a span
+				//
+				// For this case we won't need do anything
+				// As we need to keep the span styles as they are
+				return;
 			}
 		}
 
 		logAllBulletListItems(editable);
 	} // # End of applyStyle(..)
+
+	protected void mergeForward(Editable editable, ListBulletSpan listSpan, int spanStart, int spanEnd) {
+		Util.log("merge forward 1");
+		if (editable.length() <= spanEnd + 1) {
+			return;
+		}
+		Util.log("merge forward 2");
+		ListBulletSpan[] targetSpans = editable.getSpans(
+				spanEnd, spanEnd + 1, ListBulletSpan.class);
+		if (targetSpans == null || targetSpans.length == 0) {
+			return;
+		}
+
+		FindFirstAndLastBulletSpan findFirstAndLastBulletSpan = new FindFirstAndLastBulletSpan(editable, targetSpans).invoke();
+		ListBulletSpan firstTargetSpan = findFirstAndLastBulletSpan.getFirstTargetSpan();
+		ListBulletSpan lastTargetSpan = findFirstAndLastBulletSpan.getLastTargetSpan();
+		int targetStart = editable.getSpanStart(firstTargetSpan);
+		int targetEnd = editable.getSpanEnd(lastTargetSpan);
+		Util.log("merge to remove span start == " + targetStart + ", target end = " + targetEnd);
+
+		int targetLength = targetEnd - targetStart;
+		spanEnd = spanEnd + targetLength;
+
+		for (ListBulletSpan targetSpan : targetSpans) {
+			editable.removeSpan(targetSpan);
+		}
+		ListBulletSpan[] compositeSpans = editable.getSpans(spanStart, spanEnd, ListBulletSpan.class);
+		for (ListBulletSpan lns : compositeSpans) {
+			editable.removeSpan(lns);
+		}
+		editable.setSpan(listSpan, spanStart, spanEnd, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+		Util.log("merge span start == " + spanStart + " end == " + spanEnd);
+	}
 
 	private void logAllBulletListItems(Editable editable) {
 		ListBulletSpan[] listItemSpans = editable.getSpans(0,
@@ -400,4 +470,45 @@ public class ARE_ListBullet extends ARE_ABS_FreeStyle {
 		// Do nothing
 	}
 
+	private class FindFirstAndLastBulletSpan {
+		private Editable editable;
+		private ListBulletSpan[] targetSpans;
+		private ListBulletSpan firstTargetSpan;
+		private ListBulletSpan lastTargetSpan;
+
+		public FindFirstAndLastBulletSpan(Editable editable, ListBulletSpan... targetSpans) {
+			this.editable = editable;
+			this.targetSpans = targetSpans;
+		}
+
+		public ListBulletSpan getFirstTargetSpan() {
+			return firstTargetSpan;
+		}
+
+		public ListBulletSpan getLastTargetSpan() {
+			return lastTargetSpan;
+		}
+
+		public FindFirstAndLastBulletSpan invoke() {
+			firstTargetSpan = targetSpans[0];
+			lastTargetSpan = targetSpans[0];
+			if (targetSpans.length > 0) {
+                int firstTargetSpanStart = editable.getSpanStart(firstTargetSpan);
+                int lastTargetSpanEnd = editable.getSpanEnd(firstTargetSpan);
+                for (ListBulletSpan lns : targetSpans) {
+                    int lnsStart = editable.getSpanStart(lns);
+                    int lnsEnd = editable.getSpanEnd(lns);
+                    if (lnsStart < firstTargetSpanStart) {
+                        firstTargetSpan = lns;
+                        firstTargetSpanStart = lnsStart;
+                    }
+                    if (lnsEnd > lastTargetSpanEnd) {
+                        lastTargetSpan = lns;
+                        lastTargetSpanEnd = lnsEnd;
+                    }
+                }
+            }
+			return this;
+		}
+	}
 }

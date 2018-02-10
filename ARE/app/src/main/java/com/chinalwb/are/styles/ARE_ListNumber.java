@@ -13,6 +13,8 @@ import com.chinalwb.are.Util;
 import com.chinalwb.are.spans.ListBulletSpan;
 import com.chinalwb.are.spans.ListNumberSpan;
 
+import java.util.List;
+
 /**
  * All Rights Reserved.
  *
@@ -317,13 +319,25 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
                         removedNumber - 1);
             } else if (start == spanStart) {
                 Util.log("case 2");
-            } else if (start == spanEnd
-                    && (editable.length() > start && editable.charAt(start) != Constants.CHAR_NEW_LINE)) {
+                return;
+            } else if (start == spanEnd) {
                 Util.log("case 3");
                 //
                 // User deletes the first char of the span
                 // So we think he wants to remove the span
-                mergeForward(editable, theFirstSpan, spanStart, spanEnd);
+                if (editable.length() > start) {
+                    if (editable.charAt(start) == Constants.CHAR_NEW_LINE) {
+                        // The error case to handle
+                        Util.log("case 3-1");
+                        ListNumberSpan[] spans = editable.getSpans(start, start, ListNumberSpan.class);
+                        Util.log(" spans len == " + spans.length);
+                        if (spans.length > 1) {
+                            mergeForward(editable, theFirstSpan, spanStart, spanEnd);
+                        }
+                    } else {
+                        mergeForward(editable, theFirstSpan, spanStart, spanEnd);
+                    }
+                }
             } else if (start > spanStart && end < spanEnd) {
                 Util.log("case 4");
                 //
@@ -340,6 +354,9 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
                 return;
             } else {
                 Util.log("case X");
+                if (editable.length() > start) {
+                    Util.log("start char == " + (int) editable.charAt(start));
+                }
                 //
                 // Handle this case:
                 // 1. A
@@ -369,14 +386,31 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
         }
         Util.log("merge forward 2");
         ListNumberSpan[] targetSpans = editable.getSpans(
-                spanEnd + 1, spanEnd + 1, ListNumberSpan.class);
+                spanEnd, spanEnd + 1, ListNumberSpan.class);
         if (targetSpans == null || targetSpans.length == 0) {
             return;
         }
 
-        int targetStart = editable.getSpanStart(targetSpans[0]);
-        int targetEnd = editable.getSpanEnd(targetSpans[0]);
-        Util.log("merge to remove span start == " + targetStart + ", target end = " + targetEnd + ", target number = " + targetSpans[0].getNumber());
+        ListNumberSpan firstTargetSpan = targetSpans[0];
+        ListNumberSpan lastTargetSpan = targetSpans[0];
+        if (targetSpans.length > 0) {
+            int firstTargetSpanNumber = firstTargetSpan.getNumber();
+            int lastTargetSpanNumber = lastTargetSpan.getNumber();
+            for (ListNumberSpan lns : targetSpans) {
+                int lnsNumber = lns.getNumber();
+                if (lnsNumber < firstTargetSpanNumber) {
+                    firstTargetSpan = lns;
+                    firstTargetSpanNumber = lnsNumber;
+                }
+                if (lnsNumber > lastTargetSpanNumber) {
+                    lastTargetSpan = lns;
+                    lastTargetSpanNumber = lnsNumber;
+                }
+            }
+        }
+        int targetStart = editable.getSpanStart(firstTargetSpan);
+        int targetEnd = editable.getSpanEnd(lastTargetSpan);
+        Util.log("merge to remove span start == " + targetStart + ", target end = " + targetEnd + ", target number = " + firstTargetSpan.getNumber());
 
         int targetLength = targetEnd - targetStart;
         spanEnd = spanEnd + targetLength;
@@ -390,7 +424,7 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
         editable.setSpan(listSpan, spanStart, spanEnd,
                     Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         Util.log("merge span start == " + spanStart + " end == " + spanEnd);
-        reNumberBehindListItemSpans(spanEnd + 1, editable, listSpan.getNumber());
+        reNumberBehindListItemSpans(spanEnd, editable, listSpan.getNumber());
     }
 
     private void logAllListItems(Editable editable) {
