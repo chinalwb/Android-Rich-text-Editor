@@ -160,4 +160,26 @@ public class Util {
 	 widthAndHeight[1] = outSize.y;
 	 return widthAndHeight;
   }
+
+  /**
+   * Returns the color in string format.
+   *
+   * @param intColor
+   * @param containsAlphaChannel
+   * @param removeAlphaFromResult
+   * @return
+   */
+  public static String colorToString(int intColor, boolean containsAlphaChannel, boolean removeAlphaFromResult) {
+    String strColor = String.format("#%06X", 0xFFFFFF & intColor);
+    if (containsAlphaChannel) {
+      strColor = String.format("#%06X", 0xFFFFFFFF & intColor);
+      if (removeAlphaFromResult) {
+        StringBuffer buffer = new StringBuffer(strColor);
+        buffer.delete(1, 3);
+        strColor = buffer.toString();
+      }
+    }
+
+    return strColor;
+  }
 }

@@ -4,24 +4,36 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.text.Editable;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.EditText;
+import android.text.Spanned;
 import android.widget.ImageView;
 
+import com.chinalwb.are.AREditText;
 import com.chinalwb.are.activities.Are_AtPickerActivity;
-import com.chinalwb.are.spans.AtSpan;
+import com.chinalwb.are.models.AtItem;
+import com.chinalwb.are.spans.AreAtSpan;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
 public class ARE_At extends ARE_ABS_FreeStyle {
 
+	public static final String EXTRA_TAG = "atItem";
+
 	private static final String AT = "@";
+
+	private static int AT_INSERT_POS = -1;
+
+	private AREditText mEditText;
 
 	public ARE_At() {
 
 	}
+
+	/**
+	 * @param editText
+	 */
+	public void setEditText(AREditText editText) {
+		this.mEditText = editText;
+	}
+
 //	public ARE_At(ImageView atImageView) {
 //		setListenerForImageView(atImageView);
 //	}
@@ -58,13 +70,25 @@ public class ARE_At extends ARE_ABS_FreeStyle {
 			if (typeString.equals(AT)) {
 				// Open contacts list
 				openAtPicker();
+				AT_INSERT_POS = end;
 			}
 		}
 	}
 
 	private void openAtPicker() {
 		Intent intent = new Intent(this.mContext, Are_AtPickerActivity.class);
-		((Activity) this.mContext).startActivityForResult(intent, 1);
+		((Activity) this.mContext).startActivityForResult(intent, ARE_Toolbar.REQ_AT);
+	}
+
+	public void insertAt(AtItem atItem) {
+		if (null == this.mEditText) { return; }
+		int color = Color.BLUE;
+		if (atItem.mName.startsWith("Steve")) { // For demo purpose
+			color = Color.MAGENTA;
+		}
+		AreAtSpan atSpan = new AreAtSpan(atItem, color);
+		this.mEditText.getEditableText().insert(AT_INSERT_POS, atItem.mName);
+		this.mEditText.getEditableText().setSpan(atSpan, AT_INSERT_POS - 1, AT_INSERT_POS + atItem.mName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 	}
 
 	@Override

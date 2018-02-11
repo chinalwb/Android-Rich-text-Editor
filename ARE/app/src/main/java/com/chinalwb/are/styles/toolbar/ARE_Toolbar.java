@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import com.chinalwb.are.AREditText;
 import com.chinalwb.are.Constants;
 import com.chinalwb.are.R;
+import com.chinalwb.are.models.AtItem;
 import com.chinalwb.are.styles.ARE_Alignment;
 import com.chinalwb.are.styles.ARE_At;
 import com.chinalwb.are.styles.ARE_BackgroundColor;
@@ -45,6 +46,11 @@ public class ARE_Toolbar extends HorizontalScrollView {
 	 * Request code for selecting an image.
 	 */
 	public static final int REQ_IMAGE = 1;
+
+	/**
+	 * Request code for choosing a people to @.
+	 */
+	public static final int REQ_AT = 2;
 	
 	private Context mContext;
 	
@@ -356,6 +362,7 @@ public class ARE_Toolbar extends HorizontalScrollView {
 		this.mStrikethroughStyle.setEditText(this.mEditText);
 		this.mBackgroundColoStyle.setEditText(this.mEditText);
 		this.mLinkStyle.setEditText(this.mEditText);
+		this.mAtStyle.setEditText(this.mEditText);
 	}
 	
 	public EditText getEditText() {
@@ -392,6 +399,10 @@ public class ARE_Toolbar extends HorizontalScrollView {
 			if (REQ_IMAGE == requestCode) {
 				Uri uri = data.getData();
 				this.mImageStyle.insertImage(uri);
+			} else if (REQ_AT == requestCode) {
+				AtItem atItem = (AtItem) data.getSerializableExtra(ARE_At.EXTRA_TAG);
+				if (null == atItem) { return; }
+				this.mAtStyle.insertAt(atItem);
 			}
 		}
 	}

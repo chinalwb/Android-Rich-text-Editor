@@ -63,6 +63,7 @@ import android.text.style.UnderlineSpan;
 
 import com.chinalwb.are.R;
 import com.chinalwb.are.Util;
+import com.chinalwb.are.spans.ARE_Span;
 import com.chinalwb.are.spans.AreListSpan;
 import com.chinalwb.are.spans.ListNumberSpan;
 
@@ -608,6 +609,10 @@ public class Html {
                     out.append("\">");
 
                     // Don't output the dummy character underlying the image.
+                    i = next;
+                }
+                if (style[j] instanceof ARE_Span) {
+                    out.append(((ARE_Span) style[j]).getHtml());
                     i = next;
                 }
                 if (style[j] instanceof AbsoluteSizeSpan) {

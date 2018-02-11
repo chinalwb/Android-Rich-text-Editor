@@ -1,14 +1,19 @@
 package com.chinalwb.are.activities;
 
+import android.app.Activity;
 import android.content.ClipData;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.chinalwb.are.R;
 import com.chinalwb.are.adapters.AtListAdapter;
 import com.chinalwb.are.models.AtItem;
+import com.chinalwb.are.styles.ARE_At;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +26,15 @@ public class Are_AtPickerActivity extends AppCompatActivity {
 
     private ListView mListView;
 
+    private ArrayList<AtItem> mAtItems;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.are_activity_at_picker);
         this.mListView = this.findViewById(R.id.are_view_at_listview);
         setTitle("@");
+        setupListeners();
     }
 
     @Override
@@ -38,6 +46,19 @@ public class Are_AtPickerActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    private void setupListeners() {
+        this.mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AtItem atItem = mAtItems.get(position);
+                Intent data = new Intent();
+                data.putExtra(ARE_At.EXTRA_TAG, atItem);
+                Are_AtPickerActivity.this.setResult(Activity.RESULT_OK, data);
+                Are_AtPickerActivity.this.finish();
+            }
+        });
     }
 
     private void prepareData() {
@@ -53,7 +74,7 @@ public class Are_AtPickerActivity extends AppCompatActivity {
             listAdapter.setData(itemsList);
             listAdapter.notifyDataSetChanged();
         }
-
+        this.mAtItems = itemsList;
     }
 
     private ArrayList<AtItem> makeDummyData() {
