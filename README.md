@@ -39,7 +39,7 @@ Released [v0.0.1](https://github.com/chinalwb/are/releases/tag/v0.0.1), plan for
 -----------------
 * Background color - Done
 * Hyper link - Done
-* @
+* @ - Done
 * Save as HTML file
 
 Plan for v0.0.3, target on 2018-03-31:
