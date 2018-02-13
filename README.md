@@ -32,15 +32,11 @@ Supported styles:
 * Align center
 * Align right
 * Insert image
-
-
-
-Released [v0.0.1](https://github.com/chinalwb/are/releases/tag/v0.0.1), plan for v0.0.2, will be before 2018-02-28:
------------------
-* Background color - Done
-* Hyper link - Done
-* @ - Done
-* Save as HTML file
+* Background color - NEW in 0.0.2
+* Hyper link - NEW in 0.0.2
+* @ - NEW in 0.0.2
+* All styles support save as HTML file
+* Ehancements on ordered list and bullet list editing
 
 Demo for @ feature:
 -----------------
@@ -50,25 +46,22 @@ Demo for @ feature:
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/at_demo_html.png)
 
 
-Plan for v0.0.3, target on 2018-03-31:
+Released [v0.0.2](https://github.com/chinalwb/are/releases/tag/v0.0.2) Plan for v0.0.3, target on 2018-03-31:
 -----------------
-* Indent right
-* Indent left
+
 * Quote
-* Save as HTML file
+* Emoji icon
+* Foreground color
 
 In progress items:
 -----------------
-* Background color
-* Hyper link
-* @
-* Indent right
-* Indent left
 * Quote
 * Emoji icon
+* Foreground color
 * Font size
 * Font family
-* Foreground color
+* Indent right
+* Indent left
 
 
 How to use?
