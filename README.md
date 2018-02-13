@@ -42,6 +42,14 @@ Released [v0.0.1](https://github.com/chinalwb/are/releases/tag/v0.0.1), plan for
 * @ - Done
 * Save as HTML file
 
+Demo for @ feature:
+-----------------
+ ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/at_demo.gif)
+ 
+@ demo html:
+ ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/at_demo_html.png)
+
+
 Plan for v0.0.3, target on 2018-03-31:
 -----------------
 * Indent right
