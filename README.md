@@ -1,5 +1,5 @@
 # ARE
-Android Rich text Editor (Android 富文本编辑器)
+Android Rich text Editor (中文说明见这里：)
 ===================
 > (In order to make it better match the search key word: android rich text editor, I renamed it from ARE to Android Rich text Editor)
 
