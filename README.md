@@ -1,5 +1,5 @@
 # ARE
-Android Rich text Editor
+Android Rich text Editor (中文说明见这里：)
 ===================
 > (In order to make it better match the search key word: android rich text editor, I renamed it from ARE to Android Rich text Editor)
 
@@ -76,7 +76,7 @@ Before the general release, you need to checkout the code and add this to a layo
 ```
 You can download the APK here:
 
-[Click ARE_20180114_0.0.1.apk to download](https://github.com/chinalwb/are/blob/master/ARE/demo/ARE_20180114_0.0.1.apk)
+[Click ARE_20180213_0.0.2.apk to download](https://github.com/chinalwb/Android-Rich-text-Editor/releases/download/v0.0.2/ARE_20180213_0.0.2.apk)
 
 Known issues:
 * Background color - cursor invisible when put it in the range of BackgroundColorSpan
