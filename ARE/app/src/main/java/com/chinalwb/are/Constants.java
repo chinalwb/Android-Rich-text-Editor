@@ -6,6 +6,8 @@ public class Constants {
 
 	public static final int UNCHECKED_COLOR = 0X00000000; // android.R.color.transparent;
 
+	public static final int COLOR_QUOTE = 0Xffcccccc;
+
 	public static final String ZERO_WIDTH_SPACE_STR = "\u200B";
 
 	public static final int ZERO_WIDTH_SPACE_INT = 8203;
