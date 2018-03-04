@@ -14,24 +14,102 @@
         android:paddingBottom="5dp"
         android:scrollbars="none" />
 
+    <LinearLayout android:id="@+id/rtePalette"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@android:color/background_light"
+        android:layout_above="@id/toolbar"
+        android:padding="10dp"
+        android:gravity="center_horizontal">
+
+        <LinearLayout android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_margin="2dp"
+            android:background="@android:color/black"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:src="@drawable/check"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+        <View android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_margin="2dp"
+            android:background="@android:color/holo_blue_dark">
+        </View>
+
+        <View android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_margin="2dp"
+            android:background="@android:color/holo_blue_light">
+        </View>
+
+        <View android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_margin="2dp"
+            android:background="@android:color/holo_red_dark">
+        </View>
+
+        <View android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_margin="2dp"
+            android:background="@android:color/holo_red_light">
+        </View>
+
+        <View android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_margin="2dp"
+            android:background="@android:color/holo_green_dark">
+        </View>
+
+        <View android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_margin="2dp"
+            android:background="@android:color/holo_green_light">
+        </View>
+
+        <View android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_margin="2dp"
+            android:background="@android:color/holo_orange_dark">
+        </View>
+
+        <View android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_margin="2dp"
+            android:background="@android:color/holo_orange_light">
+        </View>
+
+        <View android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_margin="2dp"
+            android:background="@android:color/holo_purple">
+        </View>
+
+    </LinearLayout>
+
     <ScrollView
         android:id="@+id/rootScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/toolbar" >
+        android:layout_above="@id/rtePalette">
 
         <LinearLayout
             android:id="@+id/rootLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <com.chinalwb.are.AREditText
                 android:id="@+id/are"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:lineSpacingMultiplier="1.0"
-                 />
+                android:lineSpacingMultiplier="1.0" />
         </LinearLayout>
     </ScrollView>
 

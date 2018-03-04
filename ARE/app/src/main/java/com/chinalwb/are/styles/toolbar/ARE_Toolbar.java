@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.Image;
 import android.net.Uri;
 import android.text.Layout.Alignment;
 import android.util.AttributeSet;
@@ -17,7 +16,6 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 
 import com.chinalwb.are.AREditText;
-import com.chinalwb.are.Constants;
 import com.chinalwb.are.R;
 import com.chinalwb.are.models.AtItem;
 import com.chinalwb.are.styles.ARE_Alignment;
@@ -25,6 +23,7 @@ import com.chinalwb.are.styles.ARE_At;
 import com.chinalwb.are.styles.ARE_BackgroundColor;
 import com.chinalwb.are.styles.ARE_Bold;
 import com.chinalwb.are.styles.ARE_Emoji;
+import com.chinalwb.are.styles.ARE_FontColor;
 import com.chinalwb.are.styles.ARE_Fontface;
 import com.chinalwb.are.styles.ARE_Fontsize;
 import com.chinalwb.are.styles.ARE_Image;
@@ -93,14 +92,19 @@ public class ARE_Toolbar extends HorizontalScrollView {
 	private ARE_Underline mUnderlineStyle;
 
 	/**
+	 * Strikethrough Style
+	 */
+	private ARE_Strikethrough mStrikethroughStyle;
+
+	/**
 	 * Quote style
 	 */
 	private ARE_Quote mQuoteStyle;
 
 	/**
-	 * Strikethrough Style
+	 * Font color Style
 	 */
-	private ARE_Strikethrough mStrikethroughStyle;
+	private ARE_FontColor mFontColorStyle;
 
 	/**
 	 * Background color Style
@@ -198,6 +202,11 @@ public class ARE_Toolbar extends HorizontalScrollView {
 	private ImageView mQuoteImageView;
 
 	/**
+	 * Foreground color image view.
+	 */
+	private ImageView mFontColorImageView;
+
+	/**
 	 * Background button.
 	 */
 	private ImageView mBackgroundImageView;
@@ -290,6 +299,8 @@ public class ARE_Toolbar extends HorizontalScrollView {
 
 		this.mQuoteImageView = (ImageView) this.findViewById(R.id.rteQuote);
 
+		this.mFontColorImageView = (ImageView) this.findViewById(R.id.rteFontColor);
+
 		this.mStrikethroughImageView = (ImageView) this.findViewById(R.id.rteStrikethrough);
 
 		this.mBackgroundImageView = (ImageView) this.findViewById(R.id.rteBackground);
@@ -327,6 +338,7 @@ public class ARE_Toolbar extends HorizontalScrollView {
 		this.mItalicStyle = new ARE_Italic(this.mItalicImageView);
 		this.mUnderlineStyle = new ARE_Underline(this.mUnderlineImageView);
 		this.mQuoteStyle = new ARE_Quote(this.mQuoteImageView);
+		this.mFontColorStyle = new ARE_FontColor(this.mFontColorImageView);
 		this.mStrikethroughStyle = new ARE_Strikethrough(this.mStrikethroughImageView);
 		this.mBackgroundColoStyle = new ARE_BackgroundColor(this.mBackgroundImageView, Color.YELLOW);
 		this.mLinkStyle = new ARE_Link(this.mLinkImageView);
@@ -347,6 +359,7 @@ public class ARE_Toolbar extends HorizontalScrollView {
 		this.mStylesList.add(this.mItalicStyle);
 		this.mStylesList.add(this.mUnderlineStyle);
 		this.mStylesList.add(this.mQuoteStyle);
+		this.mStylesList.add(this.mFontColorStyle);
 		this.mStylesList.add(this.mStrikethroughStyle);
 		this.mStylesList.add(this.mBackgroundColoStyle);
 		this.mStylesList.add(this.mLinkStyle);
@@ -375,6 +388,7 @@ public class ARE_Toolbar extends HorizontalScrollView {
 		this.mItalicStyle.setEditText(this.mEditText);
 		this.mUnderlineStyle.setEditText(this.mEditText);
 		this.mQuoteStyle.setEditText(this.mEditText);
+		this.mFontColorStyle.setEditText(this.mEditText);
 		this.mStrikethroughStyle.setEditText(this.mEditText);
 		this.mBackgroundColoStyle.setEditText(this.mEditText);
 		this.mLinkStyle.setEditText(this.mEditText);
@@ -400,6 +414,8 @@ public class ARE_Toolbar extends HorizontalScrollView {
 	public ARE_Quote getQuoteStyle() {
 		return mQuoteStyle;
 	}
+
+	public ARE_FontColor getTextColorStyle() { return  this.mFontColorStyle; }
 	
 	public ARE_Strikethrough getStrikethroughStyle() {
 		return mStrikethroughStyle;
@@ -408,12 +424,15 @@ public class ARE_Toolbar extends HorizontalScrollView {
 	public ARE_BackgroundColor getBackgroundColoStyle() {
 		return mBackgroundColoStyle;
 	}
-	
-	
+
 	public List<IARE_Style> getStylesList() {
 		return this.mStylesList;
 	}
-	
+
+	public void showColorPalette() {
+
+	}
+
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == Activity.RESULT_OK) {
 			if (REQ_IMAGE == requestCode) {
