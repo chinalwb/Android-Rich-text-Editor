@@ -49,13 +49,12 @@ Demo for @ feature:
 Released [v0.0.2](https://github.com/chinalwb/are/releases/tag/v0.0.2) Plan for v0.0.3, target on 2018-03-31:
 -----------------
 
-* Quote
+* Quote - Done
+* Foreground color - In progress
 * Emoji icon
-* Foreground color
 
 In progress items:
 -----------------
-* Quote
 * Emoji icon
 * Foreground color
 * Font size
