@@ -9,6 +9,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.CharacterStyle;
+import android.text.style.QuoteSpan;
 import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.util.AttributeSet;
@@ -194,13 +195,15 @@ public class AREditText extends AppCompatEditText {
 		boolean underlinedExists = false;
 		boolean striketrhoughExists = false;
 		boolean backgroundColorExists = false;
+		boolean quoteExists = false;
 
 		//
 		// Two cases:
 		// 1. Selection is just a pure cursor
 		// 2. Selection is a range
+		Editable editable = this.getEditableText();
 		if (selStart > 0 && selStart == selEnd) {
-			CharacterStyle[] styleSpans = this.getEditableText().getSpans(selStart - 1, selStart, CharacterStyle.class);
+			CharacterStyle[] styleSpans = editable.getSpans(selStart - 1, selStart, CharacterStyle.class);
 
 			for (int i = 0; i < styleSpans.length; i++) {
 				if (styleSpans[i] instanceof StyleSpan) {
@@ -219,47 +222,61 @@ public class AREditText extends AppCompatEditText {
 					backgroundColorExists = true;
 				}
 			}
+
+			QuoteSpan[] quoteSpans = editable.getSpans(selStart - 1, selStart, QuoteSpan.class);
+			if (quoteSpans != null && quoteSpans.length > 0) {
+				quoteExists = true;
+			}
+			// To check Quote!!
 		} else {
 			//
 			// Selection is a range
-			CharacterStyle[] styleSpans = this.getEditableText().getSpans(selStart, selEnd, CharacterStyle.class);
+			CharacterStyle[] styleSpans = editable.getSpans(selStart, selEnd, CharacterStyle.class);
 
 			for (int i = 0; i < styleSpans.length; i++) {
 
 				if (styleSpans[i] instanceof StyleSpan) {
 					if (((StyleSpan) styleSpans[i]).getStyle() == android.graphics.Typeface.BOLD) {
-						if (this.getEditableText().getSpanStart(styleSpans[i]) <= selStart
-								&& this.getEditableText().getSpanEnd(styleSpans[i]) >= selEnd) {
+						if (editable.getSpanStart(styleSpans[i]) <= selStart
+								&& editable.getSpanEnd(styleSpans[i]) >= selEnd) {
 							boldExists = true;
 						}
 					} else if (((StyleSpan) styleSpans[i]).getStyle() == android.graphics.Typeface.ITALIC) {
-						if (this.getEditableText().getSpanStart(styleSpans[i]) <= selStart
-								&& this.getEditableText().getSpanEnd(styleSpans[i]) >= selEnd) {
+						if (editable.getSpanStart(styleSpans[i]) <= selStart
+								&& editable.getSpanEnd(styleSpans[i]) >= selEnd) {
 							italicsExists = true;
 						}
 					} else if (((StyleSpan) styleSpans[i]).getStyle() == android.graphics.Typeface.BOLD_ITALIC) {
-						if (this.getEditableText().getSpanStart(styleSpans[i]) <= selStart
-								&& this.getEditableText().getSpanEnd(styleSpans[i]) >= selEnd) {
+						if (editable.getSpanStart(styleSpans[i]) <= selStart
+								&& editable.getSpanEnd(styleSpans[i]) >= selEnd) {
 							italicsExists = true;
 							boldExists = true;
 						}
 					}
 				} else if (styleSpans[i] instanceof AreUnderlineSpan) {
-					if (this.getEditableText().getSpanStart(styleSpans[i]) <= selStart
-							&& this.getEditableText().getSpanEnd(styleSpans[i]) >= selEnd) {
+					if (editable.getSpanStart(styleSpans[i]) <= selStart
+							&& editable.getSpanEnd(styleSpans[i]) >= selEnd) {
 						underlinedExists = true;
 					}
 				} else if (styleSpans[i] instanceof StrikethroughSpan) {
-					if (this.getEditableText().getSpanStart(styleSpans[i]) <= selStart
-							&& this.getEditableText().getSpanEnd(styleSpans[i]) >= selEnd) {
+					if (editable.getSpanStart(styleSpans[i]) <= selStart
+							&& editable.getSpanEnd(styleSpans[i]) >= selEnd) {
 						striketrhoughExists = true;
 					}
 				} else if (styleSpans[i] instanceof BackgroundColorSpan) {
-					if (this.getEditableText().getSpanStart(styleSpans[i]) <= selStart
-							&& this.getEditableText().getSpanEnd(styleSpans[i]) >= selEnd) {
+					if (editable.getSpanStart(styleSpans[i]) <= selStart
+							&& editable.getSpanEnd(styleSpans[i]) >= selEnd) {
 						backgroundColorExists = true;
 					}
 				}
+			}
+		}
+
+		QuoteSpan[] quoteSpans = editable.getSpans(selStart, selEnd, QuoteSpan.class);
+		if (quoteSpans != null && quoteSpans.length > 0) {
+			if (editable.getSpanStart(quoteSpans[0]) <= selStart
+					&& editable.getSpanEnd(quoteSpans[0]) >= selEnd) {
+				quoteExists = true;
 			}
 		}
 
@@ -270,5 +287,6 @@ public class AREditText extends AppCompatEditText {
 		ARE_Helper.updateCheckStatus(sToolbar.getUnderlineStyle(), underlinedExists);
 		ARE_Helper.updateCheckStatus(sToolbar.getStrikethroughStyle(), striketrhoughExists);
 		ARE_Helper.updateCheckStatus(sToolbar.getBackgroundColoStyle(), backgroundColorExists);
+		ARE_Helper.updateCheckStatus(sToolbar.getQuoteStyle(), quoteExists);
 	} // #End of method:: onSelectionChanged
 }

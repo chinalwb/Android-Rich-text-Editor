@@ -34,6 +34,7 @@ import com.chinalwb.are.styles.ARE_Italic;
 import com.chinalwb.are.styles.ARE_Link;
 import com.chinalwb.are.styles.ARE_ListBullet;
 import com.chinalwb.are.styles.ARE_ListNumber;
+import com.chinalwb.are.styles.ARE_Quote;
 import com.chinalwb.are.styles.ARE_Strikethrough;
 import com.chinalwb.are.styles.ARE_Underline;
 import com.chinalwb.are.styles.IARE_Style;
@@ -90,6 +91,11 @@ public class ARE_Toolbar extends HorizontalScrollView {
 	 * Underline Style
 	 */
 	private ARE_Underline mUnderlineStyle;
+
+	/**
+	 * Quote style
+	 */
+	private ARE_Quote mQuoteStyle;
 
 	/**
 	 * Strikethrough Style
@@ -187,6 +193,11 @@ public class ARE_Toolbar extends HorizontalScrollView {
 	private ImageView mStrikethroughImageView;
 
 	/**
+	 * Quote button.
+	 */
+	private ImageView mQuoteImageView;
+
+	/**
 	 * Background button.
 	 */
 	private ImageView mBackgroundImageView;
@@ -277,6 +288,8 @@ public class ARE_Toolbar extends HorizontalScrollView {
 
 		this.mUnderlineImageView = (ImageView) this.findViewById(R.id.rteUnderline);
 
+		this.mQuoteImageView = (ImageView) this.findViewById(R.id.rteQuote);
+
 		this.mStrikethroughImageView = (ImageView) this.findViewById(R.id.rteStrikethrough);
 
 		this.mBackgroundImageView = (ImageView) this.findViewById(R.id.rteBackground);
@@ -313,6 +326,7 @@ public class ARE_Toolbar extends HorizontalScrollView {
 		this.mBoldStyle = new ARE_Bold(this.mBoldImageView);
 		this.mItalicStyle = new ARE_Italic(this.mItalicImageView);
 		this.mUnderlineStyle = new ARE_Underline(this.mUnderlineImageView);
+		this.mQuoteStyle = new ARE_Quote(this.mQuoteImageView);
 		this.mStrikethroughStyle = new ARE_Strikethrough(this.mStrikethroughImageView);
 		this.mBackgroundColoStyle = new ARE_BackgroundColor(this.mBackgroundImageView, Color.YELLOW);
 		this.mLinkStyle = new ARE_Link(this.mLinkImageView);
@@ -332,6 +346,7 @@ public class ARE_Toolbar extends HorizontalScrollView {
 		this.mStylesList.add(this.mBoldStyle);
 		this.mStylesList.add(this.mItalicStyle);
 		this.mStylesList.add(this.mUnderlineStyle);
+		this.mStylesList.add(this.mQuoteStyle);
 		this.mStylesList.add(this.mStrikethroughStyle);
 		this.mStylesList.add(this.mBackgroundColoStyle);
 		this.mStylesList.add(this.mLinkStyle);
@@ -359,6 +374,7 @@ public class ARE_Toolbar extends HorizontalScrollView {
 		this.mBoldStyle.setEditText(this.mEditText);
 		this.mItalicStyle.setEditText(this.mEditText);
 		this.mUnderlineStyle.setEditText(this.mEditText);
+		this.mQuoteStyle.setEditText(this.mEditText);
 		this.mStrikethroughStyle.setEditText(this.mEditText);
 		this.mBackgroundColoStyle.setEditText(this.mEditText);
 		this.mLinkStyle.setEditText(this.mEditText);
@@ -379,6 +395,10 @@ public class ARE_Toolbar extends HorizontalScrollView {
 	
 	public ARE_Underline getUnderlineStyle() {
 		return mUnderlineStyle;
+	}
+
+	public ARE_Quote getQuoteStyle() {
+		return mQuoteStyle;
 	}
 	
 	public ARE_Strikethrough getStrikethroughStyle() {

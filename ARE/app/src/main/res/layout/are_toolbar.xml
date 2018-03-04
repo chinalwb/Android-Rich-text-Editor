@@ -14,7 +14,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:padding="5dp"
-            android:src="@drawable/emoji" 
+            android:src="@drawable/emoji"
             android:visibility="gone"
             />
 
@@ -63,6 +63,20 @@
             android:layout_height="40dp"
             android:padding="5dp"
             android:src="@drawable/strikethrough" />
+
+        <ImageView
+            android:id="@+id/rteQuote"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="5dp"
+            android:src="@drawable/quote" />
+
+        <ImageView
+            android:id="@+id/rteTextColor"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="5dp"
+            android:src="@drawable/foregroundcolor" />
 
         <ImageView
             android:id="@+id/rteBackground"
