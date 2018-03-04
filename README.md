@@ -53,6 +53,10 @@ Released [v0.0.2](https://github.com/chinalwb/are/releases/tag/v0.0.2) Plan for 
 * Foreground color - In progress
 * Emoji icon
 
+Demo for quote feature:
+-----------------
+ ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/quote_demo.png)
+ 
 In progress items:
 -----------------
 * Emoji icon
