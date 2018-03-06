@@ -29,10 +29,10 @@
             android:background="@android:color/black"
             android:gravity="center">
 
-            <ImageView
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:src="@drawable/check"
+            <View
+                android:layout_width="3dp"
+                android:layout_height="3dp"
+                android:background="@android:color/white"
                 android:layout_gravity="center"/>
 
         </LinearLayout>
