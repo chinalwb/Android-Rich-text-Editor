@@ -1,9 +1,7 @@
 package com.rainliu.colorpicker;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -21,6 +19,11 @@ public class ColorView extends LinearLayout {
     public static final String ATTR_MARGIN_LEFT = "ATTR_MARGIN_LEFT";
 
     public static final String ATTR_MARGIN_RIGHT = "ATTR_MARGIN_RIGHT";
+
+    /**
+     * If this view width = 80, the the default check view width = 10
+     */
+    private static final int DEFAULT_CHECK_VIEW_PERCENT = 8;
 
     private Context mContext;
 
@@ -88,7 +91,7 @@ public class ColorView extends LinearLayout {
 
     public View getCheckView() {
         if (this.mCheckView == null) {
-            this.mCheckView = new ColorCheckedView(mContext);
+            this.mCheckView = new ColorCheckedView(mContext, mColorViewWidth / DEFAULT_CHECK_VIEW_PERCENT);
         }
         return this.mCheckView;
     }
