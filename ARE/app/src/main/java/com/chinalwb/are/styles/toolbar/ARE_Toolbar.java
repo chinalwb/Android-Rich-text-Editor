@@ -11,9 +11,11 @@ import android.net.Uri;
 import android.text.Layout.Alignment;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.chinalwb.are.AREditText;
 import com.chinalwb.are.R;
@@ -37,8 +39,9 @@ import com.chinalwb.are.styles.ARE_Quote;
 import com.chinalwb.are.styles.ARE_Strikethrough;
 import com.chinalwb.are.styles.ARE_Underline;
 import com.chinalwb.are.styles.IARE_Style;
+import com.rainliu.colorpicker.ColorPickerView;
 
-public class ARE_Toolbar extends HorizontalScrollView {
+public class ARE_Toolbar extends LinearLayout {
 
 	private static ARE_Toolbar sInstance;
 	
@@ -202,6 +205,11 @@ public class ARE_Toolbar extends HorizontalScrollView {
 	private ImageView mQuoteImageView;
 
 	/**
+	 * The color palette.
+	 */
+	private ColorPickerView mColorPalette;
+
+	/**
 	 * Foreground color image view.
 	 */
 	private ImageView mFontColorImageView;
@@ -279,6 +287,7 @@ public class ARE_Toolbar extends HorizontalScrollView {
 	private void init() {
 		LayoutInflater layoutInflater = LayoutInflater.from(this.mContext);
 		layoutInflater.inflate(R.layout.are_toolbar, this, true);
+		this.setOrientation(LinearLayout.VERTICAL);
 		initViews();
 		initStyles();
 	}
@@ -298,6 +307,8 @@ public class ARE_Toolbar extends HorizontalScrollView {
 		this.mUnderlineImageView = (ImageView) this.findViewById(R.id.rteUnderline);
 
 		this.mQuoteImageView = (ImageView) this.findViewById(R.id.rteQuote);
+
+		this.mColorPalette = (ColorPickerView) this.findViewById(R.id.rteColorPalette);
 
 		this.mFontColorImageView = (ImageView) this.findViewById(R.id.rteFontColor);
 
@@ -429,8 +440,13 @@ public class ARE_Toolbar extends HorizontalScrollView {
 		return this.mStylesList;
 	}
 
-	public void showColorPalette() {
-
+	public void toggleColorPalette() {
+		int visibility = this.mColorPalette.getVisibility();
+		if (View.VISIBLE == visibility) {
+			this.mColorPalette.setVisibility(View.GONE);
+		} else {
+			this.mColorPalette.setVisibility(View.VISIBLE);
+		}
 	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {

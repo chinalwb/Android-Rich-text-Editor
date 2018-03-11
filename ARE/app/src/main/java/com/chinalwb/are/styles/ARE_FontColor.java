@@ -42,7 +42,7 @@ public class ARE_FontColor extends ARE_ABS_FreeStyle {
 			@Override
 			public void onClick(View v) {
 				// Show color selector view.
-				ARE_Toolbar.getInstance().showColorPalette();
+				ARE_Toolbar.getInstance().toggleColorPalette();
 			}
 		});
 	}

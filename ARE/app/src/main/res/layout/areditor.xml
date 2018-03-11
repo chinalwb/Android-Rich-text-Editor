@@ -9,31 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimary"
         android:scrollbarAlwaysDrawHorizontalTrack="false"
         android:paddingTop="5dp"
-        android:paddingBottom="5dp"
         android:scrollbars="none" />
-
-    <com.rainliu.colorpicker.ColorPickerView android:id="@+id/rtePalette"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/background_light"
-        android:layout_above="@id/toolbar"
-        android:padding="10dp"
-        android:layout_centerHorizontal="true"
-        colorPickerView:colorViewHeight="20dp"
-        colorPickerView:colorViewWidth="20dp"
-        colorPickerView:colorViewMarginLeft="2dp"
-        colorPickerView:colorViewMarginRight="2dp"
-        colorPickerView:colors="@array/colorPickerColors"
-        />
 
     <ScrollView
         android:id="@+id/rootScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/rtePalette">
+        android:layout_above="@id/toolbar">
 
         <LinearLayout
             android:id="@+id/rootLinearLayout"

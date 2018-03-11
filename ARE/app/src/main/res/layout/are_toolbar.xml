@@ -1,13 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:colorPickerView="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-     >
+    android:layout_height="wrap_content">
+
+    <com.rainliu.colorpicker.ColorPickerView
+        android:id="@+id/rteColorPalette"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/background_light"
+        android:padding="10dp"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        colorPickerView:colorViewHeight="20dp"
+        colorPickerView:colorViewWidth="20dp"
+        colorPickerView:colorViewMarginLeft="2dp"
+        colorPickerView:colorViewMarginRight="2dp"
+        colorPickerView:colors="@array/colorPickerColors"
+        />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/colorPrimary">
 
         <ImageView
             android:id="@+id/rteEmoji"

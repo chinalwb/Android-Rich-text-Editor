@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 
 import com.chinalwb.are.android.inner.Html;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
+import com.rainliu.colorpicker.ColorPickerView;
 
 /**
  * All Rights Reserved.
@@ -36,6 +37,11 @@ public class AREditor extends RelativeLayout {
 	 * The toolbar.
 	 */
 	private ARE_Toolbar mToolbar;
+
+	/**
+	 * The color palette for foreground color.
+	 */
+	private ColorPickerView mColorPalette;
 	
 	/**
 	 * The root linear layout.
