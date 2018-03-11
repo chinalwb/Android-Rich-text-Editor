@@ -2,16 +2,11 @@ package com.rainliu.colorpicker;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-
-import org.w3c.dom.Attr;
 
 /**
  * Created by wliu on 2018/3/6.
@@ -20,6 +15,8 @@ import org.w3c.dom.Attr;
 public class ColorPickerView extends HorizontalScrollView {
 
     private Context mContext;
+
+    private LinearLayout mColorsContainer;
 
     private ColorPickerListener mColorPickerListener;
 
@@ -68,26 +65,29 @@ public class ColorPickerView extends HorizontalScrollView {
     }
 
     private void initView() {
-        final LinearLayout colorsContainer = new LinearLayout(mContext);
+        mColorsContainer = new LinearLayout(mContext);
         LinearLayout.LayoutParams containerLayoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        colorsContainer.setLayoutParams(containerLayoutParams);
+        mColorsContainer.setLayoutParams(containerLayoutParams);
 
         for (final int color : mColors) {
             final ColorView colorView = new ColorView(mContext, color, mAttributeBundle);
-            colorsContainer.addView(colorView);
+            mColorsContainer.addView(colorView);
 
             colorView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     boolean isCheckedNow = colorView.getChecked();
                     if (isCheckedNow) {
+                        if (mColorPickerListener != null) {
+                            mColorPickerListener.onPickColor(colorView.getColor());
+                        }
                         return;
                     }
 
-                    int childCount = colorsContainer.getChildCount();
+                    int childCount = mColorsContainer.getChildCount();
                     for (int i = 0; i < childCount; i++) {
-                        View childView = colorsContainer.getChildAt(i);
+                        View childView = mColorsContainer.getChildAt(i);
                         if (childView instanceof ColorView) {
                             boolean isThisColorChecked = ((ColorView) childView).getChecked();
                             if (isThisColorChecked) {
@@ -104,10 +104,24 @@ public class ColorPickerView extends HorizontalScrollView {
             });
         }
 
-        this.addView(colorsContainer);
+        this.addView(mColorsContainer);
     }
 
     public void setColorPickerListener(ColorPickerListener listener) {
         this.mColorPickerListener = listener;
+    }
+
+    public void setColor(int selectedColor) {
+        int childCount = mColorsContainer.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View childView = mColorsContainer.getChildAt(i);
+            if (childView instanceof ColorView) {
+                int viewColor = ((ColorView) childView).getColor();
+                if (viewColor == selectedColor) {
+                    childView.performClick();
+                    break;
+                }
+            }
+        }
     }
 }

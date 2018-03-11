@@ -6,6 +6,7 @@ import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 import android.content.Context;
 import android.text.Editable;
 import android.text.Spanned;
+import android.util.Log;
 import android.widget.EditText;
 
 import java.lang.reflect.ParameterizedType;
@@ -44,6 +45,7 @@ public abstract class ARE_ABS_Style<E> implements IARE_Style {
 					if (existingESpanStart <= start && existingESpanEnd >= end) {
 						// The selection is just within an existing E span
 						// Do nothing for this case
+						changeSpanInsideStyle(editable, start, end, existingESpan);
 					} else {
 						checkAndMergeSpan(editable, start, end, clazzE);
 					}
@@ -54,6 +56,14 @@ public abstract class ARE_ABS_Style<E> implements IARE_Style {
 				E[] spans = editable.getSpans(start, end, clazzE);
 				if (spans.length > 0) {
 					E span = spans[0];
+					int lastSpanStart = editable.getSpanStart(span);
+					for (E e : spans) {
+						int lastSpanStartTmp = editable.getSpanStart(e);
+						if (lastSpanStartTmp > lastSpanStart) {
+							lastSpanStart = lastSpanStartTmp;
+							span = e;
+						}
+					}
 
 					int eStart = editable.getSpanStart(span);
 					int eEnd = editable.getSpanEnd(span);
@@ -61,6 +71,7 @@ public abstract class ARE_ABS_Style<E> implements IARE_Style {
 
 					if (eStart >= eEnd) {
 						editable.removeSpan(span);
+						extendPreviousSpan(editable, eStart);
 
 						setChecked(false);
 						ARE_Helper.updateCheckStatus(this, false);
@@ -154,6 +165,11 @@ public abstract class ARE_ABS_Style<E> implements IARE_Style {
 		}
 	}
 
+	protected void changeSpanInsideStyle(Editable editable, int start, int end, E e) {
+		// Do nothing by default
+		Log.e("ARE", "in side a span!!");
+	}
+
 	private void checkAndMergeSpan(Editable editable, int start, int end, Class<E> clazzE) {
 		E leftSpan = null;
 		E[] leftSpans = editable.getSpans(start, start, clazzE);
@@ -191,6 +207,10 @@ public abstract class ARE_ABS_Style<E> implements IARE_Style {
 		for (E span : allSpans) {
 			editable.removeSpan(span);
 		}
+	}
+
+	protected void extendPreviousSpan(Editable editable, int pos) {
+		// Do nothing by default
 	}
 
     public abstract E newSpan();

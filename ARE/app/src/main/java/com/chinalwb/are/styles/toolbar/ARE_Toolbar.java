@@ -39,6 +39,7 @@ import com.chinalwb.are.styles.ARE_Quote;
 import com.chinalwb.are.styles.ARE_Strikethrough;
 import com.chinalwb.are.styles.ARE_Underline;
 import com.chinalwb.are.styles.IARE_Style;
+import com.rainliu.colorpicker.ColorPickerListener;
 import com.rainliu.colorpicker.ColorPickerView;
 
 public class ARE_Toolbar extends LinearLayout {
@@ -440,13 +441,18 @@ public class ARE_Toolbar extends LinearLayout {
 		return this.mStylesList;
 	}
 
-	public void toggleColorPalette() {
+	public void toggleColorPalette(ColorPickerListener colorPickerListener) {
 		int visibility = this.mColorPalette.getVisibility();
+		this.mColorPalette.setColorPickerListener(colorPickerListener);
 		if (View.VISIBLE == visibility) {
 			this.mColorPalette.setVisibility(View.GONE);
 		} else {
 			this.mColorPalette.setVisibility(View.VISIBLE);
 		}
+	}
+
+	public void setColorPaletteColor(int color) {
+		this.mColorPalette.setColor(color);
 	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {

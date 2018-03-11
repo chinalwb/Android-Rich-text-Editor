@@ -77,7 +77,7 @@ public class AREditText extends AppCompatEditText {
 		int padding = 8;
 		padding = Util.getPixelByDp(mContext, padding);
 		this.setPadding(padding, padding, padding, padding);
-
+		this.setTextSize(Util.getPixelByDp(mContext, 12));
 		this.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
