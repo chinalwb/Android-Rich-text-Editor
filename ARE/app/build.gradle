@@ -19,4 +19,5 @@ android {
 dependencies {
     compile 'com.android.support:appcompat-v7:26.1.0'
     compile files('libs/tagsoup-1.2.1.jar')
+    implementation project(':colorpicker')
 }

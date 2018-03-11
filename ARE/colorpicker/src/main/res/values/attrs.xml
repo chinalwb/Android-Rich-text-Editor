@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ColorPickerView">
+        <attr name="colorViewWidth" format="dimension" />
+        <attr name="colorViewHeight" format="dimension" />
+        <attr name="colorViewMarginLeft" format="dimension" />
+        <attr name="colorViewMarginRight" format="dimension" />
+        <attr name="colors" format="reference" />
+    </declare-styleable>
+
+</resources>
