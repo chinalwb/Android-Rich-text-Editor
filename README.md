@@ -50,17 +50,20 @@ Released [v0.0.2](https://github.com/chinalwb/are/releases/tag/v0.0.2) Plan for 
 -----------------
 
 * Quote - Done
-* Foreground color - In progress
-* Emoji icon
+* Foreground color - Done
+* Emoji icon - In progress
 
 Demo for quote feature:
 -----------------
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/quote_demo.png)
  
+Demo for font color feature:
+-----------------
+ ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/fontcolor_demo.png)
+ 
 In progress items:
 -----------------
 * Emoji icon
-* Foreground color
 * Font size
 * Font family
 * Indent right
