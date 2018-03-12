@@ -48,9 +48,21 @@ Release 0.0.2:
 已经发布了 [v0.0.2](https://github.com/chinalwb/are/releases/tag/v0.0.2) 计划在2018-03-31之前发布0.0.3:
 -----------------
 
-* 插入引用 - Quote
-* 插入表情 - Emoji icon
-* 文字前景色 - Foreground color
+* 插入引用 - Quote - 完成
+* 文字前景色 - Foreground color - 完成
+* 插入表情 - Emoji icon - 开发中
+
+插入引用功能演示:
+-----------------
+ ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/quote_demo.png)
+ 
+文字前景色功能演示:
+-----------------
+ ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/fontcolor_demo.png)
+
+插入表情功能演示 (开发中，尚未完成):
+-----------------
+ ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/emoji_demo.png)
 
 计划中但正在做的功能:
 -----------------
