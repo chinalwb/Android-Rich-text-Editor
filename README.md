@@ -65,6 +65,8 @@ In progress items:
 -----------------
 * Emoji icon
 * Font size
+* Superscript
+* Subscript
 * Font family
 * Indent right
 * Indent left
