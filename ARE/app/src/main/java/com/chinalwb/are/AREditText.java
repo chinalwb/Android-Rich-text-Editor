@@ -13,6 +13,7 @@ import android.text.style.QuoteSpan;
 import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -77,7 +78,7 @@ public class AREditText extends AppCompatEditText {
 		int padding = 8;
 		padding = Util.getPixelByDp(mContext, padding);
 		this.setPadding(padding, padding, padding, padding);
-		this.setTextSize(Util.getPixelByDp(mContext, 12));
+		this.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 		this.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {

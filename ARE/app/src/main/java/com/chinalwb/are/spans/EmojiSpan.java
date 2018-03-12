@@ -15,7 +15,9 @@ public class EmojiSpan extends DynamicDrawableSpan {
   private int mIconId;
   
   private Drawable mDrawable;
-  
+
+  private final int size = 50; // Should not be hard-coded
+
   public EmojiSpan(Context context, int resourceId) {
     this.mContext = context;
     this.mIconId = resourceId;
@@ -25,24 +27,37 @@ public class EmojiSpan extends DynamicDrawableSpan {
   public Drawable getDrawable() {
     if (null == this.mDrawable) {
       this.mDrawable = this.mContext.getResources().getDrawable(this.mIconId);
-      this.mDrawable.setBounds(0, 0, this.mDrawable.getIntrinsicWidth() , this.mDrawable.getIntrinsicHeight() );
+      this.mDrawable.setBounds(0, 0, size , size );
     }
-    
+
     return this.mDrawable;
   }
-  
-  @Override
-  public void draw(Canvas canvas, CharSequence text, int start, int end,
-      float x, int top, int y, int bottom, Paint paint) {
-    Drawable b = getCachedDrawable();
+
+  @Override public int getSize(final Paint paint, final CharSequence text, final int start,
+                               final int end, final Paint.FontMetricsInt fontMetrics) {
+    if (fontMetrics != null) {
+      final Paint.FontMetrics paintFontMetrics = paint.getFontMetrics();
+      fontMetrics.top = (int) paintFontMetrics.top;
+      fontMetrics.bottom = (int) paintFontMetrics.bottom;
+    }
+
+    return (int) size;
+  }
+
+  @Override public void draw(final Canvas canvas, final CharSequence text, final int start,
+                             final int end, final float x, final int top, final int y,
+                             final int bottom, final Paint paint) {
+    final Drawable drawable = getDrawable();
+    final Paint.FontMetrics paintFontMetrics = paint.getFontMetrics();
+    final float fontHeight = paintFontMetrics.descent - paintFontMetrics.ascent;
+    final float centerY = y + paintFontMetrics.descent - fontHeight / 2;
+    final float transitionY = centerY - size / 2;
+
     canvas.save();
-    
-    int transY = bottom - b.getBounds().bottom - paint.getFontMetricsInt().descent - paint.getFontMetricsInt().bottom;
-    
-    canvas.translate(x, transY);
-    b.draw(canvas);
+    canvas.translate(x, transitionY);
+    drawable.draw(canvas);
     canvas.restore();
-}
+  }
   
   private Drawable getCachedDrawable() {
     WeakReference<Drawable> wr = mDrawableRef;
