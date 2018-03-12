@@ -60,6 +60,10 @@ Demo for quote feature:
 Demo for font color feature:
 -----------------
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/fontcolor_demo.png)
+
+Demo for emoji feature (in progress, not finished yet):
+-----------------
+ ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/emoji_demo.png)
  
 In progress items:
 -----------------
