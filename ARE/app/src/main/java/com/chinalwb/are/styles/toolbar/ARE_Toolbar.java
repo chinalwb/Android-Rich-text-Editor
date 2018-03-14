@@ -7,11 +7,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.text.Layout.Alignment;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -19,6 +22,7 @@ import android.widget.LinearLayout;
 
 import com.chinalwb.are.AREditText;
 import com.chinalwb.are.R;
+import com.chinalwb.are.Util;
 import com.chinalwb.are.models.AtItem;
 import com.chinalwb.are.styles.ARE_Alignment;
 import com.chinalwb.are.styles.ARE_At;
@@ -211,6 +215,11 @@ public class ARE_Toolbar extends LinearLayout {
 	private ColorPickerView mColorPalette;
 
 	/**
+	 * The emoji panel
+	 */
+	private LinearLayout mEmojiPanel;
+
+	/**
 	 * Foreground color image view.
 	 */
 	private ImageView mFontColorImageView;
@@ -287,10 +296,15 @@ public class ARE_Toolbar extends LinearLayout {
 
 	private void init() {
 		LayoutInflater layoutInflater = LayoutInflater.from(this.mContext);
-		layoutInflater.inflate(R.layout.are_toolbar, this, true);
+		layoutInflater.inflate(getLayoutId(), this, true);
 		this.setOrientation(LinearLayout.VERTICAL);
 		initViews();
 		initStyles();
+		getKeyboardHeight();
+	}
+
+	private int getLayoutId() {
+		return R.layout.are_toolbar;
 	}
 
 	private void initViews() {
@@ -310,6 +324,8 @@ public class ARE_Toolbar extends LinearLayout {
 		this.mQuoteImageView = (ImageView) this.findViewById(R.id.rteQuote);
 
 		this.mColorPalette = (ColorPickerView) this.findViewById(R.id.rteColorPalette);
+
+		this.mEmojiPanel = (LinearLayout) this.findViewById(R.id.rteEmojiPanel);
 
 		this.mFontColorImageView = (ImageView) this.findViewById(R.id.rteFontColor);
 
@@ -449,6 +465,45 @@ public class ARE_Toolbar extends LinearLayout {
 		} else {
 			this.mColorPalette.setVisibility(View.VISIBLE);
 		}
+	}
+
+	public void toggleEmojiPanel() {
+
+
+		// getKeyboardHeight();
+
+		this.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				mEmojiPanel.setVisibility(View.VISIBLE);
+			}
+		}, 100);
+		View view = ((Activity) mContext).getCurrentFocus();
+		if (view != null) {
+			InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+			if (imm != null) {
+				imm.hideSoftInputFromWindow(getEditText().getWindowToken(), 0);
+			}
+		}
+	}
+
+	protected void getKeyboardHeight() {
+//		this.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//
+//			@Override
+//			public void onGlobalLayout() {
+//				ARE_Toolbar.this.postDelayed(new Runnable() {
+//					@Override
+//					public void run() {
+//						int[] x = new int[2];
+//						ARE_Toolbar.this.getLocationOnScreen(x);
+//						int height = ARE_Toolbar.this.getHeight();
+//						Util.log("x1 == " + x[0] + ", x2 == " + x[1] + ", bottom == " + x[1] + height);
+//					}
+//				}, 1000);
+//
+//			}
+//		});
 	}
 
 	public void setColorPaletteColor(int color) {
