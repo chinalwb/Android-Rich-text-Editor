@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -467,23 +468,44 @@ public class ARE_Toolbar extends LinearLayout {
 		}
 	}
 
+	private boolean kbShown = true;
 	public void toggleEmojiPanel() {
 
 
 		// getKeyboardHeight();
 
-		this.postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				mEmojiPanel.setVisibility(View.VISIBLE);
+		if (kbShown) {
+//			this.postDelayed(new Runnable() {
+//				@Override
+//				public void run() {
+//					mEmojiPanel.setVisibility(View.VISIBLE);
+//				}
+//			}, 10);
+			View view = ((Activity) mContext).getCurrentFocus();
+			if (view != null) {
+				InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+				if (imm != null) {
+					imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+				}
 			}
-		}, 100);
-		View view = ((Activity) mContext).getCurrentFocus();
-		if (view != null) {
-			InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-			if (imm != null) {
-				imm.hideSoftInputFromWindow(getEditText().getWindowToken(), 0);
+
+			kbShown = false;
+		} else {
+//			this.postDelayed(new Runnable() {
+//				@Override
+//				public void run() {
+//					mEmojiPanel.setVisibility(View.GONE);
+//				}
+//			}, 10);
+			View view = getEditText();
+			if (view != null) {
+				InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+				if (imm != null) {
+					view.requestFocus();
+					imm.showSoftInput(view, 0);
+				}
 			}
+			kbShown = true;
 		}
 	}
 
