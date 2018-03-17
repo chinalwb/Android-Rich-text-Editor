@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 
 import com.chinalwb.are.R;
@@ -28,10 +29,13 @@ public class EmojiPagerAdapter extends FragmentStatePagerAdapter {
 
     private ArrayList<EmojiGroup> mEmojiGroups = new ArrayList<>();
 
-    public EmojiPagerAdapter(Context context, ArrayList<EmojiGroup> emojiGroups, FragmentManager fragmentManager) {
+    private AdapterView.OnItemClickListener mListener;
+
+    public EmojiPagerAdapter(Context context, ArrayList<EmojiGroup> emojiGroups, AdapterView.OnItemClickListener listener, FragmentManager fragmentManager) {
         super(fragmentManager);
         mContext = context;
         mEmojiGroups = emojiGroups;
+        mListener = listener;
         initPages();
     }
 
@@ -40,9 +44,10 @@ public class EmojiPagerAdapter extends FragmentStatePagerAdapter {
             throw new IllegalArgumentException("Emoji Groups cannot be empty!!");
         }
         for (EmojiGroup emojiGroup : mEmojiGroups) {
-            Fragment emojiFragment = new EmojiFragment();
+            EmojiFragment emojiFragment = new EmojiFragment();
+            emojiFragment.setListener(mListener);
             Bundle bundle = new Bundle();
-            bundle.putInt(EmojiFragment.ARG_INPUT_RES_ID, emojiGroup.imageResId);
+            bundle.putSerializable(EmojiFragment.ARG_INPUT_EMOJI_GROUP, emojiGroup);
             emojiFragment.setArguments(bundle);
             mPages.add(emojiFragment);
         }
