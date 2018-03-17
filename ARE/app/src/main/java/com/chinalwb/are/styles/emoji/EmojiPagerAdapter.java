@@ -61,27 +61,4 @@ public class EmojiPagerAdapter extends FragmentStatePagerAdapter {
     public void setEmojiGroups(ArrayList<EmojiGroup> emojiGroups) {
         this.mEmojiGroups = emojiGroups;
     }
-
-    //    @Override
-//    public int getCount() {
-//        return mPages.size();
-//    }
-//
-//    @Override
-//    public boolean isViewFromObject(View view, Object object) {
-//        return view == object;
-//    }
-//
-//    @Override
-//    public Object instantiateItem(ViewGroup container, int position) {
-//        View view = mPages.get(position);
-//        container.addView(view);
-//        return view;
-//    }
-//
-//    @Override
-//    public void destroyItem(ViewGroup container, int position, Object object) {
-//        View view = mPages.get(position);
-//        container.removeView(view);
-//    }
 }
