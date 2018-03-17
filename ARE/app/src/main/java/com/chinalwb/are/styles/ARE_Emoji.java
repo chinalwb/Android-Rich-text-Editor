@@ -3,6 +3,8 @@ package com.chinalwb.are.styles;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -15,7 +17,12 @@ import android.widget.ImageView;
 import com.chinalwb.are.R;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.spans.EmojiSpan;
+import com.chinalwb.are.styles.emoji.EmojiGroup;
+import com.chinalwb.are.styles.emoji.EmojiPagerAdapter;
+import com.chinalwb.are.styles.emoji.EmojiPanel;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
+
+import java.util.ArrayList;
 
 public class ARE_Emoji extends ARE_ABS_FreeStyle {
 
@@ -27,7 +34,27 @@ public class ARE_Emoji extends ARE_ABS_FreeStyle {
 	 */
 	public ARE_Emoji(ImageView emojiImageView) {
 		this.mEmojiImageView = emojiImageView;
+		initEmojiPanel();
 		setListenerForImageView(this.mEmojiImageView);
+	}
+
+	private void initEmojiPanel() {
+		EmojiPanel emojiPanel = new EmojiPanel(mContext);
+		emojiPanel.setId(R.id.emojiPanelId);
+		FragmentManager fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager();
+		EmojiGroup emojiGroup = new EmojiGroup();
+		emojiGroup.imageResId = R.drawable.fontface;
+		EmojiGroup eg2 = new EmojiGroup();
+		eg2.imageResId = R.drawable.emoji;
+		EmojiGroup eg3 = new EmojiGroup();
+		eg3.imageResId = R.drawable.at;
+		ArrayList<EmojiGroup> emojiGroups = new ArrayList<>();
+		emojiGroups.add(emojiGroup);
+		emojiGroups.add(eg2);
+		emojiGroups.add(eg3);
+
+		emojiPanel.setAdapter(new EmojiPagerAdapter(mContext, emojiGroups, fragmentManager));
+		ARE_Toolbar.getInstance().setEmojiPanel(emojiPanel);
 	}
 
 	@Override
@@ -36,8 +63,6 @@ public class ARE_Emoji extends ARE_ABS_FreeStyle {
 			@Override
 			public void onClick(View v) {
 				 showEmojiPanel();
-//				int emojiId = R.drawable.emoji;
-//				insertEmoji(emojiId);
 			}
 		});
 	}

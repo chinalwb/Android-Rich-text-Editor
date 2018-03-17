@@ -9,10 +9,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.text.Layout;
 import android.text.Layout.Alignment;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
@@ -218,7 +220,7 @@ public class ARE_Toolbar extends LinearLayout {
 	/**
 	 * The emoji panel
 	 */
-	private View mEmojiPanel;
+	private View mEmojiPanelContainer;
 
 	/**
 	 * Foreground color image view.
@@ -326,7 +328,7 @@ public class ARE_Toolbar extends LinearLayout {
 
 		this.mColorPalette = this.findViewById(R.id.rteColorPalette);
 
-		this.mEmojiPanel = this.findViewById(R.id.rteEmojiPanel);
+		this.mEmojiPanelContainer = this.findViewById(R.id.rteEmojiPanel);
 
 		this.mFontColorImageView = this.findViewById(R.id.rteFontColor);
 
@@ -516,12 +518,16 @@ public class ARE_Toolbar extends LinearLayout {
                         int screenHeight = screenWandH[1];
                         final int keyboardHeight = screenHeight - r.bottom;
 
-                        if (keyboardHeight > 100) {
-                            mKeyboardHeight = keyboardHeight;
-                            onKeyboardShow();
-                        } else {
-                            onKeyboardHide();
+                        Util.log("p height == " + mPreviousKeyboardHeight + ", this height == " + keyboardHeight);
+                        if (mPreviousKeyboardHeight != keyboardHeight) {
+                            if (keyboardHeight > 100) {
+                                mKeyboardHeight = keyboardHeight;
+                                onKeyboardShow();
+                            } else {
+                                onKeyboardHide();
+                            }
                         }
+                        mPreviousKeyboardHeight = keyboardHeight;
                     }
                 });
     }
@@ -529,10 +535,12 @@ public class ARE_Toolbar extends LinearLayout {
     private void onKeyboardShow() {
         mKeyboardShownNow = true;
         toggleEmojiPanel(false);
+        mEmojiShownNow = false;
         mLayoutDelay = 100;
     }
 
     private void onKeyboardHide() {
+        Util.log("on key board hide, hewhkb == " + mHideEmojiWhenHideKeyboard);
         mKeyboardShownNow = false;
         if (mHideEmojiWhenHideKeyboard) {
             toggleEmojiPanel(false);
@@ -546,19 +554,26 @@ public class ARE_Toolbar extends LinearLayout {
         }
     }
 
-    private int mKeyboardHeight = 0;
-    private boolean mKeyboardShownNow = true;
-    private boolean mHideEmojiWhenHideKeyboard = true;
-    private boolean mEmojiShownNow = false;
     private int mLayoutDelay = 0;
+    private int mPreviousKeyboardHeight = 0;
+    private boolean mKeyboardShownNow = true;
+    private boolean mEmojiShownNow = false;
+    private boolean mHideEmojiWhenHideKeyboard = true;
+    private int mKeyboardHeight = 0;
+    private View mEmojiPanel;
 
 
     private void initEmojiPanelHeight(int expectHeight) {
-        int emojiHeight = this.mEmojiPanel.getHeight();
+        int emojiHeight = this.mEmojiPanelContainer.getHeight();
         if (emojiHeight != expectHeight) {
-            LinearLayout.LayoutParams layoutParams = (LayoutParams) mEmojiPanel.getLayoutParams();
+            LinearLayout.LayoutParams layoutParams = (LayoutParams) mEmojiPanelContainer.getLayoutParams();
             layoutParams.height = expectHeight;
-            mEmojiPanel.setLayoutParams(layoutParams);
+            mEmojiPanelContainer.setLayoutParams(layoutParams);
+            if (mEmojiPanel != null) {
+                LayoutParams emojiPanelLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+                mEmojiPanel.setLayoutParams(emojiPanelLayoutParams);
+                ((ViewGroup) mEmojiPanelContainer).addView(mEmojiPanel);
+            }
             mContext.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         }
     }
@@ -566,35 +581,86 @@ public class ARE_Toolbar extends LinearLayout {
     public void toggleEmojiPanel(boolean byClickEmoji) {
         if (mKeyboardShownNow) {
             if (byClickEmoji) {
+                // Keyboard is shown now
+                // Click emoji icon we should hide keyboard and keep emoji panel open
+
+                // 1. Set keyboard as hide
                 mKeyboardShownNow = false;
+
+                // 2. When hide keyboard, don't need to hide emoji
+                // as we need to open emoji
                 mHideEmojiWhenHideKeyboard = false;
+
+                // 3. Hide keyboard
                 View view = mContext.getCurrentFocus();
                 hideKeyboard(view);
+
+                // 4. Show emoji
                 initEmojiPanelHeight(mKeyboardHeight);
-                mEmojiPanel.setVisibility(View.VISIBLE);
+                mEmojiPanelContainer.setVisibility(View.VISIBLE);
+
+                // 5. Set emoji is shown now
                 mEmojiShownNow = true;
+
+                // 6. Change emoji icon to keyboard
                 mEmojiImageView.setImageResource(R.drawable.keyboard);
             } else {
-                mEmojiPanel.setVisibility(View.VISIBLE);
-                mEmojiShownNow = true;
+                // Keyboard is shown now
+                // Toggle emoji panel to make the layout looks well for adjustPan
+
+                // 1. Sets emoji panel to visible so it takes up height
+                mEmojiPanelContainer.setVisibility(View.VISIBLE);
+
+                // 2. Although emoji panel takes up height but it is not shown now
+                // (NOT VISIBLE TO USER, AS KEYBOARD IS BEING SHOWN)
+                mEmojiShownNow = false;
             }
         } else {
             if (byClickEmoji) {
+                // Keyboard is hide, then use clicks emoji
+                // We should consider two cases
+                // 1. keyboard is hidden but emoji is shown
+                // 2. keyboard is hidden and Emoji is hidden too
+
+
                 if (mEmojiShownNow) {
+                    // Case 1: keyboard is hidden but emoji is shown
+                    // And user clicks emoji icon
+                    //
+                    // We should show keyboard and hide emoji
+
+                    // 1. Set keyboard as shown now
                     mKeyboardShownNow = true;
+
+                    // 1.1. Show keyboard
                     View view = getEditText();
                     showKeyboard(view);
+
+                    // 2. Set emoji as hide now
+                    mEmojiShownNow = false;
+
+                    // 3. Change emoji icon to emoji
                     mEmojiImageView.setImageResource(R.drawable.emoji);
                 } else {
-                    mHideEmojiWhenHideKeyboard = false;
+                    // Case 2: keyboard is hidden and Emoji is hidden too
+                    // And user clicks emoji icon
+                    //
+                    // We should show emoji panel
+
+                    // 1. Show emoji panel
                     initEmojiPanelHeight(mKeyboardHeight);
-                    mEmojiPanel.setVisibility(View.VISIBLE);
+                    mEmojiPanelContainer.setVisibility(View.VISIBLE);
+                    // 1.1 Set emoji panel as shown now
                     mEmojiShownNow = true;
+                    // 1.2 Change emoji icon to keyboard
                     mEmojiImageView.setImageResource(R.drawable.keyboard);
                 }
 
             } else {
-                mEmojiPanel.setVisibility(View.GONE);
+                // User clicks the virtual button to hide keyboard
+                // We should hide emoji panel
+                Util.log("gone!!");
+                mEmojiPanelContainer.setVisibility(View.GONE);
                 mEmojiShownNow = false;
                 mEmojiImageView.setImageResource(R.drawable.emoji);
             }
@@ -618,6 +684,11 @@ public class ARE_Toolbar extends LinearLayout {
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         }
+    }
+
+
+    public void setEmojiPanel(View emojiPanel) {
+        mEmojiPanel = emojiPanel;
     }
     /* -------- END: Keep it at the bottom of the class.. Keyboard and emoji ------------ */
     /* -------- END: Keep it at the bottom of the class.. Keyboard and emoji ------------ */
