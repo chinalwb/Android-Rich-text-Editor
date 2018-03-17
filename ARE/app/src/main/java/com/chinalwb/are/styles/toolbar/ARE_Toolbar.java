@@ -14,10 +14,10 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -61,7 +61,7 @@ public class ARE_Toolbar extends LinearLayout {
 	 */
 	public static final int REQ_AT = 2;
 	
-	private Context mContext;
+	private Activity mContext;
 	
 	private AREditText mEditText;
 	
@@ -218,7 +218,7 @@ public class ARE_Toolbar extends LinearLayout {
 	/**
 	 * The emoji panel
 	 */
-	private LinearLayout mEmojiPanel;
+	private View mEmojiPanel;
 
 	/**
 	 * Foreground color image view.
@@ -290,7 +290,7 @@ public class ARE_Toolbar extends LinearLayout {
 
 	public ARE_Toolbar(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		this.mContext = context;
+		this.mContext = (Activity) context;
 		sInstance = this;
 		init();
 	}
@@ -301,7 +301,7 @@ public class ARE_Toolbar extends LinearLayout {
 		this.setOrientation(LinearLayout.VERTICAL);
 		initViews();
 		initStyles();
-		getKeyboardHeight();
+		initKeyboard();
 	}
 
 	private int getLayoutId() {
@@ -310,49 +310,49 @@ public class ARE_Toolbar extends LinearLayout {
 
 	private void initViews() {
 
-		this.mEmojiImageView = (ImageView) this.findViewById(R.id.rteEmoji);
+		this.mEmojiImageView = this.findViewById(R.id.rteEmoji);
 
-		this.mFontsizeImageView = (ImageView) this.findViewById(R.id.rteFontsize);
+		this.mFontsizeImageView = this.findViewById(R.id.rteFontsize);
 
-		this.mFontfaceImageView = (ImageView) this.findViewById(R.id.rteFontface);
+		this.mFontfaceImageView = this.findViewById(R.id.rteFontface);
 
-		this.mBoldImageView = (ImageView) this.findViewById(R.id.rteBold);
+		this.mBoldImageView = this.findViewById(R.id.rteBold);
 
-		this.mItalicImageView = (ImageView) this.findViewById(R.id.rteItalic);
+		this.mItalicImageView = this.findViewById(R.id.rteItalic);
 
-		this.mUnderlineImageView = (ImageView) this.findViewById(R.id.rteUnderline);
+		this.mUnderlineImageView = this.findViewById(R.id.rteUnderline);
 
-		this.mQuoteImageView = (ImageView) this.findViewById(R.id.rteQuote);
+		this.mQuoteImageView = this.findViewById(R.id.rteQuote);
 
-		this.mColorPalette = (ColorPickerView) this.findViewById(R.id.rteColorPalette);
+		this.mColorPalette = this.findViewById(R.id.rteColorPalette);
 
-		this.mEmojiPanel = (LinearLayout) this.findViewById(R.id.rteEmojiPanel);
+		this.mEmojiPanel = this.findViewById(R.id.rteEmojiPanel);
 
-		this.mFontColorImageView = (ImageView) this.findViewById(R.id.rteFontColor);
+		this.mFontColorImageView = this.findViewById(R.id.rteFontColor);
 
-		this.mStrikethroughImageView = (ImageView) this.findViewById(R.id.rteStrikethrough);
+		this.mStrikethroughImageView = this.findViewById(R.id.rteStrikethrough);
 
-		this.mBackgroundImageView = (ImageView) this.findViewById(R.id.rteBackground);
+		this.mBackgroundImageView = this.findViewById(R.id.rteBackground);
 
-		this.mLinkImageView = (ImageView) this.findViewById(R.id.rteLink);
+		this.mLinkImageView = this.findViewById(R.id.rteLink);
 
-		this.mRteListNumber = (ImageView) this.findViewById(R.id.rteListNumber);
+		this.mRteListNumber = this.findViewById(R.id.rteListNumber);
 
-		this.mRteListBullet = (ImageView) this.findViewById(R.id.rteListBullet);
+		this.mRteListBullet = this.findViewById(R.id.rteListBullet);
 
-		this.mRteIndentRight = (ImageView) this.findViewById(R.id.rteIndentRight);
+		this.mRteIndentRight = this.findViewById(R.id.rteIndentRight);
 
-		this.mRteIndentLeft = (ImageView) this.findViewById(R.id.rteIndentLeft);
+		this.mRteIndentLeft = this.findViewById(R.id.rteIndentLeft);
 
-		this.mRteAlignLeft = (ImageView) this.findViewById(R.id.rteAlignLeft);
+		this.mRteAlignLeft = this.findViewById(R.id.rteAlignLeft);
 
-		this.mRteAlignCenter = (ImageView) this.findViewById(R.id.rteAlignCenter);
+		this.mRteAlignCenter = this.findViewById(R.id.rteAlignCenter);
 
-		this.mRteAlignRight = (ImageView) this.findViewById(R.id.rteAlignRight);
+		this.mRteAlignRight = this.findViewById(R.id.rteAlignRight);
 
-		this.mRteInsertImage = (ImageView) this.findViewById(R.id.rteInsertImage);
+		this.mRteInsertImage = this.findViewById(R.id.rteInsertImage);
 
-		this.mRteAtImage = (ImageView) this.findViewById(R.id.rteAt);
+		this.mRteAtImage = this.findViewById(R.id.rteAt);
 
 	}
 
@@ -402,6 +402,7 @@ public class ARE_Toolbar extends LinearLayout {
 		this.mStylesList.add(this.mImageStyle);
 		this.mStylesList.add(this.mAtStyle);
 	}
+
 
 	public static ARE_Toolbar getInstance() {
 		return sInstance;
@@ -468,66 +469,6 @@ public class ARE_Toolbar extends LinearLayout {
 		}
 	}
 
-	private boolean kbShown = true;
-	public void toggleEmojiPanel() {
-
-
-		// getKeyboardHeight();
-
-		if (kbShown) {
-//			this.postDelayed(new Runnable() {
-//				@Override
-//				public void run() {
-//					mEmojiPanel.setVisibility(View.VISIBLE);
-//				}
-//			}, 10);
-			View view = ((Activity) mContext).getCurrentFocus();
-			if (view != null) {
-				InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-				if (imm != null) {
-					imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-				}
-			}
-
-			kbShown = false;
-		} else {
-//			this.postDelayed(new Runnable() {
-//				@Override
-//				public void run() {
-//					mEmojiPanel.setVisibility(View.GONE);
-//				}
-//			}, 10);
-			View view = getEditText();
-			if (view != null) {
-				InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-				if (imm != null) {
-					view.requestFocus();
-					imm.showSoftInput(view, 0);
-				}
-			}
-			kbShown = true;
-		}
-	}
-
-	protected void getKeyboardHeight() {
-//		this.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//
-//			@Override
-//			public void onGlobalLayout() {
-//				ARE_Toolbar.this.postDelayed(new Runnable() {
-//					@Override
-//					public void run() {
-//						int[] x = new int[2];
-//						ARE_Toolbar.this.getLocationOnScreen(x);
-//						int height = ARE_Toolbar.this.getHeight();
-//						Util.log("x1 == " + x[0] + ", x2 == " + x[1] + ", bottom == " + x[1] + height);
-//					}
-//				}, 1000);
-//
-//			}
-//		});
-	}
-
 	public void setColorPaletteColor(int color) {
 		this.mColorPalette.setColor(color);
 	}
@@ -545,4 +486,139 @@ public class ARE_Toolbar extends LinearLayout {
 		}
 	}
 
+
+    /* -------- START: Keep it at the bottom of the class.. Keyboard and emoji ------------ */
+	/* -------- START: Keep it at the bottom of the class.. Keyboard and emoji ------------ */
+    private void initKeyboard() {
+        final Window window = mContext.getWindow();
+        final View rootView = window.getDecorView().findViewById(android.R.id.content);
+        rootView.getViewTreeObserver().addOnGlobalLayoutListener(
+                new ViewTreeObserver.OnGlobalLayoutListener() {
+                    public void onGlobalLayout() {
+                        if (mLayoutDelay == 0) {
+                            init();
+                            return;
+                        }
+                        rootView.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                init();
+                            }
+                        }, mLayoutDelay);
+
+                    }
+
+                    private void init() {
+                        Rect r = new Rect();
+                        View view = window.getDecorView();
+                        view.getWindowVisibleDisplayFrame(r);
+                        int[] screenWandH = Util.getScreenWidthAndHeight(mContext);
+                        int screenHeight = screenWandH[1];
+                        final int keyboardHeight = screenHeight - r.bottom;
+
+                        if (keyboardHeight > 100) {
+                            mKeyboardHeight = keyboardHeight;
+                            onKeyboardShow();
+                        } else {
+                            onKeyboardHide();
+                        }
+                    }
+                });
+    }
+
+    private void onKeyboardShow() {
+        mKeyboardShownNow = true;
+        toggleEmojiPanel(false);
+        mLayoutDelay = 100;
+    }
+
+    private void onKeyboardHide() {
+        mKeyboardShownNow = false;
+        if (mHideEmojiWhenHideKeyboard) {
+            toggleEmojiPanel(false);
+        } else {
+            this.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mHideEmojiWhenHideKeyboard = true;
+                }
+            }, 100);
+        }
+    }
+
+    private int mKeyboardHeight = 0;
+    private boolean mKeyboardShownNow = true;
+    private boolean mHideEmojiWhenHideKeyboard = true;
+    private boolean mEmojiShownNow = false;
+    private int mLayoutDelay = 0;
+
+
+    private void initEmojiPanelHeight(int expectHeight) {
+        int emojiHeight = this.mEmojiPanel.getHeight();
+        if (emojiHeight != expectHeight) {
+            LinearLayout.LayoutParams layoutParams = (LayoutParams) mEmojiPanel.getLayoutParams();
+            layoutParams.height = expectHeight;
+            mEmojiPanel.setLayoutParams(layoutParams);
+            mContext.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        }
+    }
+
+    public void toggleEmojiPanel(boolean byClickEmoji) {
+        if (mKeyboardShownNow) {
+            if (byClickEmoji) {
+                mKeyboardShownNow = false;
+                mHideEmojiWhenHideKeyboard = false;
+                View view = mContext.getCurrentFocus();
+                hideKeyboard(view);
+                initEmojiPanelHeight(mKeyboardHeight);
+                mEmojiPanel.setVisibility(View.VISIBLE);
+                mEmojiShownNow = true;
+                mEmojiImageView.setImageResource(R.drawable.keyboard);
+            } else {
+                mEmojiPanel.setVisibility(View.VISIBLE);
+                mEmojiShownNow = true;
+            }
+        } else {
+            if (byClickEmoji) {
+                if (mEmojiShownNow) {
+                    mKeyboardShownNow = true;
+                    View view = getEditText();
+                    showKeyboard(view);
+                    mEmojiImageView.setImageResource(R.drawable.emoji);
+                } else {
+                    mHideEmojiWhenHideKeyboard = false;
+                    initEmojiPanelHeight(mKeyboardHeight);
+                    mEmojiPanel.setVisibility(View.VISIBLE);
+                    mEmojiShownNow = true;
+                    mEmojiImageView.setImageResource(R.drawable.keyboard);
+                }
+
+            } else {
+                mEmojiPanel.setVisibility(View.GONE);
+                mEmojiShownNow = false;
+                mEmojiImageView.setImageResource(R.drawable.emoji);
+            }
+        }
+    }
+
+    protected void showKeyboard(View view) {
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (imm != null) {
+                view.requestFocus();
+                imm.showSoftInput(view, 0);
+            }
+        }
+    }
+
+    protected void hideKeyboard(View view) {
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (imm != null) {
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+        }
+    }
+    /* -------- END: Keep it at the bottom of the class.. Keyboard and emoji ------------ */
+    /* -------- END: Keep it at the bottom of the class.. Keyboard and emoji ------------ */
 }

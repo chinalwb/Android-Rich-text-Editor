@@ -35,9 +35,9 @@ public class ARE_Emoji extends ARE_ABS_FreeStyle {
 		imageView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-//				showEmojiPanel();
-				int emojiId = R.drawable.emoji;
-				insertEmoji(emojiId);
+				 showEmojiPanel();
+//				int emojiId = R.drawable.emoji;
+//				insertEmoji(emojiId);
 			}
 		});
 	}
@@ -46,24 +46,24 @@ public class ARE_Emoji extends ARE_ABS_FreeStyle {
 		// Hide keyboard
 		// Get keyboard height
 		// Show emoji panel
-		 ARE_Toolbar.getInstance().toggleEmojiPanel();
+		 ARE_Toolbar.getInstance().toggleEmojiPanel(true);
 	}
 
 	@NonNull
 	protected void insertEmoji(int emojiId) {
-		EditText editText = getEditText();
-		// Insert emoji
-		int selectionStart = editText.getSelectionStart();
-		int selectionEnd = editText.getSelectionEnd();
-
-		Editable editable = editText.getText();
-		EmojiSpan span = new EmojiSpan(editText.getContext(), emojiId);
-		SpannableStringBuilder ssb = new SpannableStringBuilder();
-		ssb.append(com.chinalwb.are.Constants.ZERO_WIDTH_SPACE_STR);
-		ssb.setSpan(span, 0, ssb.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		editable.replace(selectionStart, selectionEnd, ssb);
-
-		logAllEmojiSpans(editable);
+//		EditText editText = getEditText();
+//		// Insert emoji
+//		int selectionStart = editText.getSelectionStart();
+//		int selectionEnd = editText.getSelectionEnd();
+//
+//		Editable editable = editText.getText();
+//		EmojiSpan span = new EmojiSpan(editText.getContext(), emojiId);
+//		SpannableStringBuilder ssb = new SpannableStringBuilder();
+//		ssb.append(com.chinalwb.are.Constants.ZERO_WIDTH_SPACE_STR);
+//		ssb.setSpan(span, 0, ssb.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//		editable.replace(selectionStart, selectionEnd, ssb);
+//
+//		logAllEmojiSpans(editable);
 	}
 
 	@Override
