@@ -51,11 +51,17 @@ public class ARE_Image extends ARE_ABS_FreeStyle {
 				ARE_Toolbar.REQ_IMAGE);
 	}
 
+	public enum ImageType {
+		URI,
+		RES,
+	}
+
 	/**
 	 * 
-	 * @param uri
+	 * @param src
+	 * @param type
 	 */
-	public void insertImage(Uri uri) {
+	public void insertImage(Object src, ImageType type) {
 		// AreImageSpan imageSpan = new AreImageSpan(mContext, uri);
 		//
 		// int start = this.mEditText.getSelectionStart();
@@ -102,8 +108,14 @@ public class ARE_Image extends ARE_ABS_FreeStyle {
 				LinearLayout.LayoutParams.WRAP_CONTENT, // Width
 				LinearLayout.LayoutParams.WRAP_CONTENT // Height
 		);
-		imageView.setImageURI(uri);
-		imageView.setTag(uri);
+
+		if (type == ImageType.URI) {
+			imageView.setImageURI((Uri) src);
+			imageView.setTag(src);
+		} else if (type == ImageType.RES) {
+			imageView.setImageResource((int) src);
+		}
+
 		imageView.setLayoutParams(imageViewLayoutParams);
 		imageContainerLayout.addView(imageView);
 

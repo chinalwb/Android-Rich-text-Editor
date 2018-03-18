@@ -185,8 +185,9 @@
         android:id="@+id/rteEmojiPanel"
         android:layout_width="match_parent"
         android:layout_height="0px"
-        android:background="@android:color/holo_blue_light"
         android:visibility="gone"
+        android:gravity="center"
+        android:paddingTop="10dp"
         android:orientation="horizontal">
 
     </LinearLayout>

@@ -29,13 +29,10 @@ public class EmojiPagerAdapter extends FragmentStatePagerAdapter {
 
     private ArrayList<EmojiGroup> mEmojiGroups = new ArrayList<>();
 
-    private AdapterView.OnItemClickListener mListener;
-
-    public EmojiPagerAdapter(Context context, ArrayList<EmojiGroup> emojiGroups, AdapterView.OnItemClickListener listener, FragmentManager fragmentManager) {
+    public EmojiPagerAdapter(Context context, ArrayList<EmojiGroup> emojiGroups, FragmentManager fragmentManager) {
         super(fragmentManager);
         mContext = context;
         mEmojiGroups = emojiGroups;
-        mListener = listener;
         initPages();
     }
 
@@ -45,9 +42,9 @@ public class EmojiPagerAdapter extends FragmentStatePagerAdapter {
         }
         for (EmojiGroup emojiGroup : mEmojiGroups) {
             EmojiFragment emojiFragment = new EmojiFragment();
-            emojiFragment.setListener(mListener);
+            emojiFragment.setListener(emojiGroup.listener);
             Bundle bundle = new Bundle();
-            bundle.putSerializable(EmojiFragment.ARG_INPUT_EMOJI_GROUP, emojiGroup);
+            bundle.putSerializable(EmojiFragment.ARG_INPUT_EMOJI_GROUP_DESC, emojiGroup.desc);
             emojiFragment.setArguments(bundle);
             mPages.add(emojiFragment);
         }

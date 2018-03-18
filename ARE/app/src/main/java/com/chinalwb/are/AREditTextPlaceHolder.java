@@ -2,6 +2,7 @@ package com.chinalwb.are;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
@@ -10,7 +11,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-public class AREditTextPlaceHolder extends EditText {
+public class AREditTextPlaceHolder extends AppCompatEditText {
 
 	public AREditTextPlaceHolder(Context context) {
 		this(context, null);
@@ -86,6 +87,7 @@ public class AREditTextPlaceHolder extends EditText {
 		int previousTextLength = previousEditable.length();
 		AREditText nextEditText = (AREditText) parentLayout.getChildAt(nextIndex);
 		Editable nextEditable = nextEditText.getText();
+		nextEditable = Editable.Factory.getInstance().newEditable(nextEditable);
 		
 		// 1. remove image layout
 		parentLayout.removeView(imageLayout);
@@ -97,6 +99,10 @@ public class AREditTextPlaceHolder extends EditText {
 		previousEditable.append(nextEditable);
 		// 5. set the focus to the end of the previous AREditText
 		previousEditText.setSelection(previousTextLength);
+		// 6. remove next editable
+		Util.log("Removed edittext == " + nextEditText);
+		nextEditText.removeTextWatcher();
+		parentLayout.removeView(nextEditText);
 	}
 
 	private void prependTextToNext(int keyCode, KeyEvent event) {

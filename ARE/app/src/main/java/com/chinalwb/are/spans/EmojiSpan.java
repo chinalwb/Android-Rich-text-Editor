@@ -8,7 +8,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.text.style.DynamicDrawableSpan;
 
-public class EmojiSpan extends DynamicDrawableSpan {
+public class EmojiSpan extends DynamicDrawableSpan implements ARE_Span {
 
   private Context mContext;
   
@@ -16,18 +16,19 @@ public class EmojiSpan extends DynamicDrawableSpan {
   
   private Drawable mDrawable;
 
-  private final int size = 50; // Should not be hard-coded
+  private int mSize = 50; // Should not be hard-coded
 
-  public EmojiSpan(Context context, int resourceId) {
+  public EmojiSpan(Context context, int resourceId, int size) {
     this.mContext = context;
     this.mIconId = resourceId;
+    mSize = size;
   }
 
   @Override
   public Drawable getDrawable() {
     if (null == this.mDrawable) {
       this.mDrawable = this.mContext.getResources().getDrawable(this.mIconId);
-      this.mDrawable.setBounds(0, 0, size , size );
+      this.mDrawable.setBounds(0, 0, mSize, mSize);
     }
 
     return this.mDrawable;
@@ -41,7 +42,7 @@ public class EmojiSpan extends DynamicDrawableSpan {
       fontMetrics.bottom = (int) paintFontMetrics.bottom;
     }
 
-    return (int) size;
+    return (int) mSize;
   }
 
   @Override public void draw(final Canvas canvas, final CharSequence text, final int start,
@@ -51,7 +52,7 @@ public class EmojiSpan extends DynamicDrawableSpan {
     final Paint.FontMetrics paintFontMetrics = paint.getFontMetrics();
     final float fontHeight = paintFontMetrics.descent - paintFontMetrics.ascent;
     final float centerY = y + paintFontMetrics.descent - fontHeight / 2;
-    final float transitionY = centerY - size / 2;
+    final float transitionY = centerY - mSize / 2;
 
     canvas.save();
     canvas.translate(x, transitionY);
@@ -74,5 +75,10 @@ public class EmojiSpan extends DynamicDrawableSpan {
     return d;
 }
 
-private WeakReference<Drawable> mDrawableRef;
+  @Override
+  public String getHtml() {
+    return "[EMOJI " + mIconId + "]";
+  }
+
+  private WeakReference<Drawable> mDrawableRef;
 }

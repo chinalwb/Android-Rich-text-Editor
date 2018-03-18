@@ -8,6 +8,7 @@ import android.text.Spanned;
 import android.widget.ImageView;
 
 import com.chinalwb.are.AREditText;
+import com.chinalwb.are.Util;
 import com.chinalwb.are.activities.Are_AtPickerActivity;
 import com.chinalwb.are.models.AtItem;
 import com.chinalwb.are.spans.AreAtSpan;
@@ -66,6 +67,7 @@ public class ARE_At extends ARE_ABS_FreeStyle {
 	@Override
 	public void applyStyle(Editable editable, int start, int end) {
 		if (end > start) {
+			Util.log("at style:: len == " + editable.length());
 			String typeString = editable.toString().substring(start, end);
 			if (typeString.equals(AT)) {
 				// Open contacts list

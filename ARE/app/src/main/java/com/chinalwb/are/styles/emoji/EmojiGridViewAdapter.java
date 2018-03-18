@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.chinalwb.are.R;
+import com.chinalwb.are.Util;
 
 /**
  * Created by wliu on 2018/3/17.
@@ -17,11 +18,20 @@ public class EmojiGridViewAdapter extends BaseAdapter {
 
     private Context mContext;
 
+    private EmojiGroupDesc mEmojiGroupDesc;
+
     private int[] mImageResIds;
 
-    public EmojiGridViewAdapter(Context context, int[] imageResIds) {
+    private int mSize;
+
+    private int mPadding;
+
+    public EmojiGridViewAdapter(Context context, EmojiGroupDesc emojiGroupDesc) {
         mContext = context;
-        mImageResIds = imageResIds;
+        mEmojiGroupDesc = emojiGroupDesc;
+        mImageResIds = emojiGroupDesc.imageResIds;
+        mSize = Util.getPixelByDp(context, emojiGroupDesc.size);
+        mPadding = Util.getPixelByDp(context, emojiGroupDesc.padding);
     }
 
     @Override
@@ -49,6 +59,11 @@ public class EmojiGridViewAdapter extends BaseAdapter {
             LayoutInflater layoutInflater = LayoutInflater.from(mContext);
             convertView = layoutInflater.inflate(R.layout.are_emoji_item, parent, false);
 
+            ViewGroup.LayoutParams layoutParams = convertView.getLayoutParams();
+            layoutParams.width = mSize;
+            layoutParams.height = mSize;
+            convertView.setLayoutParams(layoutParams);
+            convertView.setPadding(mPadding, mPadding, mPadding, mPadding);
             viewHolder = new ViewHolder();
             viewHolder.imageView = (ImageView) convertView;
             convertView.setTag(viewHolder);

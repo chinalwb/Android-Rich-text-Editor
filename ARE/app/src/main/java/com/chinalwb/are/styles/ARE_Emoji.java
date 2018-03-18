@@ -1,8 +1,5 @@
 package com.chinalwb.are.styles;
 
-import android.app.Activity;
-import android.app.VoiceInteractor;
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +8,6 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,6 +17,7 @@ import com.chinalwb.are.Util;
 import com.chinalwb.are.spans.EmojiSpan;
 import com.chinalwb.are.styles.emoji.EmojiGridViewAdapter;
 import com.chinalwb.are.styles.emoji.EmojiGroup;
+import com.chinalwb.are.styles.emoji.EmojiGroupDesc;
 import com.chinalwb.are.styles.emoji.EmojiPagerAdapter;
 import com.chinalwb.are.styles.emoji.EmojiPanel;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
@@ -31,11 +28,27 @@ public class ARE_Emoji extends ARE_ABS_FreeStyle {
 
 	private ImageView mEmojiImageView;
 
-	private AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
+	private AdapterView.OnItemClickListener listenerA = new AdapterView.OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			int resId = ((EmojiGridViewAdapter.ViewHolder) view.getTag()).resId;
 			insertEmoji(resId);
+		}
+	};
+
+	private AdapterView.OnItemClickListener listenerB = new AdapterView.OnItemClickListener() {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			int resId = ((EmojiGridViewAdapter.ViewHolder) view.getTag()).resId;
+			insertEmoji(resId);
+		}
+	};
+
+	private AdapterView.OnItemClickListener listenerC = new AdapterView.OnItemClickListener() {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			int resId = ((EmojiGridViewAdapter.ViewHolder) view.getTag()).resId;
+			ARE_Toolbar.getInstance().getImageStyle().insertImage(resId, ARE_Image.ImageType.RES);
 		}
 	};
 
@@ -54,63 +67,116 @@ public class ARE_Emoji extends ARE_ABS_FreeStyle {
 		emojiPanel.setId(R.id.emojiPanelId);
 		FragmentManager fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager();
 		ArrayList<EmojiGroup> emojiGroups = initEmojiGroups();
-		EmojiPagerAdapter adapter = new EmojiPagerAdapter(mContext, emojiGroups, listener, fragmentManager);
+		EmojiPagerAdapter adapter = new EmojiPagerAdapter(mContext, emojiGroups, fragmentManager);
 		emojiPanel.setAdapter(adapter);
 		ARE_Toolbar.getInstance().setEmojiPanel(emojiPanel);
 	}
 
 	private ArrayList<EmojiGroup> initEmojiGroups() {
 		EmojiGroup group1 = new EmojiGroup();
-		group1.numColumns = 7;
-		int[] imageResIds1 = new int[50];
-		for (int i = 0; i < 50; i++) {
-			int pos = i % 3;
-			int id = R.drawable.fontface;
-			switch (pos) {
-				case 0:
-					id = R.drawable.fontface;
-					break;
-				case 1:
-					id = R.drawable.emoji;
-					break;
-				case 2:
-					id = R.drawable.at;
-					break;
-				default:
-					break;
-			}
-			imageResIds1[i] = id;
-		}
-		group1.imageResIds = imageResIds1;
-
+		EmojiGroupDesc desc1 = new EmojiGroupDesc();
+		desc1.numColumns = 7;
+		int[] imageResIds1 = {
+				R.drawable.wx_56_56_56_1_1,
+				R.drawable.wx_56_56_56_1_2,
+				R.drawable.wx_56_56_56_1_3,
+				R.drawable.wx_56_56_56_1_4,
+				R.drawable.wx_56_56_56_1_5,
+				R.drawable.wx_56_56_56_1_6,
+				R.drawable.wx_56_56_56_1_7,
+				R.drawable.wx_56_56_56_1_8,
+				R.drawable.wx_56_56_56_1_9,
+				R.drawable.wx_56_56_56_1_10,
+				R.drawable.wx_56_56_56_1_11,
+				R.drawable.wx_56_56_56_1_12,
+				R.drawable.wx_56_56_56_1_13,
+				R.drawable.wx_56_56_56_1_14,
+				R.drawable.wx_56_56_56_1_15,
+				R.drawable.wx_56_56_56_2_1,
+				R.drawable.wx_56_56_56_2_2,
+				R.drawable.wx_56_56_56_2_3,
+				R.drawable.wx_56_56_56_2_4,
+				R.drawable.wx_56_56_56_2_5,
+				R.drawable.wx_56_56_56_2_6,
+				R.drawable.wx_56_56_56_2_7,
+				R.drawable.wx_56_56_56_2_8,
+				R.drawable.wx_56_56_56_2_9,
+				R.drawable.wx_56_56_56_2_10,
+				R.drawable.wx_56_56_56_2_11,
+				R.drawable.wx_56_56_56_2_12,
+				R.drawable.wx_56_56_56_2_13,
+				R.drawable.wx_56_56_56_2_14,
+				R.drawable.wx_56_56_56_2_15,
+		};
+		desc1.imageResIds = imageResIds1;
+		desc1.size = 56;
+		desc1.padding = 5;
+		group1.desc = desc1;
+		group1.listener = listenerA;
 
 		EmojiGroup group2 = new EmojiGroup();
-		group2.numColumns = 4;
-		int[] imageResIds2 = new int[15];
-		for (int i = 0; i < 15; i++) {
-			int pos = i % 5;
-			int id = R.drawable.cartoon_man_in_love;
-			switch (pos) {
-				case 0:
-					id = R.drawable.cartoon_man_is_smoking;
-					break;
-				case 1:
-					id = R.drawable.cartoon_man_is_urinating;
-					break;
-				case 2:
-					id = R.drawable.cartoon_man_laughing;
-					break;
-				default:
-					id = R.drawable.cartoon_man_with_flower_bouquet;
-					break;
-			}
-			imageResIds2[i] = id;
-		}
-		group2.imageResIds = imageResIds2;
+		EmojiGroupDesc desc2 = new EmojiGroupDesc();
+		desc2.numColumns = 6;
+		int[] imageResIds2 = {
+				R.drawable.wx_48_48_48_1_1,
+				R.drawable.wx_48_48_48_1_2,
+				R.drawable.wx_48_48_48_1_3,
+				R.drawable.wx_48_48_48_1_4,
+				R.drawable.wx_48_48_48_1_5,
+				R.drawable.wx_48_48_48_1_6,
+				R.drawable.wx_48_48_48_1_7,
+				R.drawable.wx_48_48_48_1_8,
+				R.drawable.wx_48_48_48_1_9,
+				R.drawable.wx_48_48_48_1_10,
+				R.drawable.wx_48_48_48_1_11,
+				R.drawable.wx_48_48_48_1_12,
+				R.drawable.wx_48_48_48_1_13,
+				R.drawable.wx_48_48_48_1_14,
+				R.drawable.wx_48_48_48_1_15,
+				R.drawable.wx_48_48_48_2_1,
+				R.drawable.wx_48_48_48_2_2,
+				R.drawable.wx_48_48_48_2_3,
+				R.drawable.wx_48_48_48_2_4,
+				R.drawable.wx_48_48_48_2_5,
+				R.drawable.wx_48_48_48_2_6,
+				R.drawable.wx_48_48_48_2_7,
+				R.drawable.wx_48_48_48_2_8,
+				R.drawable.wx_48_48_48_2_9,
+				R.drawable.wx_48_48_48_2_10,
+				R.drawable.wx_48_48_48_2_11,
+				R.drawable.wx_48_48_48_2_12,
+				R.drawable.wx_48_48_48_2_13,
+				R.drawable.wx_48_48_48_2_14,
+				R.drawable.wx_48_48_48_2_15,
+		};
+		desc2.size = 48;
+		desc2.padding = 3;
+		desc2.imageResIds = imageResIds2;
+		group2.listener = listenerB;
+		group2.desc = desc2;
+
+		EmojiGroup group3 = new EmojiGroup();
+		EmojiGroupDesc desc3 = new EmojiGroupDesc();
+		desc3.numColumns = 4;
+		desc3.size = 90;
+		int[] imageResIds3 = {
+				R.drawable.wx_d_1,
+				R.drawable.wx_d_2,
+				R.drawable.wx_d_3,
+				R.drawable.wx_d_4,
+				R.drawable.wx_d_5,
+				R.drawable.wx_d_6,
+				R.drawable.wx_d_7,
+				R.drawable.wx_d_8,
+		};
+		desc3.imageResIds = imageResIds3;
+		group3.listener = listenerC;
+		group3.desc = desc3;
 
 		ArrayList<EmojiGroup> groups = new ArrayList<>();
 		groups.add(group1);
 		groups.add(group2);
+		groups.add(group3);
 
 		return groups;
 	}
@@ -135,18 +201,19 @@ public class ARE_Emoji extends ARE_ABS_FreeStyle {
 	@NonNull
 	protected void insertEmoji(int emojiId) {
 		EditText editText = getEditText();
+		int size = editText.getLineHeight();
 		// Insert emoji
 		int selectionStart = editText.getSelectionStart();
 		int selectionEnd = editText.getSelectionEnd();
 
 		Editable editable = editText.getText();
-		EmojiSpan span = new EmojiSpan(editText.getContext(), emojiId);
+		EmojiSpan span = new EmojiSpan(editText.getContext(), emojiId, size);
 		SpannableStringBuilder ssb = new SpannableStringBuilder();
 		ssb.append(com.chinalwb.are.Constants.ZERO_WIDTH_SPACE_STR);
 		ssb.setSpan(span, 0, ssb.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		editable.replace(selectionStart, selectionEnd, ssb);
 
-		logAllEmojiSpans(editable);
+		// logAllEmojiSpans(editable);
 	}
 
 	@Override

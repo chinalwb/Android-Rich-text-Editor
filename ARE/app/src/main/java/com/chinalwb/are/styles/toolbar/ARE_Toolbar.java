@@ -457,6 +457,10 @@ public class ARE_Toolbar extends LinearLayout {
 		return mBackgroundColoStyle;
 	}
 
+	public ARE_Image getImageStyle() {
+	    return mImageStyle;
+    }
+
 	public List<IARE_Style> getStylesList() {
 		return this.mStylesList;
 	}
@@ -479,7 +483,7 @@ public class ARE_Toolbar extends LinearLayout {
 		if (resultCode == Activity.RESULT_OK) {
 			if (REQ_IMAGE == requestCode) {
 				Uri uri = data.getData();
-				this.mImageStyle.insertImage(uri);
+				this.mImageStyle.insertImage(uri, ARE_Image.ImageType.URI);
 			} else if (REQ_AT == requestCode) {
 				AtItem atItem = (AtItem) data.getSerializableExtra(ARE_At.EXTRA_TAG);
 				if (null == atItem) { return; }

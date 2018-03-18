@@ -16,6 +16,7 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -51,6 +52,8 @@ public class AREditText extends AppCompatEditText {
 	private static List<IARE_Style> sStylesList;
 
 	private Context mContext;
+
+	private TextWatcher mTextWatcher;
 
 	public AREditText(Context context) {
 		this(context, null);
@@ -137,7 +140,7 @@ public class AREditText extends AppCompatEditText {
 	 * Monitoring text changes.
 	 */
 	private void setupTextWatcher() {
-		TextWatcher textWatcher = new TextWatcher() {
+		mTextWatcher = new TextWatcher() {
 
 			int startPos = 0;
 			int endPos = 0;
@@ -171,13 +174,19 @@ public class AREditText extends AppCompatEditText {
 					Util.log("User deletes: start == " + startPos + " endPos == " + endPos);
 				}
 
+				sToolbar.setEditText(AREditText.this);
+				Util.log("Edittext after text change == " + AREditText.this);
 				for (IARE_Style style : sStylesList) {
-					style.applyStyle(getEditableText(), startPos, endPos);
+					style.applyStyle(s, startPos, endPos);
 				}
 			}
 		};
 
-		this.addTextChangedListener(textWatcher);
+		this.addTextChangedListener(mTextWatcher);
+	}
+
+	public void removeTextWatcher() {
+		this.removeTextChangedListener(mTextWatcher);
 	}
 
 	/*
@@ -190,7 +199,8 @@ public class AREditText extends AppCompatEditText {
 		if (sToolbar == null) {
 			return;
 		}
-		
+
+		Util.log(" on Selection changed == " + this);
 		boolean boldExists = false;
 		boolean italicsExists = false;
 		boolean underlinedExists = false;

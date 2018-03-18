@@ -20,9 +20,9 @@ public class EmojiFragment extends Fragment {
 
     private Context mContext;
 
-    private EmojiGroup mEmojiGroup;
+    private EmojiGroupDesc mEmojiGroupDesc;
 
-    public static final String ARG_INPUT_EMOJI_GROUP = "EMOJI_GROUP";
+    public static final String ARG_INPUT_EMOJI_GROUP_DESC = "EMOJI_GROUP_DESC";
 
     private AdapterView.OnItemClickListener mListener;
 
@@ -30,7 +30,7 @@ public class EmojiFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getContext();
-        mEmojiGroup = (EmojiGroup) getArguments().get(ARG_INPUT_EMOJI_GROUP);
+        mEmojiGroupDesc = (EmojiGroupDesc) getArguments().get(ARG_INPUT_EMOJI_GROUP_DESC);
     }
 
     @Nullable
@@ -38,18 +38,18 @@ public class EmojiFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        if (mEmojiGroup == null) {
+        if (mEmojiGroupDesc == null) {
             return null;
         }
         GridView gridView = (GridView) inflater.inflate(R.layout.are_emoji_panel, container, false);
-        gridView.setNumColumns(mEmojiGroup.numColumns);
-        EmojiGridViewAdapter adapter = new EmojiGridViewAdapter(mContext, mEmojiGroup.imageResIds);
+        gridView.setNumColumns(mEmojiGroupDesc.numColumns);
+        EmojiGridViewAdapter adapter = new EmojiGridViewAdapter(mContext, mEmojiGroupDesc);
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(mListener);
         return gridView;
     }
 
     public void setListener(AdapterView.OnItemClickListener listener) {
-        mListener = listener;
+        this.mListener = listener;
     }
 }
