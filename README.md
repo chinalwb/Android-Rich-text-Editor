@@ -9,7 +9,7 @@ It's still in progress now, but I believe it will be (one of the) best open sour
 
 This is implemented by Java
 
- ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/demo3.gif)
+ ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/are_demo.gif)
  
 Release 0.0.1:
 * Editing at ARE:
@@ -61,9 +61,9 @@ Demo for font color feature:
 -----------------
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/fontcolor_demo.png)
 
-Demo for emoji feature (in progress, not finished yet):
+Demo for emoji feature:
 -----------------
- ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/emoji_demo.png)
+ ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/emoji.gif)
  
 In progress items:
 -----------------
