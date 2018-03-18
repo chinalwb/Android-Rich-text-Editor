@@ -9,16 +9,8 @@ It's still in progress now, but I believe it will be (one of the) best open sour
 
 This is implemented by Java
 
- ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/demo3.gif)
+ ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/are_demo.gif)
  
-Release 0.0.1:
-* Editing at ARE:
-
- ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/ARE_editing.png)
-
- HTML Viewer shows:
-
- ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/HTMLViewer.png)
 
 Supported styles:
 ------------------
@@ -32,42 +24,35 @@ Supported styles:
 * Align center
 * Align right
 * Insert image
-* Background color - NEW in 0.0.2
-* Hyper link - NEW in 0.0.2
-* @ - NEW in 0.0.2
+* Background color
+* Hyper link
+* @
+* Quote - NEW in 0.0.3
+* Foreground color - NEW in 0.0.3
+* Emoji icon - NEW in 0.0.3
 * All styles support save as HTML file
-* Ehancements on ordered list and bullet list editing
 
-Demo for @ feature:
+
+Released [v0.0.3](https://github.com/chinalwb/are/releases/tag/v0.0.3) Plan for v0.0.4, target on 2018-04-30:
 -----------------
- ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/at_demo.gif)
- 
-@ demo html:
- ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/at_demo_html.png)
+* Font size
+* Superscript
+* Subscript
 
-
-Released [v0.0.2](https://github.com/chinalwb/are/releases/tag/v0.0.2) Plan for v0.0.3, target on 2018-03-31:
------------------
-
-* Quote - Done
-* Foreground color - Done
-* Emoji icon - In progress
-
-Demo for quote feature:
+Demo for quote feature (NEW in 0.0.3):
 -----------------
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/quote_demo.png)
  
-Demo for font color feature:
+Demo for font color feature (NEW in 0.0.3):
 -----------------
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/fontcolor_demo.png)
 
-Demo for emoji feature (in progress, not finished yet):
+Demo for emoji feature (NEW in 0.0.3):
 -----------------
- ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/emoji_demo.png)
+ ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/emoji.gif)
  
 In progress items:
 -----------------
-* Emoji icon
 * Font size
 * Superscript
 * Subscript
@@ -88,7 +73,7 @@ Before the general release, you need to checkout the code and add this to a layo
 ```
 You can download the APK here:
 
-[Click ARE_20180213_0.0.2.apk to download](https://github.com/chinalwb/Android-Rich-text-Editor/releases/download/v0.0.2/ARE_20180213_0.0.2.apk)
+[Click ARE_20180318_0.0.3.apk to download](https://github.com/chinalwb/Android-Rich-text-Editor/releases/download/v0.0.3/ARE_20180318_0.0.3.apk)
 
 Known issues:
 * Background color - cursor invisible when put it in the range of BackgroundColorSpan
