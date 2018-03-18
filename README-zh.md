@@ -8,16 +8,7 @@ Android富文本编辑器
 
 项目用Java实现，应用Android的Span实现富文本多种样式的编辑。
 
- ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/demo3.gif)
- 
-Release 0.0.2:
-* 编辑样式:
-
- ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/ARE_editing.png)
-
- 导出的HTML用HTML Viewer 打开:
-
- ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/HTMLViewer.png)
+ ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/are_demo.gif)
 
 目前支持的样式:
 ------------------
@@ -31,45 +22,38 @@ Release 0.0.2:
 * 居中对齐 - Align center
 * 右对齐 - Align right
 * 插入图片 - Insert image
-* 文字背景色 - Background color - NEW in 0.0.2
-* 插入超链接 - Hyper link - NEW in 0.0.2
-* @功能 - @ - NEW in 0.0.2
+* 文字背景色 - Background color
+* 插入超链接 - Hyper link 
+* @功能 - @ 
+* 引用 - NEW in 0.0.3
+* 文字颜色（前景色） - NEW in 0.0.3
+* 插入表情 - NEW in 0.0.3
 * 所有样式都支持导出HTML
-* 列表编辑功能的增强 - NEW in 0.0.2
 
-@功能的demo:
+
+已经发布了 [v0.0.3](https://github.com/chinalwb/are/releases/tag/v0.0.3) 计划在2018-04-30之前发布0.0.4:
 -----------------
- ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/at_demo.gif)
+* Font size
+* Superscript
+* Subscript
  
-@功能导出的HTML文件:
- ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/at_demo_html.png)
-
-
-已经发布了 [v0.0.2](https://github.com/chinalwb/are/releases/tag/v0.0.2) 计划在2018-03-31之前发布0.0.3:
------------------
-
-* 插入引用 - Quote - 完成
-* 文字前景色 - Foreground color - 完成
-* 插入表情 - Emoji icon - 开发中
-
-插入引用功能演示:
+插入引用功能演示 (NEW in 0.0.3):
 -----------------
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/quote_demo.png)
  
-文字前景色功能演示:
+文字前景色功能演示 (NEW in 0.0.3):
 -----------------
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/fontcolor_demo.png)
 
-插入表情功能演示 (开发中，尚未完成):
+插入表情功能演示 (NEW in 0.0.3):
 -----------------
- ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/emoji_demo.png)
+ ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/emoji.gif)
 
 计划中但正在做的功能:
 -----------------
-* 插入引用 - Quote
-* 插入表情 - Emoji icon
-* 文字前景色 - Foreground color
 * 字体大小 - Font size
+* 上标 - Superscript
+* 下标 - Subscript
 * 字体样式 - Font family
 * 右缩进 - Indent right
 * 左缩进 - Indent left
@@ -85,9 +69,9 @@ Release 0.0.2:
     android:layout_height="match_parent"
     android:background="@android:color/white" />
 ```
-如果想看效果但嫌运行代码太麻烦，可以下载0.0.2的apk:
+如果想看效果但嫌运行代码太麻烦，可以下载最新的apk:
 
-[Click ARE_20180213_0.0.2.apk to download](https://github.com/chinalwb/Android-Rich-text-Editor/releases/download/v0.0.2/ARE_20180213_0.0.2.apk)
+[Click ARE_20180318_0.0.3.apk to download](https://github.com/chinalwb/Android-Rich-text-Editor/releases/download/v0.0.3/ARE_20180318_0.0.3.apk)
 
 已知问题:
 * 背景色 - 当给文字加上背景色之后光标闪烁效果消失
