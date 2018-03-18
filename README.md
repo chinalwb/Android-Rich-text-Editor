@@ -32,13 +32,6 @@ Supported styles:
 * Emoji icon - NEW in 0.0.3
 * All styles support save as HTML file
 
-Demo for @ feature:
------------------
- ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/at_demo.gif)
- 
-@ demo html:
- ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/at_demo_html.png)
-
 
 Released [v0.0.3](https://github.com/chinalwb/are/releases/tag/v0.0.3) Plan for v0.0.4, target on 2018-04-30:
 -----------------
@@ -46,15 +39,15 @@ Released [v0.0.3](https://github.com/chinalwb/are/releases/tag/v0.0.3) Plan for 
 * Superscript
 * Subscript
 
-Demo for quote feature:
+Demo for quote feature (NEW in 0.0.3):
 -----------------
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/quote_demo.png)
  
-Demo for font color feature:
+Demo for font color feature (NEW in 0.0.3):
 -----------------
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/fontcolor_demo.png)
 
-Demo for emoji feature:
+Demo for emoji feature (NEW in 0.0.3):
 -----------------
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/emoji.gif)
  
