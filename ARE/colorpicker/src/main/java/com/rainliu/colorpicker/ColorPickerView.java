@@ -32,6 +32,8 @@ public class ColorPickerView extends HorizontalScrollView {
 
     private int mColorViewMarginRight = 0;
 
+    private int mColorCheckedViewType = 0;
+
     private int[] mColors = null;
 
     public ColorPickerView(Context context) {
@@ -52,6 +54,7 @@ public class ColorPickerView extends HorizontalScrollView {
         mColorViewHeight = ta.getDimensionPixelSize(R.styleable.ColorPickerView_colorViewHeight, 40);
         mColorViewMarginLeft = ta.getDimensionPixelSize(R.styleable.ColorPickerView_colorViewMarginLeft, 5);
         mColorViewMarginRight = ta.getDimensionPixelSize(R.styleable.ColorPickerView_colorViewMarginRight, 5);
+        mColorCheckedViewType = ta.getInt(R.styleable.ColorPickerView_colorViewCheckedType, 0);
         int colorsId = ta.getResourceId(R.styleable.ColorPickerView_colors, R.array.colors);
         mColors = ta.getResources().getIntArray(colorsId);
         ta.recycle();
@@ -60,6 +63,7 @@ public class ColorPickerView extends HorizontalScrollView {
         mAttributeBundle.putInt(ColorView.ATTR_VIEW_HEIGHT, mColorViewWidth);
         mAttributeBundle.putInt(ColorView.ATTR_MARGIN_LEFT, mColorViewMarginLeft);
         mAttributeBundle.putInt(ColorView.ATTR_MARGIN_RIGHT, mColorViewMarginRight);
+        mAttributeBundle.putInt(ColorView.ATTR_CHECKED_TYPE, mColorCheckedViewType);
 
         initView();
     }

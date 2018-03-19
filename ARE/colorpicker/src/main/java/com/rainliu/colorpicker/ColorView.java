@@ -20,10 +20,18 @@ public class ColorView extends LinearLayout {
 
     public static final String ATTR_MARGIN_RIGHT = "ATTR_MARGIN_RIGHT";
 
+    public static final String ATTR_CHECKED_TYPE = "ATTR_CHECKED_TYPE";
+
     /**
      * If this view width = 80, the the default check view width = 10
      */
     private static final int DEFAULT_CHECK_VIEW_PERCENT = 8;
+
+    private static final int CHECKMARK_CHECK_VIEW_PERCENT = 2;
+
+    private static final int CHECK_TYPE_DEFAULT = 0;
+
+    private static final int CHECK_TYPE_CHECK_MARK = 1;
 
     private Context mContext;
 
@@ -34,6 +42,8 @@ public class ColorView extends LinearLayout {
     private int mColorViewMarginLeft = 0;
 
     private int mColorViewMarginRight = 0;
+
+    private int mColorViewCheckedType = 0;
 
     private int mColor;
 
@@ -50,6 +60,7 @@ public class ColorView extends LinearLayout {
         mColorViewHeight = attributeBundle.getInt(ATTR_VIEW_HEIGHT, 40);
         mColorViewMarginLeft = attributeBundle.getInt(ATTR_MARGIN_LEFT, 2);
         mColorViewMarginRight = attributeBundle.getInt(ATTR_MARGIN_RIGHT, 2);
+        mColorViewCheckedType = attributeBundle.getInt(ATTR_CHECKED_TYPE, 0);
         initView();
     }
 
@@ -91,7 +102,17 @@ public class ColorView extends LinearLayout {
 
     public View getCheckView() {
         if (this.mCheckView == null) {
-            this.mCheckView = new ColorCheckedView(mContext, mColorViewWidth / DEFAULT_CHECK_VIEW_PERCENT);
+            switch (this.mColorViewCheckedType) {
+                case CHECK_TYPE_DEFAULT:
+                    this.mCheckView = new ColorCheckedView(mContext, mColorViewWidth / DEFAULT_CHECK_VIEW_PERCENT);
+                    break;
+                case CHECK_TYPE_CHECK_MARK:
+                    this.mCheckView = new ColorCheckedViewCheckmark(mContext, mColorViewWidth / CHECKMARK_CHECK_VIEW_PERCENT);
+                    break;
+                default:
+                    this.mCheckView = new ColorCheckedView(mContext, mColorViewWidth / DEFAULT_CHECK_VIEW_PERCENT);
+                    break;
+            }
         }
         return this.mCheckView;
     }
