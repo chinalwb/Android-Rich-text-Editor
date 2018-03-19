@@ -7,7 +7,7 @@ If you are looking for a good rich text editor on Android, DON'T MISS THIS ONE!
 
 It's still in progress now, but I believe it will be (one of the) best open source Android rich text editor.
 
-For 0.0.3 features, I plan to publish colorpicker and emojipicker as standalone components so they can be reused in other projects easily.
+For 0.0.3 features, I plan to publish [colorpicker](https://github.com/chinalwb/SimpleColorPicker) and emojipicker as standalone components so they can be reused in other projects easily.
 
 This is implemented by Java
 
