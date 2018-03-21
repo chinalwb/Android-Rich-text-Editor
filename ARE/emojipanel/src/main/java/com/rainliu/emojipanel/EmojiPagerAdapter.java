@@ -1,19 +1,10 @@
-package com.chinalwb.are.styles.emoji;
+package com.rainliu.emojipanel;
 
-import android.app.Activity;
 import android.content.Context;
-import android.media.MediaDataSource;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ImageView;
-
-import com.chinalwb.are.R;
 
 import java.util.ArrayList;
 

@@ -1,8 +1,6 @@
-package com.chinalwb.are.styles.emoji;
+package com.rainliu.emojipanel;
 
 import android.widget.AdapterView;
-
-import java.io.Serializable;
 
 /**
  * Created by wliu on 2018/3/17.

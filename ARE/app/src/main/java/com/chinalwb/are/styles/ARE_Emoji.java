@@ -15,12 +15,13 @@ import android.widget.ImageView;
 import com.chinalwb.are.R;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.spans.EmojiSpan;
-import com.chinalwb.are.styles.emoji.EmojiGridViewAdapter;
-import com.chinalwb.are.styles.emoji.EmojiGroup;
-import com.chinalwb.are.styles.emoji.EmojiGroupDesc;
-import com.chinalwb.are.styles.emoji.EmojiPagerAdapter;
-import com.chinalwb.are.styles.emoji.EmojiPanel;
+
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
+import com.rainliu.emojipanel.EmojiGridViewAdapter;
+import com.rainliu.emojipanel.EmojiGroup;
+import com.rainliu.emojipanel.EmojiGroupDesc;
+import com.rainliu.emojipanel.EmojiPagerAdapter;
+import com.rainliu.emojipanel.EmojiPanel;
 
 import java.util.ArrayList;
 

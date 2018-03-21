@@ -1,4 +1,4 @@
-package com.chinalwb.are.styles.emoji;
+package com.rainliu.emojipanel;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-
-import com.chinalwb.are.R;
 
 /**
  * Created by wliu on 2018/3/17.

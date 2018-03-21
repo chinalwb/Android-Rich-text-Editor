@@ -1,4 +1,4 @@
-package com.chinalwb.are.styles.emoji;
+package com.rainliu.emojipanel;
 
 import java.io.Serializable;
 
