@@ -44,6 +44,8 @@ import com.chinalwb.are.styles.ARE_ListBullet;
 import com.chinalwb.are.styles.ARE_ListNumber;
 import com.chinalwb.are.styles.ARE_Quote;
 import com.chinalwb.are.styles.ARE_Strikethrough;
+import com.chinalwb.are.styles.ARE_Subscript;
+import com.chinalwb.are.styles.ARE_Superscript;
 import com.chinalwb.are.styles.ARE_Underline;
 import com.chinalwb.are.styles.IARE_Style;
 import com.rainliu.colorpicker.ColorPickerListener;
@@ -106,6 +108,16 @@ public class ARE_Toolbar extends LinearLayout {
 	 * Strikethrough Style
 	 */
 	private ARE_Strikethrough mStrikethroughStyle;
+
+	/**
+	 * Subscript Style
+	 */
+	private ARE_Subscript mSubscriptStyle;
+
+	/**
+	 * Superscript Style
+	 */
+	private ARE_Superscript mSuperscriptStyle;
 
 	/**
 	 * Quote style
@@ -206,6 +218,16 @@ public class ARE_Toolbar extends LinearLayout {
 	 * Strikethrough button.
 	 */
 	private ImageView mStrikethroughImageView;
+
+	/**
+	 * Subscript button.
+	 */
+	private ImageView mSubscriptImageView;
+
+	/**
+	 * Superscript button.
+	 */
+	private ImageView mSuperscriptImageView;
 
 	/**
 	 * Quote button.
@@ -334,6 +356,10 @@ public class ARE_Toolbar extends LinearLayout {
 
 		this.mStrikethroughImageView = this.findViewById(R.id.rteStrikethrough);
 
+		this.mSubscriptImageView = this.findViewById(R.id.rteSubscript);
+
+		this.mSuperscriptImageView = this.findViewById(R.id.rteSuperscript);
+
 		this.mBackgroundImageView = this.findViewById(R.id.rteBackground);
 
 		this.mLinkImageView = this.findViewById(R.id.rteLink);
@@ -368,9 +394,11 @@ public class ARE_Toolbar extends LinearLayout {
 		this.mBoldStyle = new ARE_Bold(this.mBoldImageView);
 		this.mItalicStyle = new ARE_Italic(this.mItalicImageView);
 		this.mUnderlineStyle = new ARE_Underline(this.mUnderlineImageView);
+		this.mStrikethroughStyle = new ARE_Strikethrough(this.mStrikethroughImageView);
+		this.mSubscriptStyle = new ARE_Subscript(this.mSubscriptImageView);
+		this.mSuperscriptStyle = new ARE_Superscript(this.mSuperscriptImageView);
 		this.mQuoteStyle = new ARE_Quote(this.mQuoteImageView);
 		this.mFontColorStyle = new ARE_FontColor(this.mFontColorImageView);
-		this.mStrikethroughStyle = new ARE_Strikethrough(this.mStrikethroughImageView);
 		this.mBackgroundColoStyle = new ARE_BackgroundColor(this.mBackgroundImageView, Color.YELLOW);
 		this.mLinkStyle = new ARE_Link(this.mLinkImageView);
 		this.mListNumberStyle = new ARE_ListNumber(this.mRteListNumber);
@@ -389,9 +417,11 @@ public class ARE_Toolbar extends LinearLayout {
 		this.mStylesList.add(this.mBoldStyle);
 		this.mStylesList.add(this.mItalicStyle);
 		this.mStylesList.add(this.mUnderlineStyle);
+		this.mStylesList.add(this.mStrikethroughStyle);
+		this.mStylesList.add(this.mSubscriptStyle);
+		this.mStylesList.add(this.mSuperscriptStyle);
 		this.mStylesList.add(this.mQuoteStyle);
 		this.mStylesList.add(this.mFontColorStyle);
-		this.mStylesList.add(this.mStrikethroughStyle);
 		this.mStylesList.add(this.mBackgroundColoStyle);
 		this.mStylesList.add(this.mLinkStyle);
 		this.mStylesList.add(this.mListNumberStyle);
@@ -419,9 +449,11 @@ public class ARE_Toolbar extends LinearLayout {
 		this.mBoldStyle.setEditText(this.mEditText);
 		this.mItalicStyle.setEditText(this.mEditText);
 		this.mUnderlineStyle.setEditText(this.mEditText);
+		this.mStrikethroughStyle.setEditText(this.mEditText);
+		this.mSubscriptStyle.setEditText(this.mEditText);
+		this.mSuperscriptStyle.setEditText(this.mEditText);
 		this.mQuoteStyle.setEditText(this.mEditText);
 		this.mFontColorStyle.setEditText(this.mEditText);
-		this.mStrikethroughStyle.setEditText(this.mEditText);
 		this.mBackgroundColoStyle.setEditText(this.mEditText);
 		this.mLinkStyle.setEditText(this.mEditText);
 		this.mAtStyle.setEditText(this.mEditText);
@@ -443,16 +475,24 @@ public class ARE_Toolbar extends LinearLayout {
 		return mUnderlineStyle;
 	}
 
+	public ARE_Strikethrough getStrikethroughStyle() {
+		return mStrikethroughStyle;
+	}
+
+	public ARE_Subscript getSubscriptStyle() {
+		return this.mSubscriptStyle;
+	}
+
+	public ARE_Superscript getSuperscriptStyle() {
+		return this.mSuperscriptStyle;
+	}
+
 	public ARE_Quote getQuoteStyle() {
 		return mQuoteStyle;
 	}
 
 	public ARE_FontColor getTextColorStyle() { return  this.mFontColorStyle; }
-	
-	public ARE_Strikethrough getStrikethroughStyle() {
-		return mStrikethroughStyle;
-	}
-	
+
 	public ARE_BackgroundColor getBackgroundColoStyle() {
 		return mBackgroundColoStyle;
 	}

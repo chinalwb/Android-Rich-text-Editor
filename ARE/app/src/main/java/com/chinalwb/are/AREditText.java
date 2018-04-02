@@ -12,6 +12,7 @@ import android.text.style.CharacterStyle;
 import android.text.style.QuoteSpan;
 import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
+import android.text.style.SubscriptSpan;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.KeyEvent;
@@ -21,6 +22,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.chinalwb.are.spans.AreSubscriptSpan;
+import com.chinalwb.are.spans.AreSuperscriptSpan;
 import com.chinalwb.are.spans.AreUnderlineSpan;
 import com.chinalwb.are.styles.ARE_Helper;
 import com.chinalwb.are.styles.IARE_Style;
@@ -205,6 +208,8 @@ public class AREditText extends AppCompatEditText {
 		boolean italicsExists = false;
 		boolean underlinedExists = false;
 		boolean striketrhoughExists = false;
+		boolean subscriptExists = false;
+		boolean superscriptExists = false;
 		boolean backgroundColorExists = false;
 		boolean quoteExists = false;
 
@@ -238,7 +243,16 @@ public class AREditText extends AppCompatEditText {
 			if (quoteSpans != null && quoteSpans.length > 0) {
 				quoteExists = true;
 			}
-			// To check Quote!!
+
+			AreSubscriptSpan[] subscriptSpans = editable.getSpans(selStart - 1, selStart, AreSubscriptSpan.class);
+			if (subscriptSpans != null && subscriptSpans.length > 0) {
+				subscriptExists = true;
+			}
+
+			AreSuperscriptSpan[] superscriptSpans = editable.getSpans(selStart - 1, selStart, AreSuperscriptSpan.class);
+			if (superscriptSpans != null && superscriptSpans.length > 0) {
+				superscriptExists = true;
+			}
 		} else {
 			//
 			// Selection is a range
@@ -291,12 +305,30 @@ public class AREditText extends AppCompatEditText {
 			}
 		}
 
+		AreSubscriptSpan[] subscriptSpans = editable.getSpans(selStart, selEnd, AreSubscriptSpan.class);
+		if (subscriptSpans != null && subscriptSpans.length > 0) {
+			if (editable.getSpanStart(subscriptSpans[0]) <= selStart
+					&& editable.getSpanEnd(subscriptSpans[0]) >= selEnd) {
+				subscriptExists = true;
+			}
+		}
+
+		AreSuperscriptSpan[] superscriptSpans = editable.getSpans(selStart, selEnd, AreSuperscriptSpan.class);
+		if (superscriptSpans != null && superscriptSpans.length > 0) {
+			if (editable.getSpanStart(superscriptSpans[0]) <= selStart
+					&& editable.getSpanEnd(superscriptSpans[0]) >= selEnd) {
+				superscriptExists = true;
+			}
+		}
+
 		//
 		// Set style checked status
 		ARE_Helper.updateCheckStatus(sToolbar.getBoldStyle(), boldExists);
 		ARE_Helper.updateCheckStatus(sToolbar.getItalicStyle(), italicsExists);
 		ARE_Helper.updateCheckStatus(sToolbar.getUnderlineStyle(), underlinedExists);
 		ARE_Helper.updateCheckStatus(sToolbar.getStrikethroughStyle(), striketrhoughExists);
+		ARE_Helper.updateCheckStatus(sToolbar.getSubscriptStyle(), subscriptExists);
+		ARE_Helper.updateCheckStatus(sToolbar.getSuperscriptStyle(), superscriptExists);
 		ARE_Helper.updateCheckStatus(sToolbar.getBackgroundColoStyle(), backgroundColorExists);
 		ARE_Helper.updateCheckStatus(sToolbar.getQuoteStyle(), quoteExists);
 	} // #End of method:: onSelectionChanged

@@ -84,11 +84,26 @@
                 android:src="@drawable/strikethrough" />
 
             <ImageView
+                android:id="@+id/rteSubscript"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:src="@drawable/subscript" />
+
+            <ImageView
+                android:id="@+id/rteSuperscript"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:src="@drawable/superscript" />
+
+            <ImageView
                 android:id="@+id/rteQuote"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:padding="5dp"
                 android:src="@drawable/quote" />
+
 
             <ImageView
                 android:id="@+id/rteFontColor"
