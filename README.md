@@ -36,9 +36,13 @@ Supported styles:
 
 Released [v0.0.3](https://github.com/chinalwb/are/releases/tag/v0.0.3) Plan for v0.0.4, target on 2018-04-30:
 -----------------
-* Superscript - In progress
-* Subscript
-* Font size
+* Superscript - Done
+* Subscript - Done
+* Font size - In progress
+
+Demo for Superscript & Subscript feature (Developer edition):
+-----------------
+ ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/subscript_superscript_demo.png)
 
 Demo for quote feature (NEW in 0.0.3):
 -----------------
