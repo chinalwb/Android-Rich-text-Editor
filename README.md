@@ -41,7 +41,7 @@ Released [v0.0.4](https://github.com/chinalwb/are/releases/tag/v0.0.4) Plan for 
 -----------------
 * Save editings to local SQLite
 * Notes list
-** 0.1.0 is for saving and list, note review plan to be 0.1.1, re-edit plan to be 0.1.2. If you have any urgent feature request, just open issues then I will reorder the todo items.  
+> 0.1.0 is for saving and list, note review plan to be 0.1.1, re-edit plan to be 0.1.2. If you have any urgent feature request, just open issues then I will reorder the todo items.  
 
 Demo for Font size (New in 0.0.4):
 -----------------
