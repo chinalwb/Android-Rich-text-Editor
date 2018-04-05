@@ -28,46 +28,47 @@ Supported styles:
 * Background color
 * Hyper link
 * @
-* Quote - NEW in 0.0.3
-* Foreground color - NEW in 0.0.3
-* Emoji icon - NEW in 0.0.3
+* Quote
+* Foreground color
+* Emoji icon
+* Superscript - NEW in 0.0.4
+* Subscript - NEW in 0.0.4
+* Font size - NEW in 0.0.4
 * All styles support save as HTML file
 
 
-Released [v0.0.3](https://github.com/chinalwb/are/releases/tag/v0.0.3) Plan for v0.0.4, target on 2018-04-30:
+Released [v0.0.4](https://github.com/chinalwb/are/releases/tag/v0.0.4) Plan for v0.1.0, target on 2018-05-31:
 -----------------
-* Superscript - Done
-* Subscript - Done
-* Font size - Done
+* Save editings to local SQLite
+* Notes list
 
-Demo for Font size (Developer edition):
+Demo for Font size (New in 0.0.4):
 -----------------
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/font_size_demo.gif)
  
-Demo for Superscript & Subscript feature (Developer edition):
+Demo for Superscript & Subscript feature (New in 0.0.4):
 -----------------
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/subscript_superscript_demo.png)
 
-Demo for quote feature (NEW in 0.0.3):
+Demo for quote feature (0.0.3):
 -----------------
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/quote_demo.png)
  
-Demo for font color feature (NEW in 0.0.3):
+Demo for font color feature (0.0.3):
 -----------------
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/fontcolor_demo.png)
 
-Demo for emoji feature (NEW in 0.0.3):
+Demo for emoji feature (0.0.3):
 -----------------
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/emoji.gif)
  
 In progress items:
 -----------------
-* Font size
-* Superscript
-* Subscript
 * Font family
 * Indent right
 * Indent left
+* Save editings to local SQLite
+* Notes list
 
 
 How to use?
@@ -82,7 +83,7 @@ Before the general release, you need to checkout the code and add this to a layo
 ```
 You can download the APK here:
 
-[Click ARE_20180318_0.0.3.apk to download](https://github.com/chinalwb/Android-Rich-text-Editor/releases/download/v0.0.3/ARE_20180318_0.0.3.apk)
+[Click ARE_20180405_0.0.4.apk to download](https://github.com/chinalwb/Android-Rich-text-Editor/releases/download/v0.0.4/ARE_20180405_0.0.4.apk)
 
 Known issues:
 * Background color - cursor invisible when put it in the range of BackgroundColorSpan
