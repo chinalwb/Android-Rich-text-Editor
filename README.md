@@ -6,7 +6,7 @@ If you are looking for a good rich text editor on Android, DON'T MISS THIS ONE!
 
 It's still in progress now, welcome fork and join me!
 
-For 0.0.3 features, I plan to publish [colorpicker](https://github.com/chinalwb/SimpleColorPicker) and emojipicker as standalone components so they can be reused in other projects easily.
+For 0.0.3 features, I plan to publish [colorpicker](https://github.com/chinalwb/SimpleColorPicker) and [emojipicker](https://github.com/chinalwb/SimpleEmojiPicker) as standalone components so they can be reused in other projects easily.
 
 This is implemented by Java
 
@@ -41,6 +41,7 @@ Released [v0.0.4](https://github.com/chinalwb/are/releases/tag/v0.0.4) Plan for 
 -----------------
 * Save editings to local SQLite
 * Notes list
+** 0.1.0 is for saving and list, note review plan to be 0.1.1, re-edit plan to be 0.1.2. If you have any urgent feature request, just open issues then I will reorder the todo items.  
 
 Demo for Font size (New in 0.0.4):
 -----------------
