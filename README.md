@@ -42,7 +42,7 @@ Released [v0.0.3](https://github.com/chinalwb/are/releases/tag/v0.0.3) Plan for 
 
 Demo for Font size (Developer edition):
 -----------------
- ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/font_size_demo.png)
+ ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/font_size_demo.gif)
  
 Demo for Superscript & Subscript feature (Developer edition):
 -----------------
