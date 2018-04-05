@@ -11,10 +11,6 @@ import android.widget.TextView;
 import com.chinalwb.are.R;
 import com.chinalwb.are.Util;
 
-/**
- * Created by wliu on 2018/4/3.
- */
-
 public class FontsizePickerWindow extends PopupWindow {
 
     private static final int FONT_SIZE_BASE = 12;
