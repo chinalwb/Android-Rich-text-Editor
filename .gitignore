@@ -11,3 +11,5 @@ ARE/build
 ARE/app/build
 ARE/app/src/main/.DS_Store
 *.swp
+ARE/app/release/ARE_20180405_0.0.4.apk
+ARE/app/release/output.json
