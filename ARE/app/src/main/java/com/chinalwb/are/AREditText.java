@@ -84,7 +84,7 @@ public class AREditText extends AppCompatEditText {
 		int padding = 8;
 		padding = Util.getPixelByDp(mContext, padding);
 		this.setPadding(padding, padding, padding, padding);
-		this.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+		this.setTextSize(TypedValue.COMPLEX_UNIT_SP, Constants.DEFAULT_FONT_SIZE);
 		this.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
@@ -178,7 +178,6 @@ public class AREditText extends AppCompatEditText {
 				}
 
 				sToolbar.setEditText(AREditText.this);
-				Util.log("Edittext after text change == " + AREditText.this);
 				for (IARE_Style style : sStylesList) {
 					style.applyStyle(s, startPos, endPos);
 				}
@@ -203,7 +202,6 @@ public class AREditText extends AppCompatEditText {
 			return;
 		}
 
-		Util.log(" on Selection changed == " + this);
 		boolean boldExists = false;
 		boolean italicsExists = false;
 		boolean underlinedExists = false;

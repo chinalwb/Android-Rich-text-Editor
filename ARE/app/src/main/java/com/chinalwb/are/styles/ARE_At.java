@@ -67,7 +67,6 @@ public class ARE_At extends ARE_ABS_FreeStyle {
 	@Override
 	public void applyStyle(Editable editable, int start, int end) {
 		if (end > start) {
-			Util.log("at style:: len == " + editable.length());
 			String typeString = editable.toString().substring(start, end);
 			if (typeString.equals(AT)) {
 				// Open contacts list

@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.Uri;
-import android.text.Layout;
 import android.text.Layout.Alignment;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -34,7 +33,7 @@ import com.chinalwb.are.styles.ARE_Bold;
 import com.chinalwb.are.styles.ARE_Emoji;
 import com.chinalwb.are.styles.ARE_FontColor;
 import com.chinalwb.are.styles.ARE_Fontface;
-import com.chinalwb.are.styles.ARE_Fontsize;
+import com.chinalwb.are.styles.ARE_FontSize;
 import com.chinalwb.are.styles.ARE_Image;
 import com.chinalwb.are.styles.ARE_IndentLeft;
 import com.chinalwb.are.styles.ARE_IndentRight;
@@ -82,7 +81,7 @@ public class ARE_Toolbar extends LinearLayout {
 	/**
 	 * Font-size Style
 	 */
-	private ARE_Fontsize mFontsizeStyle;
+	private ARE_FontSize mFontsizeStyle;
 
 	/**
 	 * Font-face Style
@@ -389,7 +388,7 @@ public class ARE_Toolbar extends LinearLayout {
 	   */
 	private void initStyles() {
 		this.mEmojiStyle = new ARE_Emoji(this.mEmojiImageView);
-		this.mFontsizeStyle = new ARE_Fontsize(this.mFontsizeImageView);
+		this.mFontsizeStyle = new ARE_FontSize(this.mFontsizeImageView);
 		this.mFontfaceStyle = new ARE_Fontface(this.mFontfaceImageView);
 		this.mBoldStyle = new ARE_Bold(this.mBoldImageView);
 		this.mItalicStyle = new ARE_Italic(this.mItalicImageView);
@@ -446,6 +445,7 @@ public class ARE_Toolbar extends LinearLayout {
 	}
 	
 	private void bindToolbar() {
+		this.mFontsizeStyle.setEditText(this.mEditText);
 		this.mBoldStyle.setEditText(this.mEditText);
 		this.mItalicStyle.setEditText(this.mEditText);
 		this.mUnderlineStyle.setEditText(this.mEditText);
@@ -562,7 +562,6 @@ public class ARE_Toolbar extends LinearLayout {
                         int screenHeight = screenWandH[1];
                         final int keyboardHeight = screenHeight - r.bottom;
 
-                        Util.log("p height == " + mPreviousKeyboardHeight + ", this height == " + keyboardHeight);
                         if (mPreviousKeyboardHeight != keyboardHeight) {
                             if (keyboardHeight > 100) {
                                 mKeyboardHeight = keyboardHeight;
@@ -616,6 +615,7 @@ public class ARE_Toolbar extends LinearLayout {
             if (mEmojiPanel != null) {
                 LayoutParams emojiPanelLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
                 mEmojiPanel.setLayoutParams(emojiPanelLayoutParams);
+				((ViewGroup) mEmojiPanelContainer).removeAllViews();
                 ((ViewGroup) mEmojiPanelContainer).addView(mEmojiPanel);
             }
             mContext.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);

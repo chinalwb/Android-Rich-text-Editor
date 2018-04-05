@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:scrollbarAlwaysDrawHorizontalTrack="false"
-        android:paddingTop="5dp"
         android:scrollbars="none" />
 
     <ScrollView

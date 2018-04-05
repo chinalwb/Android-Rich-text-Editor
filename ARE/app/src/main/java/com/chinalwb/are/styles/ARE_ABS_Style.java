@@ -6,6 +6,7 @@ import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 import android.content.Context;
 import android.text.Editable;
 import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.widget.EditText;
 
@@ -14,9 +15,12 @@ import java.lang.reflect.ParameterizedType;
 public abstract class ARE_ABS_Style<E> implements IARE_Style {
 
 	protected Context mContext;
-	
+
+	protected Class<E> clazzE;
+
 	public ARE_ABS_Style() {
 		this.mContext = ARE_Toolbar.getInstance().getContext();
+		clazzE = (Class<E>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 	
 	@Override
@@ -26,7 +30,6 @@ public abstract class ARE_ABS_Style<E> implements IARE_Style {
 
 	@Override
 	public void applyStyle(Editable editable, int start, int end) {
-		Class<E> clazzE = (Class<E>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 		if (getIsChecked()) {
 			if (end > start) {
 				//

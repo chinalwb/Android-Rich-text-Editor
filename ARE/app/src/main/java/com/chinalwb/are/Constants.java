@@ -19,4 +19,6 @@ public class Constants {
 	public static final int KEY_DEL = 67;
 
 	public static final int COLOR_BACKGROUND_DEFAULT = 0XFFFFCC80;
+
+	public static final int DEFAULT_FONT_SIZE = 18;
 }
