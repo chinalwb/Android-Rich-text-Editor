@@ -38,8 +38,12 @@ Released [v0.0.3](https://github.com/chinalwb/are/releases/tag/v0.0.3) Plan for 
 -----------------
 * Superscript - Done
 * Subscript - Done
-* Font size - In progress
+* Font size - Done
 
+Demo for Font size (Developer edition):
+-----------------
+ ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/font_size_demo.png)
+ 
 Demo for Superscript & Subscript feature (Developer edition):
 -----------------
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/subscript_superscript_demo.png)
