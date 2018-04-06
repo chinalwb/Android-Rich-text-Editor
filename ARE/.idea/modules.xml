@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/colorpicker/colorpicker.iml" filepath="$PROJECT_DIR$/colorpicker/colorpicker.iml" />
       <module fileurl="file://$PROJECT_DIR$/emojipanel/emojipanel.iml" filepath="$PROJECT_DIR$/emojipanel/emojipanel.iml" />
+      <module fileurl="file://$PROJECT_DIR$/glidesupport/glidesupport.iml" filepath="$PROJECT_DIR$/glidesupport/glidesupport.iml" />
     </modules>
   </component>
 </project>

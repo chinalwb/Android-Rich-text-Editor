@@ -1,1 +1,1 @@
-include ':app', ':colorpicker', ':emojipanel'
+include ':app', ':colorpicker', ':emojipanel', ':glidesupport'

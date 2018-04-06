@@ -5,7 +5,7 @@ android {
     defaultConfig {
         applicationId "com.chinalwb.are"
         minSdkVersion 15
-        targetSdkVersion 21
+        targetSdkVersion 26
     }
 
     buildTypes {
@@ -21,4 +21,5 @@ dependencies {
     compile files('libs/tagsoup-1.2.1.jar')
     implementation project(':colorpicker')
     compile project(path: ':emojipanel')
+    compile project(path: ':glidesupport')
 }

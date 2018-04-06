@@ -39,14 +39,9 @@ public class AREditor extends RelativeLayout {
 	private ARE_Toolbar mToolbar;
 
 	/**
-	 * The color palette for foreground color.
+	 * The are editor.
 	 */
-	private ColorPickerView mColorPalette;
-	
-	/**
-	 * The root linear layout.
-	 */
-	private LinearLayout mRootLinearLayout;
+	private AREditText mAre;
 
 	/*
 	 * --------------------------------------------
@@ -97,7 +92,7 @@ public class AREditor extends RelativeLayout {
 	private void init() {
 		LayoutInflater layoutInflater = LayoutInflater.from(this.mContext);
 		if (null != layoutInflater) {
-			layoutInflater.inflate(R.layout.areditor, this, true);
+			layoutInflater.inflate(getLayoutId(), this, true);
 		} else {
 			return;
 		}
@@ -105,55 +100,39 @@ public class AREditor extends RelativeLayout {
 		this.initViews();
 	} // # End of init()
 
+	private int getLayoutId() {
+		return R.layout.areditor;
+	}
+
 	/**
 	 * Init views.
 	 */
 	private void initViews() {
-		this.mToolbar = (ARE_Toolbar) this.findViewById(R.id.toolbar);
-		this.mRootLinearLayout = (LinearLayout) this.findViewById(R.id.rootLinearLayout);
+		this.mToolbar = this.findViewById(R.id.toolbar);
+		this.mAre = this.findViewById(R.id.are);
+		this.mToolbar.setEditText(mAre);
 	}
 
 	/**
 	 * 
 	 */
 	public String getHtml() {
-		int childCount = this.mRootLinearLayout.getChildCount();
 		StringBuffer html = new StringBuffer();
 		html.append("<html>");
-		for (int i = 0; i < childCount; i++) {
-			View child = this.mRootLinearLayout.getChildAt(i);
-			if (child instanceof AREditText) {
-				appendAREditText((AREditText) child, html);
-			}
-			else if (child instanceof LinearLayout) {
-				appendLinearLayout((LinearLayout) child, html);
-			}
-		}
+		appendAREditText(mAre, html);
 		html.append("</html>");
 		String htmlContent = html.toString().replaceAll(Constants.ZERO_WIDTH_SPACE_STR_ESCAPE, "");
 		System.out.println(htmlContent);
 		return htmlContent;
 	}
 
-	private void appendAREditText(AREditText editText, StringBuffer html) {
+	private static  void appendAREditText(AREditText editText, StringBuffer html) {
 		String editTextHtml = Html.toHtml(editText.getEditableText(), Html.TO_HTML_PARAGRAPH_LINES_INDIVIDUAL);
 		html.append(editTextHtml);
 	}
-	
-	private void appendLinearLayout(LinearLayout linearLayout, StringBuffer html) {
-		View child = linearLayout.getChildAt(0);
-		if (child instanceof ImageView) {
-			appendImage((ImageView) child, html);
-		}
-	}
-	
-	private void appendImage(ImageView imageView, StringBuffer html) {
-		StringBuffer imageHtml = new StringBuffer();
-		imageHtml.append("<img src=\"");
-		Uri imageUri = (Uri) imageView.getTag();
-		imageHtml.append(imageUri.toString());
-		imageHtml.append("\" />");
-		html.append(imageHtml);
+
+	public AREditText getARE() {
+		return this.mAre;
 	}
 
 	/**

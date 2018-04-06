@@ -1,8 +1,5 @@
 package com.chinalwb.are.styles.toolbar;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -18,9 +15,9 @@ import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.chinalwb.are.AREditText;
 import com.chinalwb.are.R;
@@ -32,8 +29,8 @@ import com.chinalwb.are.styles.ARE_BackgroundColor;
 import com.chinalwb.are.styles.ARE_Bold;
 import com.chinalwb.are.styles.ARE_Emoji;
 import com.chinalwb.are.styles.ARE_FontColor;
-import com.chinalwb.are.styles.ARE_Fontface;
 import com.chinalwb.are.styles.ARE_FontSize;
+import com.chinalwb.are.styles.ARE_Fontface;
 import com.chinalwb.are.styles.ARE_Image;
 import com.chinalwb.are.styles.ARE_IndentLeft;
 import com.chinalwb.are.styles.ARE_IndentRight;
@@ -50,6 +47,9 @@ import com.chinalwb.are.styles.IARE_Style;
 import com.rainliu.colorpicker.ColorPickerListener;
 import com.rainliu.colorpicker.ColorPickerView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ARE_Toolbar extends LinearLayout {
 
 	private static ARE_Toolbar sInstance;
@@ -65,7 +65,7 @@ public class ARE_Toolbar extends LinearLayout {
 	public static final int REQ_AT = 2;
 	
 	private Activity mContext;
-	
+
 	private AREditText mEditText;
 	
 	/**
@@ -116,7 +116,7 @@ public class ARE_Toolbar extends LinearLayout {
 	/**
 	 * Superscript Style
 	 */
-	private ARE_Superscript mSuperscriptStyle;
+    private ARE_Superscript mSuperscriptStyle;
 
 	/**
 	 * Quote style
@@ -443,7 +443,7 @@ public class ARE_Toolbar extends LinearLayout {
 		this.mEditText = editText;
 		bindToolbar();
 	}
-	
+
 	private void bindToolbar() {
 		this.mFontsizeStyle.setEditText(this.mEditText);
 		this.mBoldStyle.setEditText(this.mEditText);
@@ -456,10 +456,11 @@ public class ARE_Toolbar extends LinearLayout {
 		this.mFontColorStyle.setEditText(this.mEditText);
 		this.mBackgroundColoStyle.setEditText(this.mEditText);
 		this.mLinkStyle.setEditText(this.mEditText);
+		this.mImageStyle.setEditText(this.mEditText);
 		this.mAtStyle.setEditText(this.mEditText);
 	}
-	
-	public EditText getEditText() {
+
+	public AREditText getEditText() {
 		return this.mEditText;
 	}
 	
@@ -520,6 +521,8 @@ public class ARE_Toolbar extends LinearLayout {
 	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mEmojiPanelContainer.setVisibility(View.GONE);
+        mEmojiShownNow = false;
 		if (resultCode == Activity.RESULT_OK) {
 			if (REQ_IMAGE == requestCode) {
 				Uri uri = data.getData();
@@ -531,7 +534,6 @@ public class ARE_Toolbar extends LinearLayout {
 			}
 		}
 	}
-
 
     /* -------- START: Keep it at the bottom of the class.. Keyboard and emoji ------------ */
 	/* -------- START: Keep it at the bottom of the class.. Keyboard and emoji ------------ */
@@ -556,21 +558,21 @@ public class ARE_Toolbar extends LinearLayout {
 
                     private void init() {
                         Rect r = new Rect();
-                        View view = window.getDecorView();
-                        view.getWindowVisibleDisplayFrame(r);
-                        int[] screenWandH = Util.getScreenWidthAndHeight(mContext);
-                        int screenHeight = screenWandH[1];
-                        final int keyboardHeight = screenHeight - r.bottom;
+						View view = window.getDecorView();
+						view.getWindowVisibleDisplayFrame(r);
+						int[] screenWandH = Util.getScreenWidthAndHeight(mContext);
+						int screenHeight = screenWandH[1];
+						final int keyboardHeight = screenHeight - r.bottom;
 
-                        if (mPreviousKeyboardHeight != keyboardHeight) {
-                            if (keyboardHeight > 100) {
-                                mKeyboardHeight = keyboardHeight;
-                                onKeyboardShow();
-                            } else {
-                                onKeyboardHide();
-                            }
-                        }
-                        mPreviousKeyboardHeight = keyboardHeight;
+						if (mPreviousKeyboardHeight != keyboardHeight) {
+							if (keyboardHeight > 100) {
+								mKeyboardHeight = keyboardHeight;
+								onKeyboardShow();
+							} else {
+								onKeyboardHide();
+							}
+						}
+						mPreviousKeyboardHeight = keyboardHeight;
                     }
                 });
     }
@@ -583,7 +585,6 @@ public class ARE_Toolbar extends LinearLayout {
     }
 
     private void onKeyboardHide() {
-        Util.log("on key board hide, hewhkb == " + mHideEmojiWhenHideKeyboard);
         mKeyboardShownNow = false;
         if (mHideEmojiWhenHideKeyboard) {
             toggleEmojiPanel(false);
@@ -615,10 +616,9 @@ public class ARE_Toolbar extends LinearLayout {
             if (mEmojiPanel != null) {
                 LayoutParams emojiPanelLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
                 mEmojiPanel.setLayoutParams(emojiPanelLayoutParams);
-				((ViewGroup) mEmojiPanelContainer).removeAllViews();
                 ((ViewGroup) mEmojiPanelContainer).addView(mEmojiPanel);
             }
-            mContext.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+            mContext.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         }
     }
 
@@ -703,7 +703,6 @@ public class ARE_Toolbar extends LinearLayout {
             } else {
                 // User clicks the virtual button to hide keyboard
                 // We should hide emoji panel
-                Util.log("gone!!");
                 mEmojiPanelContainer.setVisibility(View.GONE);
                 mEmojiShownNow = false;
                 mEmojiImageView.setImageResource(R.drawable.emoji);

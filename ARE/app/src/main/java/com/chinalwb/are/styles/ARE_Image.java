@@ -1,33 +1,58 @@
 package com.chinalwb.are.styles;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.text.Editable;
-import android.view.Gravity;
+import android.text.Layout;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.AlignmentSpan;
+import android.text.style.ImageSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.chinalwb.are.AREditText;
-import com.chinalwb.are.AREditTextPlaceHolder;
 import com.chinalwb.are.Constants;
 import com.chinalwb.are.Util;
+import com.chinalwb.are.spans.AreImageSpan;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
+import com.rainliu.glidesupport.GlideApp;
+import com.rainliu.glidesupport.GlideRequests;
 
-public class ARE_Image extends ARE_ABS_FreeStyle {
+public class ARE_Image implements IARE_Style {
 
 	private ImageView mInsertImageView;
 
-	/**
-	 * 
-	 * @param emojiImageView
+	private AREditText mEditText;
+
+	private Context mContext;
+
+    private static GlideRequests sGlideRequests;
+
+    private static int sWidth = 0;
+
+    /**
+	 *
+	 * @param emojiImageView the emoji image view
 	 */
 	public ARE_Image(ImageView emojiImageView) {
 		this.mInsertImageView = emojiImageView;
+		this.mContext = emojiImageView.getContext();
+		sGlideRequests = GlideApp.with(mContext);
+        sWidth = Util.getScreenWidthAndHeight(mContext)[0];
 		setListenerForImageView(this.mInsertImageView);
+	}
+
+	public void setEditText(AREditText editText) {
+		this.mEditText = editText;
 	}
 
 	@Override
@@ -40,6 +65,11 @@ public class ARE_Image extends ARE_ABS_FreeStyle {
 		});
 	} // #End of setListenerForImageView(..)
 
+	public enum ImageType {
+		URI,
+		RES,
+	}
+
 	/**
 	 * Open system image chooser page.
 	 */
@@ -47,128 +77,55 @@ public class ARE_Image extends ARE_ABS_FreeStyle {
 		Intent intent = new Intent();
 		intent.setType("image/*");
 		intent.setAction(Intent.ACTION_GET_CONTENT);
-		((Activity) this.mContext).startActivityForResult(intent,
-				ARE_Toolbar.REQ_IMAGE);
+		((Activity) this.mContext).startActivityForResult(intent, ARE_Toolbar.REQ_IMAGE);
 	}
 
-	public enum ImageType {
-		URI,
-		RES,
-	}
 
 	/**
-	 * 
-	 * @param src
-	 * @param type
+	 *
 	 */
-	public void insertImage(Object src, ImageType type) {
-		// AreImageSpan imageSpan = new AreImageSpan(mContext, uri);
-		//
-		// int start = this.mEditText.getSelectionStart();
-		// int end = this.mEditText.getSelectionEnd();
-		//
-		// Editable editable = this.mEditText.getEditableText();
-		//
-		// SpannableStringBuilder ssb = new SpannableStringBuilder();
-		// ssb.append(Constants.ZERO_WIDTH_SPACE_STR);
-		// ssb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		//
-		// editable.replace(start, end, ssb);s
-
-		EditText editText = this.getEditText();
-		
-		LinearLayout rootContainerLayout = (LinearLayout) editText.getParent();
-		LinearLayout imageContainerLayout = new LinearLayout(mContext);
-		LinearLayout.LayoutParams imageContainerLayoutParams = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.MATCH_PARENT, // Width
-				LinearLayout.LayoutParams.WRAP_CONTENT // Height
-		);
-		imageContainerLayout.setGravity(Gravity.CENTER); // @Todo
-		imageContainerLayout.setOrientation(LinearLayout.HORIZONTAL);
-		imageContainerLayout.setLayoutParams(imageContainerLayoutParams);
-
-		//
-		// 1. Left
-		// AREditText leftEditText = new AREditText(mContext);
-		// LinearLayout.LayoutParams leftEditTextLayoutParams = new
-		// LinearLayout.LayoutParams(
-		// LinearLayout.LayoutParams.WRAP_CONTENT, // Width
-		// LinearLayout.LayoutParams.MATCH_PARENT // Height
-		// );
-		// leftEditText.setText(" ");
-		// leftEditText.setGravity(Gravity.BOTTOM);
-		// leftEditText.setFocusableInTouchMode(true);
-		// leftEditText.setLayoutParams(leftEditTextLayoutParams);
-		// imageContainerLayout.addView(leftEditText);
-
-		//
-		// 2. Image
-		ImageView imageView = new ImageView(mContext);
-		LinearLayout.LayoutParams imageViewLayoutParams = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.WRAP_CONTENT, // Width
-				LinearLayout.LayoutParams.WRAP_CONTENT // Height
-		);
-
-		if (type == ImageType.URI) {
-			imageView.setImageURI((Uri) src);
-			imageView.setTag(src);
-		} else if (type == ImageType.RES) {
-			imageView.setImageResource((int) src);
-		}
-
-		imageView.setLayoutParams(imageViewLayoutParams);
-		imageContainerLayout.addView(imageView);
-
-		//
-		// 3. Right
-		final AREditTextPlaceHolder rightEditText = new AREditTextPlaceHolder(mContext);
-		LinearLayout.LayoutParams rightEditTextLayoutParams = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.WRAP_CONTENT, // Width
-				LinearLayout.LayoutParams.MATCH_PARENT // Height
-		);
-		rightEditText.setPadding(5, 5, 5, 5);
-		rightEditText.setText(Constants.ZERO_WIDTH_SPACE_STR);
-		rightEditText.setGravity(Gravity.BOTTOM);
-		rightEditText.setFocusableInTouchMode(true);
-		rightEditText.setLayoutParams(rightEditTextLayoutParams);
-		imageContainerLayout.addView(rightEditText);
-
-		imageContainerLayout.setOnClickListener(new OnClickListener() {
+	public void insertImage(final Object src, final ImageType type) {
+	    this.mEditText.useSoftwareLayerOnAndroid8();
+		SimpleTarget myTarget = new SimpleTarget<Bitmap>() {
 			@Override
-			public void onClick(View v) {
-				rightEditText.enforceFocus();
-			}
-		});
+			public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
+				if (bitmap == null) { return; }
 
-		int index = rootContainerLayout.indexOfChild(editText);
-		rootContainerLayout.addView(imageContainerLayout, index + 1);
-		
-		AREditText newEditText = new AREditText(mContext);
-		LinearLayout.LayoutParams editTextLayoutParams = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.MATCH_PARENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT);
-		newEditText.setLayoutParams(editTextLayoutParams);
-		rootContainerLayout.addView(newEditText, index + 2);
-		
-		
-		
-		Editable editable = editText.getEditableText();
-//		int selectionStart = editText.getSelectionStart();
-		int selectionEnd = editText.getSelectionEnd();
-		int length = editable.length();
-		if (selectionEnd < length) {
-//			CharSequence textBeforeFocus = editable.subSequence(0, selectionStart);
-			CharSequence textAfterFocus = editable.subSequence(selectionEnd + 1, length);
-			
-//			Util.log("text before focus == " + textBeforeFocus);
-			Util.log("text after focus == " + textAfterFocus);
-			
-			editText.getEditableText().delete(selectionEnd, length);
-			newEditText.setText(textAfterFocus);
-		}
-		
-		newEditText.requestFocus();
-		newEditText.setSelection(0);
+                bitmap = Util.scaleBitmapToFitWidth(bitmap, sWidth);
+                ImageSpan imageSpan = null;
+                if (type == ImageType.URI) {
+                    imageSpan = new AreImageSpan(mContext, bitmap, ((Uri) src));
+				}
+				if (imageSpan == null) { return; }
+				insertSpan(imageSpan);
+			}
+		};
+
+        if (type == ImageType.URI) {
+            sGlideRequests.asBitmap().load((Uri) src).centerCrop().into(myTarget);
+        } else if (type == ImageType.RES) {
+            ImageSpan imageSpan = new AreImageSpan(mContext, ((int) src));
+            insertSpan(imageSpan);
+        }
+	}
+
+	private void insertSpan(ImageSpan imageSpan) {
+		Editable editable = this.mEditText.getEditableText();
+		int start = this.mEditText.getSelectionStart();
+		int end = this.mEditText.getSelectionEnd();
+
+		AlignmentSpan centerSpan = new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER);
+		SpannableStringBuilder ssb = new SpannableStringBuilder();
+		ssb.append(Constants.CHAR_NEW_LINE);
+		ssb.append(Constants.ZERO_WIDTH_SPACE_STR);
+		ssb.append(Constants.CHAR_NEW_LINE);
+		ssb.append(Constants.ZERO_WIDTH_SPACE_STR);
+		ssb.setSpan(imageSpan, 1, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		ssb.setSpan(centerSpan, 1, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		AlignmentSpan leftSpan = new AlignmentSpan.Standard(Layout.Alignment.ALIGN_NORMAL);
+		ssb.setSpan(leftSpan, 3,4, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+
+		editable.replace(start, end, ssb);
 	}
 
 	@Override
@@ -184,5 +141,15 @@ public class ARE_Image extends ARE_ABS_FreeStyle {
 	@Override
 	public void setChecked(boolean isChecked) {
 		// Do nothing
+	}
+
+	@Override
+	public boolean getIsChecked() {
+		return false;
+	}
+
+	@Override
+	public EditText getEditText() {
+		return this.mEditText;
 	}
 }

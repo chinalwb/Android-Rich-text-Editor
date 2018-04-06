@@ -1,9 +1,8 @@
 package com.chinalwb.are;
 
-import java.util.List;
-
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,22 +11,20 @@ import android.text.style.CharacterStyle;
 import android.text.style.QuoteSpan;
 import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
-import android.text.style.SubscriptSpan;
 import android.util.AttributeSet;
 import android.util.TypedValue;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 
 import com.chinalwb.are.spans.AreSubscriptSpan;
 import com.chinalwb.are.spans.AreSuperscriptSpan;
 import com.chinalwb.are.spans.AreUnderlineSpan;
+import com.chinalwb.are.styles.ARE_FontSize;
 import com.chinalwb.are.styles.ARE_Helper;
 import com.chinalwb.are.styles.IARE_Style;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
+
+import java.util.List;
 
 /**
  * All Rights Reserved.
@@ -38,17 +35,6 @@ import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 public class AREditText extends AppCompatEditText {
 
 	private static boolean LOG = false;
-	
-	/**
-	 * When the user 1st time presses DEL and the focus is at a start pos = 0
-	 * Then mark this as true;
-	 * When the user 2nd time presses DEL and the focus is at start pos = 0
-	 * Then go to the previous edit text.
-	 * 
-	 * Needs to reset it as false when user types other keys or user changes
-	 * the edit text.
-	 */
-	private static boolean sToDetectDel = false;
 
 	private ARE_Toolbar sToolbar;
 
@@ -70,7 +56,6 @@ public class AREditText extends AppCompatEditText {
 		super(context, attrs, defStyleAttr);
 		mContext = context;
 		sToolbar = ARE_Toolbar.getInstance();
-		sToolbar.setEditText(this);
 		sStylesList = sToolbar.getStylesList();
 		init();
 		setupListener();
@@ -85,60 +70,15 @@ public class AREditText extends AppCompatEditText {
 		padding = Util.getPixelByDp(mContext, padding);
 		this.setPadding(padding, padding, padding, padding);
 		this.setTextSize(TypedValue.COMPLEX_UNIT_SP, Constants.DEFAULT_FONT_SIZE);
-		this.setOnFocusChangeListener(new OnFocusChangeListener() {
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus) {
-					ARE_Toolbar.getInstance().setEditText(AREditText.this);
-				}
-			}
-		});
 	}
 
 	/**
 	 * Sets up listeners for controls.
 	 */
 	private void setupListener() {
-		setupKeyListener();
 		setupTextWatcher();
 	} // #End of setupListener()
 
-	private void setupKeyListener() {
-		this.setOnKeyListener(new OnKeyListener() {
-			
-			@Override
-			public boolean onKey(View v, int keyCode, KeyEvent event) {
-				if (keyCode == Constants.KEY_DEL) {
-					int startPos = AREditText.this.getSelectionStart();
-					if (startPos == 0) {
-						if (sToDetectDel) {
-							focusToPrevious();
-							sToDetectDel = false;
-							return true;
-						}
-						
-						sToDetectDel = true;
-					}
-				}
-				else {
-					sToDetectDel = false;
-				}
-				return false;
-			}
-		});
-	}
-	
-	private void focusToPrevious() {
-		LinearLayout parentLayout = (LinearLayout) this.getParent();
-		int index = parentLayout.indexOfChild(this);
-		if (index > 0) {
-			int previousIndex = index - 1;
-			LinearLayout imageLayout = (LinearLayout) parentLayout.getChildAt(previousIndex);
-			AREditTextPlaceHolder placeHolderEdit = (AREditTextPlaceHolder) imageLayout.getChildAt(1);
-			placeHolderEdit.enforceFocus();
-		}
-	}
-	
 	/**
 	 * Monitoring text changes.
 	 */
@@ -177,7 +117,6 @@ public class AREditText extends AppCompatEditText {
 					Util.log("User deletes: start == " + startPos + " endPos == " + endPos);
 				}
 
-				sToolbar.setEditText(AREditText.this);
 				for (IARE_Style style : sStylesList) {
 					style.applyStyle(s, startPos, endPos);
 				}
@@ -185,10 +124,6 @@ public class AREditText extends AppCompatEditText {
 		};
 
 		this.addTextChangedListener(mTextWatcher);
-	}
-
-	public void removeTextWatcher() {
-		this.removeTextChangedListener(mTextWatcher);
 	}
 
 	/*
@@ -330,4 +265,14 @@ public class AREditText extends AppCompatEditText {
 		ARE_Helper.updateCheckStatus(sToolbar.getBackgroundColoStyle(), backgroundColorExists);
 		ARE_Helper.updateCheckStatus(sToolbar.getQuoteStyle(), quoteExists);
 	} // #End of method:: onSelectionChanged
+
+	/**
+	 * Needs this because of this bug in Android O:
+	 * https://issuetracker.google.com/issues/67102093
+	 */
+	public void useSoftwareLayerOnAndroid8() {
+		if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O) {
+			this.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+		}
+	}
 }

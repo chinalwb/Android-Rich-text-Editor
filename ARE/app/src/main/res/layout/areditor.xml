@@ -17,19 +17,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/toolbar">
-
-        <LinearLayout
-            android:id="@+id/rootLinearLayout"
+        <com.chinalwb.are.AREditText
+            android:id="@+id/are"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <com.chinalwb.are.AREditText
-                android:id="@+id/are"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:lineSpacingMultiplier="1.0" />
-        </LinearLayout>
+            android:layout_height="match_parent"
+            android:lineSpacingMultiplier="1.0" />
     </ScrollView>
 
 </merge>

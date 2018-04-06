@@ -15,6 +15,7 @@ import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 /**
  * All Rights Reserved.

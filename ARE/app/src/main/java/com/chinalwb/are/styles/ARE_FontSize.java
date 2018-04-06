@@ -22,6 +22,8 @@ import com.chinalwb.are.styles.windows.FontsizePickerWindow;
 
 public class ARE_FontSize extends ARE_ABS_Dynamic_Style<AreFontSizeSpan> implements FontSizeChangeListener {
 
+//	public static boolean S_CHECKED = true;
+
 	private ImageView mFontsizeImageView;
 
 	private AREditText mEditText;
@@ -29,6 +31,8 @@ public class ARE_FontSize extends ARE_ABS_Dynamic_Style<AreFontSizeSpan> impleme
 	private int mSize = Constants.DEFAULT_FONT_SIZE;
 
 	private FontsizePickerWindow mFontPickerWindow;
+
+	private static final int DEFAULT_FONT_SIZE = 18;
 
 	/**
 	 * @param fontSizeImage
@@ -68,8 +72,8 @@ public class ARE_FontSize extends ARE_ABS_Dynamic_Style<AreFontSizeSpan> impleme
 
 	@Override
 	protected void changeSpanInsideStyle(Editable editable, int start, int end, AreFontSizeSpan existingSpan) {
-		int currentColor = existingSpan.getSize();
-		if (currentColor != mSize) {
+		int currentSize = existingSpan.getSize();
+		if (currentSize != mSize) {
 			applyNewStyle(editable, start, end, mSize);
 		}
 	}
@@ -91,7 +95,7 @@ public class ARE_FontSize extends ARE_ABS_Dynamic_Style<AreFontSizeSpan> impleme
 
 	@Override
 	public boolean getIsChecked() {
-		return true;
+		return mSize != DEFAULT_FONT_SIZE;
 	}
 
 	@Override
@@ -111,7 +115,9 @@ public class ARE_FontSize extends ARE_ABS_Dynamic_Style<AreFontSizeSpan> impleme
 	@Override
 	protected void featureChangedHook(int lastSpanFontSize) {
 		mSize = lastSpanFontSize;
-		mFontPickerWindow.setFontSize(mSize);
+		if (mFontPickerWindow != null) {
+			mFontPickerWindow.setFontSize(mSize);
+		}
 	}
 
 	@Override
