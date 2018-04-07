@@ -34,7 +34,8 @@ public class FontsizePickerWindow extends PopupWindow {
         this.setWidth(wh[0]);
         int h = Util.getPixelByDp(context, 100);
         this.setHeight(h);
-        this.setOutsideTouchable(false);
+        this.setBackgroundDrawable(new BitmapDrawable());
+        this.setOutsideTouchable(true);
         this.setFocusable(true);
         this.initView();
         this.setupListeners();
