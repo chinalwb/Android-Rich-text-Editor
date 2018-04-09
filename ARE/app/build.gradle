@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "com.chinalwb.are"
+        applicationId "com.chinalwb.aredemo"
         minSdkVersion 15
         targetSdkVersion 26
     }
@@ -17,9 +17,6 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:26.1.0'
-    compile files('libs/tagsoup-1.2.1.jar')
-    implementation project(':colorpicker')
-    compile project(path: ':emojipanel')
-    compile project(path: ':glidesupport')
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation project(path: ':Android-Rich-text-Editor')
 }
