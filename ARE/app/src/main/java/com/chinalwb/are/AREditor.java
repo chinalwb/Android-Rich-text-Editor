@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.chinalwb.are.android.inner.Html;
+import com.chinalwb.are.strategies.AtStrategy;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 import com.rainliu.colorpicker.ColorPickerView;
 
@@ -145,4 +146,11 @@ public class AREditor extends RelativeLayout {
 		this.mToolbar.onActivityResult(requestCode, resultCode, data);
 	} // #End of onActivityResult(..)
 
+
+	/* ----------------------
+	 * Customization part
+	 * ---------------------- */
+	public void setAtStrategy(AtStrategy atStrategy) {
+		this.mAre.setAtStrategy(atStrategy);
+	}
 }

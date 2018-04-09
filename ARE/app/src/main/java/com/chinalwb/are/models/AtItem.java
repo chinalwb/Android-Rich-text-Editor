@@ -10,6 +10,7 @@ public class AtItem implements Serializable {
     public int mIconId;
     public String mName;
     public String mKey;
+    public int color;
 
     public AtItem(int iconId, String name) {
         this.mIconId = iconId;
