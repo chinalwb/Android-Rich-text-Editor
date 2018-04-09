@@ -6,7 +6,7 @@ If you are looking for a good rich text editor on Android, DON'T MISS THIS ONE!
 
 It's still in progress now, welcome fork and join me!
 
-For 0.0.3 features, I plan to publish [colorpicker](https://github.com/chinalwb/SimpleColorPicker) and [emojipicker](https://github.com/chinalwb/SimpleEmojiPicker) as standalone components so they can be reused in other projects easily.
+I published [colorpicker](https://github.com/chinalwb/SimpleColorPicker) and [emojipicker](https://github.com/chinalwb/SimpleEmojiPicker) as standalone components so they can be reused in other projects easily.
 
 This is implemented by Java
 

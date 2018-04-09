@@ -61,13 +61,12 @@ public class ARE_FontSize extends ARE_ABS_Dynamic_Style<AreFontSizeSpan> impleme
 		});
 	}
 
-	@SuppressLint("NewAPI")
 	private void showFontsizePickerWindow() {
 		if (mFontPickerWindow == null) {
 			mFontPickerWindow = new FontsizePickerWindow(mContext, this);
 		}
 		mFontPickerWindow.setFontSize(mSize);
-		mFontPickerWindow.showAsDropDown(ARE_Toolbar.getInstance(),0, 0, Gravity.BOTTOM);
+		mFontPickerWindow.showAsDropDown(ARE_Toolbar.getInstance(),0, 0);
 	}
 
 	@Override

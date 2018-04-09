@@ -1,6 +1,7 @@
 package com.chinalwb.are.styles.windows;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
