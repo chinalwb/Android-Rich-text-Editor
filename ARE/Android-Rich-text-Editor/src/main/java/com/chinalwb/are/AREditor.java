@@ -2,17 +2,13 @@ package com.chinalwb.are;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.chinalwb.are.android.inner.Html;
+import com.chinalwb.are.strategies.AtStrategy;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
-import com.rainliu.colorpicker.ColorPickerView;
 
 /**
  * All Rights Reserved.
@@ -144,5 +140,51 @@ public class AREditor extends RelativeLayout {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		this.mToolbar.onActivityResult(requestCode, resultCode, data);
 	} // #End of onActivityResult(..)
+
+
+	/*
+	 * ----------------------
+	 * Customization part
+	 * ----------------------
+	 */
+	public void setAtStrategy(AtStrategy atStrategy) {
+		this.mToolbar.getmAtStyle().setAtStrategy(atStrategy);
+	}
+
+    //构造方法
+    public AREditor(Builder builder){
+        super(builder.context);
+        this.mContext = builder.context;
+//        this.layoutRes = builder.layoutRes;
+	    init();
+	    setAtStrategy(builder.atStrategy);
+    }
+
+    //建造器
+    public static class Builder {
+        private int layoutRes = R.layout.areditor;
+        private AtStrategy atStrategy;
+        private Context context;
+
+        //Required
+        public Builder(Context context) {
+            this.context = context;
+        }
+
+        //Option
+        public Builder setLayoutRes(int res) {
+            this.layoutRes = res;
+            return this;
+        }
+
+        public Builder setAtStrategy(AtStrategy atStrategy) {
+            this.atStrategy = atStrategy;
+            return this;
+        }
+
+        public AREditor build() {
+            return new AREditor(this);
+        }
+    }
 
 }

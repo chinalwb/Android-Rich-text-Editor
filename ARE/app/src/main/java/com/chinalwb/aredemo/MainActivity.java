@@ -10,6 +10,8 @@ import android.view.MenuItem;
 
 import com.chinalwb.are.AREditor;
 import com.chinalwb.are.R;
+import com.chinalwb.are.models.AtItem;
+import com.chinalwb.are.strategies.AtStrategy;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -32,10 +34,20 @@ public class MainActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(getLayoutId());
-		this.arEditor = (AREditor) this.findViewById(R.id.areditor);
-		// 自定义 @ 页面，需要在Manifests中自定义action，一般用完整类名当action，如下
-		this.arEditor.getARE().setAtActivityIntent(new Intent("com.chinalwb.aredemo.Are_AtPickerActivity"));
-	}
+		this.arEditor = new AREditor.Builder(this)
+                .setLayoutRes(R.id.areditor)
+                .setAtStrategy(new AtStrategy() {
+                    @Override
+                    public void openAtPage() {
+                        startActivity(new Intent(MainActivity.this, Are_AtPickerActivity.class));
+                    }
+
+                    @Override
+                    public boolean onItemSelected(AtItem item) {
+                        return false;
+                    }
+                }).build();
+    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

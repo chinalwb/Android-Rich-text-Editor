@@ -17,7 +17,6 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.chinalwb.are.AREditText;
 import com.chinalwb.are.R;
@@ -501,6 +500,10 @@ public class ARE_Toolbar extends LinearLayout {
 	public ARE_Image getImageStyle() {
 	    return mImageStyle;
     }
+
+    public ARE_At getmAtStyle() {
+		return mAtStyle;
+	}
 
 	public List<IARE_Style> getStylesList() {
 		return this.mStylesList;

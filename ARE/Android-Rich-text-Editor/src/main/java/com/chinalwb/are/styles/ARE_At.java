@@ -8,8 +8,10 @@ import android.text.Spanned;
 import android.widget.ImageView;
 
 import com.chinalwb.are.AREditText;
+import com.chinalwb.are.activities.Are_AtPickerActivity;
 import com.chinalwb.are.models.AtItem;
 import com.chinalwb.are.spans.AreAtSpan;
+import com.chinalwb.are.strategies.AtStrategy;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
 public class ARE_At extends ARE_ABS_FreeStyle {
@@ -22,6 +24,8 @@ public class ARE_At extends ARE_ABS_FreeStyle {
 
 	private AREditText mEditText;
 
+	private AtStrategy atStrategy;
+
 	public ARE_At() {
 
 	}
@@ -31,6 +35,7 @@ public class ARE_At extends ARE_ABS_FreeStyle {
 	 */
 	public void setEditText(AREditText editText) {
 		this.mEditText = editText;
+//		this.atStrategy = editText.getAtStrategy();
 	}
 
 //	public ARE_At(ImageView atImageView) {
@@ -75,18 +80,31 @@ public class ARE_At extends ARE_ABS_FreeStyle {
 	}
 
 	private void openAtPicker() {
-		// mEditText.getAtActivityIntent() will never be null
-		// if user don't set an Intent for AtActivity,
-		// it will use default Are_AtPickerActivity in package com.chinalwb.are.activities
-		Intent intent = mEditText.getAtActivityIntent();
+		if (atStrategy != null) {
+			atStrategy.openAtPage();
+			return;
+		}
+		Intent intent = new Intent(this.mContext, Are_AtPickerActivity.class);
 		((Activity) this.mContext).startActivityForResult(intent, ARE_Toolbar.REQ_AT);
 	}
 
 	public void insertAt(AtItem atItem) {
-		if (null == this.mEditText) { return; }
-		int color = Color.BLUE;
-		if (atItem.mName.startsWith("Steve")) { // For demo purpose
-			color = Color.MAGENTA;
+		boolean consumed = false;
+		if (atStrategy != null) {
+			consumed = atStrategy.onItemSelected(atItem);
+		}
+		if (consumed) {
+			return;
+		}
+		if (null == this.mEditText) {
+			return;
+		}
+		int color = atItem.color;
+		if (color == 0) {
+			color = Color.BLUE;
+			if (atItem.mName.startsWith("Steve")) { // For demo purpose
+				color = Color.MAGENTA;
+			}
 		}
 		AreAtSpan atSpan = new AreAtSpan(atItem, color);
 		this.mEditText.getEditableText().insert(AT_INSERT_POS, atItem.mName);
@@ -105,4 +123,7 @@ public class ARE_At extends ARE_ABS_FreeStyle {
 
 	}
 
+    public void setAtStrategy(AtStrategy atStrategy) {
+        this.atStrategy = atStrategy;
+    }
 }
