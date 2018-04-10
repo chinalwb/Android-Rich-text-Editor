@@ -278,19 +278,4 @@ public class AREditText extends AppCompatEditText {
 		}
 	}
 
-
-
-	/* ----------------------
-	 * Customization part
-	 * ---------------------- */
-
-//	private AtStrategy mAtStrategy;
-//
-//	public void setAtStrategy(AtStrategy atStrategy) {
-//		mAtStrategy = atStrategy;
-//	}
-//
-//	public AtStrategy getAtStrategy() {
-//		return mAtStrategy;
-//	}
 }
