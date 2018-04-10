@@ -1,6 +1,7 @@
 package com.chinalwb.are;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.v7.widget.AppCompatEditText;
@@ -19,7 +20,6 @@ import android.view.inputmethod.EditorInfo;
 import com.chinalwb.are.spans.AreSubscriptSpan;
 import com.chinalwb.are.spans.AreSuperscriptSpan;
 import com.chinalwb.are.spans.AreUnderlineSpan;
-import com.chinalwb.are.styles.ARE_FontSize;
 import com.chinalwb.are.styles.ARE_Helper;
 import com.chinalwb.are.styles.IARE_Style;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
@@ -41,6 +41,8 @@ public class AREditText extends AppCompatEditText {
 	private static List<IARE_Style> sStylesList;
 
 	private Context mContext;
+
+	private Intent intent;
 
 	private TextWatcher mTextWatcher;
 
@@ -274,5 +276,26 @@ public class AREditText extends AppCompatEditText {
 		if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O) {
 			this.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 		}
+	}
+
+	/**
+	 * 自定义 @ 的页面
+	 * @param intent 形如new Intent("com.chinalwb.are.Are_AtPickerActivity");
+	 *               需要自定义intent 的 action
+	 */
+	public void setAtActivityIntent(Intent intent) {
+		this.intent = intent;
+	}
+
+	/**
+	 * intent for 自定义 @ 的页面
+	 * 默认"com.chinalwb.are.Are_AtPickerActivity"
+	 * @return notnull
+	 */
+	public Intent getAtActivityIntent() {
+		if (intent == null) {
+			intent = new Intent("com.chinalwb.are.activities.Are_AtPickerActivity");
+		}
+		return intent;
 	}
 }
