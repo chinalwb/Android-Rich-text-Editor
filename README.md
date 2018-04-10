@@ -8,7 +8,7 @@ It's still in progress now, welcome fork and join me!
 
 For 0.0.3 features, I plan to publish [colorpicker](https://github.com/chinalwb/SimpleColorPicker) and [emojipicker](https://github.com/chinalwb/SimpleEmojiPicker) as standalone components so they can be reused in other projects easily.
 
-#### Note: master branch is broken (sorry it is my mistake when merging push request), I set the last stable branch as master for now, will set the master trunk back when I fixed the error. Sorry that your fork may broken while compiling. I'll fix it ASAP.
+#### Note: master branch is broken (sorry it is my mistake when merging pull request), I set the last stable branch as master for now, will set the master trunk back when I fixed the error. Sorry that your fork may broken while compiling. I'll fix it ASAP.
 
 This is implemented by Java
 
