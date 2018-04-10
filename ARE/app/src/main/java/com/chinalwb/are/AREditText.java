@@ -278,24 +278,4 @@ public class AREditText extends AppCompatEditText {
 		}
 	}
 
-	/**
-	 * 自定义 @ 的页面
-	 * @param intent 形如new Intent("com.chinalwb.are.Are_AtPickerActivity");
-	 *               需要自定义intent 的 action
-	 */
-	public void setAtActivityIntent(Intent intent) {
-		this.intent = intent;
-	}
-
-	/**
-	 * intent for 自定义 @ 的页面
-	 * 默认"com.chinalwb.are.Are_AtPickerActivity"
-	 * @return notnull
-	 */
-	public Intent getAtActivityIntent() {
-		if (intent == null) {
-			intent = new Intent("com.chinalwb.are.activities.Are_AtPickerActivity");
-		}
-		return intent;
-	}
 }
