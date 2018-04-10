@@ -12,6 +12,7 @@ This is implemented by Java
 
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/are_demo.gif)
  
+#### Note: master branch is broken (sorry it is my mistake when merging push request), I set the last stable branch as master for now, will set the master trunk back when I fixed the error. Sorry that your fork may broken while compiling.
 
 Supported styles:
 ------------------
