@@ -17,9 +17,7 @@ android {
 }
 
 dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:appcompat-v7:26.1.0'
-    compile files('libs/tagsoup-1.2.1.jar')
-    implementation project(':colorpicker')
-    compile project(path: ':emojipanel')
-    compile project(path: ':glidesupport')
+    implementation project(':are')
 }
