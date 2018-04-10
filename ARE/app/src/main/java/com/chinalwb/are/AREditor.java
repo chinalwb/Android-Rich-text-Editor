@@ -11,20 +11,19 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.chinalwb.are.android.inner.Html;
-import com.chinalwb.are.strategies.AtStrategy;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 import com.rainliu.colorpicker.ColorPickerView;
 
 /**
  * All Rights Reserved.
- * 
+ *
  * @author Wenbin Liu
- * 
+ *
  */
 public class AREditor extends RelativeLayout {
 
 	/*
-	 * -------------------------------------------- 
+	 * --------------------------------------------
 	 * Instance Fields Area
 	 * --------------------------------------------
 	 */
@@ -52,7 +51,7 @@ public class AREditor extends RelativeLayout {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param context
 	 */
 	public AREditor(Context context) {
@@ -61,7 +60,7 @@ public class AREditor extends RelativeLayout {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param context
 	 * @param attrs
 	 */
@@ -71,7 +70,7 @@ public class AREditor extends RelativeLayout {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param context
 	 * @param attrs
 	 * @param defStyleAttr
@@ -115,7 +114,7 @@ public class AREditor extends RelativeLayout {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public String getHtml() {
 		StringBuffer html = new StringBuffer();
@@ -137,7 +136,7 @@ public class AREditor extends RelativeLayout {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param requestCode
 	 * @param resultCode
 	 * @param data
@@ -146,11 +145,4 @@ public class AREditor extends RelativeLayout {
 		this.mToolbar.onActivityResult(requestCode, resultCode, data);
 	} // #End of onActivityResult(..)
 
-
-	/* ----------------------
-	 * Customization part
-	 * ---------------------- */
-	public void setAtStrategy(AtStrategy atStrategy) {
-		this.mAre.setAtStrategy(atStrategy);
-	}
 }

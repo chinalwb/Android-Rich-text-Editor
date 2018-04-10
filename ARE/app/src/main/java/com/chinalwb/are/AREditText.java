@@ -19,7 +19,6 @@ import android.view.inputmethod.EditorInfo;
 import com.chinalwb.are.spans.AreSubscriptSpan;
 import com.chinalwb.are.spans.AreSuperscriptSpan;
 import com.chinalwb.are.spans.AreUnderlineSpan;
-import com.chinalwb.are.strategies.AtStrategy;
 import com.chinalwb.are.styles.ARE_FontSize;
 import com.chinalwb.are.styles.ARE_Helper;
 import com.chinalwb.are.styles.IARE_Style;
@@ -29,9 +28,9 @@ import java.util.List;
 
 /**
  * All Rights Reserved.
- * 
+ *
  * @author Wenbin Liu
- * 
+ *
  */
 public class AREditText extends AppCompatEditText {
 
@@ -113,7 +112,7 @@ public class AREditText extends AppCompatEditText {
 				if (LOG) {
 					Util.log("afterTextChanged:: s = " + s);
 				}
-				
+
 				if (endPos <= startPos) {
 					Util.log("User deletes: start == " + startPos + " endPos == " + endPos);
 				}
@@ -275,19 +274,5 @@ public class AREditText extends AppCompatEditText {
 		if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O) {
 			this.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 		}
-	}
-
-	/* ----------------------
-	 * Customization part
-	 * ---------------------- */
-
-	private AtStrategy mAtStrategy;
-
-	public void setAtStrategy(AtStrategy atStrategy) {
-		mAtStrategy = atStrategy;
-	}
-
-	public AtStrategy getAtStrategy() {
-		return mAtStrategy;
 	}
 }
