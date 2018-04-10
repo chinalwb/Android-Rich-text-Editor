@@ -37,7 +37,14 @@ Supported styles:
 * All styles support save as HTML file
 
 
-Released [v0.0.4](https://github.com/chinalwb/are/releases/tag/v0.0.4) Plan for v0.1.0, target on 2018-05-31:
+Released [v0.0.4](https://github.com/chinalwb/are/releases/tag/v0.0.4) Plan for v0.0.7, target on 2018-04-30 (Hope we can make it):
+* Video
+* Audio
+
+-----
+
+
+Plan for v0.1.0, target on 2018-05-31:
 -----------------
 * Save editings to local SQLite
 * Notes list
@@ -65,6 +72,8 @@ Demo for emoji feature (0.0.3):
  
 In progress items:
 -----------------
+* Video
+* Audio
 * Font family
 * Indent right
 * Indent left
