@@ -33,8 +33,12 @@ Android富文本编辑器
 * 字体大小 - NEW in 0.0.4
 * 所有样式都支持导出HTML
 
+发布了 [v0.0.4](https://github.com/chinalwb/are/releases/tag/v0.0.4) 计划在2018-04-30完成v0.0.7, （希望可以。。）:
+-----
+* Video
+* Audio
 
-发布了 [v0.0.4](https://github.com/chinalwb/are/releases/tag/v0.0.4) 计划在2018-05-31完成v0.1.0:
+另外计划在2018-05-31完成v0.1.0:
 -----------------
 * Save editings to local SQLite
 * Notes list
@@ -62,6 +66,8 @@ Android富文本编辑器
 
 计划中但正在做的功能:
 -----------------
+* 嵌入视频 
+* 嵌入音频
 * 字体样式 - Font family
 * 右缩进 - Indent right
 * 左缩进 - Indent left

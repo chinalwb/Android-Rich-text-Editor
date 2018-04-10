@@ -8,4 +8,5 @@
     <string name="are_link_insert_hint">Insert a link</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="title_activity_at">AtActivity</string>
 </resources>
