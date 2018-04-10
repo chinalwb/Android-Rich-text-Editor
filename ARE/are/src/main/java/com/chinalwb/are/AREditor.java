@@ -142,49 +142,10 @@ public class AREditor extends RelativeLayout {
 	} // #End of onActivityResult(..)
 
 
-	/*
-	 * ----------------------
+	/* ----------------------
 	 * Customization part
-	 * ----------------------
-	 */
+	 * ---------------------- */
 	public void setAtStrategy(AtStrategy atStrategy) {
-		this.mToolbar.getmAtStyle().setAtStrategy(atStrategy);
+		this.mAre.setAtStrategy(atStrategy);
 	}
-
-	//构造方法
-	public AREditor(Builder builder){
-		super(builder.context);
-		this.mContext = builder.context;
-//        this.layoutRes = builder.layoutRes;
-		init();
-		setAtStrategy(builder.atStrategy);
-	}
-
-	//建造器
-	public static class Builder {
-		private int layoutRes = R.layout.areditor;
-		private AtStrategy atStrategy;
-		private Context context;
-
-		//Required
-		public Builder(Context context) {
-			this.context = context;
-		}
-
-		//Option
-		public Builder setLayoutRes(int res) {
-			this.layoutRes = res;
-			return this;
-		}
-
-		public Builder setAtStrategy(AtStrategy atStrategy) {
-			this.atStrategy = atStrategy;
-			return this;
-		}
-
-		public AREditor build() {
-			return new AREditor(this);
-		}
-	}
-
 }

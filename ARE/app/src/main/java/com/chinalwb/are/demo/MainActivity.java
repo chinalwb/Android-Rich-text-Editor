@@ -1,4 +1,4 @@
-package com.chinalwb.are;
+package com.chinalwb.are.demo;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -8,14 +8,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.WindowManager;
+
+import com.chinalwb.are.AREditor;
+import com.chinalwb.are.Util;
+import com.chinalwb.are.models.AtItem;
+import com.chinalwb.are.strategies.AtStrategy;
+import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
 /**
  * All Rights Reserved.
@@ -27,23 +31,37 @@ public class MainActivity extends AppCompatActivity {
 
     private AREditor arEditor;
 
+    private AtStrategy mAtStrategy = new AtStrategy() {
+        @Override
+        public void openAtPage() {
+            Intent intent = new Intent(MainActivity.this, AtActivity.class);
+            startActivityForResult(intent, ARE_Toolbar.REQ_AT);
+        }
+
+        @Override
+        public boolean onItemSelected(AtItem item) {
+            return false;
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
-        this.arEditor = (AREditor) this.findViewById(R.id.areditor);
+        this.arEditor = this.findViewById(R.id.areditor);
+        this.arEditor.setAtStrategy(mAtStrategy);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(com.chinalwb.are.R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int menuId = item.getItemId();
-        if (menuId == R.id.action_save) {
+        if (menuId == com.chinalwb.are.R.id.action_save) {
             String html = this.arEditor.getHtml();
             saveHtml(html);
             return true;

@@ -1,7 +1,6 @@
 package com.chinalwb.are;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.v7.widget.AppCompatEditText;
@@ -20,6 +19,7 @@ import android.view.inputmethod.EditorInfo;
 import com.chinalwb.are.spans.AreSubscriptSpan;
 import com.chinalwb.are.spans.AreSuperscriptSpan;
 import com.chinalwb.are.spans.AreUnderlineSpan;
+import com.chinalwb.are.strategies.AtStrategy;
 import com.chinalwb.are.styles.ARE_Helper;
 import com.chinalwb.are.styles.IARE_Style;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
@@ -41,8 +41,6 @@ public class AREditText extends AppCompatEditText {
 	private static List<IARE_Style> sStylesList;
 
 	private Context mContext;
-
-	private Intent intent;
 
 	private TextWatcher mTextWatcher;
 
@@ -278,4 +276,17 @@ public class AREditText extends AppCompatEditText {
 		}
 	}
 
+	/* ----------------------
+	 * Customization part
+	 * ---------------------- */
+
+	private AtStrategy mAtStrategy;
+
+	public void setAtStrategy(AtStrategy atStrategy) {
+		mAtStrategy = atStrategy;
+	}
+
+	public AtStrategy getAtStrategy() {
+		return mAtStrategy;
+	}
 }

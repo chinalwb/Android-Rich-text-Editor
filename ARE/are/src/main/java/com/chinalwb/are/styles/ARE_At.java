@@ -24,8 +24,6 @@ public class ARE_At extends ARE_ABS_FreeStyle {
 
 	private AREditText mEditText;
 
-	private AtStrategy atStrategy;
-
 	public ARE_At() {
 
 	}
@@ -35,7 +33,6 @@ public class ARE_At extends ARE_ABS_FreeStyle {
 	 */
 	public void setEditText(AREditText editText) {
 		this.mEditText = editText;
-//		this.atStrategy = editText.getAtStrategy();
 	}
 
 //	public ARE_At(ImageView atImageView) {
@@ -80,6 +77,7 @@ public class ARE_At extends ARE_ABS_FreeStyle {
 	}
 
 	private void openAtPicker() {
+		AtStrategy atStrategy = mEditText.getAtStrategy();
 		if (atStrategy != null) {
 			atStrategy.openAtPage();
 			return;
@@ -89,6 +87,7 @@ public class ARE_At extends ARE_ABS_FreeStyle {
 	}
 
 	public void insertAt(AtItem atItem) {
+		AtStrategy atStrategy = mEditText.getAtStrategy();
 		boolean consumed = false;
 		if (atStrategy != null) {
 			consumed = atStrategy.onItemSelected(atItem);
@@ -121,9 +120,5 @@ public class ARE_At extends ARE_ABS_FreeStyle {
 	public void setChecked(boolean isChecked) {
 		// TODO Auto-generated method stub
 
-	}
-
-	public void setAtStrategy(AtStrategy atStrategy) {
-		this.atStrategy = atStrategy;
 	}
 }

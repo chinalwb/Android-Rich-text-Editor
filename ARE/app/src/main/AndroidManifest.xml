@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.chinalwb.are"
+    package="com.chinalwb.are.demo"
     android:versionCode="1"
     android:versionName="1.0">
 
@@ -28,6 +28,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AtActivity"
+            android:label="@string/title_activity_at"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
