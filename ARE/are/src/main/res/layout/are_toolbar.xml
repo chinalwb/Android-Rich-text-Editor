@@ -189,6 +189,14 @@
                 android:src="@drawable/image" />
 
             <ImageView
+                android:id="@+id/rteInsertVideo"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:src="@drawable/video"
+                />
+
+            <ImageView
                 android:id="@+id/rteAt"
                 android:layout_width="40dp"
                 android:layout_height="40dp"

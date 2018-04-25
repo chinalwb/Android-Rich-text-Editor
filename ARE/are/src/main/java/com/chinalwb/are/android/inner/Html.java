@@ -569,6 +569,11 @@ public class Html {
             CharacterStyle[] style = text.getSpans(i, next, CharacterStyle.class);
 
             for (int j = 0; j < style.length; j++) {
+                if (style[j] instanceof ARE_Span) {
+                    out.append(((ARE_Span) style[j]).getHtml());
+                    i = next;
+                    continue;
+                }
                 if (style[j] instanceof StyleSpan) {
                     int s = ((StyleSpan) style[j]).getStyle();
 
@@ -609,10 +614,6 @@ public class Html {
                     out.append("\">");
 
                     // Don't output the dummy character underlying the image.
-                    i = next;
-                }
-                if (style[j] instanceof ARE_Span) {
-                    out.append(((ARE_Span) style[j]).getHtml());
                     i = next;
                 }
                 if (style[j] instanceof AbsoluteSizeSpan) {

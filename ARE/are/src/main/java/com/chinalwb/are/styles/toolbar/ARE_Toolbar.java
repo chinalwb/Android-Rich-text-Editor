@@ -42,6 +42,7 @@ import com.chinalwb.are.styles.ARE_Strikethrough;
 import com.chinalwb.are.styles.ARE_Subscript;
 import com.chinalwb.are.styles.ARE_Superscript;
 import com.chinalwb.are.styles.ARE_Underline;
+import com.chinalwb.are.styles.ARE_Video;
 import com.chinalwb.are.styles.IARE_Style;
 import com.rainliu.colorpicker.ColorPickerListener;
 import com.rainliu.colorpicker.ColorPickerView;
@@ -63,6 +64,8 @@ public class ARE_Toolbar extends LinearLayout {
 	 */
 	public static final int REQ_AT = 2;
 
+	public static final int REQ_VIDEO = 3;
+
 	private Activity mContext;
 
 	private AREditText mEditText;
@@ -71,6 +74,11 @@ public class ARE_Toolbar extends LinearLayout {
 	 * Supported styles list.
 	 */
 	private ArrayList<IARE_Style> mStylesList = new ArrayList<IARE_Style>();
+
+	/**
+	 * Video Style
+	 */
+	private ARE_Video mVideoStyle;
 
 	/**
 	 * Emoji Style
@@ -298,6 +306,11 @@ public class ARE_Toolbar extends LinearLayout {
 	private ImageView mRteInsertImage;
 
 	/**
+	 * Insert video button.
+	 */
+	private ImageView mRteInsertVideo;
+
+	/**
 	 * @ mention image button.
 	 */
 	private ImageView mRteAtImage;
@@ -378,6 +391,8 @@ public class ARE_Toolbar extends LinearLayout {
 
 		this.mRteInsertImage = this.findViewById(R.id.rteInsertImage);
 
+		this.mRteInsertVideo = this.findViewById(R.id.rteInsertVideo);
+
 		this.mRteAtImage = this.findViewById(R.id.rteAt);
 
 	}
@@ -407,6 +422,7 @@ public class ARE_Toolbar extends LinearLayout {
 		this.mAlignCenter = new ARE_Alignment(this.mRteAlignCenter, Alignment.ALIGN_CENTER);
 		this.mAlignRight = new ARE_Alignment(this.mRteAlignRight, Alignment.ALIGN_OPPOSITE);
 		this.mImageStyle = new ARE_Image(this.mRteInsertImage);
+		this.mVideoStyle = new ARE_Video(this.mRteInsertVideo);
 		this.mAtStyle = new ARE_At();
 
 		this.mStylesList.add(this.mEmojiStyle);
@@ -430,6 +446,7 @@ public class ARE_Toolbar extends LinearLayout {
 		this.mStylesList.add(this.mAlignCenter);
 		this.mStylesList.add(this.mAlignRight);
 		this.mStylesList.add(this.mImageStyle);
+		this.mStylesList.add(this.mVideoStyle);
 		this.mStylesList.add(this.mAtStyle);
 	}
 
@@ -456,6 +473,7 @@ public class ARE_Toolbar extends LinearLayout {
 		this.mBackgroundColoStyle.setEditText(this.mEditText);
 		this.mLinkStyle.setEditText(this.mEditText);
 		this.mImageStyle.setEditText(this.mEditText);
+		this.mVideoStyle.setEditText(this.mEditText);
 		this.mAtStyle.setEditText(this.mEditText);
 	}
 
@@ -501,6 +519,8 @@ public class ARE_Toolbar extends LinearLayout {
 		return mImageStyle;
 	}
 
+	public ARE_Video getVideoStyle() { return mVideoStyle; }
+
 	public ARE_At getmAtStyle() {
 		return mAtStyle;
 	}
@@ -523,6 +543,13 @@ public class ARE_Toolbar extends LinearLayout {
 		this.mColorPalette.setColor(color);
 	}
 
+	/**
+	 * On activity result.
+	 *
+	 * @param requestCode
+	 * @param resultCode
+	 * @param data
+	 */
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		mEmojiPanelContainer.setVisibility(View.GONE);
 		mEmojiShownNow = false;
@@ -534,6 +561,9 @@ public class ARE_Toolbar extends LinearLayout {
 				AtItem atItem = (AtItem) data.getSerializableExtra(ARE_At.EXTRA_TAG);
 				if (null == atItem) { return; }
 				this.mAtStyle.insertAt(atItem);
+			} else if (REQ_VIDEO == requestCode) {
+				Uri uri = data.getData();
+				this.mVideoStyle.insertVideo(uri);
 			}
 		}
 	}

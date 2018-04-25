@@ -7,10 +7,15 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +33,8 @@ import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
  *
  */
 public class MainActivity extends AppCompatActivity {
+
+    private static final int REQ_WRITE_EXTERNAL_STORAGE = 10000;
 
     private AREditor arEditor;
 
@@ -71,6 +78,14 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("SimpleDateFormat") private void saveHtml(String html) {
         try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                    && this.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                //申请授权
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, ARE_Toolbar.REQ_VIDEO);
+                return;
+            }
+
             String filePath = Environment.getExternalStorageDirectory() + File.separator + "ARE" + File.separator;
             File dir = new File(filePath);
             if (!dir.exists()) {
@@ -111,6 +126,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQ_WRITE_EXTERNAL_STORAGE) {
+            String html = this.arEditor.getHtml();
+            saveHtml(html);
+            return;
+        }
         this.arEditor.onActivityResult(requestCode, resultCode, data);
     }
 }

@@ -3,6 +3,7 @@ package com.chinalwb.are;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.text.Editable;
@@ -198,5 +199,34 @@ public class Util {
         float scaleHeight = ((float) newHeight / h);
         matrix.postScale(scaleWidth, scaleHeight);
         return Bitmap.createBitmap(bitmap, 0, 0, w, h, matrix, true);
+    }
+
+
+    public static Bitmap mergeBitmaps(Bitmap background, Bitmap foreground) {
+        if( background == null ) {
+            return null;
+        }
+
+        int bgWidth = background.getWidth();
+        int bgHeight = background.getHeight();
+
+        //create the new blank bitmap 创建一个新的和SRC长度宽度一样的位图
+        Bitmap newBitmap = Bitmap.createBitmap(bgWidth, bgHeight, Bitmap.Config.ARGB_8888);
+        Canvas cv = new Canvas(newBitmap);
+        //draw bg into
+        cv.drawBitmap(background, 0, 0, null);//在 0，0坐标开始画入bg
+
+        int fgWidth = foreground.getWidth();
+        int fgHeight = foreground.getHeight();
+        int fgLeft = (bgWidth - fgWidth) / 2;
+        int fgTop = (bgHeight - fgHeight) / 2;
+
+        //draw fg into
+        cv.drawBitmap(foreground, fgLeft, fgTop, null);//在 0，0坐标开始画入fg ，可以从任意位置画入
+        //save all clip
+        cv.save(Canvas.ALL_SAVE_FLAG);//保存
+        //store
+        cv.restore();//存储
+        return newBitmap;
     }
 }
