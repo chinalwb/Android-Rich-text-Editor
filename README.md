@@ -96,6 +96,9 @@ You can download the APK here:
 
 Known issues:
 * Background color - cursor invisible when put it in the range of BackgroundColorSpan
+
+Thanks [@Yasujizr](https://github.com/Yasujizr) providing the logo for ARE. 
+
 -------------------
 If you find my work is helpful to you or you are start using my code, you don't need to buy me a coffee, just could you please send me a "✨"? Your * encourages me to make more features open source, thanks for your support.
 You can contact me at 329055754@qq.com if you need any customization or any suggestion.
