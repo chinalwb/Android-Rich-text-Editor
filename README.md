@@ -40,8 +40,12 @@ Supported styles:
 
 Released [v0.0.4](https://github.com/chinalwb/are/releases/tag/v0.0.4) Plan for v0.0.7, target on 2018-04-30 (Hope we can make it):
 -----
-* Video
+* Video - In progress, need to add a plack back page and a hook for uploading then get the video src, so as to insert it into the H5 Video tag src property.
 * Audio
+
+Demo for the alpha version insert Video:
+----
+ ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/video_demo.gif)
 
 Further plan for v0.1.0, target on 2018-05-31:
 -----------------
