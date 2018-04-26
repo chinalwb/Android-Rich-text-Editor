@@ -1,2 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.chinalwb.are" />
+    package="com.chinalwb.are">
+
+    <application>
+        <activity
+            android:name=".activities.Are_VideoPlayerActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_are__video_player"
+            android:theme="@style/FullscreenTheme"></activity>
+    </application>
+
+</manifest>

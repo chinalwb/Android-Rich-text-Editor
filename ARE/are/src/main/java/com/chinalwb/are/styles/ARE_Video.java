@@ -76,7 +76,7 @@ public class ARE_Video implements IARE_Style {
         Intent intent = new Intent();
         intent.setType("video/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        ((Activity) this.mContext).startActivityForResult(intent, ARE_Toolbar.REQ_VIDEO);
+        ((Activity) this.mContext).startActivityForResult(intent, ARE_Toolbar.REQ_VIDEO_CHOOSE);
     }
 
     /**
@@ -91,7 +91,7 @@ public class ARE_Video implements IARE_Style {
             ((Activity) mContext).requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, ARE_Toolbar.REQ_VIDEO);
             return;
         }
-        String path = GetPathFromUri4kitkat.getPath(mContext, uri);
+        String path = Util.GetPathFromUri4kitkat.getPath(mContext, uri);
         Bitmap thumb = ThumbnailUtils.createVideoThumbnail(path, MediaStore.Images.Thumbnails.MINI_KIND);
 
         Bitmap play = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.play);

@@ -8,4 +8,8 @@
     <string name="are_link_insert_hint">Insert a link</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+
+    <string name="title_activity_are__video_player">ARE Video</string>
+    <string name="btn_attach_video">Attach Video</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

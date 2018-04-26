@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import com.chinalwb.are.AREditText;
 import com.chinalwb.are.R;
 import com.chinalwb.are.Util;
+import com.chinalwb.are.activities.Are_VideoPlayerActivity;
 import com.chinalwb.are.models.AtItem;
 import com.chinalwb.are.styles.ARE_Alignment;
 import com.chinalwb.are.styles.ARE_At;
@@ -64,7 +65,16 @@ public class ARE_Toolbar extends LinearLayout {
 	 */
 	public static final int REQ_AT = 2;
 
-	public static final int REQ_VIDEO = 3;
+	/**
+	 * Request code for choosing a video.
+	 */
+	public static final int REQ_VIDEO_CHOOSE = 3;
+
+	/**
+	 * Request code for inserting a video
+	 */
+	public static final int REQ_VIDEO = 4;
+
 
 	private Activity mContext;
 
@@ -543,6 +553,16 @@ public class ARE_Toolbar extends LinearLayout {
 		this.mColorPalette.setColor(color);
 	}
 
+    /**
+     * Open Video player page
+     */
+	public void openVideoPlayer(Uri uri) {
+	    Intent intent = new Intent();
+	    intent.setClass(mContext, Are_VideoPlayerActivity.class);
+	    intent.setData(uri);
+	    mContext.startActivityForResult(intent, REQ_VIDEO);
+    }
+
 	/**
 	 * On activity result.
 	 *
@@ -561,7 +581,10 @@ public class ARE_Toolbar extends LinearLayout {
 				AtItem atItem = (AtItem) data.getSerializableExtra(ARE_At.EXTRA_TAG);
 				if (null == atItem) { return; }
 				this.mAtStyle.insertAt(atItem);
-			} else if (REQ_VIDEO == requestCode) {
+			} else if (REQ_VIDEO_CHOOSE == requestCode) {
+			    Uri uri = data.getData();
+			    openVideoPlayer(uri);
+            } else if (REQ_VIDEO == requestCode) {
 				Uri uri = data.getData();
 				this.mVideoStyle.insertVideo(uri);
 			}
