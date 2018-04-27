@@ -42,6 +42,7 @@ Released [v0.0.4](https://github.com/chinalwb/are/releases/tag/v0.0.4) Plan for 
 -----
 * Video - In progress, need to add a plack back page and a hook for uploading then get the video src, so as to insert it into the H5 Video tag src property.
 * Audio
+* Image from internet
 
 Demo for the alpha version insert Video:
 ----
@@ -77,6 +78,7 @@ In progress items:
 -----------------
 * Video
 * Audio
+* Image from internet
 * Font family
 * Indent right
 * Indent left
