@@ -40,13 +40,14 @@ Supported styles:
 
 Released [v0.0.4](https://github.com/chinalwb/are/releases/tag/v0.0.4) Plan for v0.0.7, target on 2018-04-30 (Hope we can make it):
 -----
-* Video - In progress, need to add a plack back page and a hook for uploading then get the video src, so as to insert it into the H5 Video tag src property.
-* Image from internet
+* Video - Done
+* Image from internet - In progress
 * Audio
 
-Demo for the alpha version insert Video:
+Demo for inserting Video:
 ----
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/video_demo.gif)
+
 
 Further plan for v0.1.0, target on 2018-05-31:
 -----------------
@@ -96,6 +97,42 @@ Before the general release, you need to checkout the code and add this to a layo
     android:layout_height="match_parent"
     android:background="@android:color/white" />
 ```
+
+How to use the callback function for uploading video file?
+```
+public interface VideoStrategy {
+
+    /**
+     * Upload the video to server and return the url of the video at server
+     *
+     * @param uri
+     * @return
+     */
+    public String uploadVideo(Uri uri);
+}
+```
+
+Do upload implementation:
+```
+    private VideoStrategy mVideoStrategy = new VideoStrategy() {
+        @Override
+        public String uploadVideo(Uri uri) {
+            try {
+                Thread.sleep(3000); // Do upload here
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "http://www.xx.com/x.mp4";
+        }
+    };
+```
+
+Set to ARE:
+```
+this.arEditor = this.findViewById(R.id.areditor);
+this.arEditor.setVideoStrategy(mVideoStrategy);
+```
+
 You can download the APK here:
 
 [Click ARE_20180405_0.0.4.apk to download](https://github.com/chinalwb/Android-Rich-text-Editor/releases/download/v0.0.4/ARE_20180405_0.0.4.apk)
