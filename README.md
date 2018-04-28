@@ -44,7 +44,7 @@ Released [v0.0.4](https://github.com/chinalwb/are/releases/tag/v0.0.4) Plan for 
 * Image from internet - In progress
 * Audio
 
-Demo for inserting Video:
+Demo for inserting Video (you can find customization approach below):
 ----
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/video_demo.gif)
 
@@ -88,6 +88,7 @@ In progress items:
 
 
 How to use?
+--------------
 Before the general release, you need to checkout the code and add this to a layout file and include the layout file in your Activity. Just refer to the MainActivity.java in the source code.
 ```
 <com.chinalwb.are.AREditor xmlns:android="http://schemas.android.com/apk/res/android"
