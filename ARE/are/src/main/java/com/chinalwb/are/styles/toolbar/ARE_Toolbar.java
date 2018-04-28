@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.text.Layout.Alignment;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -585,8 +586,10 @@ public class ARE_Toolbar extends LinearLayout {
 			    Uri uri = data.getData();
 			    openVideoPlayer(uri);
             } else if (REQ_VIDEO == requestCode) {
+				String videoUrl = data.getStringExtra(Are_VideoPlayerActivity.VIDEO_URL);
 				Uri uri = data.getData();
-				this.mVideoStyle.insertVideo(uri);
+				this.mVideoStyle.insertVideo(uri, videoUrl);
+
 			}
 		}
 	}

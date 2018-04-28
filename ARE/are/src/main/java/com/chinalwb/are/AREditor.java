@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 
 import com.chinalwb.are.android.inner.Html;
 import com.chinalwb.are.strategies.AtStrategy;
+import com.chinalwb.are.strategies.VideoStrategy;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
 /**
@@ -148,4 +149,9 @@ public class AREditor extends RelativeLayout {
 	public void setAtStrategy(AtStrategy atStrategy) {
 		this.mAre.setAtStrategy(atStrategy);
 	}
+
+	public void setVideoStrategy(VideoStrategy videoStrategy) {
+        this.mAre.setVideoStrategy(videoStrategy);
+	}
+
 }

@@ -20,6 +20,7 @@ import com.chinalwb.are.spans.AreSubscriptSpan;
 import com.chinalwb.are.spans.AreSuperscriptSpan;
 import com.chinalwb.are.spans.AreUnderlineSpan;
 import com.chinalwb.are.strategies.AtStrategy;
+import com.chinalwb.are.strategies.VideoStrategy;
 import com.chinalwb.are.styles.ARE_Helper;
 import com.chinalwb.are.styles.IARE_Style;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
@@ -281,12 +282,11 @@ public class AREditText extends AppCompatEditText {
 	 * ---------------------- */
 
 	private AtStrategy mAtStrategy;
+	public void setAtStrategy(AtStrategy atStrategy) { mAtStrategy = atStrategy; }
+	public AtStrategy getAtStrategy() { return mAtStrategy; }
 
-	public void setAtStrategy(AtStrategy atStrategy) {
-		mAtStrategy = atStrategy;
-	}
-
-	public AtStrategy getAtStrategy() {
-		return mAtStrategy;
-	}
+	// VideoStrategy
+	private VideoStrategy mVideoStrategy;
+	public void setVideoStrategy(VideoStrategy videoStrategy) { mVideoStrategy = videoStrategy; }
+	public VideoStrategy getVideoStrategy() { return mVideoStrategy; }
 }

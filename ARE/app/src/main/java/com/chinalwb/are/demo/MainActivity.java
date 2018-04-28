@@ -12,6 +12,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,6 +25,7 @@ import com.chinalwb.are.AREditor;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.models.AtItem;
 import com.chinalwb.are.strategies.AtStrategy;
+import com.chinalwb.are.strategies.VideoStrategy;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
 /**
@@ -51,12 +53,35 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    private VideoStrategy mVideoStrategy = new VideoStrategy() {
+        @Override
+        public String uploadVideo(Uri uri) {
+            try {
+                Thread.sleep(3000); // Do upload here
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "http://www.xx.com/x.mp4";
+        }
+
+        @Override
+        public String uploadVideo(String videoPath) {
+            try {
+                Thread.sleep(3000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "http://www.xx.com/x.mp4";
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
         this.arEditor = this.findViewById(R.id.areditor);
         this.arEditor.setAtStrategy(mAtStrategy);
+        this.arEditor.setVideoStrategy(mVideoStrategy);
     }
 
     @Override

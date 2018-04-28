@@ -1,8 +1,12 @@
 package com.chinalwb.are.activities;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,12 +18,18 @@ import android.widget.VideoView;
 
 import com.chinalwb.are.R;
 import com.chinalwb.are.Util;
+import com.chinalwb.are.strategies.VideoStrategy;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
 public class Are_VideoPlayerActivity extends AppCompatActivity {
+
+    public static final String VIDEO_URL = "VIDEO_URL";
+
+    public static VideoStrategy sVideoStrategy;
+
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -41,6 +51,7 @@ public class Are_VideoPlayerActivity extends AppCompatActivity {
     private VideoView mVideoView;
     private Button mAttachVideoButton;
     private Intent mIntent;
+    private Uri mUri;
     private final Runnable mHidePart2Runnable = new Runnable() {
         @SuppressLint("InlinedApi")
         @Override
@@ -89,11 +100,35 @@ public class Are_VideoPlayerActivity extends AppCompatActivity {
                 delayedHide(AUTO_HIDE_DELAY_MILLIS);
             }
 
-            // insert video and finish
-            Are_VideoPlayerActivity.this.setResult(RESULT_OK, mIntent);
+            if (sVideoStrategy != null) {
+                callStrategy();
+            } else {
+                // insert video and finish
+                Are_VideoPlayerActivity.this.setResult(RESULT_OK, mIntent);
+                Are_VideoPlayerActivity.this.finish();
+            }
             return false;
         }
     };
+
+    private void callStrategy() {
+        UploadCallback callBack = new UploadCallback() {
+            @Override
+            public void uploadFinish(Uri uri, String videoUrl) {
+                mIntent.putExtra(VIDEO_URL, videoUrl);
+                Are_VideoPlayerActivity.this.setResult(RESULT_OK, mIntent);
+                Are_VideoPlayerActivity.this.finish();
+            }
+        };
+        VideoUploadTask task = new VideoUploadTask(this, callBack, mUri, sVideoStrategy);
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    @Override
+    public void onBackPressed() {
+        this.setResult(RESULT_CANCELED);
+        super.onBackPressed();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,8 +141,7 @@ public class Are_VideoPlayerActivity extends AppCompatActivity {
         mVideoView = findViewById(R.id.are_video_view);
 
         mIntent = getIntent();
-        Uri uri = mIntent.getData();
-        Util.log("uri=="+uri.toString());
+        mUri = mIntent.getData();
 
         // Set up the user interaction to manually show or hide the system UI.
         mVideoView.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +150,7 @@ public class Are_VideoPlayerActivity extends AppCompatActivity {
                 toggle();
             }
         });
-        mVideoView.setVideoURI(uri);
+        mVideoView.setVideoURI(mUri);
         mVideoView.start();
 
         // Upon interacting with UI controls, delay any scheduled hide()
@@ -133,7 +167,7 @@ public class Are_VideoPlayerActivity extends AppCompatActivity {
         // Trigger the initial hide() shortly after the activity has been
         // created, to briefly hint to the user that UI controls
         // are available.
-        delayedHide(100);
+        // delayedHide(100);
     }
 
     private void toggle() {
@@ -177,5 +211,51 @@ public class Are_VideoPlayerActivity extends AppCompatActivity {
     private void delayedHide(int delayMillis) {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
+    }
+
+    private interface UploadCallback {
+        void uploadFinish(Uri uri, String videoUrl);
+    }
+
+    private static class VideoUploadTask extends AsyncTask<String, Boolean, String> {
+
+        UploadCallback mCallback;
+        Uri mVideoUri;
+        Activity mActivity;
+        VideoStrategy mVideoStrategy;
+        ProgressDialog mDialog;
+        private VideoUploadTask(
+                Activity activity,
+                UploadCallback callback,
+                Uri uri,
+                VideoStrategy videoStrategy) {
+            mActivity = activity;
+            mCallback = callback;
+            mVideoUri = uri;
+            mVideoStrategy = videoStrategy;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            mDialog = ProgressDialog.show(
+                    mActivity,
+                    "",
+                    "Uploading video. Please wait...",
+                    true);
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String url = mVideoStrategy.uploadVideo(mVideoUri);
+            return url;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            mDialog.dismiss();
+            mCallback.uploadFinish(mVideoUri, s);
+        }
     }
 }

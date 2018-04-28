@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0099cc"
+    android:background="#FFFFFF"
     tools:context="com.chinalwb.are.activities.Are_VideoPlayerActivity">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:layout_gravity="center"
         android:keepScreenOn="true" />
 
     <!-- This FrameLayout insets its children based on system windows using

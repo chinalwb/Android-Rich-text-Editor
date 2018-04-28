@@ -31,8 +31,10 @@ import com.chinalwb.are.AREditText;
 import com.chinalwb.are.Constants;
 import com.chinalwb.are.R;
 import com.chinalwb.are.Util;
+import com.chinalwb.are.activities.Are_VideoPlayerActivity;
 import com.chinalwb.are.spans.AreImageSpan;
 import com.chinalwb.are.spans.AreVideoSpan;
+import com.chinalwb.are.strategies.VideoStrategy;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
 public class ARE_Video implements IARE_Style {
@@ -73,16 +75,20 @@ public class ARE_Video implements IARE_Style {
      * Open system image chooser page.
      */
     private void openVideoChooser() {
+        VideoStrategy videoStrategy = mEditText.getVideoStrategy();
+        Are_VideoPlayerActivity.sVideoStrategy = videoStrategy;
+
         Intent intent = new Intent();
         intent.setType("video/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         ((Activity) this.mContext).startActivityForResult(intent, ARE_Toolbar.REQ_VIDEO_CHOOSE);
     }
 
+
     /**
      *
      */
-    public void insertVideo(final Uri uri) {
+    public void insertVideo(final Uri uri, final String videoUrl) {
         this.mEditText.useSoftwareLayerOnAndroid8();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                 && ((Activity) mContext).checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -96,7 +102,7 @@ public class ARE_Video implements IARE_Style {
 
         Bitmap play = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.play);
         Bitmap video = Util.mergeBitmaps(thumb, play);
-        AreVideoSpan videoSpan = new AreVideoSpan(mContext, video, uri);
+        AreVideoSpan videoSpan = new AreVideoSpan(mContext, video, uri, videoUrl);
         insertSpan(videoSpan);
     }
 
