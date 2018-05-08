@@ -42,6 +42,8 @@ Released [v0.0.4](https://github.com/chinalwb/are/releases/tag/v0.0.4) Plan for 
 -----
 * Video - Done
 * Image from internet - In progress
+* Headline
+* Dividing line
 * Audio
 
 Demo for inserting Video (you can find customization approach below):
@@ -77,7 +79,7 @@ Demo for emoji feature (0.0.3):
  
 In progress items:
 -----------------
-* Video
+* Video - Done
 * Audio
 * Image from internet
 * Font family
