@@ -38,24 +38,21 @@ Supported styles:
 * All styles support save as HTML file
 
 
-Released [v0.0.4](https://github.com/chinalwb/are/releases/tag/v0.0.4) Plan for v0.0.7, target on 2018-04-30 (Hope we can make it):
+Released [v0.0.4](https://github.com/chinalwb/are/releases/tag/v0.0.4) Plan for v0.0.7, ~~target on 2018-04-30 (Hope we can make it):~~ Sorry have to defer, new targret is on 2018-05-31:
 -----
 * Video - Done
 * Image from internet - In progress
 * Headline
 * Dividing line
-* Audio
 
 Demo for inserting Video (you can find customization approach below):
 ----
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/video_demo.gif)
 
 
-Further plan for v0.1.0, target on 2018-05-31:
+Further plan for v0.1.0, target on 2018-06-15:
 -----------------
-* Save editings to local SQLite
-* Notes list
-> 0.1.0 is for saving and list, note review plan to be 0.1.1, re-edit plan to be 0.1.2. If you have any urgent feature request, just open issues then I will reorder the todo items.  
+* Load from html
 
 Demo for Font size (New in 0.0.4):
 -----------------
@@ -87,6 +84,7 @@ In progress items:
 * Indent left
 * Save editings to local SQLite
 * Notes list
+* Load from HTML
 
 
 How to use?
