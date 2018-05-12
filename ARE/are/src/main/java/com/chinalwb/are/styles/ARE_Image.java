@@ -85,7 +85,26 @@ public class ARE_Image implements IARE_Style {
 	 *
 	 */
 	public void insertImage(final Object src, final ImageType type) {
-	    this.mEditText.useSoftwareLayerOnAndroid8();
+		// Note for a possible bug:
+		// There may be a possible bug here, it is related to:
+		//   https://issuetracker.google.com/issues/67102093
+		// But I forget what the real use case is, just remember that
+		// When working on the feature, there was a crash bug
+		//
+		// That's why I introduce the method below:
+	    // this.mEditText.useSoftwareLayerOnAndroid8();
+		//
+		// However, with this setting software layer, there is another
+		// bug which is when inserting a few (2~3) images, there will
+		// be a warning:
+		//
+		// AREditText not displayed because it is too large to fit into a software layer (or drawing cache), needs 17940960 bytes, only 8294400 available
+		//
+		// And then the EditText becomes an entire white nothing displayed
+		//
+		// So in temporary, I commented out this method invoke to prevent this known issue
+		// When someone run into the crash bug caused by this on Android 8
+		// I can then find out a solution to cover both cases
 		SimpleTarget myTarget = new SimpleTarget<Bitmap>() {
 			@Override
 			public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
