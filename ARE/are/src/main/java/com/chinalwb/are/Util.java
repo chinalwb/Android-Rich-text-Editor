@@ -195,20 +195,16 @@ public class Util {
         int w = bitmap.getWidth();
         int h = bitmap.getHeight();
         int newWidth = maxWidth;
-        if (w < maxWidth * 0.2) {
-            w = w * 5;
-            h = h * 5;
-            newWidth = w;
-        }
         int newHeight = maxWidth * h / w;
-
         Matrix matrix = new Matrix();
         float scaleWidth = ((float) newWidth / w);
         float scaleHeight = ((float) newHeight / h);
+        if (w < maxWidth * 0.2) {
+            return bitmap;
+        }
         matrix.postScale(scaleWidth, scaleHeight);
         return Bitmap.createBitmap(bitmap, 0, 0, w, h, matrix, true);
     }
-
 
     public static Bitmap mergeBitmaps(Bitmap background, Bitmap foreground) {
         if( background == null ) {
