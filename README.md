@@ -44,6 +44,7 @@ Released [v0.0.4](https://github.com/chinalwb/are/releases/tag/v0.0.4) Plan for 
 * Image from internet - In progress
 * Headline
 * Dividing line
+* Image bugs fixing
 
 Demo for inserting Video (you can find customization approach below):
 ----
