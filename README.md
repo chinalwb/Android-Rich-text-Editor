@@ -32,34 +32,30 @@ Supported styles:
 * Quote
 * Foreground color
 * Emoji icon
-* Superscript - NEW in 0.0.4
-* Subscript - NEW in 0.0.4
-* Font size - NEW in 0.0.4
+* Superscript
+* Subscript 
+* Font size 
+* Video - NEW in 0.0.7
+* Image from internet - NEW in 0.0.7
+* Dividing line - NEW in 0.0.7
 * All styles support save as HTML file
 
 
-Released [v0.0.4](https://github.com/chinalwb/are/releases/tag/v0.0.4) Plan for v0.0.7, ~~target on 2018-04-30 (Hope we can make it):~~ Sorry have to defer, new targret is on 2018-05-31:
+Released [v0.0.7](https://github.com/chinalwb/are/releases/tag/v0.0.7) Plan for v0.1.0, targret is on 2018-05-31:
 -----
-* Video - Done
-* Image from internet - Done
-* Dividing line - Done
-* Image bugs fixing - Done
+* Load from html
 
-Demo for inserting Video (you can find customization approach below):
+Demo for inserting Video (you can find customization approach below): (New in 0.0.7):
 ----
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/video_demo.gif)
 
-Demo for inserting an image from internet:
+Demo for inserting an image from internet: (New in 0.0.7):
 ----
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/image_from_internet_demo.gif)
  
-Demo for inserting a divider line:
+Demo for inserting a divider line: (New in 0.0.7):
 ----
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/hr_demo.gif)
-
-Further plan for v0.1.0, target on 2018-06-15:
------------------
-* Load from html
 
 Demo for Font size (New in 0.0.4):
 -----------------
@@ -142,7 +138,7 @@ this.arEditor = this.findViewById(R.id.areditor);
 this.arEditor.setVideoStrategy(mVideoStrategy);
 ```
 
-You can download the APK here:
+You can download the APK here: （No APK for 0.0.7 for now）
 
 [Click ARE_20180405_0.0.4.apk to download](https://github.com/chinalwb/Android-Rich-text-Editor/releases/download/v0.0.4/ARE_20180405_0.0.4.apk)
 
