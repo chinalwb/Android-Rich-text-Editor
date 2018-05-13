@@ -22,12 +22,20 @@ public class AreImageSpan extends ImageSpan {
 
 	private Uri mUri;
 
+	private String mUrl;
+
 	private int mResId;
 
 	public AreImageSpan(Context context, Bitmap bitmapDrawable, Uri uri) {
 		super(context, bitmapDrawable);
 		this.mContext = context;
 		this.mUri = uri;
+	}
+
+	public AreImageSpan(Context context, Bitmap bitmapDrawable, String url) {
+		super(context, bitmapDrawable);
+		this.mContext = context;
+		this.mUrl = url;
 	}
 
 //	public AreImageSpan(Context context, Bitmap bitmapDrawable, int resId) {
@@ -151,7 +159,9 @@ public class AreImageSpan extends ImageSpan {
     public String getSource() {
 	    if (this.mUri != null) {
             return this.mUri.toString();
-        } else {
+        } else if (this.mUrl != null) {
+	    	return this.mUrl;
+		} else {
 	        return "[EMOJI " + this.mResId + "]";
         }
     }

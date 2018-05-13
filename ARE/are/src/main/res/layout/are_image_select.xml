@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
+
+    <RadioGroup
+        android:id="@+id/are_image_select_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentTop="true">
+
+        <RadioButton
+            android:id="@+id/are_image_select_from_local"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="From Local" />
+
+        <RadioButton
+            android:id="@+id/are_image_select_from_internet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="From Internet" />
+    </RadioGroup>
+
+    <RelativeLayout
+        android:id="@+id/are_image_select_from_internet_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/are_image_select_radio_group"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        android:visibility="gone"
+        >
+
+        <EditText
+            android:id="@+id/are_image_select_internet_image_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/are_image_insert_hint"
+            android:inputType="textNoSuggestions"
+            />
+
+        <TextView
+            android:id="@+id/are_image_select_insert"
+            android:layout_below="@+id/are_image_select_internet_image_url"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textSize="18sp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/colorPrimary"
+            android:text="Insert" />
+    </RelativeLayout>
+</RelativeLayout>

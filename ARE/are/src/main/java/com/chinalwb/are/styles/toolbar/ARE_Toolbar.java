@@ -696,7 +696,7 @@ public class ARE_Toolbar extends LinearLayout {
 
 				// 3. Hide keyboard
 				View view = mContext.getCurrentFocus();
-				hideKeyboard(view);
+				Util.hideKeyboard(view, mContext);
 
 				// 4. Show emoji
 				initEmojiPanelHeight(mKeyboardHeight);
@@ -778,16 +778,6 @@ public class ARE_Toolbar extends LinearLayout {
 			}
 		}
 	}
-
-	protected void hideKeyboard(View view) {
-		if (view != null) {
-			InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-			if (imm != null) {
-				imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-			}
-		}
-	}
-
 
 	public void setEmojiPanel(View emojiPanel) {
 		mEmojiPanel = emojiPanel;
