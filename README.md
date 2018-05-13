@@ -42,7 +42,7 @@ Released [v0.0.4](https://github.com/chinalwb/are/releases/tag/v0.0.4) Plan for 
 -----
 * Video - Done
 * Image from internet - Done
-* Dividing line - In progress
+* Dividing line - Done
 * Image bugs fixing - Done
 
 Demo for inserting Video (you can find customization approach below):
@@ -52,6 +52,10 @@ Demo for inserting Video (you can find customization approach below):
 Demo for inserting an image from internet:
 ----
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/image_from_internet_demo.gif)
+ 
+Demo for inserting a divider line:
+----
+ ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/hr_demo.gif)
 
 Further plan for v0.1.0, target on 2018-06-15:
 -----------------
