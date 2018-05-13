@@ -42,8 +42,7 @@ Released [v0.0.4](https://github.com/chinalwb/are/releases/tag/v0.0.4) Plan for 
 -----
 * Video - Done
 * Image from internet - Done
-* Headline
-* Dividing line
+* Dividing line - In progress
 * Image bugs fixing - Done
 
 Demo for inserting Video (you can find customization approach below):
@@ -89,6 +88,7 @@ In progress items:
 * Save editings to local SQLite
 * Notes list
 * Load from HTML
+* Headline - defered, can be done with font size and center style
 
 
 How to use?
