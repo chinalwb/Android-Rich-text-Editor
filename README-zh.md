@@ -4,7 +4,7 @@ Android富文本编辑器
 
 如果你正在寻找一个Android上使用的富文本编辑器，那么请你花1分钟时间看完这个说明。
 
-这个项目总体进度已经发布4个小版本，更多功能正在进行中。由于我自己在项目中开发富文本编辑器的时候，从GitHub上找不到符合我们需求的，几年之后我对比了GitHub上新提交的富文本编辑器之后，感到仍然跟我们的需求不一致，不是用户体验不好就是功能较少，尤其是列表编辑功能。于是我自己开始了这个项目。
+这个项目总体进度已经发布7个小版本，更多功能正在进行中。由于我自己在项目中开发富文本编辑器的时候，从GitHub上找不到符合我们需求的，几年之后我对比了GitHub上新提交的富文本编辑器之后，感到仍然跟我们的需求不一致，不是用户体验不好就是功能较少，尤其是列表编辑功能。于是我自己开始了这个项目。
 
 项目用Java实现，应用Android的Span实现富文本多种样式的编辑。
 
@@ -28,27 +28,37 @@ Android富文本编辑器
 * 引用 
 * 文字颜色（前景色） 
 * 插入表情 
-* 上角标 - NEW in 0.0.4
-* 下角标 - NEW in 0.0.4
-* 字体大小 - NEW in 0.0.4
-* 所有样式都支持导出HTML
+* 上角标 
+* 下角标 
+* 字体大小  
+* 插入视频 - NEW in 0.0.7
+* 插入网络图片 - NEW in 0.0.7
+* 插入分割线 - NEW in 0.0.7
+* 所有样式均支持导出HTML文件
 
-发布了 [v0.0.4](https://github.com/chinalwb/are/releases/tag/v0.0.4) 计划在2018-04-30完成v0.0.7, （希望可以。。）:
+
+Released [v0.0.7](https://github.com/chinalwb/are/releases/tag/v0.0.7) Plan for v0.1.0, targret is on 2018-05-31:
 -----
-* Video
-* Audio
+* Load from html
 
-另外计划在2018-05-31完成v0.1.0:
------------------
-* Save editings to local SQLite
-* Notes list
-> 0.1.0 主要是做保存和列表显示。内容展示打算在0.1.1，重新编辑打算在0.1.2. 如果你有更紧急一些的功能需求，请开issues，我会尽量提前安排。
+插入视频演示: (New in 0.0.7):
+----
+ ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/video_demo.gif)
 
-字体大小功能演示 (New in 0.0.4):
+插入网络图片演示: (New in 0.0.7):
+----
+ ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/image_from_internet_demo.gif)
+ 
+插入分割线演示: (New in 0.0.7):
+----
+ ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/hr_demo.gif)
+
+
+字体大小功能演示 (0.0.4):
 -----------------
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/font_size_demo.gif)
  
-上标下标功能演示 (New in 0.0.4):
+上标下标功能演示 (0.0.4):
 -----------------
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/subscript_superscript_demo.png)
  
@@ -66,14 +76,14 @@ Android富文本编辑器
 
 计划中但正在做的功能:
 -----------------
-* 嵌入视频 
+* 从 HTML 加载内容到ARE
 * 嵌入音频
 * 字体样式 - Font family
 * 右缩进 - Indent right
 * 左缩进 - Indent left
 * 保存编辑内容到SQLite
-* 显示列表
-
+* 显示保存文件列表
+* 插入标题 - 推迟 - 暂时可用字体+居中完成所需效果
 
 如何使用?
 我打算在所有功能完成之后再将其作为Gradle插件提交到maven， 所以暂时还是需要把代码检出之后手动引用到项目中。
@@ -85,7 +95,43 @@ Android富文本编辑器
     android:layout_height="match_parent"
     android:background="@android:color/white" />
 ```
-如果想看效果但嫌运行代码太麻烦，可以下载最新的apk:
+
+如何使用上传视频文件的回调方法？
+```
+public interface VideoStrategy {
+
+    /**
+     * Upload the video to server and return the url of the video at server
+     *
+     * @param uri
+     * @return
+     */
+    public String uploadVideo(Uri uri);
+}
+```
+
+实现你的上传逻辑:
+```
+    private VideoStrategy mVideoStrategy = new VideoStrategy() {
+        @Override
+        public String uploadVideo(Uri uri) {
+            try {
+                Thread.sleep(3000); // Do upload here
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "http://www.xx.com/x.mp4";
+        }
+    };
+```
+
+设置到ARE:
+```
+this.arEditor = this.findViewById(R.id.areditor);
+this.arEditor.setVideoStrategy(mVideoStrategy);
+```
+
+如果想看效果但嫌运行代码太麻烦，可以下载最新的apk: (0.0.7 暂未提供APK)
 
 [Click ARE_20180405_0.0.4.apk to download](https://github.com/chinalwb/Android-Rich-text-Editor/releases/download/v0.0.4/ARE_20180405_0.0.4.apk)
 
