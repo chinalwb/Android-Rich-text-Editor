@@ -41,7 +41,7 @@ Supported styles:
 Released [v0.0.4](https://github.com/chinalwb/are/releases/tag/v0.0.4) Plan for v0.0.7, ~~target on 2018-04-30 (Hope we can make it):~~ Sorry have to defer, new targret is on 2018-05-31:
 -----
 * Video - Done
-* Image from internet - In progress
+* Image from internet - Done
 * Headline
 * Dividing line
 * Image bugs fixing - Done
@@ -50,6 +50,9 @@ Demo for inserting Video (you can find customization approach below):
 ----
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/video_demo.gif)
 
+Demo for inserting an image from internet:
+----
+ ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/image_from_internet_demo.gif)
 
 Further plan for v0.1.0, target on 2018-06-15:
 -----------------
@@ -79,7 +82,7 @@ In progress items:
 -----------------
 * Video - Done
 * Audio
-* Image from internet
+* Image from internet - Done
 * Font family
 * Indent right
 * Indent left
