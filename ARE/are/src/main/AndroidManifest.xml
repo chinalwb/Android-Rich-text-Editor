@@ -8,6 +8,12 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_are__video_player"
             android:theme="@style/FullscreenTheme"></activity>
+
+        <activity
+            android:name=".activities.Are_AtPickerActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_are__video_player"
+            android:theme="@style/FullscreenTheme"></activity>
     </application>
 
 </manifest>

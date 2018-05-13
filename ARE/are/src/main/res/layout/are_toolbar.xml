@@ -84,6 +84,14 @@
                 android:src="@drawable/strikethrough" />
 
             <ImageView
+                android:id="@+id/rteHr"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:src="@drawable/hr" />
+
+
+            <ImageView
                 android:id="@+id/rteSubscript"
                 android:layout_width="40dp"
                 android:layout_height="40dp"

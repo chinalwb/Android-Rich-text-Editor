@@ -32,6 +32,7 @@ import com.chinalwb.are.styles.ARE_Emoji;
 import com.chinalwb.are.styles.ARE_FontColor;
 import com.chinalwb.are.styles.ARE_FontSize;
 import com.chinalwb.are.styles.ARE_Fontface;
+import com.chinalwb.are.styles.ARE_Hr;
 import com.chinalwb.are.styles.ARE_Image;
 import com.chinalwb.are.styles.ARE_IndentLeft;
 import com.chinalwb.are.styles.ARE_IndentRight;
@@ -125,6 +126,11 @@ public class ARE_Toolbar extends LinearLayout {
 	 * Strikethrough Style
 	 */
 	private ARE_Strikethrough mStrikethroughStyle;
+
+	/**
+	 * Horizontal rule style
+	 */
+	private ARE_Hr mHrStyle;
 
 	/**
 	 * Subscript Style
@@ -235,6 +241,11 @@ public class ARE_Toolbar extends LinearLayout {
 	 * Strikethrough button.
 	 */
 	private ImageView mStrikethroughImageView;
+
+	/**
+	 * Horizontal rule button.
+	 */
+	private ImageView mHrImageView;
 
 	/**
 	 * Subscript button.
@@ -378,6 +389,8 @@ public class ARE_Toolbar extends LinearLayout {
 
 		this.mStrikethroughImageView = this.findViewById(R.id.rteStrikethrough);
 
+		this.mHrImageView = this.findViewById(R.id.rteHr);
+
 		this.mSubscriptImageView = this.findViewById(R.id.rteSubscript);
 
 		this.mSuperscriptImageView = this.findViewById(R.id.rteSuperscript);
@@ -419,6 +432,7 @@ public class ARE_Toolbar extends LinearLayout {
 		this.mItalicStyle = new ARE_Italic(this.mItalicImageView);
 		this.mUnderlineStyle = new ARE_Underline(this.mUnderlineImageView);
 		this.mStrikethroughStyle = new ARE_Strikethrough(this.mStrikethroughImageView);
+		this.mHrStyle = new ARE_Hr(this.mHrImageView);
 		this.mSubscriptStyle = new ARE_Subscript(this.mSubscriptImageView);
 		this.mSuperscriptStyle = new ARE_Superscript(this.mSuperscriptImageView);
 		this.mQuoteStyle = new ARE_Quote(this.mQuoteImageView);
@@ -443,6 +457,7 @@ public class ARE_Toolbar extends LinearLayout {
 		this.mStylesList.add(this.mItalicStyle);
 		this.mStylesList.add(this.mUnderlineStyle);
 		this.mStylesList.add(this.mStrikethroughStyle);
+		this.mStylesList.add(this.mHrStyle);
 		this.mStylesList.add(this.mSubscriptStyle);
 		this.mStylesList.add(this.mSuperscriptStyle);
 		this.mStylesList.add(this.mQuoteStyle);
@@ -477,6 +492,7 @@ public class ARE_Toolbar extends LinearLayout {
 		this.mItalicStyle.setEditText(this.mEditText);
 		this.mUnderlineStyle.setEditText(this.mEditText);
 		this.mStrikethroughStyle.setEditText(this.mEditText);
+		this.mHrStyle.setEditText(this.mEditText);
 		this.mSubscriptStyle.setEditText(this.mEditText);
 		this.mSuperscriptStyle.setEditText(this.mEditText);
 		this.mQuoteStyle.setEditText(this.mEditText);
@@ -506,6 +522,10 @@ public class ARE_Toolbar extends LinearLayout {
 
 	public ARE_Strikethrough getStrikethroughStyle() {
 		return mStrikethroughStyle;
+	}
+
+	public ARE_Hr getHrStyle() {
+		return mHrStyle;
 	}
 
 	public ARE_Subscript getSubscriptStyle() {
