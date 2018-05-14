@@ -4,7 +4,7 @@ Android Rich text Editor ([中文说明见这里](https://github.com/chinalwb/An
 
 If you are looking for a good rich text editor on Android, DON'T MISS THIS ONE!
 
-It's still in progress now, welcome fork and join me! If you find ARE is helpful to you but have no time to help me just send me a ✨, star encourages me to share more code open source. Thanks for your support!
+It's still in progress now, welcome fork and join me! If you find ARE is helpful to you but have no time to help me just send me a ✨, your star encourages me to share more code open source. Thanks for your support!
 
 I published [colorpicker](https://github.com/chinalwb/SimpleColorPicker) and [emojipicker](https://github.com/chinalwb/SimpleEmojiPicker) as standalone components so they can be reused in other projects easily.
 
