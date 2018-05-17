@@ -43,7 +43,7 @@ Supported styles:
 
 Released [v0.0.7](https://github.com/chinalwb/are/releases/tag/v0.0.7) Plan for v0.1.0, targret is on 2018-05-31:
 -----
-* Load from html
+* Load from html - In progress
 
 Demo for inserting Video (you can find customization approach below): (New in 0.0.7):
 ----
