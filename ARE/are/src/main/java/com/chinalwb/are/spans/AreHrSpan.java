@@ -8,20 +8,17 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.style.ReplacementSpan;
 
+import com.chinalwb.are.Constants;
 import com.chinalwb.are.Util;
 
 public class AreHrSpan extends ReplacementSpan implements ARE_Span {
-
-    private Context mContext;
 
     private int mScreenWidth;
 
     private static final float p = 1;
 
-    public AreHrSpan(Context context) {
-        mContext = context;
-        int[] wh = Util.getScreenWidthAndHeight(context);
-        mScreenWidth = wh[0];
+    public AreHrSpan() {
+        mScreenWidth = Constants.SCREEN_WIDTH;
     }
 
     @Override

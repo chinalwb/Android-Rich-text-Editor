@@ -47,7 +47,7 @@ public class ARE_Hr extends ARE_ABS_FreeStyle {
                 ssb.append(Constants.CHAR_NEW_LINE);
                 ssb.append(Constants.ZERO_WIDTH_SPACE_STR);
                 ssb.append(Constants.CHAR_NEW_LINE);
-                ssb.setSpan(new AreHrSpan(mContext), 2, 3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ssb.setSpan(new AreHrSpan(), 2, 3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 editable.replace(start, end, ssb);
 			}
 		});

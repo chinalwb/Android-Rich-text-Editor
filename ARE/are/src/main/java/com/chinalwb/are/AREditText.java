@@ -56,10 +56,16 @@ public class AREditText extends AppCompatEditText {
 	public AREditText(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		mContext = context;
+		initGlobalValues();
 		sToolbar = ARE_Toolbar.getInstance();
 		sStylesList = sToolbar.getStylesList();
 		init();
 		setupListener();
+	}
+
+	private void initGlobalValues() {
+		int[] wh = Util.getScreenWidthAndHeight(mContext);
+		Constants.SCREEN_WIDTH = wh[0];
 	}
 
 	private void init() {
