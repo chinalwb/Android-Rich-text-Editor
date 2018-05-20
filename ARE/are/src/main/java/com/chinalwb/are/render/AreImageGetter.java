@@ -51,9 +51,9 @@ public class AreImageGetter implements Html.ImageGetter {
             try {
                 Uri uri = Uri.parse(source);
                 sGlideRequests.asBitmap().load(uri).into(bitmapTarget);
+                return areUrlDrawable;
             } catch (Exception ignored) {
             }
-            return areUrlDrawable;
         }
         return null;
     }

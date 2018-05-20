@@ -21,18 +21,23 @@ public class ARETextView extends AppCompatTextView {
     Context mContext;
 
     public ARETextView(Context context) {
-        super(context);
-        mContext = context;
+        this(context, null);
     }
 
     public ARETextView(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        mContext = context;
+        this(context, attrs, 0);
     }
 
     public ARETextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mContext = context;
+        initGlobalValues();
+    }
+
+    private void initGlobalValues() {
+        int[] wh = Util.getScreenWidthAndHeight(mContext);
+        Constants.SCREEN_WIDTH = wh[0];
+        Constants.SCREEN_HEIGHT = wh[1];
     }
 
     public void fromHtml(String html) {
