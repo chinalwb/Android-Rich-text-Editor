@@ -77,7 +77,7 @@ public class EmojiSpan extends DynamicDrawableSpan implements ARE_Span {
 
   @Override
   public String getHtml() {
-    return "[EMOJI " + mIconId + "]";
+    return "<emoji src=\"" + mIconId + "\" />";
   }
 
   private WeakReference<Drawable> mDrawableRef;

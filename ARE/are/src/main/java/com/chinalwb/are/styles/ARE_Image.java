@@ -1,8 +1,6 @@
 package com.chinalwb.are.styles;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.text.Editable;
@@ -12,6 +10,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.AlignmentSpan;
 import android.text.style.ImageSpan;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -23,7 +22,7 @@ import com.chinalwb.are.AREditText;
 import com.chinalwb.are.Constants;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.spans.AreImageSpan;
-import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
+import com.chinalwb.are.styles.windows.ImageSelectDialog;
 import com.rainliu.glidesupport.GlideApp;
 import com.rainliu.glidesupport.GlideRequests;
 
@@ -67,6 +66,7 @@ public class ARE_Image implements IARE_Style {
 
 	public enum ImageType {
 		URI,
+		URL,
 		RES,
 	}
 
@@ -74,27 +74,46 @@ public class ARE_Image implements IARE_Style {
 	 * Open system image chooser page.
 	 */
 	private void openImageChooser() {
-		Intent intent = new Intent();
-		intent.setType("image/*");
-		intent.setAction(Intent.ACTION_GET_CONTENT);
-		((Activity) this.mContext).startActivityForResult(intent, ARE_Toolbar.REQ_IMAGE);
+		ImageSelectDialog dialog = new ImageSelectDialog(mContext, this);
+		dialog.show();
 	}
-
 
 	/**
 	 *
 	 */
 	public void insertImage(final Object src, final ImageType type) {
-	    this.mEditText.useSoftwareLayerOnAndroid8();
+		// Note for a possible bug:
+		// There may be a possible bug here, it is related to:
+		//   https://issuetracker.google.com/issues/67102093
+		// But I forget what the real use case is, just remember that
+		// When working on the feature, there was a crash bug
+		//
+		// That's why I introduce the method below:
+	    // this.mEditText.useSoftwareLayerOnAndroid8();
+		//
+		// However, with this setting software layer, there is another
+		// bug which is when inserting a few (2~3) images, there will
+		// be a warning:
+		//
+		// AREditText not displayed because it is too large to fit into a software layer (or drawing cache), needs 17940960 bytes, only 8294400 available
+		//
+		// And then the EditText becomes an entire white nothing displayed
+		//
+		// So in temporary, I commented out this method invoke to prevent this known issue
+		// When someone run into the crash bug caused by this on Android 8
+		// I can then find out a solution to cover both cases
 		SimpleTarget myTarget = new SimpleTarget<Bitmap>() {
 			@Override
 			public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
+				Log.e("x", bitmap.toString());
 				if (bitmap == null) { return; }
 
                 bitmap = Util.scaleBitmapToFitWidth(bitmap, sWidth);
                 ImageSpan imageSpan = null;
                 if (type == ImageType.URI) {
                     imageSpan = new AreImageSpan(mContext, bitmap, ((Uri) src));
+				} else if (type == ImageType.URL) {
+					imageSpan = new AreImageSpan(mContext, bitmap, ((String) src));
 				}
 				if (imageSpan == null) { return; }
 				insertSpan(imageSpan);
@@ -103,7 +122,9 @@ public class ARE_Image implements IARE_Style {
 
         if (type == ImageType.URI) {
             sGlideRequests.asBitmap().load((Uri) src).centerCrop().into(myTarget);
-        } else if (type == ImageType.RES) {
+        } else if (type == ImageType.URL) {
+        	    sGlideRequests.asBitmap().load((String) src).centerCrop().into(myTarget);
+		} else if (type == ImageType.RES) {
             ImageSpan imageSpan = new AreImageSpan(mContext, ((int) src));
             insertSpan(imageSpan);
         }

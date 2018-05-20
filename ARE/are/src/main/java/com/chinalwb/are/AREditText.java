@@ -20,6 +20,7 @@ import com.chinalwb.are.spans.AreSubscriptSpan;
 import com.chinalwb.are.spans.AreSuperscriptSpan;
 import com.chinalwb.are.spans.AreUnderlineSpan;
 import com.chinalwb.are.strategies.AtStrategy;
+import com.chinalwb.are.strategies.VideoStrategy;
 import com.chinalwb.are.styles.ARE_Helper;
 import com.chinalwb.are.styles.IARE_Style;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
@@ -55,10 +56,17 @@ public class AREditText extends AppCompatEditText {
 	public AREditText(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		mContext = context;
+		initGlobalValues();
 		sToolbar = ARE_Toolbar.getInstance();
 		sStylesList = sToolbar.getStylesList();
 		init();
 		setupListener();
+	}
+
+	private void initGlobalValues() {
+		int[] wh = Util.getScreenWidthAndHeight(mContext);
+		Constants.SCREEN_WIDTH = wh[0];
+		Constants.SCREEN_HEIGHT = wh[1];
 	}
 
 	private void init() {
@@ -281,12 +289,11 @@ public class AREditText extends AppCompatEditText {
 	 * ---------------------- */
 
 	private AtStrategy mAtStrategy;
+	public void setAtStrategy(AtStrategy atStrategy) { mAtStrategy = atStrategy; }
+	public AtStrategy getAtStrategy() { return mAtStrategy; }
 
-	public void setAtStrategy(AtStrategy atStrategy) {
-		mAtStrategy = atStrategy;
-	}
-
-	public AtStrategy getAtStrategy() {
-		return mAtStrategy;
-	}
+	// VideoStrategy
+	private VideoStrategy mVideoStrategy;
+	public void setVideoStrategy(VideoStrategy videoStrategy) { mVideoStrategy = videoStrategy; }
+	public VideoStrategy getVideoStrategy() { return mVideoStrategy; }
 }

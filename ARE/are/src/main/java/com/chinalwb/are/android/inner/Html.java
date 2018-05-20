@@ -33,6 +33,7 @@ import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -64,7 +65,10 @@ import android.text.style.UnderlineSpan;
 import com.chinalwb.are.R;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.spans.ARE_Span;
+import com.chinalwb.are.spans.AreFontSizeSpan;
+import com.chinalwb.are.spans.AreHrSpan;
 import com.chinalwb.are.spans.AreListSpan;
+import com.chinalwb.are.spans.AreQuoteSpan;
 import com.chinalwb.are.spans.ListNumberSpan;
 
 /**
@@ -72,6 +76,8 @@ import com.chinalwb.are.spans.ListNumberSpan;
  * Not all HTML tags are supported.
  */
 public class Html {
+
+    public static Context sContext;
 
     public static final String OL = "ol";
     public static final String UL = "ul";
@@ -569,6 +575,11 @@ public class Html {
             CharacterStyle[] style = text.getSpans(i, next, CharacterStyle.class);
 
             for (int j = 0; j < style.length; j++) {
+                if (style[j] instanceof ARE_Span) {
+                    out.append(((ARE_Span) style[j]).getHtml());
+                    i = next;
+                    continue;
+                }
                 if (style[j] instanceof StyleSpan) {
                     int s = ((StyleSpan) style[j]).getStyle();
 
@@ -609,10 +620,6 @@ public class Html {
                     out.append("\">");
 
                     // Don't output the dummy character underlying the image.
-                    i = next;
-                }
-                if (style[j] instanceof ARE_Span) {
-                    out.append(((ARE_Span) style[j]).getHtml());
                     i = next;
                 }
                 if (style[j] instanceof AbsoluteSizeSpan) {
@@ -744,6 +751,7 @@ class HtmlToSpannedConverter implements ContentHandler {
     private int mFlags;
 
     private static Pattern sTextAlignPattern;
+    private static Pattern sFontSizePattern;
     private static Pattern sForegroundColorPattern;
     private static Pattern sBackgroundColorPattern;
     private static Pattern sTextDecorationPattern;
@@ -793,6 +801,13 @@ class HtmlToSpannedConverter implements ContentHandler {
                     "(?:\\s+|\\A)text-decoration\\s*:\\s*(\\S*)\\b");
         }
         return sTextDecorationPattern;
+    }
+
+    private static Pattern getFontSizePattern() {
+        if (sFontSizePattern == null) {
+            sFontSizePattern = Pattern.compile("(?:\\s+|\\A)font-size\\s*:\\s*(\\S*)\\b");
+        }
+        return sFontSizePattern;
     }
 
     public HtmlToSpannedConverter( String source, Html.ImageGetter imageGetter,
@@ -849,6 +864,8 @@ class HtmlToSpannedConverter implements ContentHandler {
         } else if (tag.equalsIgnoreCase("p")) {
             startBlockElement(mSpannableStringBuilder, attributes, getMarginParagraph());
             startCssStyle(mSpannableStringBuilder, attributes);
+        } else if (tag.equalsIgnoreCase("ol")) {
+            startBlockElement(mSpannableStringBuilder, attributes, getMarginList());
         } else if (tag.equalsIgnoreCase("ul")) {
             startBlockElement(mSpannableStringBuilder, attributes, getMarginList());
         } else if (tag.equalsIgnoreCase("li")) {
@@ -899,6 +916,8 @@ class HtmlToSpannedConverter implements ContentHandler {
             startHeading(mSpannableStringBuilder, attributes, tag.charAt(1) - '1');
         } else if (tag.equalsIgnoreCase("img")) {
             startImg(mSpannableStringBuilder, attributes, mImageGetter);
+        } else if (tag.equalsIgnoreCase("hr")) {
+            startHr(mSpannableStringBuilder);
         } else if (mTagHandler != null) {
             mTagHandler.handleTag(true, tag, mSpannableStringBuilder, mReader);
         }
@@ -1076,7 +1095,7 @@ class HtmlToSpannedConverter implements ContentHandler {
 
     private static void endBlockquote(Editable text) {
         endBlockElement(text);
-        end(text, Blockquote.class, new QuoteSpan());
+        end(text, Blockquote.class, new AreQuoteSpan());
     }
 
     private void startHeading(Editable text, Attributes attributes, int level) {
@@ -1114,6 +1133,9 @@ class HtmlToSpannedConverter implements ContentHandler {
         int where = text.getSpanStart(mark);
         text.removeSpan(mark);
         int len = text.length();
+        if (spans.length > 0 && spans[0] instanceof AreHrSpan) {
+            Util.log("where == " + where + " end == " + len);
+        }
         if (where != len) {
             for (Object span : spans) {
                 text.setSpan(span, where, len, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -1160,6 +1182,12 @@ class HtmlToSpannedConverter implements ContentHandler {
                     start(text, new Strikethrough());
                 }
             }
+
+            m = getFontSizePattern().matcher(style);
+            if (m.find()) {
+                int fontSize = getFontSize(m.group(1));
+                start(text, new FontSize(fontSize));
+            }
         }
     }
 
@@ -1178,6 +1206,11 @@ class HtmlToSpannedConverter implements ContentHandler {
         if (f != null) {
             setSpanFromMark(text, f, new ForegroundColorSpan(f.mForegroundColor));
         }
+
+        FontSize fontSize = getLast(text, FontSize.class);
+        if (fontSize != null) {
+            setSpanFromMark(text, fontSize, new AreFontSizeSpan(fontSize.mFontSize));
+        }
     }
 
     private static void startImg(Editable text, Attributes attributes, Html.ImageGetter img) {
@@ -1191,7 +1224,13 @@ class HtmlToSpannedConverter implements ContentHandler {
         if (d == null) {
 //            d = Resources.getSystem().
 //                    getDrawable(com.android.internal.R.drawable.unknown_image);
-        	d = Resources.getSystem().getDrawable(R.drawable.ic_launcher);
+
+            if (Html.sContext == null) {
+                d = Resources.getSystem().getDrawable(R.drawable.ic_launcher);
+            } else {
+                d = Html.sContext.getResources().getDrawable(R.drawable.ic_launcher);
+            }
+
             d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
         }
 
@@ -1200,6 +1239,13 @@ class HtmlToSpannedConverter implements ContentHandler {
 
         text.setSpan(new ImageSpan(d, src), len, text.length(),
                      Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    }
+
+
+    private static void startHr(Editable text) {
+        int len = text.length();
+        text.append("\u200B");
+        text.setSpan(new AreHrSpan(), len, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
     private void startFont(Editable text, Attributes attributes) {
@@ -1371,6 +1417,14 @@ class HtmlToSpannedConverter implements ContentHandler {
         }
     }
 
+    private static class FontSize {
+        private int mFontSize;
+
+        public FontSize(int fontSize) {
+            mFontSize = fontSize;
+        }
+    }
+
     private static class Heading {
         private int mLevel;
 
@@ -1439,6 +1493,22 @@ class HtmlToSpannedConverter implements ContentHandler {
           return -1;
         }
       }
+    }
+
+    /**
+     * Returns the font size int value.
+     *
+     * @param fontSizePx like 32px
+     * @return
+     */
+    private static int getFontSize(String fontSizePx) {
+        int pxIndex = fontSizePx.indexOf("px");
+        String fontSizeStr = fontSizePx.substring(0, pxIndex);
+        try {
+            return Integer.parseInt(fontSizeStr);
+        } catch (NumberFormatException e) {
+            return 18;
+        }
     }
     
 }

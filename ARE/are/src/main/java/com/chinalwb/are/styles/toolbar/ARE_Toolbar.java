@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.text.Layout.Alignment;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import android.widget.LinearLayout;
 import com.chinalwb.are.AREditText;
 import com.chinalwb.are.R;
 import com.chinalwb.are.Util;
+import com.chinalwb.are.activities.Are_VideoPlayerActivity;
 import com.chinalwb.are.models.AtItem;
 import com.chinalwb.are.styles.ARE_Alignment;
 import com.chinalwb.are.styles.ARE_At;
@@ -30,6 +32,7 @@ import com.chinalwb.are.styles.ARE_Emoji;
 import com.chinalwb.are.styles.ARE_FontColor;
 import com.chinalwb.are.styles.ARE_FontSize;
 import com.chinalwb.are.styles.ARE_Fontface;
+import com.chinalwb.are.styles.ARE_Hr;
 import com.chinalwb.are.styles.ARE_Image;
 import com.chinalwb.are.styles.ARE_IndentLeft;
 import com.chinalwb.are.styles.ARE_IndentRight;
@@ -42,6 +45,7 @@ import com.chinalwb.are.styles.ARE_Strikethrough;
 import com.chinalwb.are.styles.ARE_Subscript;
 import com.chinalwb.are.styles.ARE_Superscript;
 import com.chinalwb.are.styles.ARE_Underline;
+import com.chinalwb.are.styles.ARE_Video;
 import com.chinalwb.are.styles.IARE_Style;
 import com.rainliu.colorpicker.ColorPickerListener;
 import com.rainliu.colorpicker.ColorPickerView;
@@ -63,6 +67,17 @@ public class ARE_Toolbar extends LinearLayout {
 	 */
 	public static final int REQ_AT = 2;
 
+	/**
+	 * Request code for choosing a video.
+	 */
+	public static final int REQ_VIDEO_CHOOSE = 3;
+
+	/**
+	 * Request code for inserting a video
+	 */
+	public static final int REQ_VIDEO = 4;
+
+
 	private Activity mContext;
 
 	private AREditText mEditText;
@@ -71,6 +86,11 @@ public class ARE_Toolbar extends LinearLayout {
 	 * Supported styles list.
 	 */
 	private ArrayList<IARE_Style> mStylesList = new ArrayList<IARE_Style>();
+
+	/**
+	 * Video Style
+	 */
+	private ARE_Video mVideoStyle;
 
 	/**
 	 * Emoji Style
@@ -106,6 +126,11 @@ public class ARE_Toolbar extends LinearLayout {
 	 * Strikethrough Style
 	 */
 	private ARE_Strikethrough mStrikethroughStyle;
+
+	/**
+	 * Horizontal rule style
+	 */
+	private ARE_Hr mHrStyle;
 
 	/**
 	 * Subscript Style
@@ -218,6 +243,11 @@ public class ARE_Toolbar extends LinearLayout {
 	private ImageView mStrikethroughImageView;
 
 	/**
+	 * Horizontal rule button.
+	 */
+	private ImageView mHrImageView;
+
+	/**
 	 * Subscript button.
 	 */
 	private ImageView mSubscriptImageView;
@@ -298,6 +328,11 @@ public class ARE_Toolbar extends LinearLayout {
 	private ImageView mRteInsertImage;
 
 	/**
+	 * Insert video button.
+	 */
+	private ImageView mRteInsertVideo;
+
+	/**
 	 * @ mention image button.
 	 */
 	private ImageView mRteAtImage;
@@ -354,6 +389,8 @@ public class ARE_Toolbar extends LinearLayout {
 
 		this.mStrikethroughImageView = this.findViewById(R.id.rteStrikethrough);
 
+		this.mHrImageView = this.findViewById(R.id.rteHr);
+
 		this.mSubscriptImageView = this.findViewById(R.id.rteSubscript);
 
 		this.mSuperscriptImageView = this.findViewById(R.id.rteSuperscript);
@@ -378,6 +415,8 @@ public class ARE_Toolbar extends LinearLayout {
 
 		this.mRteInsertImage = this.findViewById(R.id.rteInsertImage);
 
+		this.mRteInsertVideo = this.findViewById(R.id.rteInsertVideo);
+
 		this.mRteAtImage = this.findViewById(R.id.rteAt);
 
 	}
@@ -393,6 +432,7 @@ public class ARE_Toolbar extends LinearLayout {
 		this.mItalicStyle = new ARE_Italic(this.mItalicImageView);
 		this.mUnderlineStyle = new ARE_Underline(this.mUnderlineImageView);
 		this.mStrikethroughStyle = new ARE_Strikethrough(this.mStrikethroughImageView);
+		this.mHrStyle = new ARE_Hr(this.mHrImageView);
 		this.mSubscriptStyle = new ARE_Subscript(this.mSubscriptImageView);
 		this.mSuperscriptStyle = new ARE_Superscript(this.mSuperscriptImageView);
 		this.mQuoteStyle = new ARE_Quote(this.mQuoteImageView);
@@ -407,6 +447,7 @@ public class ARE_Toolbar extends LinearLayout {
 		this.mAlignCenter = new ARE_Alignment(this.mRteAlignCenter, Alignment.ALIGN_CENTER);
 		this.mAlignRight = new ARE_Alignment(this.mRteAlignRight, Alignment.ALIGN_OPPOSITE);
 		this.mImageStyle = new ARE_Image(this.mRteInsertImage);
+		this.mVideoStyle = new ARE_Video(this.mRteInsertVideo);
 		this.mAtStyle = new ARE_At();
 
 		this.mStylesList.add(this.mEmojiStyle);
@@ -416,6 +457,7 @@ public class ARE_Toolbar extends LinearLayout {
 		this.mStylesList.add(this.mItalicStyle);
 		this.mStylesList.add(this.mUnderlineStyle);
 		this.mStylesList.add(this.mStrikethroughStyle);
+		this.mStylesList.add(this.mHrStyle);
 		this.mStylesList.add(this.mSubscriptStyle);
 		this.mStylesList.add(this.mSuperscriptStyle);
 		this.mStylesList.add(this.mQuoteStyle);
@@ -430,6 +472,7 @@ public class ARE_Toolbar extends LinearLayout {
 		this.mStylesList.add(this.mAlignCenter);
 		this.mStylesList.add(this.mAlignRight);
 		this.mStylesList.add(this.mImageStyle);
+		this.mStylesList.add(this.mVideoStyle);
 		this.mStylesList.add(this.mAtStyle);
 	}
 
@@ -449,6 +492,7 @@ public class ARE_Toolbar extends LinearLayout {
 		this.mItalicStyle.setEditText(this.mEditText);
 		this.mUnderlineStyle.setEditText(this.mEditText);
 		this.mStrikethroughStyle.setEditText(this.mEditText);
+		this.mHrStyle.setEditText(this.mEditText);
 		this.mSubscriptStyle.setEditText(this.mEditText);
 		this.mSuperscriptStyle.setEditText(this.mEditText);
 		this.mQuoteStyle.setEditText(this.mEditText);
@@ -456,6 +500,7 @@ public class ARE_Toolbar extends LinearLayout {
 		this.mBackgroundColoStyle.setEditText(this.mEditText);
 		this.mLinkStyle.setEditText(this.mEditText);
 		this.mImageStyle.setEditText(this.mEditText);
+		this.mVideoStyle.setEditText(this.mEditText);
 		this.mAtStyle.setEditText(this.mEditText);
 	}
 
@@ -477,6 +522,10 @@ public class ARE_Toolbar extends LinearLayout {
 
 	public ARE_Strikethrough getStrikethroughStyle() {
 		return mStrikethroughStyle;
+	}
+
+	public ARE_Hr getHrStyle() {
+		return mHrStyle;
 	}
 
 	public ARE_Subscript getSubscriptStyle() {
@@ -501,6 +550,8 @@ public class ARE_Toolbar extends LinearLayout {
 		return mImageStyle;
 	}
 
+	public ARE_Video getVideoStyle() { return mVideoStyle; }
+
 	public ARE_At getmAtStyle() {
 		return mAtStyle;
 	}
@@ -523,6 +574,23 @@ public class ARE_Toolbar extends LinearLayout {
 		this.mColorPalette.setColor(color);
 	}
 
+    /**
+     * Open Video player page
+     */
+	public void openVideoPlayer(Uri uri) {
+	    Intent intent = new Intent();
+	    intent.setClass(mContext, Are_VideoPlayerActivity.class);
+	    intent.setData(uri);
+	    mContext.startActivityForResult(intent, REQ_VIDEO);
+    }
+
+	/**
+	 * On activity result.
+	 *
+	 * @param requestCode
+	 * @param resultCode
+	 * @param data
+	 */
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		mEmojiPanelContainer.setVisibility(View.GONE);
 		mEmojiShownNow = false;
@@ -534,6 +602,14 @@ public class ARE_Toolbar extends LinearLayout {
 				AtItem atItem = (AtItem) data.getSerializableExtra(ARE_At.EXTRA_TAG);
 				if (null == atItem) { return; }
 				this.mAtStyle.insertAt(atItem);
+			} else if (REQ_VIDEO_CHOOSE == requestCode) {
+			    Uri uri = data.getData();
+			    openVideoPlayer(uri);
+            } else if (REQ_VIDEO == requestCode) {
+				String videoUrl = data.getStringExtra(Are_VideoPlayerActivity.VIDEO_URL);
+				Uri uri = data.getData();
+				this.mVideoStyle.insertVideo(uri, videoUrl);
+
 			}
 		}
 	}
@@ -640,7 +716,7 @@ public class ARE_Toolbar extends LinearLayout {
 
 				// 3. Hide keyboard
 				View view = mContext.getCurrentFocus();
-				hideKeyboard(view);
+				Util.hideKeyboard(view, mContext);
 
 				// 4. Show emoji
 				initEmojiPanelHeight(mKeyboardHeight);
@@ -722,16 +798,6 @@ public class ARE_Toolbar extends LinearLayout {
 			}
 		}
 	}
-
-	protected void hideKeyboard(View view) {
-		if (view != null) {
-			InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-			if (imm != null) {
-				imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-			}
-		}
-	}
-
 
 	public void setEmojiPanel(View emojiPanel) {
 		mEmojiPanel = emojiPanel;

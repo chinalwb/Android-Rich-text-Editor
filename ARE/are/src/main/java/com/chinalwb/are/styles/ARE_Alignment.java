@@ -120,6 +120,10 @@ public class ARE_Alignment extends ARE_ABS_FreeStyle {
 		start = Util.getThisLineStart(editText, currentLine);
 		end = Util.getThisLineEnd(editText, currentLine);
 
+		if (end < 1) {
+			return;
+		}
+
 		if (editable.charAt(end - 1) == Constants.CHAR_NEW_LINE) {
 			end--;
 		}
