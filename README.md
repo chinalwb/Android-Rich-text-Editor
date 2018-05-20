@@ -105,7 +105,7 @@ String html = "<html><body><p><b>aaaa</b></p><p><i>bbbb</i></p>\n" +
 
 Demo for load from html: (In progress in 0.1.0):
 ----
- ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/load_html_demo.gif)
+ ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/load_from_html_demo.gif)
 
 
 Demo for inserting Video (you can find customization approach below): (New in 0.0.7):
