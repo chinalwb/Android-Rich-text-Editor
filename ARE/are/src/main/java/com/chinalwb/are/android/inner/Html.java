@@ -33,6 +33,7 @@ import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -75,6 +76,8 @@ import com.chinalwb.are.spans.ListNumberSpan;
  * Not all HTML tags are supported.
  */
 public class Html {
+
+    public static Context sContext;
 
     public static final String OL = "ol";
     public static final String UL = "ul";
@@ -1221,7 +1224,13 @@ class HtmlToSpannedConverter implements ContentHandler {
         if (d == null) {
 //            d = Resources.getSystem().
 //                    getDrawable(com.android.internal.R.drawable.unknown_image);
-        	d = Resources.getSystem().getDrawable(R.drawable.ic_launcher);
+
+            if (Html.sContext == null) {
+                d = Resources.getSystem().getDrawable(R.drawable.ic_launcher);
+            } else {
+                d = Html.sContext.getResources().getDrawable(R.drawable.ic_launcher);
+            }
+
             d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
         }
 

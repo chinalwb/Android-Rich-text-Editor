@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.text.style.ImageSpan;
 import android.util.Log;
 
+import com.chinalwb.are.Constants;
 import com.chinalwb.are.Util;
 
 public class AreImageSpan extends ImageSpan {
@@ -160,9 +161,9 @@ public class AreImageSpan extends ImageSpan {
 	    if (this.mUri != null) {
             return this.mUri.toString();
         } else if (this.mUrl != null) {
-	    	return this.mUrl;
+	    		return this.mUrl;
 		} else {
-	        return "[EMOJI " + this.mResId + "]";
+	        return Constants.EMOJI + "|" + this.mResId;
         }
     }
 }

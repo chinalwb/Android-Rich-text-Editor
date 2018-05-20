@@ -66,6 +66,7 @@ public class AREditText extends AppCompatEditText {
 	private void initGlobalValues() {
 		int[] wh = Util.getScreenWidthAndHeight(mContext);
 		Constants.SCREEN_WIDTH = wh[0];
+		Constants.SCREEN_HEIGHT = wh[1];
 	}
 
 	private void init() {

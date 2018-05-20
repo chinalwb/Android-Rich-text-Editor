@@ -82,8 +82,7 @@ public class MainActivity extends AppCompatActivity {
         this.arEditor = this.findViewById(R.id.areditor);
         this.arEditor.setAtStrategy(mAtStrategy);
         this.arEditor.setVideoStrategy(mVideoStrategy);
-        String html = "<html><body><p><b>aaaa</b></p>\n" +
-                "    <p><i>bbbb</i></p>\n" +
+        String html = "<html><body><p><b>aaaa</b></p><p><i>bbbb</i></p>\n" +
                 "    <p><u>cccc</u></p>\n" +
                 "    <p><span style=\"text-decoration:line-through;\">dddd</span></p>\n" +
                 "    <p style=\"text-align:start;\">Alignleft</p>\n" +
@@ -103,8 +102,13 @@ public class MainActivity extends AppCompatActivity {
                 "    <p style=\"text-align:start;\">2X<sub>1</sub><sup>2 </sup>+3X<sub>1</sub><sup>2</sup>=5X<sub>1</sub><sup>2</sup></p>\n" +
                 "    <br>\n" +
                 "    <br>\n" +
-                "    <p><hr /></p>\n" +
-                "    <p>Text <span style=\"font-size:32px\";>SIZE </span><span style=\"font-size:21px\";><span style=\"font-size:18px\";>normal</span></span></p>\n" +
+                "    <p style=\"text-align:start;\"><hr /> </p>\n" +
+                "    <p style=\"text-align:start;\">Text <span style=\"font-size:32px\";>SIZE </span><span style=\"font-size:18px\";><span style=\"font-size:21px\";>normal</span></span></p>\n" +
+                "    <br>\n" +
+                "    <p style=\"text-align:center;\"><img src=\"emoji|2131230945\"></p>\n" +
+                "    <p style=\"text-align:start;\">Image:</p>\n" +
+                "    <p style=\"text-align:start;\"><img src=\"http://d.hiphotos.baidu.com/image/pic/item/6159252dd42a2834171827b357b5c9ea14cebfcf.jpg\"></p>\n" +
+                "    <p style=\"text-align:start;\"></p>\n" +
                 "    </body></html>";
         this.arEditor.fromHtml(html);
     }

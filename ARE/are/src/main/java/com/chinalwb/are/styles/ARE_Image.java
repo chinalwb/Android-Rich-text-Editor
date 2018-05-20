@@ -123,7 +123,7 @@ public class ARE_Image implements IARE_Style {
         if (type == ImageType.URI) {
             sGlideRequests.asBitmap().load((Uri) src).centerCrop().into(myTarget);
         } else if (type == ImageType.URL) {
-        	sGlideRequests.asBitmap().load((String) src).centerCrop().into(myTarget);
+        	    sGlideRequests.asBitmap().load((String) src).centerCrop().into(myTarget);
 		} else if (type == ImageType.RES) {
             ImageSpan imageSpan = new AreImageSpan(mContext, ((int) src));
             insertSpan(imageSpan);

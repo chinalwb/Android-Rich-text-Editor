@@ -123,11 +123,12 @@ public class AREditor extends RelativeLayout {
 	 * @return
 	 */
 	public void fromHtml(String html) {
-        Html.ImageGetter imageGetter = new AreImageGetter();
+	    Html.sContext = mContext;
+        Html.ImageGetter imageGetter = new AreImageGetter(mContext, this.mAre);
         Html.TagHandler tagHandler = new AreTagHandler();
         Spanned spanned = Html.fromHtml(html, Html.FROM_HTML_SEPARATOR_LINE_BREAK_PARAGRAPH, imageGetter, tagHandler);
         this.mAre.getEditableText().append(spanned);
-        log();
+//        log();
     }
 
 	private void log() {
