@@ -35,6 +35,7 @@ import org.xml.sax.XMLReader;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -62,11 +63,13 @@ import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
 
+import com.chinalwb.are.Constants;
 import com.chinalwb.are.R;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.spans.ARE_Span;
 import com.chinalwb.are.spans.AreFontSizeSpan;
 import com.chinalwb.are.spans.AreHrSpan;
+import com.chinalwb.are.spans.AreImageSpan;
 import com.chinalwb.are.spans.AreListSpan;
 import com.chinalwb.are.spans.AreQuoteSpan;
 import com.chinalwb.are.spans.ListNumberSpan;
@@ -1216,9 +1219,17 @@ class HtmlToSpannedConverter implements ContentHandler {
     private static void startImg(Editable text, Attributes attributes, Html.ImageGetter img) {
         String src = attributes.getValue("", "src");
         Drawable d = null;
-
+        ImageSpan imageSpan = null;
         if (img != null) {
             d = img.getDrawable(src);
+            if (src.startsWith(Constants.EMOJI)) {
+                String resIdStr = src.substring(6);
+                int resId = Integer.parseInt(resIdStr);
+                imageSpan = new AreImageSpan(Html.sContext, resId);
+            } else if (src.startsWith("http")) {
+                // TODO convert it to AreImageSpan
+                imageSpan = new AreImageSpan(Html.sContext, Util.drawableToBitmap(d), src);
+            }
         }
 
         if (d == null) {
@@ -1237,7 +1248,9 @@ class HtmlToSpannedConverter implements ContentHandler {
         int len = text.length();
         text.append("\uFFFC");
 
-        text.setSpan(new ImageSpan(d, src), len, text.length(),
+
+        imageSpan = new ImageSpan(d, src);
+        text.setSpan(imageSpan, len, text.length(),
                      Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
