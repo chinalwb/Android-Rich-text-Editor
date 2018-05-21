@@ -1,15 +1,7 @@
 package com.chinalwb.are.demo;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -27,6 +19,15 @@ import com.chinalwb.are.models.AtItem;
 import com.chinalwb.are.strategies.AtStrategy;
 import com.chinalwb.are.strategies.VideoStrategy;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import static com.chinalwb.are.demo.TextViewActivity.HTML_TEXT;
 
 /**
  * All Rights Reserved.
@@ -125,6 +126,13 @@ public class MainActivity extends AppCompatActivity {
         if (menuId == com.chinalwb.are.R.id.action_save) {
             String html = this.arEditor.getHtml();
             saveHtml(html);
+            return true;
+        }
+        if (menuId == R.id.action_show_tv) {
+            String html = this.arEditor.getHtml();
+            Intent intent = new Intent(this, TextViewActivity.class);
+            intent.putExtra(HTML_TEXT, html);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);

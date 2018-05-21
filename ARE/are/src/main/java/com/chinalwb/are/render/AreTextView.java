@@ -1,4 +1,4 @@
-package com.chinalwb.are;
+package com.chinalwb.are.render;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -6,9 +6,9 @@ import android.support.v7.widget.AppCompatTextView;
 import android.text.Spanned;
 import android.util.AttributeSet;
 
+import com.chinalwb.are.Constants;
+import com.chinalwb.are.Util;
 import com.chinalwb.are.android.inner.Html;
-import com.chinalwb.are.render.AreImageGetter;
-import com.chinalwb.are.render.AreTagHandler;
 
 /**
  * @author dlink
@@ -17,18 +17,18 @@ import com.chinalwb.are.render.AreTagHandler;
  * @discription null
  * @usage null
  */
-public class ARETextView extends AppCompatTextView {
+public class AreTextView extends AppCompatTextView {
     Context mContext;
 
-    public ARETextView(Context context) {
+    public AreTextView(Context context) {
         this(context, null);
     }
 
-    public ARETextView(Context context, @Nullable AttributeSet attrs) {
+    public AreTextView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ARETextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public AreTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mContext = context;
         initGlobalValues();
