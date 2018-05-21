@@ -2,13 +2,12 @@ package com.chinalwb.are.render;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.widget.TextView;
 
-import com.bumptech.glide.load.resource.transcode.BitmapDrawableTranscoder;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.chinalwb.are.Constants;
@@ -45,6 +44,16 @@ public class AreImageGetter implements Html.ImageGetter {
             BitmapTarget bitmapTarget = new BitmapTarget(areUrlDrawable, mTextView);
             sGlideRequests.asBitmap().load(source).into(bitmapTarget);
             return areUrlDrawable;
+        } else if (source.startsWith("content")) {
+            //   content://media/external/images/media/846589
+            AreUrlDrawable areUrlDrawable = new AreUrlDrawable(mContext);
+            BitmapTarget bitmapTarget = new BitmapTarget(areUrlDrawable, mTextView);
+            try {
+                Uri uri = Uri.parse(source);
+                sGlideRequests.asBitmap().load(uri).into(bitmapTarget);
+                return areUrlDrawable;
+            } catch (Exception ignored) {
+            }
         }
         return null;
     }

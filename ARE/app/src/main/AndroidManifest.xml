@@ -34,6 +34,7 @@
             android:name=".AtActivity"
             android:label="@string/title_activity_at"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".TextViewActivity"/>
     </application>
 
 </manifest>
