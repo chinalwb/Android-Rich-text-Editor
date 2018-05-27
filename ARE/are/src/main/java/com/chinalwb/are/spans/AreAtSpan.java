@@ -22,10 +22,10 @@ public class AreAtSpan extends ReplacementSpan implements ARE_Span {
 
 	private static final String KEY_ATTR = "key";
 
-	public AreAtSpan(AtItem atItem, int textColor) {
-		this.mUserKey = atItem.mKey;
-		this.mUserName = atItem.mName;
-		this.mColor = textColor;
+	public AreAtSpan(AtItem atItem) {
+        this.mUserKey = atItem.mKey;
+        this.mUserName = atItem.mName;
+        this.mColor = atItem.mColor;
 	}
 
 	public String getmUserKey() {
@@ -45,7 +45,7 @@ public class AreAtSpan extends ReplacementSpan implements ARE_Span {
 		paint.setColor(Color.TRANSPARENT);
 		float width = paint.measureText(text.toString(), start, end);
 		canvas.drawRect(x, top,  x + width, bottom, paint);
-		paint.setColor(mColor);
+		paint.setColor(0xFF000000 | mColor);
 		canvas.drawText(text, start, end, x, (float) y, paint);
 	}
 
@@ -55,10 +55,10 @@ public class AreAtSpan extends ReplacementSpan implements ARE_Span {
 		html.append("<a");
 		html.append(" href=\"#\"");
 		html.append(" uKey=\"" + mUserKey + "\"");
-		String color = Util.colorToString(this.mColor, true, true);
-		html.append(" style=color:" + color + "");
+		html.append(" uName=\"" + mUserName + "\"");
+		html.append(String.format(" style=\"color:#%06X;\"", 0xFFFFFF & mColor));
 		html.append(">");
-		html.append(this.mUserName);
+		html.append("@" + this.mUserName);
 		html.append("</a>");
 		return html.toString();
 	}

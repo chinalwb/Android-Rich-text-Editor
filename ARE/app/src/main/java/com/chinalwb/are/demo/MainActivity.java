@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
         this.arEditor = this.findViewById(R.id.areditor);
-        this.arEditor.setAtStrategy(mAtStrategy);
+//        this.arEditor.setAtStrategy(mAtStrategy);
         this.arEditor.setVideoStrategy(mVideoStrategy);
         String html = "<html><body><p><b>aaaa</b></p><p><i>bbbb</i></p>\n" +
                 "    <p><u>cccc</u></p>\n" +
@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
                 "    <p style=\"text-align:start;\">Image:</p>\n" +
                 "    <p style=\"text-align:start;\"><img src=\"http://d.hiphotos.baidu.com/image/pic/item/6159252dd42a2834171827b357b5c9ea14cebfcf.jpg\"></p>\n" +
                 "    <p style=\"text-align:start;\"></p>\n" +
+                "    <p><a href=\"#\" ukey=\"2131230814\" uname=\"Steve Jobs\" style=\"color:#FF00FF;\">@Steve Jobs</a>, <a href=\"#\" ukey=\"2131230815\" uname=\"Bill Gates\" style=\"color:#0000FF;\">@Bill Gates</a>, how are you?</p>" +
                 "    </body></html>";
         this.arEditor.fromHtml(html);
     }

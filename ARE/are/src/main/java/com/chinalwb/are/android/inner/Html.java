@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NavigableMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -66,7 +67,9 @@ import android.text.style.UnderlineSpan;
 import com.chinalwb.are.Constants;
 import com.chinalwb.are.R;
 import com.chinalwb.are.Util;
+import com.chinalwb.are.models.AtItem;
 import com.chinalwb.are.spans.ARE_Span;
+import com.chinalwb.are.spans.AreAtSpan;
 import com.chinalwb.are.spans.AreFontSizeSpan;
 import com.chinalwb.are.spans.AreHrSpan;
 import com.chinalwb.are.spans.AreImageSpan;
@@ -1136,9 +1139,6 @@ class HtmlToSpannedConverter implements ContentHandler {
         int where = text.getSpanStart(mark);
         text.removeSpan(mark);
         int len = text.length();
-        if (spans.length > 0 && spans[0] instanceof AreHrSpan) {
-            Util.log("where == " + where + " end == " + len);
-        }
         if (where != len) {
             for (Object span : spans) {
                 text.setSpan(span, where, len, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -1285,11 +1285,33 @@ class HtmlToSpannedConverter implements ContentHandler {
     }
 
     private static void startA(Editable text, Attributes attributes) {
+        String atKey = attributes.getValue("", "ukey"); // Can only be lower-case!!
+        String atName = attributes.getValue("", "uname");
+        String style = attributes.getValue("", "style");
+        int atColor = Color.BLUE;
+        if (style != null) {
+            Matcher m = getForegroundColorPattern().matcher(style);
+            if (m.find()) {
+                atColor = getHtmlColor(m.group(1));
+            }
+        }
+
+        if (!TextUtils.isEmpty(atKey)) {
+            start(text, new At(atKey, atName, atColor));
+            return;
+        }
         String href = attributes.getValue("", "href");
         start(text, new Href(href));
     }
 
     private static void endA(Editable text) {
+        At at = getLast(text, At.class);
+        if (at != null) {
+            AtItem atItem = new AtItem(at.mKey, at.mName, at.mColor);
+            AreAtSpan atSpan = new AreAtSpan(atItem);
+            setSpanFromMark(text, at, atSpan);
+            return;
+        }
         Href h = getLast(text, Href.class);
         if (h != null) {
             if (h.mHref != null) {
@@ -1378,6 +1400,18 @@ class HtmlToSpannedConverter implements ContentHandler {
     }
 
     public void skippedEntity(String name) throws SAXException {
+    }
+
+    private static class At {
+        public String mKey;
+        public String mName;
+        public int mColor;
+
+        public At(String key, String name, int color) {
+            mKey = key;
+            mName = name;
+            mColor = color;
+        }
     }
 
     private static class Bold { }

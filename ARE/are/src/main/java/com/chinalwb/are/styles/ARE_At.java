@@ -8,6 +8,7 @@ import android.text.Spanned;
 import android.widget.ImageView;
 
 import com.chinalwb.are.AREditText;
+import com.chinalwb.are.Util;
 import com.chinalwb.are.activities.Are_AtPickerActivity;
 import com.chinalwb.are.models.AtItem;
 import com.chinalwb.are.spans.AreAtSpan;
@@ -98,14 +99,12 @@ public class ARE_At extends ARE_ABS_FreeStyle {
 		if (null == this.mEditText) {
 			return;
 		}
-		int color = atItem.color;
-		if (color == 0) {
-			color = Color.BLUE;
+		if (atItem.mColor == Color.BLUE) {
 			if (atItem.mName.startsWith("Steve")) { // For demo purpose
-				color = Color.MAGENTA;
+				atItem.mColor = Color.MAGENTA;
 			}
 		}
-		AreAtSpan atSpan = new AreAtSpan(atItem, color);
+		AreAtSpan atSpan = new AreAtSpan(atItem);
 		this.mEditText.getEditableText().insert(AT_INSERT_POS, atItem.mName);
 		this.mEditText.getEditableText().setSpan(atSpan, AT_INSERT_POS - 1, AT_INSERT_POS + atItem.mName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 	}
