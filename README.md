@@ -61,12 +61,12 @@ Released [v0.0.7](https://github.com/chinalwb/are/releases/tag/v0.0.7) Plan for 
 > * Dividing line
 > * Font size
 > * Image
+> * @
+> * Emoji icon
 > 
 > In progress styles:
 > * Numeric list
 > * Bullet list
-> * @
-> * Emoji icon
 > * Video
 
 Load from html (in progress in 0.1.0), code:
