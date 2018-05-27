@@ -112,6 +112,11 @@ public class MainActivity extends AppCompatActivity {
                 "    <p style=\"text-align:start;\"></p>\n" +
                 "    <p><a href=\"#\" ukey=\"2131230814\" uname=\"Steve Jobs\" style=\"color:#FF00FF;\">@Steve Jobs</a>, <a href=\"#\" ukey=\"2131230815\" uname=\"Bill Gates\" style=\"color:#0000FF;\">@Bill Gates</a>, how are you?</p>" +
                 "    <p style=\"text-align:start;\"><emoji src=\"2131230915\" /><emoji src=\"2131230936\" /><emoji src=\"2131230929\" /></p>" +
+                "    <ol>\n" +
+                "    <li>aa</li>\n" +
+                "    <li>bb</li>\n" +
+                "    <li>cc</li>\n" +
+                "    </ol>" +
                 "    </body></html>";
         this.arEditor.fromHtml(html);
     }

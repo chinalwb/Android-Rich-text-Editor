@@ -471,11 +471,11 @@ public class Html {
                             // && 
                     		paragraphStyle instanceof AreListSpan) {
 
-                        // Util.log("paragraphStyle == " + paragraphStyle.toString());
+                        Util.log("paragraphStyle == " + paragraphStyle.toString());
                         boolean closed = false;
                         if (paragraphStyle instanceof ListNumberSpan) {
                             closed = checkToClosePreviousList(out, listType, OL);
-                        	listType = OL;
+                            listType = OL;
                         }
                         else {
                             closed = checkToClosePreviousList(out, listType, UL);
@@ -523,7 +523,7 @@ public class Html {
 
                 if (next == end && isInList) {
                     isInList = false;
-                    out.append("</ul>\n");
+                    out.append("</" + listType + ">\n");
                 }
             }
 
@@ -532,7 +532,7 @@ public class Html {
     }
 
     private static boolean checkToClosePreviousList(StringBuilder out, String srcListType, String targetListType) {
-        // Util.log("src list type = " + srcListType + ", target list type == " + targetListType);
+         Util.log("src list type = " + srcListType + ", target list type == " + targetListType);
         if (!srcListType.equals(targetListType) && !TextUtils.isEmpty(srcListType)) {
             out.append("</" + srcListType + ">");
             return true;
