@@ -28,6 +28,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 /**
  * All Rights Reserved.
  *
@@ -266,6 +269,9 @@ public class Util {
                 else if (isDownloadsDocument(uri)) {
 
                     final String id = DocumentsContract.getDocumentId(uri);
+                    if (id.startsWith("raw:")) {
+                        return id.substring(4);
+                    }
                     final Uri contentUri = ContentUris.withAppendedId(
                             Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
 

@@ -89,7 +89,7 @@ public class ARE_Video implements IARE_Style {
      *
      */
     public void insertVideo(final Uri uri, final String videoUrl) {
-        this.mEditText.useSoftwareLayerOnAndroid8();
+//        this.mEditText.useSoftwareLayerOnAndroid8();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                 && ((Activity) mContext).checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
