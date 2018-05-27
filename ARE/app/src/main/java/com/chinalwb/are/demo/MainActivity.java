@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 "    <p style=\"text-align:start;\"><hr /> </p>\n" +
                 "    <p style=\"text-align:start;\">Text <span style=\"font-size:32px\";>SIZE </span><span style=\"font-size:18px\";><span style=\"font-size:21px\";>normal</span></span></p>\n" +
                 "    <br>\n" +
-                "    <p style=\"text-align:center;\"><img src=\"emoji|2131230945\"></p>\n" +
+                "    <p style=\"text-align:center;\"><img src=\"emoji|" + R.drawable.wx_d_8 + "\"></p>\n" +
                 "    <p style=\"text-align:start;\">Image:</p>\n" +
                 "    <p style=\"text-align:start;\"><img src=\"http://d.hiphotos.baidu.com/image/pic/item/6159252dd42a2834171827b357b5c9ea14cebfcf.jpg\"></p>\n" +
                 "    <p style=\"text-align:start;\"></p>\n" +

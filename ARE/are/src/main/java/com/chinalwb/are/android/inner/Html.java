@@ -1227,15 +1227,11 @@ class HtmlToSpannedConverter implements ContentHandler {
                 int resId = Integer.parseInt(resIdStr);
                 imageSpan = new AreImageSpan(Html.sContext, resId);
             } else if (src.startsWith("http")) {
-                // TODO convert it to AreImageSpan
-                imageSpan = new AreImageSpan(Html.sContext, Util.drawableToBitmap(d), src);
+                imageSpan = new AreImageSpan(Html.sContext, d, src);
             }
         }
 
         if (d == null) {
-//            d = Resources.getSystem().
-//                    getDrawable(com.android.internal.R.drawable.unknown_image);
-
             if (Html.sContext == null) {
                 d = Resources.getSystem().getDrawable(R.drawable.ic_launcher);
             } else {
@@ -1248,8 +1244,6 @@ class HtmlToSpannedConverter implements ContentHandler {
         int len = text.length();
         text.append("\uFFFC");
 
-
-        imageSpan = new ImageSpan(d, src);
         text.setSpan(imageSpan, len, text.length(),
                      Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     }

@@ -29,7 +29,7 @@ public class AreUrlDrawable extends BitmapDrawable {
     @SuppressWarnings("deprecation")
     public AreUrlDrawable(Context context) {
         this.mContext = context;
-        defaultDrawable = context.getResources().getDrawable(R.drawable.ic_launcher);
+        defaultDrawable = context.getResources().getDrawable(R.drawable.image_place_holder);
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeResource(this.mContext.getResources(), R.drawable.ic_launcher, options);
@@ -50,9 +50,9 @@ public class AreUrlDrawable extends BitmapDrawable {
 
             if (isLoading) {
                 Paint p = new Paint();
-                p.setColor(Color.GRAY);
+                p.setColor(Color.WHITE);
                 p.setTextSize(30);
-                String loading = "Loading...";
+                String loading = "Loading... 0%";
                 Rect bounds = new Rect();
                 p.getTextBounds(loading, 0, loading.length(), bounds);
 

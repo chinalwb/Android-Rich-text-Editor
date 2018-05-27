@@ -39,6 +39,12 @@ public class AreImageSpan extends ImageSpan {
 		this.mUrl = url;
 	}
 
+	public AreImageSpan(Context context, Drawable drawable, String url) {
+		super(drawable, url);
+		this.mContext = context;
+		this.mUrl = url;
+	}
+
 //	public AreImageSpan(Context context, Bitmap bitmapDrawable, int resId) {
 //		super(context, bitmapDrawable);
 //		this.mContext = context;
