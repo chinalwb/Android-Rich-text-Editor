@@ -75,7 +75,10 @@ import com.chinalwb.are.spans.AreHrSpan;
 import com.chinalwb.are.spans.AreImageSpan;
 import com.chinalwb.are.spans.AreListSpan;
 import com.chinalwb.are.spans.AreQuoteSpan;
+import com.chinalwb.are.spans.EmojiSpan;
 import com.chinalwb.are.spans.ListNumberSpan;
+
+import static com.chinalwb.are.android.inner.Html.sContext;
 
 /**
  * This class processes HTML strings into displayable styled text.
@@ -924,6 +927,8 @@ class HtmlToSpannedConverter implements ContentHandler {
             startImg(mSpannableStringBuilder, attributes, mImageGetter);
         } else if (tag.equalsIgnoreCase("hr")) {
             startHr(mSpannableStringBuilder);
+        } else if (tag.equalsIgnoreCase("emoji")) {
+            startEmoji(mSpannableStringBuilder, attributes);
         } else if (mTagHandler != null) {
             mTagHandler.handleTag(true, tag, mSpannableStringBuilder, mReader);
         }
@@ -1225,17 +1230,17 @@ class HtmlToSpannedConverter implements ContentHandler {
             if (src.startsWith(Constants.EMOJI)) {
                 String resIdStr = src.substring(6);
                 int resId = Integer.parseInt(resIdStr);
-                imageSpan = new AreImageSpan(Html.sContext, resId);
+                imageSpan = new AreImageSpan(sContext, resId);
             } else if (src.startsWith("http")) {
-                imageSpan = new AreImageSpan(Html.sContext, d, src);
+                imageSpan = new AreImageSpan(sContext, d, src);
             }
         }
 
         if (d == null) {
-            if (Html.sContext == null) {
+            if (sContext == null) {
                 d = Resources.getSystem().getDrawable(R.drawable.ic_launcher);
             } else {
-                d = Html.sContext.getResources().getDrawable(R.drawable.ic_launcher);
+                d = sContext.getResources().getDrawable(R.drawable.ic_launcher);
             }
 
             d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
@@ -1253,6 +1258,18 @@ class HtmlToSpannedConverter implements ContentHandler {
         int len = text.length();
         text.append("\u200B");
         text.setSpan(new AreHrSpan(), len, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+    }
+
+    private static void startEmoji(Editable text, Attributes attributes) {
+        String src = attributes.getValue("", "src");
+        int emojiSrc = Integer.parseInt(src);
+        Drawable d = sContext.getResources().getDrawable(emojiSrc);
+        int size = d.getIntrinsicHeight();
+        EmojiSpan emojiSpan = new EmojiSpan(sContext, emojiSrc, size);
+        int len = text.length();
+        text.append("\uFFFC");
+        text.setSpan(emojiSpan, len, text.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
     private void startFont(Editable text, Attributes attributes) {
