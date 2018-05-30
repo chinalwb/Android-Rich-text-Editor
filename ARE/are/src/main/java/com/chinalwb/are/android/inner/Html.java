@@ -36,10 +36,14 @@ import org.xml.sax.XMLReader;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.media.ThumbnailUtils;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.Layout;
 import android.text.Spannable;
@@ -75,6 +79,7 @@ import com.chinalwb.are.spans.AreHrSpan;
 import com.chinalwb.are.spans.AreImageSpan;
 import com.chinalwb.are.spans.AreListSpan;
 import com.chinalwb.are.spans.AreQuoteSpan;
+import com.chinalwb.are.spans.AreVideoSpan;
 import com.chinalwb.are.spans.EmojiSpan;
 import com.chinalwb.are.spans.ListNumberSpan;
 
@@ -925,6 +930,8 @@ class HtmlToSpannedConverter implements ContentHandler {
             startHeading(mSpannableStringBuilder, attributes, tag.charAt(1) - '1');
         } else if (tag.equalsIgnoreCase("img")) {
             startImg(mSpannableStringBuilder, attributes, mImageGetter);
+        } else if (tag.equalsIgnoreCase("video")) {
+            startVideo(mSpannableStringBuilder, attributes, mImageGetter);
         } else if (tag.equalsIgnoreCase("hr")) {
             startHr(mSpannableStringBuilder);
         } else if (tag.equalsIgnoreCase("emoji")) {
@@ -1251,6 +1258,22 @@ class HtmlToSpannedConverter implements ContentHandler {
 
         text.setSpan(imageSpan, len, text.length(),
                      Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    }
+
+    private static void startVideo(Editable text, Attributes attributes, Html.ImageGetter img) {
+        String uriPath = attributes.getValue("", "uri");
+        Drawable d = null;
+        ImageSpan imageSpan = null;
+
+        Bitmap thumb = ThumbnailUtils.createVideoThumbnail(uriPath, MediaStore.Images.Thumbnails.MINI_KIND);
+        Bitmap play = BitmapFactory.decodeResource(sContext.getResources(), R.drawable.play);
+        Bitmap video = Util.mergeBitmaps(thumb, play);
+        imageSpan = new AreVideoSpan(sContext, video, uriPath, null);
+        int len = text.length();
+        text.append("\uFFFC");
+
+        text.setSpan(imageSpan, len, text.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
 

@@ -102,7 +102,7 @@ public class ARE_Video implements IARE_Style {
 
         Bitmap play = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.play);
         Bitmap video = Util.mergeBitmaps(thumb, play);
-        AreVideoSpan videoSpan = new AreVideoSpan(mContext, video, uri, videoUrl);
+        AreVideoSpan videoSpan = new AreVideoSpan(mContext, video, path, videoUrl);
         insertSpan(videoSpan);
     }
 

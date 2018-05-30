@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
                 "    <li>bb</li>\n" +
                 "    <li>cc</li>\n" +
                 "    </ol>" +
+                "    <p style=\"text-align:center;\"><video src=\"http://www.xx.com/x.mp4\" uri=\"/storage/emulated/0/Download/wx_camera_1519181163870 (1).mp4\" controls=\"controls\"></video></p>" +
                 "    </body></html>";
         this.arEditor.fromHtml(html);
     }
