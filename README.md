@@ -63,11 +63,12 @@ Released [v0.0.7](https://github.com/chinalwb/are/releases/tag/v0.0.7) Plan for 
 > * Image
 > * @
 > * Emoji icon
+> * Video
 > 
 > In progress styles:
 > * Numeric list
 > * Bullet list
-> * Video
+
 
 Load from html (in progress in 0.1.0), code:
 -----
@@ -98,7 +99,7 @@ String html = "<html><body><p><b>aaaa</b></p><p><i>bbbb</i></p>\n" +
                 "    <p style=\"text-align:center;\"><img src=\"emoji|2131230945\"></p>\n" +
                 "    <p style=\"text-align:start;\">Image:</p>\n" +
                 "    <p style=\"text-align:start;\"><img src=\"http://d.hiphotos.baidu.com/image/pic/item/6159252dd42a2834171827b357b5c9ea14cebfcf.jpg\"></p>\n" +
-                "    <p style=\"text-align:start;\"></p>\n" +
+                "    <p style=\"text-align:center;\"><video src=\"http://www.xx.com/x.mp4\" uri=\"/storage/emulated/0/Download/wx_camera_1519181163870 (1).mp4\" controls=\"controls\"></video></p>" +
                 "    </body></html>";
         this.arEditor.fromHtml(html);
 ```
