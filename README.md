@@ -41,7 +41,7 @@ Supported styles:
 * All styles support save as HTML file
 
 
-Released [v0.0.7](https://github.com/chinalwb/are/releases/tag/v0.0.7) Plan for v0.1.0, targret is on 2018-05-31:
+Released [v0.0.7](https://github.com/chinalwb/are/releases/tag/v0.0.7) Plan for v0.1.0, targret is on 2018-05-31 -- Done on 2018-06-02, will release soon:
 -----
 * Load from html - In progress
 > Done styles:
@@ -68,7 +68,7 @@ Released [v0.0.7](https://github.com/chinalwb/are/releases/tag/v0.0.7) Plan for 
 > * Bullet list
 
 
-Load from html (in progress in 0.1.0), code:
+Load from html (done, will release soon), code:
 -----
 ```
 String html = "<html><body><p><b>aaaa</b></p><p><i>bbbb</i></p>\n" +
