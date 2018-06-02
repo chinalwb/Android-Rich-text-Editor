@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.NavigableMap;
+import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,7 +42,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
-import android.net.Uri;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.Layout;
@@ -81,6 +80,7 @@ import com.chinalwb.are.spans.AreListSpan;
 import com.chinalwb.are.spans.AreQuoteSpan;
 import com.chinalwb.are.spans.AreVideoSpan;
 import com.chinalwb.are.spans.EmojiSpan;
+import com.chinalwb.are.spans.ListBulletSpan;
 import com.chinalwb.are.spans.ListNumberSpan;
 
 import static com.chinalwb.are.android.inner.Html.sContext;
@@ -95,6 +95,8 @@ public class Html {
 
     public static final String OL = "ol";
     public static final String UL = "ul";
+
+    public static int sListNumber = -1;
 
     /**
      * Retrieves images for HTML &lt;img&gt; tags.
@@ -631,7 +633,7 @@ public class Html {
                 if (style[j] instanceof ImageSpan) {
                     out.append("<img src=\"");
                     out.append(((ImageSpan) style[j]).getSource());
-                    out.append("\">");
+                    out.append("\" />");
 
                     // Don't output the dummy character underlying the image.
                     i = next;
@@ -879,8 +881,10 @@ class HtmlToSpannedConverter implements ContentHandler {
             startBlockElement(mSpannableStringBuilder, attributes, getMarginParagraph());
             startCssStyle(mSpannableStringBuilder, attributes);
         } else if (tag.equalsIgnoreCase("ol")) {
+            startOL(mSpannableStringBuilder);
             startBlockElement(mSpannableStringBuilder, attributes, getMarginList());
         } else if (tag.equalsIgnoreCase("ul")) {
+            startUL(mSpannableStringBuilder);
             startBlockElement(mSpannableStringBuilder, attributes, getMarginList());
         } else if (tag.equalsIgnoreCase("li")) {
             startLi(mSpannableStringBuilder, attributes);
@@ -947,8 +951,12 @@ class HtmlToSpannedConverter implements ContentHandler {
         } else if (tag.equalsIgnoreCase("p")) {
             endCssStyle(mSpannableStringBuilder);
             endBlockElement(mSpannableStringBuilder);
+        } else if (tag.equalsIgnoreCase("ol")) {
+            endOL(mSpannableStringBuilder);
+             endBlockElement(mSpannableStringBuilder);
         } else if (tag.equalsIgnoreCase("ul")) {
-            endBlockElement(mSpannableStringBuilder);
+            endUL(mSpannableStringBuilder);
+             endBlockElement(mSpannableStringBuilder);
         } else if (tag.equalsIgnoreCase("li")) {
             endLi(mSpannableStringBuilder);
         } else if (tag.equalsIgnoreCase("div")) {
@@ -1009,7 +1017,8 @@ class HtmlToSpannedConverter implements ContentHandler {
     }
 
     private int getMarginListItem() {
-        return getMargin(Html.FROM_HTML_SEPARATOR_LINE_BREAK_LIST_ITEM);
+        // return getMargin(Html.FROM_HTML_SEPARATOR_LINE_BREAK_LIST_ITEM);
+        return 1;
     }
 
     private int getMarginList() {
@@ -1094,16 +1103,63 @@ class HtmlToSpannedConverter implements ContentHandler {
         text.append('\n');
     }
 
+    private void startOL(Editable text) {
+        int level = OL_UL_STACK.size();
+        OL ol = new OL(level);
+        start(text, ol);
+        OL_UL_STACK.push(ol);
+        Html.sListNumber = 0;
+    }
+
+    private void endOL(Editable text) {
+        Html.sListNumber = -1;
+        if (OL_UL_STACK.isEmpty()) {
+            return;
+        }
+        Object peekEle = OL_UL_STACK.peek();
+        if (peekEle instanceof OL) {
+            OL_UL_STACK.pop();
+        }
+    }
+
+    private void startUL(Editable text) {
+        int level = OL_UL_STACK.size();
+        UL ul = new UL(level);
+        start(text, ul);
+        OL_UL_STACK.push(ul);
+    }
+
+    private void endUL(Editable text) {
+        if (OL_UL_STACK.isEmpty()) {
+            return;
+        }
+        Object peekEle = OL_UL_STACK.peek();
+        if (peekEle instanceof UL) {
+            OL_UL_STACK.pop();
+        }
+    }
+
     private void startLi(Editable text, Attributes attributes) {
         startBlockElement(text, attributes, getMarginListItem());
-        start(text, new Bullet());
+        Object peekEle = OL_UL_STACK.peek();
+        if (peekEle instanceof OL) {
+            start(text, new Numeric());
+        } else {
+            start(text, new Bullet());
+        }
         startCssStyle(text, attributes);
     }
 
     private static void endLi(Editable text) {
         endCssStyle(text);
         endBlockElement(text);
-        end(text, Bullet.class, new BulletSpan());
+        Object peekEle = OL_UL_STACK.peek();
+        if (peekEle instanceof OL) {
+            Html.sListNumber = Html.sListNumber + 1;
+            end(text, Numeric.class, new ListNumberSpan(Html.sListNumber));
+        } else {
+            end(text, Bullet.class, new ListBulletSpan());
+        }
     }
 
     private void startBlockquote(Editable text, Attributes attributes) {
@@ -1465,6 +1521,7 @@ class HtmlToSpannedConverter implements ContentHandler {
     private static class Super { }
     private static class Sub { }
     private static class Bullet { }
+    private static class Numeric { }
 
     private static class Font {
         public String mFace;
@@ -1529,6 +1586,25 @@ class HtmlToSpannedConverter implements ContentHandler {
             mAlignment = alignment;
         }
     }
+
+    private static class OL {
+        private int level;
+
+        public OL(int level) {
+            this.level = level;
+        }
+    }
+
+    private static class UL {
+        private int level;
+
+        public UL(int level) {
+            this.level = level;
+        }
+    }
+
+    private static Stack OL_UL_STACK = new Stack();
+
     
     private static HashMap<String, Integer> COLORS = buildColorMap();
     

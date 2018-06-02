@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.chinalwb.are.AREditText;
 import com.chinalwb.are.Constants;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.android.inner.Html;
@@ -77,8 +78,10 @@ public class AreImageGetter implements Html.ImageGetter {
             bitmapDrawable.setBounds(rect);
             areUrlDrawable.setBounds(rect);
             areUrlDrawable.setDrawable(bitmapDrawable);
+            AREditText.stopMonitor();
             textView.setText(textView.getText());
             textView.invalidate();
+            AREditText.startMonitor();
         }
     }
 }

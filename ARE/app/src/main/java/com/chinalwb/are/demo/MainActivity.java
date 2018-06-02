@@ -108,16 +108,23 @@ public class MainActivity extends AppCompatActivity {
                 "    <br>\n" +
                 "    <p style=\"text-align:center;\"><img src=\"emoji|" + R.drawable.wx_d_8 + "\"></p>\n" +
                 "    <p style=\"text-align:start;\">Image:</p>\n" +
-                "    <p style=\"text-align:start;\"><img src=\"http://d.hiphotos.baidu.com/image/pic/item/6159252dd42a2834171827b357b5c9ea14cebfcf.jpg\"></p>\n" +
+                "    <p style=\"text-align:start;\"><img src=\"http://d.hiphotos.baidu.com/image/pic/item/6159252dd42a2834171827b357b5c9ea14cebfcf.jpg\" /></p>\n" +
                 "    <p style=\"text-align:start;\"></p>\n" +
                 "    <p><a href=\"#\" ukey=\"2131230814\" uname=\"Steve Jobs\" style=\"color:#FF00FF;\">@Steve Jobs</a>, <a href=\"#\" ukey=\"2131230815\" uname=\"Bill Gates\" style=\"color:#0000FF;\">@Bill Gates</a>, how are you?</p>" +
                 "    <p style=\"text-align:start;\"><emoji src=\"2131230915\" /><emoji src=\"2131230936\" /><emoji src=\"2131230929\" /></p>" +
-                "    <ol>\n" +
-                "    <li>aa</li>\n" +
+                "    <ul>" +
+                "    <li>aa</li>" +
                 "    <li>bb</li>\n" +
+                "    <li>dd</li>\n" +
+                "    <li>eea</li>\n" +
+                "    </ul>" +
+                "    <ol>\n" +
+                "    <li>ddasdf</li>\n" +
+                "    <li>sdf</li>\n" +
                 "    <li>cc</li>\n" +
                 "    </ol>" +
                 "    <p style=\"text-align:center;\"><video src=\"http://www.xx.com/x.mp4\" uri=\"/storage/emulated/0/Download/wx_camera_1519181163870 (1).mp4\" controls=\"controls\"></video></p>" +
+                "    <p style=\"text-align:start;\"><img src=\"http://a.hiphotos.baidu.com/image/h%3D300/sign=13dc7fee3512b31bd86ccb29b6193674/730e0cf3d7ca7bcb6a172486b2096b63f624a82f.jpg\" /></p>" +
                 "    </body></html>";
         this.arEditor.fromHtml(html);
     }

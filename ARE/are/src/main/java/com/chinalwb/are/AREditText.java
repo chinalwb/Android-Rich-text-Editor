@@ -37,6 +37,8 @@ public class AREditText extends AppCompatEditText {
 
 	private static boolean LOG = false;
 
+	private static boolean MONITORING = false;
+
 	private ARE_Toolbar sToolbar;
 
 	private static List<IARE_Style> sStylesList;
@@ -98,6 +100,9 @@ public class AREditText extends AppCompatEditText {
 
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				if (!MONITORING) {
+					return;
+				}
 				if (LOG) {
 					Util.log("beforeTextChanged:: s = " + s + ", start = " + start + ", count = " + count
 							+ ", after = " + after);
@@ -107,6 +112,10 @@ public class AREditText extends AppCompatEditText {
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				if (!MONITORING) {
+					return;
+				}
+
 				if (LOG) {
 					Util.log("onTextChanged:: s = " + s + ", start = " + start + ", count = " + count + ", before = "
 							+ before);
@@ -117,6 +126,10 @@ public class AREditText extends AppCompatEditText {
 
 			@Override
 			public void afterTextChanged(Editable s) {
+				if (!MONITORING) {
+					return;
+				}
+
 				if (LOG) {
 					Util.log("afterTextChanged:: s = " + s);
 				}
@@ -284,6 +297,13 @@ public class AREditText extends AppCompatEditText {
 		}
 	}
 
+	public static void startMonitor() {
+		MONITORING = true;
+	}
+
+	public static void stopMonitor() {
+		MONITORING = false;
+	}
 	/* ----------------------
 	 * Customization part
 	 * ---------------------- */

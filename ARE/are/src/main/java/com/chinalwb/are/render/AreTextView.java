@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.Spanned;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 
 import com.chinalwb.are.Constants;
 import com.chinalwb.are.Util;
@@ -31,6 +32,7 @@ public class AreTextView extends AppCompatTextView {
     public AreTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mContext = context;
+        this.setTextSize(TypedValue.COMPLEX_UNIT_SP, Constants.DEFAULT_FONT_SIZE);
         initGlobalValues();
     }
 

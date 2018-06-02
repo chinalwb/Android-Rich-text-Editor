@@ -384,12 +384,14 @@ public class ARE_ListBullet extends ARE_ABS_FreeStyle {
 		EditText editText = getEditText();
 		int currentLine = Util.getCurrentCursorLine(editText);
 		int start = Util.getThisLineStart(editText, currentLine);
-		int end = Util.getThisLineEnd(editText, currentLine);
 		Editable editable = editText.getText();
 		editable.insert(start, Constants.ZERO_WIDTH_SPACE_STR);
 		start = Util.getThisLineStart(editText, currentLine);
-		end = Util.getThisLineEnd(editText, currentLine);
+		int end = Util.getThisLineEnd(editText, currentLine);
 
+		if (end < 1) {
+			return null;
+		}
 		if (editable.charAt(end - 1) == Constants.CHAR_NEW_LINE) {
 			end--;
 		}
