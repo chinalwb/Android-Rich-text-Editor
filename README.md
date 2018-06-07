@@ -39,6 +39,14 @@ Supported styles:
 * Image from internet - NEW in 0.0.7
 * Dividing line - NEW in 0.0.7
 * All styles support save as HTML file
+* Load from HTML then continue editing or displaying - 0.1.0
+
+Will release 0.1.0 after fixing the build signed APK issue. Plan for 0.1.1 (plan to be done by end of June):
+----
+* Click link open browser
+* Click Image to show in a new window
+* Click Video to play back
+* Click @ to open profile page
 
 
 Released [v0.0.7](https://github.com/chinalwb/are/releases/tag/v0.0.7) Plan for v0.1.0, targret is on 2018-05-31 -- Done on 2018-06-02, will release soon:
@@ -155,16 +163,13 @@ Demo for emoji feature (0.0.3):
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/emoji.gif)
  
 In progress items:
------------------
-* Video - Done
+----------------
 * Audio
-* Image from internet - Done
 * Font family
 * Indent right
 * Indent left
 * Save editings to local SQLite
 * Notes list
-* Load from HTML
 * Headline - defered, can be done with font size and center style
 
 
