@@ -31,87 +31,20 @@ Android富文本编辑器
 * 上角标 
 * 下角标 
 * 字体大小  
-* 插入视频 - NEW in 0.0.7
-* 插入网络图片 - NEW in 0.0.7
-* 插入分割线 - NEW in 0.0.7
+* 插入视频
+* 插入网络图片
+* 插入分割线
 * 所有样式均支持导出HTML文件
+* 加载HTML内容并继续编辑或显示
 
 
-Released [v0.0.7](https://github.com/chinalwb/are/releases/tag/v0.0.7) v0.1.0在2018-06-02完成，近期即将发布:
------
-* Load from html - In progress
-> Done styles:
-> * Bold
-> * Italic
-> * Underline
-> * Strikethrough
-> * Align left
-> * Align center
-> * Align right
-> * Background color
-> * Foreground color
-> * Hyper link
-> * Quote
-> * Superscript
-> * Subscript
-> * Dividing line
-> * Font size
-> * Image
-> * @
-> * Emoji icon
-> * Video
-> * Numeric list
-> * Bullet list
+0.1.1计划 (计划在6月底完成):
+----
+Click link open browser
+Click Image to show in a new window
+Click Video to play back
+Click @ to open profile page
 
-
-从html中加载的代码:
------
-```
-String html = "<html><body><p><b>aaaa</b></p><p><i>bbbb</i></p>\n" +
-                "    <p><u>cccc</u></p>\n" +
-                "    <p><span style=\"text-decoration:line-through;\">dddd</span></p>\n" +
-                "    <p style=\"text-align:start;\">Alignleft</p>\n" +
-                "    <p style=\"text-align:center;\">Align center</p>\n" +
-                "    <p style=\"text-align:end;\">Align right</p>\n" +
-                "    <p style=\"text-align:start;\">Align left</p>\n" +
-                "    <p style=\"text-align:start;\">Hello left<span style=\"background-color:#FFFF00;\"> good?</span> yes</p>\n" +
-                "    <p style=\"text-align:start;\">Text color <span style=\"color:#FF5722;\">red </span><span style=\"color:#4CAF50;\">green </span><span style=\"color:#2196F3;\">blue </span><span style=\"color:#9C27B0;\">purple</span><span style=\"color:#000000;\"> normal black</span></p>\n" +
-                "    <br>\n" +
-                "    <p style=\"text-align:start;\">Click to open <a href=\"http://www.qq.com\">QQ</a> website</p>\n" +
-                "    <br><br>\n" +
-                "    <blockquote><p style=\"text-align:start;\">Quote</p>\n" +
-                "    <p style=\"text-align:start;\">Quote 2nd line</p>\n" +
-                "    <br>\n" +
-                "    </blockquote>\n" +
-                "    <br><br>\n" +
-                "    <p style=\"text-align:start;\">2X<sub>1</sub><sup>2 </sup>+3X<sub>1</sub><sup>2</sup>=5X<sub>1</sub><sup>2</sup></p>\n" +
-                "    <br>\n" +
-                "    <br>\n" +
-                "    <p style=\"text-align:start;\"><hr /> </p>\n" +
-                "    <p style=\"text-align:start;\">Text <span style=\"font-size:32px\";>SIZE </span><span style=\"font-size:18px\";><span style=\"font-size:21px\";>normal</span></span></p>\n" +
-                "    <br>\n" +
-                "    <p style=\"text-align:center;\"><img src=\"emoji|" + R.drawable.wx_d_8 + "\"></p>\n" +
-                "    <p style=\"text-align:start;\">Image:</p>\n" +
-                "    <p style=\"text-align:start;\"><img src=\"http://d.hiphotos.baidu.com/image/pic/item/6159252dd42a2834171827b357b5c9ea14cebfcf.jpg\" /></p>\n" +
-                "    <p style=\"text-align:start;\"></p>\n" +
-                "    <p><a href=\"#\" ukey=\"2131230814\" uname=\"Steve Jobs\" style=\"color:#FF00FF;\">@Steve Jobs</a>, <a href=\"#\" ukey=\"2131230815\" uname=\"Bill Gates\" style=\"color:#0000FF;\">@Bill Gates</a>, how are you?</p>" +
-                "    <p style=\"text-align:start;\"><emoji src=\"2131230915\" /><emoji src=\"2131230936\" /><emoji src=\"2131230929\" /></p>" +
-                "    <ul>" +
-                "    <li>aa</li>" +
-                "    <li>bb</li>\n" +
-                "    <li>dd</li>\n" +
-                "    <li>eea</li>\n" +
-                "    </ul>" +
-                "    <ol>\n" +
-                "    <li>ddasdf</li>\n" +
-                "    <li>sdf</li>\n" +
-                "    <li>cc</li>\n" +
-                "    </ol>" +
-                "    <p style=\"text-align:center;\"><video src=\"http://www.xx.com/x.mp4\" uri=\"/storage/emulated/0/Download/wx_camera_1519181163870 (1).mp4\" controls=\"controls\"></video></p>" +
-                "    <p style=\"text-align:start;\"><img src=\"http://a.hiphotos.baidu.com/image/h%3D300/sign=13dc7fee3512b31bd86ccb29b6193674/730e0cf3d7ca7bcb6a172486b2096b63f624a82f.jpg\" /></p>" +
-                "    </body></html>";
-        this.arEditor.fromHtml(html);
-```
 
 从html加载演示: (已完成在 0.1.0):
 ----
@@ -207,9 +140,59 @@ this.arEditor = this.findViewById(R.id.areditor);
 this.arEditor.setVideoStrategy(mVideoStrategy);
 ```
 
-如果想看效果但嫌运行代码太麻烦，可以下载最新的apk: (0.0.7 暂未提供APK)
+从html中加载的代码:
+-----
+```
+String html = "<html><body><p><b>aaaa</b></p><p><i>bbbb</i></p>\n" +
+                "    <p><u>cccc</u></p>\n" +
+                "    <p><span style=\"text-decoration:line-through;\">dddd</span></p>\n" +
+                "    <p style=\"text-align:start;\">Alignleft</p>\n" +
+                "    <p style=\"text-align:center;\">Align center</p>\n" +
+                "    <p style=\"text-align:end;\">Align right</p>\n" +
+                "    <p style=\"text-align:start;\">Align left</p>\n" +
+                "    <p style=\"text-align:start;\">Hello left<span style=\"background-color:#FFFF00;\"> good?</span> yes</p>\n" +
+                "    <p style=\"text-align:start;\">Text color <span style=\"color:#FF5722;\">red </span><span style=\"color:#4CAF50;\">green </span><span style=\"color:#2196F3;\">blue </span><span style=\"color:#9C27B0;\">purple</span><span style=\"color:#000000;\"> normal black</span></p>\n" +
+                "    <br>\n" +
+                "    <p style=\"text-align:start;\">Click to open <a href=\"http://www.qq.com\">QQ</a> website</p>\n" +
+                "    <br><br>\n" +
+                "    <blockquote><p style=\"text-align:start;\">Quote</p>\n" +
+                "    <p style=\"text-align:start;\">Quote 2nd line</p>\n" +
+                "    <br>\n" +
+                "    </blockquote>\n" +
+                "    <br><br>\n" +
+                "    <p style=\"text-align:start;\">2X<sub>1</sub><sup>2 </sup>+3X<sub>1</sub><sup>2</sup>=5X<sub>1</sub><sup>2</sup></p>\n" +
+                "    <br>\n" +
+                "    <br>\n" +
+                "    <p style=\"text-align:start;\"><hr /> </p>\n" +
+                "    <p style=\"text-align:start;\">Text <span style=\"font-size:32px\";>SIZE </span><span style=\"font-size:18px\";><span style=\"font-size:21px\";>normal</span></span></p>\n" +
+                "    <br>\n" +
+                "    <p style=\"text-align:center;\"><img src=\"emoji|" + R.drawable.wx_d_8 + "\"></p>\n" +
+                "    <p style=\"text-align:start;\">Image:</p>\n" +
+                "    <p style=\"text-align:start;\"><img src=\"http://d.hiphotos.baidu.com/image/pic/item/6159252dd42a2834171827b357b5c9ea14cebfcf.jpg\" /></p>\n" +
+                "    <p style=\"text-align:start;\"></p>\n" +
+                "    <p><a href=\"#\" ukey=\"2131230814\" uname=\"Steve Jobs\" style=\"color:#FF00FF;\">@Steve Jobs</a>, <a href=\"#\" ukey=\"2131230815\" uname=\"Bill Gates\" style=\"color:#0000FF;\">@Bill Gates</a>, how are you?</p>" +
+                "    <p style=\"text-align:start;\"><emoji src=\"2131230915\" /><emoji src=\"2131230936\" /><emoji src=\"2131230929\" /></p>" +
+                "    <ul>" +
+                "    <li>aa</li>" +
+                "    <li>bb</li>\n" +
+                "    <li>dd</li>\n" +
+                "    <li>eea</li>\n" +
+                "    </ul>" +
+                "    <ol>\n" +
+                "    <li>ddasdf</li>\n" +
+                "    <li>sdf</li>\n" +
+                "    <li>cc</li>\n" +
+                "    </ol>" +
+                "    <p style=\"text-align:center;\"><video src=\"http://www.xx.com/x.mp4\" uri=\"/storage/emulated/0/Download/wx_camera_1519181163870 (1).mp4\" controls=\"controls\"></video></p>" +
+                "    <p style=\"text-align:start;\"><img src=\"http://a.hiphotos.baidu.com/image/h%3D300/sign=13dc7fee3512b31bd86ccb29b6193674/730e0cf3d7ca7bcb6a172486b2096b63f624a82f.jpg\" /></p>" +
+                "    </body></html>";
+        this.arEditor.fromHtml(html);
+```
 
-[Click ARE_20180405_0.0.4.apk to download](https://github.com/chinalwb/Android-Rich-text-Editor/releases/download/v0.0.4/ARE_20180405_0.0.4.apk)
+
+如果想看效果但嫌运行代码太麻烦，可以下载最新的apk: 
+
+[Click ARE_20180615_0.1.0.apk to download](https://github.com/chinalwb/Android-Rich-text-Editor/releases/download/v0.1.0/ARE_20180615_0.1.0.apk)
 
 已知问题:
 * 背景色 - 当给文字加上背景色之后光标闪烁效果消失
