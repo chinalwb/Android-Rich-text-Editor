@@ -35,45 +35,18 @@ Supported styles:
 * Superscript
 * Subscript 
 * Font size 
-* Video - NEW in 0.0.7
-* Image from internet - NEW in 0.0.7
-* Dividing line - NEW in 0.0.7
+* Video
+* Image from internet
+* Dividing line
 * All styles support save as HTML file
-* Load from HTML then continue editing or displaying - 0.1.0
+* Load from HTML then continue editing or displaying - New in 0.1.0
 
-Will release 0.1.0 after fixing the build signed APK issue. Plan for 0.1.1 (plan to be done by end of June):
+Plan for 0.1.1 (plan to be done by end of June):
 ----
 * Click link open browser
 * Click Image to show in a new window
 * Click Video to play back
 * Click @ to open profile page
-
-
-Released [v0.0.7](https://github.com/chinalwb/are/releases/tag/v0.0.7) Plan for v0.1.0, targret is on 2018-05-31 -- Done on 2018-06-02, will release soon:
------
-* Load from html - In progress
-> Done styles:
-> * Bold
-> * Italic
-> * Underline
-> * Strikethrough
-> * Align left
-> * Align center
-> * Align right
-> * Background color
-> * Foreground color
-> * Hyper link
-> * Quote
-> * Superscript
-> * Subscript
-> * Dividing line
-> * Font size
-> * Image
-> * @
-> * Emoji icon
-> * Video
-> * Numeric list
-> * Bullet list
 
 
 Load from html (done, will release soon), code:
@@ -220,9 +193,9 @@ this.arEditor = this.findViewById(R.id.areditor);
 this.arEditor.setVideoStrategy(mVideoStrategy);
 ```
 
-You can download the APK here: （No APK for 0.0.7 for now）
+You can download the APK here:
 
-[Click ARE_20180405_0.0.4.apk to download](https://github.com/chinalwb/Android-Rich-text-Editor/releases/download/v0.0.4/ARE_20180405_0.0.4.apk)
+[Click ARE_20180615_0.1.0.apk to download](https://github.com/chinalwb/Android-Rich-text-Editor/releases/download/v0.1.0/ARE_20180615_0.1.0.apk)
 
 Known issues:
 * Background color - cursor invisible when put it in the range of BackgroundColorSpan
