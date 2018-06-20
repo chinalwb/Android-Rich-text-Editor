@@ -48,11 +48,10 @@
      * @return
      */
     boolean onItemSelected(AtItem item);
-}
+	}
 	```
-
-A sample:
-
+	A sample:
+	
 	```
     private AtStrategy mAtStrategy = new AtStrategy() {
         @Override
