@@ -37,7 +37,7 @@ public class AREditText extends AppCompatEditText {
 
 	private static boolean LOG = false;
 
-	private static boolean MONITORING = false;
+	private static boolean MONITORING = true;
 
 	private ARE_Toolbar sToolbar;
 
