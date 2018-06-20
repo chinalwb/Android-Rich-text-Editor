@@ -48,9 +48,10 @@
      * @return
      */
     boolean onItemSelected(AtItem item);
-	}
-```
-	A sample:
+}
+	```
+
+A sample:
 
 	```
     private AtStrategy mAtStrategy = new AtStrategy() {
@@ -70,21 +71,20 @@
 	```
 
 - *Video*: You can insert Video into ARE, if you want upload the video from local to server-side, similarly to *@*, you can do the video uploading by setting the `VideoStrategy`. A sample:
-	
-```
+	```
 	private VideoStrategy mVideoStrategy = new VideoStrategy() {
-        @Override
-        public String uploadVideo(Uri uri) {
-            try {
-                Thread.sleep(3000); // Do upload here
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return "http://www.xx.com/x.mp4";
-        }
-    };
+		@Override
+		public String uploadVideo(Uri uri) {
+		    try {
+			Thread.sleep(3000); // Do upload here
+		    } catch (Exception e) {
+			e.printStackTrace();
+		    }
+		    return "http://www.xx.com/x.mp4";
+		}
+	    };
     
     <YOUR_AREditor>.setVideoStrategy(mVideoStrategy);
-```
+	```
 
 - Don't need to show all styles? Want to change the color of toolbar? Want to change the order of the buttons in toolbar? Want to change the default(ugly) toolbar buttons? -- Sorry no API supported for these features for now, you need to open `are_toolbar.xml` in `are/res/layout`, then do the changes you need, just attention that you can move the buttons `<ImageView />` up and down, you can hide it by setting `android:visibility="gone"`, but don't change the `id`, if you do want to do that you need to know there are other places to change accordingly too.
