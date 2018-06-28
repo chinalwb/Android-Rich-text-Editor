@@ -5,7 +5,7 @@
 	- Copy 'are', 'colorpicker', 'emojipanel', 'glidesupport' 4 folders into the directory of your project, for example this is mine：
 	![image](https://github.com/chinalwb/are/blob/master/ARE/demo/are_structure.png)
 	- Import: Open Android Studio, click File > New > Import Module..., choose the 'are' folder which you just copied, then click 'Finish'
-	- Denpendency: __The latest Android Studio has bug about this! You need to do it manually see as below. In Android Studio, right click on the Project or module you want to use ARE, in the context menu click 'Open Module Settings', in the last tab 'Denpendencies', click the '+' icon at the left bottom, choose '3. Module Dependency', in the popup window, choose 'are'.__
+	- Denpendency: ~~The latest Android Studio has [bug](https://stackoverflow.com/questions/49811283/android-studio-3-1-1-unable-to-add-module-import-gradle-project) about this! You need to do it manually see as below. In Android Studio, right click on the Project or module you want to use ARE, in the context menu click 'Open Module Settings', in the last tab 'Denpendencies', click the '+' icon at the left bottom, choose '3. Module Dependency', in the popup window, choose 'are'.~~
 	- Dependency **correct**. Modify your settings.gradle, add `':are', ':colorpicker', ':emojipanel', ':glidesupport'`, for example mine is `include ':app', ':are', ':colorpicker', ':emojipanel', ':glidesupport'`
 	- Sync your project
 	- Use it: In the activity which you want to render the ARE, open its layout xml, add AREditor into it, for example:
