@@ -1,8 +1,13 @@
 # How to use?
 1. Include AREditor into your project. For now there is no gradle dependency support to do this step automatically, so you have to:
 	- Get: Clone or download from [Github ARE](https://github.com/chinalwb/Android-Rich-text-Editor)，then unzip
-	- Import: Open Android Studio, click File > New > Import Module..., choose the 'are' folder which you get in the above step, then click 'Finish'
-	- Denpendency: In Android Studio, right click on the Project or module you want to use ARE, in the context menu click 'Open Module Settings', in the last tab 'Denpendencies', click the '+' icon at the left bottom, choose '3. Module Dependency', in the popup window, choose 'are'.
+	- Create a new project or open your own project from Android Studio
+	- Copy 'are', 'colorpicker', 'emojipanel', 'glidesupport' 4 folders into the directory of your project, for example this is mine：
+	![image](https://github.com/chinalwb/are/blob/master/ARE/demo/are_structure.png)
+	- Import: Open Android Studio, click File > New > Import Module..., choose the 'are' folder which you just copied, then click 'Finish'
+	- Denpendency: __The latest Android Studio has bug about this! You need to do it manually see as below. In Android Studio, right click on the Project or module you want to use ARE, in the context menu click 'Open Module Settings', in the last tab 'Denpendencies', click the '+' icon at the left bottom, choose '3. Module Dependency', in the popup window, choose 'are'.__
+	- Dependency **correct**. Modify your settings.gradle, add `':are', ':colorpicker', ':emojipanel', ':glidesupport'`, for example mine is `include ':app', ':are', ':colorpicker', ':emojipanel', ':glidesupport'`
+	- Sync your project
 	- Use it: In the activity which you want to render the ARE, open its layout xml, add AREditor into it, for example:
 	
 	```
