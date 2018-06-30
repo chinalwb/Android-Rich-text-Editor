@@ -13,4 +13,7 @@
     <string name="title_activity_are__video_player">ARE Video</string>
     <string name="btn_attach_video">Attach Video</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="title_activity_default_image_preview">ARE DefaultImagePreviewActivity</string>
+    <string name="save_to_local">Save to local</string>
 </resources>

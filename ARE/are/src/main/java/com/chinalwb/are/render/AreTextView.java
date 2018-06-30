@@ -12,7 +12,7 @@ import com.chinalwb.are.Util;
 import com.chinalwb.are.android.inner.Html;
 import com.chinalwb.are.events.AREMovementMethod;
 import com.chinalwb.are.strategies.AreClickStrategy;
-import com.chinalwb.are.strategies.DefaultClickStrategy;
+import com.chinalwb.are.strategies.defaults.DefaultClickStrategy;
 
 /**
  * @author dlink

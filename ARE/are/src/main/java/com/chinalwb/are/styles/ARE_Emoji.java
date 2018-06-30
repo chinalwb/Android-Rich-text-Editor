@@ -14,6 +14,7 @@ import android.widget.ImageView;
 
 import com.chinalwb.are.R;
 import com.chinalwb.are.Util;
+import com.chinalwb.are.spans.AreImageSpan;
 import com.chinalwb.are.spans.EmojiSpan;
 
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
@@ -49,7 +50,7 @@ public class ARE_Emoji extends ARE_ABS_FreeStyle {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			int resId = ((EmojiGridViewAdapter.ViewHolder) view.getTag()).resId;
-			ARE_Toolbar.getInstance().getImageStyle().insertImage(resId, ARE_Image.ImageType.RES);
+			ARE_Toolbar.getInstance().getImageStyle().insertImage(resId, AreImageSpan.ImageType.RES);
 		}
 	};
 

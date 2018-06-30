@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.chinalwb.are.R;
 import com.chinalwb.are.Util;
+import com.chinalwb.are.spans.AreImageSpan;
 import com.chinalwb.are.styles.ARE_Image;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
@@ -81,7 +82,7 @@ public class ImageSelectDialog {
         String imageUrl = editText.getText().toString();
         if (imageUrl.startsWith("http")
                 &&  (imageUrl.endsWith("png") || imageUrl.endsWith("jpg") || imageUrl.endsWith("jpeg"))) {
-            mAreImage.insertImage(imageUrl, ARE_Image.ImageType.URL);
+            mAreImage.insertImage(imageUrl, AreImageSpan.ImageType.URL);
             mDialog.dismiss();
         } else {
             Util.toast(mContext, "Not a valid image");

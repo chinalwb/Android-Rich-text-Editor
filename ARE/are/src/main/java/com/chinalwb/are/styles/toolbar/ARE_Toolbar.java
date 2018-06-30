@@ -24,6 +24,7 @@ import com.chinalwb.are.R;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.activities.Are_VideoPlayerActivity;
 import com.chinalwb.are.models.AtItem;
+import com.chinalwb.are.spans.AreImageSpan;
 import com.chinalwb.are.styles.ARE_Alignment;
 import com.chinalwb.are.styles.ARE_At;
 import com.chinalwb.are.styles.ARE_BackgroundColor;
@@ -597,7 +598,7 @@ public class ARE_Toolbar extends LinearLayout {
 		if (resultCode == Activity.RESULT_OK) {
 			if (REQ_IMAGE == requestCode) {
 				Uri uri = data.getData();
-				this.mImageStyle.insertImage(uri, ARE_Image.ImageType.URI);
+				this.mImageStyle.insertImage(uri, AreImageSpan.ImageType.URI);
 			} else if (REQ_AT == requestCode) {
 				AtItem atItem = (AtItem) data.getSerializableExtra(ARE_At.EXTRA_TAG);
 				if (null == atItem) { return; }
