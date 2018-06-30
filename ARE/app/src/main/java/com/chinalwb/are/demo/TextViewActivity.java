@@ -1,10 +1,16 @@
 package com.chinalwb.are.demo;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.chinalwb.are.render.AreTextView;
+import com.chinalwb.are.spans.ARE_Clickable_Span;
+import com.chinalwb.are.spans.AreAtSpan;
+import com.chinalwb.are.spans.AreImageSpan;
+import com.chinalwb.are.spans.AreVideoSpan;
+import com.chinalwb.are.strategies.AreClickStrategy;
 
 /**
  * @author dlink
@@ -53,5 +59,19 @@ public class TextViewActivity extends AppCompatActivity {
                     "    </body></html>";
         }
         areTextView.fromHtml(s);
+    }
+
+    class DemoClickStrategy implements AreClickStrategy {
+        @Override
+        public boolean onClick(Context context, ARE_Clickable_Span areClickableSpan) {
+            if (areClickableSpan instanceof AreAtSpan) {
+
+            } else if (areClickableSpan instanceof AreImageSpan) {
+
+            } else if (areClickableSpan instanceof AreVideoSpan) {
+
+            }
+            return true;
+        }
     }
 }

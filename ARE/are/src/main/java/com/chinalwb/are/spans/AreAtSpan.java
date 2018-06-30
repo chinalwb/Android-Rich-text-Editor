@@ -6,10 +6,9 @@ import android.graphics.Paint;
 import android.graphics.Paint.FontMetricsInt;
 import android.text.style.ReplacementSpan;
 
-import com.chinalwb.are.Util;
 import com.chinalwb.are.models.AtItem;
 
-public class AreAtSpan extends ReplacementSpan implements ARE_Span {
+public class AreAtSpan extends ReplacementSpan implements ARE_Span, ARE_Clickable_Span {
 
 	/**
 	 * Will be used when generating HTML code for @
@@ -26,10 +25,6 @@ public class AreAtSpan extends ReplacementSpan implements ARE_Span {
         this.mUserKey = atItem.mKey;
         this.mUserName = atItem.mName;
         this.mColor = atItem.mColor;
-	}
-
-	public String getmUserKey() {
-		return mUserKey;
 	}
 
 	@Override
@@ -61,5 +56,13 @@ public class AreAtSpan extends ReplacementSpan implements ARE_Span {
 		html.append("@" + this.mUserName);
 		html.append("</a>");
 		return html.toString();
+	}
+
+	public String getUserName() {
+		return this.mUserName;
+	}
+
+	public String getUserKey() {
+		return this.mUserKey;
 	}
 }

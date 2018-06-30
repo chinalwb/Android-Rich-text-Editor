@@ -6,7 +6,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.text.style.ImageSpan;
 
-public class AreVideoSpan extends ImageSpan implements ARE_Span {
+public class AreVideoSpan extends ImageSpan implements ARE_Span, ARE_Clickable_Span {
 	private Context mContext;
 
 	private String mVideoPath;

@@ -10,6 +10,9 @@ import android.util.TypedValue;
 import com.chinalwb.are.Constants;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.android.inner.Html;
+import com.chinalwb.are.events.AREMovementMethod;
+import com.chinalwb.are.strategies.AreClickStrategy;
+import com.chinalwb.are.strategies.DefaultClickStrategy;
 
 /**
  * @author dlink
@@ -19,6 +22,8 @@ import com.chinalwb.are.android.inner.Html;
  * @usage null
  */
 public class AreTextView extends AppCompatTextView {
+    private AreClickStrategy mClickStrategy;
+
     Context mContext;
 
     public AreTextView(Context context) {
@@ -34,12 +39,20 @@ public class AreTextView extends AppCompatTextView {
         mContext = context;
         this.setTextSize(TypedValue.COMPLEX_UNIT_SP, Constants.DEFAULT_FONT_SIZE);
         initGlobalValues();
+        initMovementMethod();
     }
 
     private void initGlobalValues() {
         int[] wh = Util.getScreenWidthAndHeight(mContext);
         Constants.SCREEN_WIDTH = wh[0];
         Constants.SCREEN_HEIGHT = wh[1];
+    }
+
+    private void initMovementMethod() {
+        if (this.mClickStrategy == null) {
+            this.mClickStrategy = new DefaultClickStrategy();
+        }
+        this.setMovementMethod(new AREMovementMethod(this.mClickStrategy));
     }
 
     public void fromHtml(String html) {
@@ -50,4 +63,7 @@ public class AreTextView extends AppCompatTextView {
         setText(spanned);
     }
 
+    public void setClickStrategy(AreClickStrategy clickStrategy) {
+        this.mClickStrategy = clickStrategy;
+    }
 }

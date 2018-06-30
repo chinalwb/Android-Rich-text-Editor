@@ -15,7 +15,7 @@ import android.util.Log;
 import com.chinalwb.are.Constants;
 import com.chinalwb.are.Util;
 
-public class AreImageSpan extends ImageSpan {
+public class AreImageSpan extends ImageSpan implements ARE_Clickable_Span {
 
 //	private static final float sMaxPercentage = 0.8f;
 
