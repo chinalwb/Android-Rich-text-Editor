@@ -60,18 +60,4 @@ public class TextViewActivity extends AppCompatActivity {
         }
         areTextView.fromHtml(s);
     }
-
-    class DemoClickStrategy implements AreClickStrategy {
-        @Override
-        public boolean onClick(Context context, ARE_Clickable_Span areClickableSpan) {
-            if (areClickableSpan instanceof AreAtSpan) {
-
-            } else if (areClickableSpan instanceof AreImageSpan) {
-
-            } else if (areClickableSpan instanceof AreVideoSpan) {
-
-            }
-            return true;
-        }
-    }
 }

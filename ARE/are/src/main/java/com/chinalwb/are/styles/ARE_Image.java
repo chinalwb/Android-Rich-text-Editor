@@ -101,7 +101,6 @@ public class ARE_Image implements IARE_Style {
 		SimpleTarget myTarget = new SimpleTarget<Bitmap>() {
 			@Override
 			public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
-				Log.e("x", bitmap.toString());
 				if (bitmap == null) { return; }
 
                 bitmap = Util.scaleBitmapToFitWidth(bitmap, sWidth);
