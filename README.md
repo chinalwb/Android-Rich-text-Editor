@@ -47,6 +47,9 @@ Plan for 0.1.1 ~~(plan to be done by end of June)~~ - Done:
 * Click Image to show in a new window
 * Click Video to play back
 * Click @ to open profile page
+
+Demo ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/are_span_click_demo.gif.gif)
+ 
 ** I have added an `AreClickStrategy` to provide call back functions upon clicking on `AreUrlSpan` / `AreImageSpan` / `AreVideoSpan` / `AreAtSpan`. Usage like below:
 ```
 // Get your AreTextView first
