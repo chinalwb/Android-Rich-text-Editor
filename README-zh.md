@@ -38,12 +38,65 @@ Android富文本编辑器
 * 加载HTML内容并继续编辑或显示
 
 
-0.1.1计划 (计划在6月底完成):
+0.1.1计划 ~~(计划在6月底完成)~~ 完成:
 ----
-Click link open browser
-Click Image to show in a new window
-Click Video to play back
-Click @ to open profile page
+* Click link open browser
+* Click Image to show in a new window
+* Click Video to play back
+* Click @ to open profile page
+
+Demo ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/are_span_click_demo.gif)
+ 
+** 我新加了一个接口 `AreClickStrategy` 来处理 `AreUrlSpan` / `AreImageSpan` / `AreVideoSpan` / `AreAtSpan` 的点击事件. 用法如下:
+```
+// 通过findViewById 得到AreTextView
+AreTextView areTextView = findViewById(R.id.areTextView);
+
+// 创建AreClickStrategy实例来处理点击事件
+AreClickStrategy areClickStrategy = new AreClickStrategy() {
+            @Override
+            public boolean onClickAt(Context context, AreAtSpan atSpan) {
+                Intent intent = new Intent();
+                intent.setClass(context, DefaultProfileActivity.class);
+                intent.putExtra("userKey", atSpan.getUserKey());
+                intent.putExtra("userName", atSpan.getUserName());
+                context.startActivity(intent);
+                return true;
+            }
+
+            @Override
+            public boolean onClickImage(Context context, AreImageSpan imageSpan) {
+                Intent intent = new Intent();
+                AreImageSpan.ImageType imageType = imageSpan.getImageType();
+                intent.putExtra("imageType", imageType);
+                if (imageType == AreImageSpan.ImageType.URI) {
+                    intent.putExtra("uri", imageSpan.getUri());
+                } else if (imageType == AreImageSpan.ImageType.URL) {
+                    intent.putExtra("url", imageSpan.getURL());
+                } else {
+                    intent.putExtra("resId", imageSpan.getResId());
+                }
+                intent.setClass(context, DefaultImagePreviewActivity.class);
+                context.startActivity(intent);
+                return true;
+            }
+
+            @Override
+            public boolean onClickVideo(Context context, AreVideoSpan videoSpan) {
+                Util.toast(context, "Video span");
+                return true;
+            }
+
+            @Override
+            public boolean onClickUrl(Context context, URLSpan urlSpan) {
+                // Use default behavior
+                return false;
+            }
+        };
+
+// 设定 ClickStrategy 到AreTextView
+areTextView.setClickStrategy(areClickStrategy); 
+```
 
 
 从html加载演示: (已完成在 0.1.0):
@@ -192,7 +245,7 @@ String html = "<html><body><p><b>aaaa</b></p><p><i>bbbb</i></p>\n" +
 
 如果想看效果但嫌运行代码太麻烦，可以下载最新的apk: 
 
-[Click ARE_20180615_0.1.0.apk to download](https://github.com/chinalwb/Android-Rich-text-Editor/releases/download/v0.1.0/ARE_20180615_0.1.0.apk)
+[Click ARE_20180702_0.1.1.apk to download](https://github.com/chinalwb/Android-Rich-text-Editor/releases/download/v0.1.0/ARE_20180702_0.1.1.apk)
 
 已知问题:
 * 背景色 - 当给文字加上背景色之后光标闪烁效果消失
