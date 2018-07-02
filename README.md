@@ -249,7 +249,7 @@ String html = "<html><body><p><b>aaaa</b></p><p><i>bbbb</i></p>\n" +
 
 You can download the APK here:
 
-[Click ARE_20180615_0.1.0.apk to download](https://github.com/chinalwb/Android-Rich-text-Editor/releases/download/v0.1.0/ARE_20180615_0.1.0.apk)
+[Click ARE_20180702_0.1.1.apk to download](https://github.com/chinalwb/Android-Rich-text-Editor/releases/download/v0.1.1/ARE_20180702_0.1.1.apk)
 
 Known issues:
 * Background color - cursor invisible when put it in the range of BackgroundColorSpan
