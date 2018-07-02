@@ -46,6 +46,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.Layout;
@@ -1300,6 +1301,10 @@ class HtmlToSpannedConverter implements ContentHandler {
                 imageSpan = new AreImageSpan(sContext, resId);
             } else if (src.startsWith("http")) {
                 imageSpan = new AreImageSpan(sContext, d, src);
+            } else {
+                // content://com.android.providers.media.documents/document/image%3A33
+                // Such uri cannot be loaded from AreImageGetter.
+                imageSpan = new AreImageSpan(sContext, Uri.parse(src));
             }
         }
 

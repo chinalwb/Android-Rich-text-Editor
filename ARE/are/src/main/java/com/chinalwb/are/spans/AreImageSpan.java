@@ -53,6 +53,12 @@ public class AreImageSpan extends ImageSpan implements ARE_Clickable_Span {
 	    this.mResId = resId;
     }
 
+    public AreImageSpan(Context context, Uri uri) {
+		super(context, uri);
+		this.mContext = context;
+		this.mUri = uri;
+	}
+
 //
 //	@Override
 //	public Drawable getDrawable() {
