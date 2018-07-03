@@ -41,6 +41,16 @@ Supported styles:
 * All styles support save as HTML file
 * Load from HTML then continue editing or displaying - New in 0.1.0
 
+Plan for 0.1.2:
+----
+* Maintain release, includes:
+1. Documents for installation and developement
+2. UI improvements
+3. Bugs fixing
+
+More features you can open feature request but will need to wait for 0.1.3 if it is not urgent.
+
+
 Plan for 0.1.1 ~~(plan to be done by end of June)~~ - Done:
 ----
 * Click link open browser
