@@ -321,6 +321,8 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
                 Util.log("case 2");
                 return;
             } else if (start == spanEnd) {
+
+
                 Util.log("case 3");
                 //
                 // User deletes the first char of the span
