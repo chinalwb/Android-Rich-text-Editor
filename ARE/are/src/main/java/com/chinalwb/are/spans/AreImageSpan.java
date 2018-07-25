@@ -1,23 +1,20 @@
 package com.chinalwb.are.spans;
 
-import java.lang.ref.WeakReference;
-
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.style.ImageSpan;
-import android.util.Log;
 
 import com.chinalwb.are.Constants;
-import com.chinalwb.are.Util;
 
-public class AreImageSpan extends ImageSpan {
+public class AreImageSpan extends ImageSpan implements ARE_Clickable_Span {
 
-//	private static final float sMaxPercentage = 0.8f;
+	public enum ImageType {
+		URI,
+		URL,
+		RES,
+	}
 
 	private Context mContext;
 
@@ -55,6 +52,12 @@ public class AreImageSpan extends ImageSpan {
 	    this.mContext = context;
 	    this.mResId = resId;
     }
+
+    public AreImageSpan(Context context, Uri uri) {
+		super(context, uri);
+		this.mContext = context;
+		this.mUri = uri;
+	}
 
 //
 //	@Override
@@ -172,4 +175,28 @@ public class AreImageSpan extends ImageSpan {
 	        return Constants.EMOJI + "|" + this.mResId;
         }
     }
+
+    public ImageType getImageType() {
+		if (this.mUri != null) {
+			return ImageType.URI;
+		} else if (this.mUrl != null) {
+			return ImageType.URL;
+		} else {
+			return ImageType.RES;
+		}
+	}
+
+	public Uri getUri() {
+		return this.mUri;
+	}
+
+	public String getURL() {
+		return this.mUrl;
+	}
+
+
+	public int getResId() {
+		return this.mResId;
+	}
+
 }

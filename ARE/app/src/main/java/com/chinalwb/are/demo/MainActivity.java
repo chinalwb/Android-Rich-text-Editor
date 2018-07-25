@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                 "    <li>sdf</li>\n" +
                 "    <li>cc</li>\n" +
                 "    </ol>" +
-                "    <p style=\"text-align:center;\"><video src=\"http://www.xx.com/x.mp4\" uri=\"/storage/emulated/0/Download/wx_camera_1519181163870 (1).mp4\" controls=\"controls\"></video></p>" +
+                "    <p style=\"text-align:center;\"><video src=\"http://ivi.bupt.edu.cn/hls/cctv6hd.m3u8\" controls=\"controls\"></video></p>" +
                 "    <p style=\"text-align:start;\"><img src=\"http://a.hiphotos.baidu.com/image/h%3D300/sign=13dc7fee3512b31bd86ccb29b6193674/730e0cf3d7ca7bcb6a172486b2096b63f624a82f.jpg\" /></p>" +
                 "    </body></html>";
         this.arEditor.fromHtml(html);

@@ -14,6 +14,7 @@ import android.widget.ImageView;
 
 import com.chinalwb.are.AREditText;
 import com.chinalwb.are.R;
+import com.chinalwb.are.spans.AreUrlSpan;
 
 import org.w3c.dom.Text;
 
@@ -106,7 +107,7 @@ public class ARE_Link extends ARE_ABS_FreeStyle {
                 editable.insert(start, url);
                 end = start + url.length();
             }
-            editable.setSpan(new URLSpan(url), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            editable.setSpan(new AreUrlSpan(url), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
     }
 

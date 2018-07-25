@@ -16,6 +16,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 
+import com.chinalwb.are.events.AREMovementMethod;
 import com.chinalwb.are.spans.AreSubscriptSpan;
 import com.chinalwb.are.spans.AreSuperscriptSpan;
 import com.chinalwb.are.spans.AreUnderlineSpan;
@@ -72,6 +73,7 @@ public class AREditText extends AppCompatEditText {
 	}
 
 	private void init() {
+		this.setMovementMethod(new AREMovementMethod());
 		this.setFocusableInTouchMode(true);
 		this.setBackgroundColor(Color.WHITE);
 		this.setInputType(EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE

@@ -41,12 +41,75 @@ Supported styles:
 * All styles support save as HTML file
 * Load from HTML then continue editing or displaying - New in 0.1.0
 
-Plan for 0.1.1 (plan to be done by end of June):
+Plan for 0.1.2:
+----
+* Maintain release, includes:
+1. Documents for installation and developement
+2. UI improvements
+3. Bugs fixing
+
+More features you can open feature request but will need to wait for 0.1.3 if it is not urgent.
+
+
+Plan for 0.1.1 ~~(plan to be done by end of June)~~ - Done:
 ----
 * Click link open browser
 * Click Image to show in a new window
 * Click Video to play back
 * Click @ to open profile page
+
+Demo ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/are_span_click_demo.gif)
+ 
+** I have added an `AreClickStrategy` to provide call back functions upon clicking on `AreUrlSpan` / `AreImageSpan` / `AreVideoSpan` / `AreAtSpan`. Usage like below:
+```
+// Get your AreTextView first
+AreTextView areTextView = findViewById(R.id.areTextView);
+
+// Create an instance of AreClickStrategy
+AreClickStrategy areClickStrategy = new AreClickStrategy() {
+            @Override
+            public boolean onClickAt(Context context, AreAtSpan atSpan) {
+                Intent intent = new Intent();
+                intent.setClass(context, DefaultProfileActivity.class);
+                intent.putExtra("userKey", atSpan.getUserKey());
+                intent.putExtra("userName", atSpan.getUserName());
+                context.startActivity(intent);
+                return true;
+            }
+
+            @Override
+            public boolean onClickImage(Context context, AreImageSpan imageSpan) {
+                Intent intent = new Intent();
+                AreImageSpan.ImageType imageType = imageSpan.getImageType();
+                intent.putExtra("imageType", imageType);
+                if (imageType == AreImageSpan.ImageType.URI) {
+                    intent.putExtra("uri", imageSpan.getUri());
+                } else if (imageType == AreImageSpan.ImageType.URL) {
+                    intent.putExtra("url", imageSpan.getURL());
+                } else {
+                    intent.putExtra("resId", imageSpan.getResId());
+                }
+                intent.setClass(context, DefaultImagePreviewActivity.class);
+                context.startActivity(intent);
+                return true;
+            }
+
+            @Override
+            public boolean onClickVideo(Context context, AreVideoSpan videoSpan) {
+                Util.toast(context, "Video span");
+                return true;
+            }
+
+            @Override
+            public boolean onClickUrl(Context context, URLSpan urlSpan) {
+                // Use default behavior
+                return false;
+            }
+        };
+
+// Then sets the ClickStrategy
+areTextView.setClickStrategy(areClickStrategy); 
+```
 
 
 Demo for load from html: （New in 0.1.0）
@@ -196,7 +259,7 @@ String html = "<html><body><p><b>aaaa</b></p><p><i>bbbb</i></p>\n" +
 
 You can download the APK here:
 
-[Click ARE_20180615_0.1.0.apk to download](https://github.com/chinalwb/Android-Rich-text-Editor/releases/download/v0.1.0/ARE_20180615_0.1.0.apk)
+[Click ARE_20180702_0.1.1.apk to download](https://github.com/chinalwb/Android-Rich-text-Editor/releases/download/v0.1.1/ARE_20180702_0.1.1.apk)
 
 Known issues:
 * Background color - cursor invisible when put it in the range of BackgroundColorSpan

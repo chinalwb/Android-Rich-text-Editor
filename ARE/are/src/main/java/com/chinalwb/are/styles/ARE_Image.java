@@ -26,6 +26,8 @@ import com.chinalwb.are.styles.windows.ImageSelectDialog;
 import com.rainliu.glidesupport.GlideApp;
 import com.rainliu.glidesupport.GlideRequests;
 
+import static com.chinalwb.are.spans.AreImageSpan.ImageType;
+
 public class ARE_Image implements IARE_Style {
 
 	private ImageView mInsertImageView;
@@ -64,12 +66,6 @@ public class ARE_Image implements IARE_Style {
 		});
 	} // #End of setListenerForImageView(..)
 
-	public enum ImageType {
-		URI,
-		URL,
-		RES,
-	}
-
 	/**
 	 * Open system image chooser page.
 	 */
@@ -105,7 +101,6 @@ public class ARE_Image implements IARE_Style {
 		SimpleTarget myTarget = new SimpleTarget<Bitmap>() {
 			@Override
 			public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
-				Log.e("x", bitmap.toString());
 				if (bitmap == null) { return; }
 
                 bitmap = Util.scaleBitmapToFitWidth(bitmap, sWidth);

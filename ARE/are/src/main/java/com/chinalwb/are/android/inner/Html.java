@@ -27,6 +27,7 @@ import java.util.regex.Pattern;
 
 import org.ccil.cowan.tagsoup.HTMLSchema;
 import org.ccil.cowan.tagsoup.Parser;
+import org.w3c.dom.Text;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
@@ -38,10 +39,14 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.Layout;
@@ -1296,6 +1301,10 @@ class HtmlToSpannedConverter implements ContentHandler {
                 imageSpan = new AreImageSpan(sContext, resId);
             } else if (src.startsWith("http")) {
                 imageSpan = new AreImageSpan(sContext, d, src);
+            } else {
+                // content://com.android.providers.media.documents/document/image%3A33
+                // Such uri cannot be loaded from AreImageGetter.
+                imageSpan = new AreImageSpan(sContext, Uri.parse(src));
             }
         }
 
@@ -1317,14 +1326,24 @@ class HtmlToSpannedConverter implements ContentHandler {
     }
 
     private static void startVideo(Editable text, Attributes attributes, Html.ImageGetter img) {
+        Bitmap thumb = null;
         String uriPath = attributes.getValue("", "uri");
-        Drawable d = null;
-        ImageSpan imageSpan = null;
+        String videoUrl = attributes.getValue("", "src");
+        thumb = ThumbnailUtils.createVideoThumbnail(uriPath, MediaStore.Images.Thumbnails.MINI_KIND);
+        if (thumb == null) {
+            // thumb = null; // TODO should load first frame bitmap
+            thumb = Bitmap.createBitmap(400, 300, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(thumb);
+            Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            paint.setColor(Color.BLACK);
+            canvas.drawRect(0, 0, 400, 300, paint);
+        }
+        Drawable d;
+        ImageSpan imageSpan;
 
-        Bitmap thumb = ThumbnailUtils.createVideoThumbnail(uriPath, MediaStore.Images.Thumbnails.MINI_KIND);
         Bitmap play = BitmapFactory.decodeResource(sContext.getResources(), R.drawable.play);
-        Bitmap video = Util.mergeBitmaps(thumb, play);
-        imageSpan = new AreVideoSpan(sContext, video, uriPath, null);
+        Bitmap video = thumb == null ? play : Util.mergeBitmaps(thumb, play);
+        imageSpan = new AreVideoSpan(sContext, video, uriPath, videoUrl);
         int len = text.length();
         text.append("\uFFFC");
 
