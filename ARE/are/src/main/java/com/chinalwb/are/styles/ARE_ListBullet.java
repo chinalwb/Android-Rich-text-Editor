@@ -260,10 +260,13 @@ public class ARE_ListBullet extends ARE_ABS_FreeStyle {
 			Util.log("Delete spanStart = " + spanStart + ", spanEnd = " + spanEnd);
 
 			if (spanStart >= spanEnd) {
+				Util.log("case 1");
 				//
 				// User deletes the last char of the span
 				// So we think he wants to remove the span
-				editable.removeSpan(listSpans[0]);
+				for (ListBulletSpan listSpan : listSpans) {
+					editable.removeSpan(listSpan);
+				}
 
 				//
 				// To delete the previous span's \n

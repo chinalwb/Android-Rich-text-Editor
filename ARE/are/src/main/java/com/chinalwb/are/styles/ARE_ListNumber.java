@@ -305,7 +305,9 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
                 //
                 // User deletes the last char of the span
                 // So we think he wants to remove the span
-                editable.removeSpan(theFirstSpan);
+                for (ListNumberSpan listSpan : listSpans) {
+                    editable.removeSpan(listSpan);
+                }
 
                 //
                 // To delete the previous span's \n
@@ -314,9 +316,14 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
                     editable.delete(spanStart - 1, spanEnd);
                 }
 
-                int removedNumber = theFirstSpan.getNumber();
-                reNumberBehindListItemSpans(spanStart, editable,
-                        removedNumber - 1);
+                if (editable.length() > spanEnd) {
+                    ListNumberSpan[] spansBehind = editable.getSpans(spanEnd, spanEnd + 1, ListNumberSpan.class);
+                    if (spansBehind.length > 0) {
+                        int removedNumber = theFirstSpan.getNumber();
+                        reNumberBehindListItemSpans(spanStart, editable,
+                                removedNumber - 1);
+                    }
+                }
             } else if (start == spanStart) {
                 Util.log("case 2");
                 return;
