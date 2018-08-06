@@ -34,6 +34,8 @@ public class ARE_FontSize extends ARE_ABS_Dynamic_Style<AreFontSizeSpan> impleme
 
 	private static final int DEFAULT_FONT_SIZE = 18;
 
+	private boolean mIsChecked;
+
 	/**
 	 * @param fontSizeImage
 	 */
@@ -94,11 +96,12 @@ public class ARE_FontSize extends ARE_ABS_Dynamic_Style<AreFontSizeSpan> impleme
 
 	@Override
 	public boolean getIsChecked() {
-		return mSize != DEFAULT_FONT_SIZE;
+		return mIsChecked;
 	}
 
 	@Override
 	public void onFontSizeChange(int fontSize) {
+		mIsChecked = true;
 		mSize = fontSize;
 		if (null != mEditText) {
 			Editable editable = mEditText.getEditableText();
