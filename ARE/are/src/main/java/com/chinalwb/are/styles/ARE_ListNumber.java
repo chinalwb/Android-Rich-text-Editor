@@ -626,10 +626,10 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
 
         // -- Change the content to trigger the editable redraw
         editable.insert(lastListNumberSpanEnd, Constants.ZERO_WIDTH_SPACE_STR);
-        editable.delete(lastListNumberSpanEnd, lastListNumberSpanEnd + 1);
+        editable.delete(lastListNumberSpanEnd + 1, lastListNumberSpanEnd + 1);
         // -- End: Change the content to trigger the editable redraw
 
-        ARE_ListNumber.reNumberBehindListItemSpans(lastListNumberSpanEnd,
+        ARE_ListNumber.reNumberBehindListItemSpans(lastListNumberSpanEnd + 1,
                 editable, previousListNumber);
     }
 

@@ -445,11 +445,11 @@ public class ARE_ListBullet extends ARE_ABS_FreeStyle {
 		int lastListNumberSpanEnd = editable.getSpanEnd(lastListNumberSpan);
 		
 		// -- Change the content to trigger the editable redraw
-        editable.insert(lastListNumberSpanEnd, Constants.ZERO_WIDTH_SPACE_STR); 
-        editable.delete(lastListNumberSpanEnd, lastListNumberSpanEnd + 1);
+        editable.insert(lastListNumberSpanEnd, Constants.ZERO_WIDTH_SPACE_STR);
+        editable.delete(lastListNumberSpanEnd + 1, lastListNumberSpanEnd + 1);
         // -- End: Change the content to trigger the editable redraw
         
-		ARE_ListNumber.reNumberBehindListItemSpans(lastListNumberSpanEnd, editable, 0);
+		ARE_ListNumber.reNumberBehindListItemSpans(lastListNumberSpanEnd + 1, editable, 0);
 		
 		// 
 		// - Replace all ListNumberSpan to ListBulletSpan
