@@ -83,6 +83,7 @@ import com.chinalwb.are.spans.AreHrSpan;
 import com.chinalwb.are.spans.AreImageSpan;
 import com.chinalwb.are.spans.AreListSpan;
 import com.chinalwb.are.spans.AreQuoteSpan;
+import com.chinalwb.are.spans.AreUrlSpan;
 import com.chinalwb.are.spans.AreVideoSpan;
 import com.chinalwb.are.spans.EmojiSpan;
 import com.chinalwb.are.spans.ListBulletSpan;
@@ -871,7 +872,17 @@ class HtmlToSpannedConverter implements ContentHandler {
             if (end == start) {
                 mSpannableStringBuilder.removeSpan(obj[i]);
             } else {
-                mSpannableStringBuilder.setSpan(obj[i], start, end, Spannable.SPAN_PARAGRAPH);
+                if (obj[i] instanceof AreListSpan) {
+                    if (mSpannableStringBuilder.charAt(start) != Constants.ZERO_WIDTH_SPACE_INT) {
+                        mSpannableStringBuilder.insert(start, Constants.ZERO_WIDTH_SPACE_STR);
+                    }
+                    if (mSpannableStringBuilder.charAt(end - 1) == '\n') {
+                         end = end - 1;
+                    }
+                    mSpannableStringBuilder.setSpan(obj[i], start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                } else {
+                    mSpannableStringBuilder.setSpan(obj[i], start, end, Spannable.SPAN_PARAGRAPH);
+                }
             }
         }
 
@@ -1430,7 +1441,7 @@ class HtmlToSpannedConverter implements ContentHandler {
         Href h = getLast(text, Href.class);
         if (h != null) {
             if (h.mHref != null) {
-                setSpanFromMark(text, h, new URLSpan((h.mHref)));
+                setSpanFromMark(text, h, new AreUrlSpan((h.mHref)));
             }
         }
     }

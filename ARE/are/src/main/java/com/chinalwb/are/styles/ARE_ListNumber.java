@@ -193,7 +193,7 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
 
     @Override
     public void applyStyle(Editable editable, int start, int end) {
-//    logAllListItems(editable);
+        // logAllListItems(editable, true);
         ListNumberSpan[] listSpans = editable.getSpans(start, end,
                 ListNumberSpan.class);
         if (null == listSpans || listSpans.length == 0) {
@@ -299,7 +299,6 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
 
             Util.log("Delete spanStart = " + spanStart + ", spanEnd = "
                     + spanEnd + " ,, start == " + start);
-
             if (spanStart >= spanEnd) {
                 Util.log("case 1");
                 //
@@ -328,8 +327,6 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
                 Util.log("case 2");
                 return;
             } else if (start == spanEnd) {
-
-
                 Util.log("case 3");
                 //
                 // User deletes the first char of the span
@@ -340,8 +337,12 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
                         Util.log("case 3-1");
                         ListNumberSpan[] spans = editable.getSpans(start, start, ListNumberSpan.class);
                         Util.log(" spans len == " + spans.length);
-                        if (spans.length > 1) {
+                        if (spans.length > 0) {
+                            Util.log("case 3-1-1");
                             mergeForward(editable, theFirstSpan, spanStart, spanEnd);
+                        } else {
+                            Util.log("case 3-1-2");
+                            editable.removeSpan(spans[0]);
                         }
                     } else {
                         mergeForward(editable, theFirstSpan, spanStart, spanEnd);
@@ -394,14 +395,15 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
             return;
         }
         Util.log("merge forward 2");
-        ListNumberSpan[] targetSpans = editable.getSpans(
-                spanEnd, spanEnd + 1, ListNumberSpan.class);
+        ListNumberSpan[] targetSpans = editable.getSpans(spanEnd, spanEnd + 1, ListNumberSpan.class);
+        // logAllListItems(editable, false);
         if (targetSpans == null || targetSpans.length == 0) {
+            reNumberBehindListItemSpans(spanEnd, editable, listSpan.getNumber());
             return;
         }
-
         ListNumberSpan firstTargetSpan = targetSpans[0];
         ListNumberSpan lastTargetSpan = targetSpans[0];
+
         if (targetSpans.length > 0) {
             int firstTargetSpanNumber = firstTargetSpan.getNumber();
             int lastTargetSpanNumber = lastTargetSpan.getNumber();
@@ -436,21 +438,24 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
         reNumberBehindListItemSpans(spanEnd, editable, listSpan.getNumber());
     }
 
-    private void logAllListItems(Editable editable) {
+    private void logAllListItems(Editable editable, boolean printDetail) {
         ListNumberSpan[] listItemSpans = editable.getSpans(0,
                 editable.length(), ListNumberSpan.class);
         for (ListNumberSpan span : listItemSpans) {
             int ss = editable.getSpanStart(span);
             int se = editable.getSpanEnd(span);
+            int flag = editable.getSpanFlags(span);
             Util.log("List All: " + span.getNumber() + " :: start == " + ss
-                    + ", end == " + se);
-//       for (int i = ss; i < se; i++) {
-//         Util.log("char at " + i + " = " + editable.charAt(i) + " int = " + ((int) (editable.charAt(i))));
-//       }
-//
-//       if (editable.length() > se) {
-//              Util.log("char at " + se + " = " + editable.charAt(se)+ " int = " + ((int) (editable.charAt(se))));
-//       }
+                    + ", end == " + se + ", flag == " + flag);
+           if (printDetail) {
+               for (int i = ss; i < se; i++) {
+                   Util.log("char at " + i + " = " + editable.charAt(i) + " int = " + ((int) (editable.charAt(i))));
+               }
+
+               if (editable.length() > se) {
+                   Util.log("char at " + se + " = " + editable.charAt(se)+ " int = " + ((int) (editable.charAt(se))));
+               }
+           }
         }
     }
 

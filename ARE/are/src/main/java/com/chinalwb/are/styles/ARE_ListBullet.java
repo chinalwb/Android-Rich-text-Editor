@@ -287,7 +287,7 @@ public class ARE_ListBullet extends ARE_ABS_FreeStyle {
 						Util.log("case 3-1");
 						ListBulletSpan[] spans = editable.getSpans(start, start, ListBulletSpan.class);
 						Util.log(" spans len == " + spans.length);
-						if (spans.length > 1) {
+						if (spans.length > 0) {
 							mergeForward(editable, theFirstSpan, spanStart, spanEnd);
 						}
 					} else {
