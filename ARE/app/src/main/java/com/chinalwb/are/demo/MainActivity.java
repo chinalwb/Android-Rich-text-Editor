@@ -80,8 +80,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
-        AREditor arEditor = this.findViewById(R.id.areditor);
-        arEditor.setToolbarAlignment(AREditor.ToolbarAlignment.BOTTOM);
+        this.arEditor = this.findViewById(R.id.areditor);
+        // this.arEditor.setToolbarAlignment(AREditor.ToolbarAlignment.BOTTOM);
 //        this.arEditor.setAtStrategy(mAtStrategy);
         this.arEditor.setVideoStrategy(mVideoStrategy);
         String html = "<html><body><p><b>aaaa</b></p><p><i>bbbb</i></p>\n" +
