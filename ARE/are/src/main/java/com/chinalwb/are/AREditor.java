@@ -76,7 +76,7 @@ public class AREditor extends RelativeLayout {
 	/**
 	 * The alignment of toolbar.
 	 */
-	private ToolbarAlignment mToolbarAlignment = ToolbarAlignment.TOP;
+	private ToolbarAlignment mToolbarAlignment = ToolbarAlignment.BOTTOM;
 
 	/*
 	 * --------------------------------------------
@@ -136,31 +136,40 @@ public class AREditor extends RelativeLayout {
 	}
 
 	private void addToolbar() {
-		int ruleVerb = mToolbarAlignment == ToolbarAlignment.BOTTOM ? RelativeLayout.ALIGN_PARENT_BOTTOM : RelativeLayout.ALIGN_PARENT_TOP;
 		this.mToolbar = new ARE_Toolbar(mContext);
-		this.mToolbar.setEditText(mAre);
 		this.mToolbar.setId(R.id.are_toolbar);
 		LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		int ruleVerb = mToolbarAlignment == ToolbarAlignment.BOTTOM ? RelativeLayout.ALIGN_PARENT_BOTTOM : RelativeLayout.ALIGN_PARENT_TOP;
 		layoutParams.addRule(ruleVerb, this.getId());
 		this.addView(this.mToolbar, layoutParams);
 	}
 
 	private void addEditText() {
-		int ruleVerb = mToolbarAlignment == ToolbarAlignment.BOTTOM ? RelativeLayout.ABOVE : RelativeLayout.BELOW;
 		mAreScrollView = new ScrollView(mContext);
+		int ruleVerb = mToolbarAlignment == ToolbarAlignment.BOTTOM ? RelativeLayout.ABOVE : RelativeLayout.BELOW;
 		LayoutParams scrollViewLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		scrollViewLayoutParams.addRule(ruleVerb, mToolbar.getId());
 
 		mAre = new AREditText(mContext);
 		LayoutParams editTextLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		mAreScrollView.addView(mAre, editTextLayoutParams);
+        this.mToolbar.setEditText(mAre);
 
 		this.addView(mAreScrollView, scrollViewLayoutParams);
 	}
 
 	private void relayoutToolbar() {
-//		int ruleVerb = mToolbarAlignment == ToolbarAlignment.BOTTOM ? RelativeLayout.ALIGN_PARENT_BOTTOM : RelativeLayout.ALIGN_PARENT_TOP;
-//		((RelativeLayout.LayoutParams) mToolbar.getLayoutParams()).getRules();
+		this.removeView(mToolbar);
+		LayoutParams toolbarLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		int ruleVerb = mToolbarAlignment == ToolbarAlignment.BOTTOM ? RelativeLayout.ALIGN_PARENT_BOTTOM : RelativeLayout.ALIGN_PARENT_TOP;
+		toolbarLayoutParams.addRule(ruleVerb, this.getId());
+		this.addView(mToolbar, toolbarLayoutParams);
+
+		this.removeView(mAreScrollView);
+		ruleVerb = mToolbarAlignment == ToolbarAlignment.BOTTOM ? RelativeLayout.ABOVE : RelativeLayout.BELOW;
+		LayoutParams scrollViewLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		scrollViewLayoutParams.addRule(ruleVerb, mToolbar.getId());
+		this.addView(mAreScrollView, scrollViewLayoutParams);
 	}
 
 	/**
