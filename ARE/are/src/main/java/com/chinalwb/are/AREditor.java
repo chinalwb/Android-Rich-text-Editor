@@ -1,17 +1,11 @@
 package com.chinalwb.are;
 
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.res.TypedArray;
 import android.text.Editable;
-import android.text.Layout;
 import android.text.Spanned;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
@@ -21,8 +15,6 @@ import com.chinalwb.are.render.AreTagHandler;
 import com.chinalwb.are.strategies.AtStrategy;
 import com.chinalwb.are.strategies.VideoStrategy;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
-
-import org.w3c.dom.Attr;
 
 /**
  * All Rights Reserved.
@@ -113,7 +105,7 @@ public class AREditor extends RelativeLayout {
 	public AREditor(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		this.mContext = context;
-		this.init();
+		this.init(attrs);
 	}
 
 	/*
@@ -124,11 +116,18 @@ public class AREditor extends RelativeLayout {
 	/**
 	 * Initialization.
 	 */
-	private void init() {
+	private void init(AttributeSet attrs) {
+	    initAttrs(attrs);
 		initSelf();
 		addToolbar();
 		addEditText();
 	} // # End of init()
+
+    private void initAttrs(AttributeSet attrs) {
+        TypedArray ta = mContext.obtainStyledAttributes(attrs, R.styleable.are);
+        int toolbarAlignmentInt = ta.getInt(R.styleable.are_toolbarAlignment, ToolbarAlignment.BOTTOM.ordinal());
+        this.mToolbarAlignment = ToolbarAlignment.values()[toolbarAlignmentInt];
+    }
 
 	private void initSelf() {
 		LayoutParams rootLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
