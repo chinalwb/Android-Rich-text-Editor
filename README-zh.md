@@ -38,6 +38,36 @@ Android富文本编辑器
 * 加载HTML内容并继续编辑或显示
 
 
+## 样式属性
+
+|Name|Format|Description|
+|:---:|:---:|:---:|
+|toolbarAlignment|enum|BOTTOM (default: at bottom of AREditor) / TOP (at top of AREditor)|
+
+## API
+|Class|Method|Params|Description|
+|:---:|:---:|:---:|:---:|
+|AREditor|setToolbarAlignment|AREditor.ToolbarAlignment|Sets the toolbar position. Possible values are: `ToolbarAlignment.BOTTOM` (default) / `ToolbarAlignment.TOP`|
+
+## 示例
+XML:
+```
+<com.chinalwb.are.AREditor xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:are="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/areditor"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    are:toolbarAlignment="TOP"
+    />
+```
+
+Java:
+```
+AREditor arEditor = this.findViewById(R.id.areditor);
+arEditor.setToolbarAlignment(AREditor.ToolbarAlignment.BOTTOM);
+```
+
 计划中但正在做的功能:
 -----------------
 * 从 HTML 加载内容到ARE

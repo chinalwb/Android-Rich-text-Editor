@@ -50,7 +50,38 @@ Plan for 0.1.2:
 
 More features you can open feature request but will need to wait for 0.1.3 if it is not urgent.
 
- 
+
+## Attributes
+
+|Name|Format|Description|
+|:---:|:---:|:---:|
+|toolbarAlignment|enum|BOTTOM (default: at bottom of AREditor) / TOP (at top of AREditor)|
+
+## APIs
+|Class|Method|Params|Description|
+|:---:|:---:|:---:|:---:|
+|AREditor|setToolbarAlignment|AREditor.ToolbarAlignment|Sets the toolbar position. Possible values are: `ToolbarAlignment.BOTTOM` (default) / `ToolbarAlignment.TOP`|
+
+## Samples
+XML:
+```
+<com.chinalwb.are.AREditor xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:are="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/areditor"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    are:toolbarAlignment="TOP"
+    />
+```
+
+Java:
+```
+AREditor arEditor = this.findViewById(R.id.areditor);
+arEditor.setToolbarAlignment(AREditor.ToolbarAlignment.BOTTOM);
+```
+
+
 In progress items:
 ----------------
 * Audio
