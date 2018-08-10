@@ -132,7 +132,7 @@ public class AREditor extends RelativeLayout {
         AREditText.stopMonitor();
         this.mAre.getEditableText().append(spanned);
         AREditText.startMonitor();
-//        log();
+        log();
     }
 
 	private void log() {
