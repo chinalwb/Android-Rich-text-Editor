@@ -16,7 +16,7 @@
         colorPickerView:colorViewWidth="30dp"
         colorPickerView:colorViewMarginLeft="2dp"
         colorPickerView:colorViewMarginRight="2dp"
-        colorPickerView:colorViewCheckedType="dot"
+        colorPickerView:colorViewCheckedType="checkMark"
         colorPickerView:colors="@array/colorPickerColors"
         />
 

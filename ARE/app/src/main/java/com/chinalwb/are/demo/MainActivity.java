@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         this.arEditor = this.findViewById(R.id.areditor);
 //        this.arEditor.setAtStrategy(mAtStrategy);
         this.arEditor.setVideoStrategy(mVideoStrategy);
+//        this.arEditor.setToolbarAlignment(AREditor.ToolbarAlignment.BOTTOM);
         String html = "<html><body><p><b>aaaa</b></p><p><i>bbbb</i></p>\n" +
                 "    <p><u>cccc</u></p>\n" +
                 "    <p><span style=\"text-decoration:line-through;\">dddd</span></p>\n" +

@@ -9,4 +9,11 @@
         <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="are">
+        <attr name="toolbarAlignment" format="enum">
+            <enum name="BOTTOM" value="0" />
+            <enum name="TOP" value="1" />
+        </attr>
+    </declare-styleable>
+
 </resources>
