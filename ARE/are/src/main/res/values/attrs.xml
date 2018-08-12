@@ -14,11 +14,11 @@
             <enum name="FULL" value="0" />
             <enum name="MIN" value="1" />
         </attr>
+        <attr name="hideToolbar" format="boolean" />
         <attr name="toolbarAlignment" format="enum">
             <enum name="BOTTOM" value="0" />
             <enum name="TOP" value="1" />
         </attr>
-        <attr name="toolbarEnabled" format="boolean" />
     </declare-styleable>
 
 </resources>

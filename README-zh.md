@@ -41,17 +41,19 @@ Android富文本编辑器
 
 ## 样式属性
 
-| 名称                   | 格式   | 描述                                                                                         |
-|:--------------------:|:----:|:------------------------------------------------------------------------------------------:|
-| expandMode           | enum | FULL (default: Full screen editor) / MIN (min height editor, maxLines = 3)toolbarAlignment |
-| toolbarAlignmentenum | enum | BOTTOM (default: at bottom of AREditor) / TOP (at top of AREditor)                         |
+| 名称               | 格式      | 描述                                                                          |
+|:----------------:|:-------:|:---------------------------------------------------------------------------:|
+| expandMode       | enum    | FULL (默认: 编辑区域最大化) / MIN (编辑区域最小高度, 行数最多设定为 3 行 -maxLines = 3)              |
+| hideToolbar      | boolean | 是否隐藏工具栏。默认为false 即不隐藏。当设定为true的时候工具栏不显示，这种情况下`@`功能可用，但其他功能因为跟随工具栏一起隐藏所以不可用。 |
+| toolbarAlignment | enum    | BOTTOM (默认: 在编辑区域的下方) / TOP (在编辑区域的上方)                                      |
 
 ## API
 
-| 类        | 方法                  | 参数                        | 描述                                                                                                           |
-|:--------:|:-------------------:|:-------------------------:|:------------------------------------------------------------------------------------------------------------:|
-| AREditor | setExpandMode       | AREditor.ExpandMode       | Sets the edit area mode. Possible values are: ExpandMode.FULL (default) / ExpandMode.MIN                     |
-| AREditor | setToolbarAlignment | AREditor.ToolbarAlignment | Sets the toolbar position. Possible values are: `ToolbarAlignment.BOTTOM` (default) / `ToolbarAlignment.TOP` |
+| 类        | 方法                  | 参数                        | 描述                                                                        |
+|:--------:|:-------------------:|:-------------------------:|:-------------------------------------------------------------------------:|
+| AREditor | setExpandMode       | AREditor.ExpandMode       | 设定编辑区域的显示模式. 可能的取值有: ExpandMode.FULL (default) / ExpandMode.MIN           |
+| ARE      | setHideToolbar      | boolean                   | 设定为true 隐藏工具栏，设定为false显示工具栏（默认为false 即不隐藏）                                |
+| AREditor | setToolbarAlignment | AREditor.ToolbarAlignment | 设定工具栏的位置. 可能的取值有: `ToolbarAlignment.BOTTOM` (默认) / `ToolbarAlignment.TOP` |
 
 ## 示例
 
@@ -84,6 +86,7 @@ XML:
         android:layout_alignParentBottom="true"
         android:background="@android:color/holo_green_dark"
         are:expandMode="MIN"
+        are:hideToolbar="true"
         are:toolbarAlignment="TOP" />
 
 </RelativeLayout>
@@ -94,6 +97,7 @@ Java:
 ```
 AREditor arEditor = this.findViewById(R.id.areditor);
 arEditor.setExpandMode(AREditor.ExpandMode.FULL);
+arEditor.setHideToolbar(false);
 arEditor.setToolbarAlignment(AREditor.ToolbarAlignment.BOTTOM);
 ```
 

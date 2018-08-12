@@ -53,10 +53,11 @@ More features you can open feature request but will need to wait for 0.1.3 if it
 
 ## Attributes
 
-| Name             | Format | Description                                                                |
-|:----------------:|:------:|:--------------------------------------------------------------------------:|
-| expandMode       | enum   | FULL (default: Full screen editor) / MIN (min height editor, maxLines = 3) |
-| toolbarAlignment | enum   | BOTTOM (default: at bottom of AREditor) / TOP (at top of AREditor)         |
+| Name             | Format  | Description                                                                                                                                                                                                                                                  |
+|:----------------:|:-------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| expandMode       | enum    | FULL (default: Full screen editor) / MIN (min height editor, maxLines = 3)                                                                                                                                                                                   |
+| hideToolbar      | boolean | Whether to hide the toolbar, by default toolbar will be shown. You may want to set it as true when you use `MIN` expand mode, `@`feature will still be available but other features won't work because those styles on toolbar has been hidden with toolbar. |
+| toolbarAlignment | enum    | BOTTOM (default: at bottom of AREditor) / TOP (at top of AREditor)                                                                                                                                                                                           |
 
 ## APIs
 
@@ -64,6 +65,7 @@ More features you can open feature request but will need to wait for 0.1.3 if it
 |:--------:|:-------------------:|:-------------------------:|:------------------------------------------------------------------------------------------------------------:|
 |          |                     |                           |                                                                                                              |
 | AREditor | setExpandMode       | AREditor.ExpandMode       | Sets the edit area mode. Possible values are: ExpandMode.FULL (default) / ExpandMode.MIN                     |
+| AREditor | setHideToolbar      | boolean                   | Sets as true to hide toolbar; sets false will show toolbar                                                   |
 | AREditor | setToolbarAlignment | AREditor.ToolbarAlignment | Sets the toolbar position. Possible values are: `ToolbarAlignment.BOTTOM` (default) / `ToolbarAlignment.TOP` |
 
 ## Samples
@@ -97,6 +99,7 @@ XML:
         android:layout_alignParentBottom="true"
         android:background="@android:color/holo_green_dark"
         are:expandMode="MIN"
+        are:hideToolbar="true"
         are:toolbarAlignment="TOP" />
 
 </RelativeLayout>
@@ -107,6 +110,7 @@ Java:
 ```
 AREditor arEditor = this.findViewById(R.id.areditor);
 arEditor.setExpandMode(AREditor.ExpandMode.FULL);
+arEditor.setHideToolbar(false);
 arEditor.setToolbarAlignment(AREditor.ToolbarAlignment.BOTTOM);
 ```
 
