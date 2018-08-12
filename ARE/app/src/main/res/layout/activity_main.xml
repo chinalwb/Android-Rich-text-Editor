@@ -24,6 +24,7 @@
         android:layout_alignParentBottom="true"
         android:background="@android:color/holo_green_dark"
         are:expandMode="MIN"
+        are:hideToolbar="true"
         are:toolbarAlignment="TOP" />
 
 </RelativeLayout>
