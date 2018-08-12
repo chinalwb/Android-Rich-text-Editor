@@ -3,6 +3,7 @@ package com.chinalwb.are;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.text.Editable;
 import android.text.Spanned;
 import android.util.AttributeSet;
@@ -39,6 +40,21 @@ public class AREditor extends RelativeLayout {
 		TOP,
 	}
 
+	/**
+	 * The mode of the editor
+	 */
+	public enum ExpandMode {
+		/**
+		 * Take up all height available
+		 */
+		FULL,
+
+		/**
+		 * Take up min height
+		 */
+		MIN,
+	}
+
 	/*
 	 * --------------------------------------------
 	 * Instance Fields Area
@@ -69,6 +85,11 @@ public class AREditor extends RelativeLayout {
 	 * The alignment of toolbar.
 	 */
 	private ToolbarAlignment mToolbarAlignment = ToolbarAlignment.BOTTOM;
+
+	/**
+	 * The expand mode of ARE.
+	 */
+	private ExpandMode mExpandMode = ExpandMode.FULL;
 
 	/*
 	 * --------------------------------------------
@@ -117,58 +138,96 @@ public class AREditor extends RelativeLayout {
 	 * Initialization.
 	 */
 	private void init(AttributeSet attrs) {
-	    initAttrs(attrs);
-		initSelf();
-		addToolbar();
-		addEditText();
+		initGlobal();
+		initAttrs(attrs);
+
+        doLayout();
+
 	} // # End of init()
 
-    private void initAttrs(AttributeSet attrs) {
-        TypedArray ta = mContext.obtainStyledAttributes(attrs, R.styleable.are);
-        int toolbarAlignmentInt = ta.getInt(R.styleable.are_toolbarAlignment, ToolbarAlignment.BOTTOM.ordinal());
-        this.mToolbarAlignment = ToolbarAlignment.values()[toolbarAlignmentInt];
-    }
-
-	private void initSelf() {
-		LayoutParams rootLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-		this.setLayoutParams(rootLayoutParams);
-	}
-
-	private void addToolbar() {
+	private void initGlobal() {
 		this.mToolbar = new ARE_Toolbar(mContext);
-		this.mToolbar.setId(R.id.are_toolbar);
-		LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		int ruleVerb = mToolbarAlignment == ToolbarAlignment.BOTTOM ? RelativeLayout.ALIGN_PARENT_BOTTOM : RelativeLayout.ALIGN_PARENT_TOP;
-		layoutParams.addRule(ruleVerb, this.getId());
-		this.addView(this.mToolbar, layoutParams);
+        this.mToolbar.setId(R.id.are_toolbar);
+
+        this.mAreScrollView = new ScrollView(mContext);
+        this.mAreScrollView.setId(R.id.are_scrollview);
 	}
 
-	private void addEditText() {
-		mAreScrollView = new ScrollView(mContext);
-		int ruleVerb = mToolbarAlignment == ToolbarAlignment.BOTTOM ? RelativeLayout.ABOVE : RelativeLayout.BELOW;
-		LayoutParams scrollViewLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-		scrollViewLayoutParams.addRule(ruleVerb, mToolbar.getId());
+	private void initAttrs(AttributeSet attrs) {
+		TypedArray ta = mContext.obtainStyledAttributes(attrs, R.styleable.are);
+
+        // Toolbar alignment
+		int toolbarAlignmentInt = ta.getInt(R.styleable.are_toolbarAlignment, ToolbarAlignment.BOTTOM.ordinal());
+		this.mToolbarAlignment = ToolbarAlignment.values()[toolbarAlignmentInt];
+
+		// Expand mode
+		int expandMode = ta.getInt(R.styleable.are_expandMode, ExpandMode.FULL.ordinal());
+		this.mExpandMode = ExpandMode.values()[expandMode];
+
+		ta.recycle();
+	}
+
+	private void addToolbar(boolean isBelow, int belowId, boolean isFull) {
+		LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+
+        if (mExpandMode == ExpandMode.FULL) {
+            int ruleVerb = mToolbarAlignment == ToolbarAlignment.BOTTOM ? RelativeLayout.ALIGN_PARENT_BOTTOM : RelativeLayout.ALIGN_PARENT_TOP;
+            layoutParams.addRule(ruleVerb, this.getId());
+        } else if (isBelow) {
+            layoutParams.addRule(BELOW, belowId);
+        }
+
+        mToolbar.setLayoutParams(layoutParams);
+		this.addView(this.mToolbar);
+
+//		mToolbar.setVisibility(View.GONE);
+	}
+
+	private void addEditText(boolean isBelow, int belowId) {
+		int height = mExpandMode == ExpandMode.FULL ? LayoutParams.MATCH_PARENT : LayoutParams.WRAP_CONTENT;
+		int lines = mExpandMode == ExpandMode.FULL ? -1 : 3;
+
+		LayoutParams scrollViewLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, height);
+		if (isBelow) {
+		    scrollViewLayoutParams.addRule(BELOW, belowId);
+        }
+
+		mAreScrollView.setLayoutParams(scrollViewLayoutParams);
 
 		mAre = new AREditText(mContext);
-		LayoutParams editTextLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		if (lines > 0) {
+			mAre.setMaxLines(3);
+		}
+		LayoutParams editTextLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, height);
 		mAreScrollView.addView(mAre, editTextLayoutParams);
-        this.mToolbar.setEditText(mAre);
+		this.mToolbar.setEditText(mAre);
 
-		this.addView(mAreScrollView, scrollViewLayoutParams);
+		if (mExpandMode == ExpandMode.FULL) {
+			mAreScrollView.setBackgroundColor(Color.WHITE);
+		}
+
+		this.addView(mAreScrollView);
 	}
 
-	private void relayoutToolbar() {
-		this.removeView(mToolbar);
-		LayoutParams toolbarLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		int ruleVerb = mToolbarAlignment == ToolbarAlignment.BOTTOM ? RelativeLayout.ALIGN_PARENT_BOTTOM : RelativeLayout.ALIGN_PARENT_TOP;
-		toolbarLayoutParams.addRule(ruleVerb, this.getId());
-		this.addView(mToolbar, toolbarLayoutParams);
-
-		this.removeView(mAreScrollView);
-		ruleVerb = mToolbarAlignment == ToolbarAlignment.BOTTOM ? RelativeLayout.ABOVE : RelativeLayout.BELOW;
-		LayoutParams scrollViewLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-		scrollViewLayoutParams.addRule(ruleVerb, mToolbar.getId());
-		this.addView(mAreScrollView, scrollViewLayoutParams);
+	private void doLayout() {
+		if (this.indexOfChild(mToolbar) > -1) {
+		    this.removeView(mToolbar);
+        }
+        if (this.indexOfChild(mAreScrollView) > -1) {
+		    mAreScrollView.removeAllViews();
+		    this.removeView(mAreScrollView);
+        }
+        if (mToolbarAlignment == ToolbarAlignment.BOTTOM) {
+            // EditText
+            // Toolbar
+            addEditText(false, -1);
+            addToolbar(true, mAreScrollView.getId(), true);
+        } else {
+            // Toolbar is up, so EditText is below
+            // EditText is below
+            addToolbar(false, -1, false);
+            addEditText(true, mToolbar.getId());
+        }
 	}
 
 	/**
@@ -243,7 +302,7 @@ public class AREditor extends RelativeLayout {
 
 	public void setToolbarAlignment(ToolbarAlignment alignment) {
 		mToolbarAlignment = alignment;
-		relayoutToolbar();
+		doLayout();
 	}
 
 	public void setAtStrategy(AtStrategy atStrategy) {
