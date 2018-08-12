@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
         this.arEditor = this.findViewById(R.id.areditor);
+//        this.arEditor.setExpandMode(AREditor.ExpandMode.FULL);
 //        this.arEditor.setToolbarAlignment(AREditor.ToolbarAlignment.BOTTOM);
 //        this.arEditor.setAtStrategy(mAtStrategy);
         this.arEditor.setVideoStrategy(mVideoStrategy);
