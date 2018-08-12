@@ -1,6 +1,7 @@
 # ARE
-Android富文本编辑器 
-===================
+
+Android富文本编辑器
+===
 
 如果你正在寻找一个Android上使用的富文本编辑器，那么请你花1分钟时间看完这个说明。
 
@@ -11,7 +12,8 @@ Android富文本编辑器
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/are_demo.gif)
 
 目前支持的样式:
-------------------
+---
+
 * 加粗 - Bold
 * 斜体 - Italic
 * 下划线 - Underline
@@ -37,39 +39,67 @@ Android富文本编辑器
 * 所有样式均支持导出HTML文件
 * 加载HTML内容并继续编辑或显示
 
-
 ## 样式属性
 
-|Name|Format|Description|
-|:---:|:---:|:---:|
-|toolbarAlignment|enum|BOTTOM (default: at bottom of AREditor) / TOP (at top of AREditor)|
+| 名称                   | 格式   | 描述                                                                                         |
+|:--------------------:|:----:|:------------------------------------------------------------------------------------------:|
+| expandMode           | enum | FULL (default: Full screen editor) / MIN (min height editor, maxLines = 3)toolbarAlignment |
+| toolbarAlignmentenum | enum | BOTTOM (default: at bottom of AREditor) / TOP (at top of AREditor)                         |
 
 ## API
-|Class|Method|Params|Description|
-|:---:|:---:|:---:|:---:|
-|AREditor|setToolbarAlignment|AREditor.ToolbarAlignment|Sets the toolbar position. Possible values are: `ToolbarAlignment.BOTTOM` (default) / `ToolbarAlignment.TOP`|
+
+| 类        | 方法                  | 参数                        | 描述                                                                                                           |
+|:--------:|:-------------------:|:-------------------------:|:------------------------------------------------------------------------------------------------------------:|
+| AREditor | setExpandMode       | AREditor.ExpandMode       | Sets the edit area mode. Possible values are: ExpandMode.FULL (default) / ExpandMode.MIN                     |
+| AREditor | setToolbarAlignment | AREditor.ToolbarAlignment | Sets the toolbar position. Possible values are: `ToolbarAlignment.BOTTOM` (default) / `ToolbarAlignment.TOP` |
 
 ## 示例
+
 XML:
+
 ```
-<com.chinalwb.are.AREditor xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:are="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/areditor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    are:toolbarAlignment="TOP"
-    />
+    android:background="@android:color/holo_blue_dark"
+    >
+
+    <TextView
+        android:id="@+id/xView"
+        android:layout_above="@+id/areditor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="1dp"
+        android:background="@color/colorAccent"
+        android:gravity="center"
+        android:textSize="50sp"
+        android:text="Your ListView may go here"
+        />
+
+    <com.chinalwb.are.AREditor
+        android:id="@+id/areditor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/holo_green_dark"
+        are:expandMode="MIN"
+        are:toolbarAlignment="TOP" />
+
+</RelativeLayout>
 ```
 
 Java:
+
 ```
 AREditor arEditor = this.findViewById(R.id.areditor);
+arEditor.setExpandMode(AREditor.ExpandMode.FULL);
 arEditor.setToolbarAlignment(AREditor.ToolbarAlignment.BOTTOM);
 ```
 
 计划中但正在做的功能:
------------------
+---
+
 * 从 HTML 加载内容到ARE
 * 嵌入音频
 * 字体样式 - Font family
@@ -83,6 +113,7 @@ arEditor.setToolbarAlignment(AREditor.ToolbarAlignment.BOTTOM);
 [直接集成ARE源代码到开发环境看这个](https://github.com/chinalwb/Android-Rich-text-Editor/blob/master/Usage.md)。
 
 我打算在所有功能完成之后再将其作为Gradle插件提交到maven， 所以暂时还是需要把代码检出之后手动引用到项目中。
+
 ```
 <com.chinalwb.are.AREditor xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -97,8 +128,10 @@ arEditor.setToolbarAlignment(AREditor.ToolbarAlignment.BOTTOM);
 [Click ARE_20180702_0.1.1.apk to download](https://github.com/chinalwb/Android-Rich-text-Editor/releases/download/v0.1.0/ARE_20180702_0.1.1.apk)
 
 已知问题:
+
 * 背景色 - 当给文字加上背景色之后光标闪烁效果消失
 
--------------------
+---
+
 如果你觉得我的代码对你有帮助或者你已经在使用此项目中的部分功能，麻烦点※以表支持，我会贡献更多功能的代码，多谢支持。
 功能定制化或任何建议联系我的QQ邮箱：329055754@qq.com

@@ -305,6 +305,11 @@ public class AREditor extends RelativeLayout {
 		doLayout();
 	}
 
+	public void setExpandMode(ExpandMode mode) {
+	    mExpandMode = mode;
+	    doLayout();
+    }
+
 	public void setAtStrategy(AtStrategy atStrategy) {
 		this.mAre.setAtStrategy(atStrategy);
 	}
