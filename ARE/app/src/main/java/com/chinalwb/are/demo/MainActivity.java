@@ -12,6 +12,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.chinalwb.are.AREditor;
 import com.chinalwb.are.Util;
@@ -81,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
         this.arEditor = this.findViewById(R.id.areditor);
-        // this.arEditor.setToolbarAlignment(AREditor.ToolbarAlignment.BOTTOM);
+//        this.arEditor.setToolbarAlignment(AREditor.ToolbarAlignment.BOTTOM);
 //        this.arEditor.setAtStrategy(mAtStrategy);
         this.arEditor.setVideoStrategy(mVideoStrategy);
         String html = "<html><body><p><b>aaaa</b></p><p><i>bbbb</i></p>\n" +
