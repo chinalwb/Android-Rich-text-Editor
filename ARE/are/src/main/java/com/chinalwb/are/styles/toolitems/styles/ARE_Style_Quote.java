@@ -75,7 +75,13 @@ public class ARE_Style_Quote implements IARE_Style {
         int start = Util.getThisLineStart(editText, currentLine);
         int end;
         Editable editable = editText.getText();
-        editable.insert(start, Constants.ZERO_WIDTH_SPACE_STR);
+        if (editable.length() > start) {
+            if (editable.charAt(start) != Constants.ZERO_WIDTH_SPACE_INT) {
+                editable.insert(start, Constants.ZERO_WIDTH_SPACE_STR);
+            }
+        } else {
+            editable.insert(start, Constants.ZERO_WIDTH_SPACE_STR);
+        }
         start = Util.getThisLineStart(editText, currentLine);
         end = Util.getThisLineEnd(editText, currentLine);
 

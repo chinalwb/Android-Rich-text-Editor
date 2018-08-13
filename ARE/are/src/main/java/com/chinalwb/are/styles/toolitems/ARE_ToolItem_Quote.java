@@ -13,6 +13,7 @@ import com.chinalwb.are.AREditText;
 import com.chinalwb.are.Constants;
 import com.chinalwb.are.R;
 import com.chinalwb.are.Util;
+import com.chinalwb.are.spans.AreQuoteSpan;
 import com.chinalwb.are.styles.IARE_Style;
 import com.chinalwb.are.styles.toolitems.styles.ARE_Style_Bold;
 import com.chinalwb.are.styles.toolitems.styles.ARE_Style_Quote;
@@ -66,6 +67,7 @@ public class ARE_ToolItem_Quote extends ARE_ToolItem_Abstract {
 
         AREditText editText = this.getEditText();
         Editable editable = editText.getEditableText();
+        printSpans(AreQuoteSpan.class);
         if (selStart > 0 && selStart == selEnd) {
             QuoteSpan[] quoteSpans = editable.getSpans(selStart - 1, selStart, QuoteSpan.class);
             if (quoteSpans != null && quoteSpans.length > 0) {
