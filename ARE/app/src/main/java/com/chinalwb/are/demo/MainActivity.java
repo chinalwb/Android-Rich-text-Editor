@@ -18,12 +18,17 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.chinalwb.are.AREditText;
 import com.chinalwb.are.AREditor;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.models.AtItem;
 import com.chinalwb.are.strategies.AtStrategy;
 import com.chinalwb.are.strategies.VideoStrategy;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
+import com.chinalwb.are.styles.toolbar.IARE_Toolbar;
+import com.chinalwb.are.styles.toolitems.ARE_ToolItem_Bold;
+import com.chinalwb.are.styles.toolitems.ARE_ToolItem_Italic;
+import com.chinalwb.are.styles.toolitems.IARE_ToolItem;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -85,12 +90,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
-        this.arEditor = this.findViewById(R.id.areditor);
+        IARE_Toolbar toolbar = this.findViewById(R.id.areToolbar);
+        IARE_ToolItem bold = new ARE_ToolItem_Bold();
+        IARE_ToolItem italic = new ARE_ToolItem_Italic();
+        toolbar.addToolbarItem(bold);
+        toolbar.addToolbarItem(italic);
+
+        AREditText editText = this.findViewById(R.id.xView);
+        editText.setToolbar(toolbar);
+
+//        this.arEditor = this.findViewById(R.id.areditor);
 //        this.arEditor.setHideToolbar(false);
 //        this.arEditor.setExpandMode(AREditor.ExpandMode.FULL);
 //        this.arEditor.setToolbarAlignment(AREditor.ToolbarAlignment.BOTTOM);
 //        this.arEditor.setAtStrategy(mAtStrategy);
-        this.arEditor.setVideoStrategy(mVideoStrategy);
+//        this.arEditor.setVideoStrategy(mVideoStrategy);
         String html = "<html><body><p><b>aaaa</b></p><p><i>bbbb</i></p>\n" +
                 "    <p><u>cccc</u></p>\n" +
                 "    <p><span style=\"text-decoration:line-through;\">dddd</span></p>\n" +
@@ -134,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                 "    <p style=\"text-align:center;\"><video src=\"http://ivi.bupt.edu.cn/hls/cctv6hd.m3u8\" controls=\"controls\"></video></p>" +
                 "    <p style=\"text-align:start;\"><img src=\"http://a.hiphotos.baidu.com/image/h%3D300/sign=13dc7fee3512b31bd86ccb29b6193674/730e0cf3d7ca7bcb6a172486b2096b63f624a82f.jpg\" /></p>" +
                 "    </body></html>";
-        this.arEditor.fromHtml(html);
+        // this.arEditor.fromHtml(html);
     }
 
     @Override

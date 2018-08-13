@@ -5,26 +5,61 @@
     android:background="@android:color/holo_blue_dark"
     >
 
-    <TextView
+    <com.chinalwb.are.AREditText
         android:id="@+id/xView"
-        android:layout_above="@+id/areditor"
+        android:layout_above="@+id/bottombar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="1dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:background="@color/colorAccent"
-        android:gravity="center"
-        android:textSize="50sp"
-        android:text="Your ListView goes here"
-        />
+        android:gravity="top|left"
+        android:hint="Your EditText goes here"
+        android:textSize="50sp" />
 
-    <com.chinalwb.are.AREditor
-        android:id="@+id/areditor"
+    <!--<com.chinalwb.are.AREditor-->
+        <!--android:id="@+id/areditor"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:background="@android:color/holo_green_dark"-->
+        <!--are:expandMode="MIN"-->
+        <!--are:hideToolbar="false"-->
+        <!--are:toolbarAlignment="TOP" />-->
+
+
+    <LinearLayout
+        android:id="@+id/bottombar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:background="@android:color/holo_green_dark"
-        are:expandMode="MIN"
-        are:hideToolbar="true"
-        are:toolbarAlignment="TOP" />
+        android:weightSum="10"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"
+            />
+
+        <com.chinalwb.are.styles.toolbar.ARE_ToolbarDefault
+            android:id="@+id/areToolbar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center_vertical"
+            android:background="@color/colorPrimaryDark" />
+    </LinearLayout>
+
+    <!--<com.chinalwb.are.styles.toolbar.ARE_ToolbarDefault-->
+        <!--android:id="@+id/areToolbar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_weight="10"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:background="@color/colorPrimaryDark" />-->
+
+
 
 </RelativeLayout>

@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.text.Layout.Alignment;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +47,7 @@ import com.chinalwb.are.styles.ARE_Superscript;
 import com.chinalwb.are.styles.ARE_Underline;
 import com.chinalwb.are.styles.ARE_Video;
 import com.chinalwb.are.styles.IARE_Style;
+import com.chinalwb.are.styles.toolitems.IARE_ToolItem;
 import com.rainliu.colorpicker.ColorPickerListener;
 import com.rainliu.colorpicker.ColorPickerView;
 
@@ -55,6 +55,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ARE_Toolbar extends LinearLayout {
+
+	public void addToolItem(IARE_ToolItem toolItem) {
+		View view = null ; // toolItem.getView();
+		// addView to toolbar
+		// add tool item to a collection
+	}
 
 	private static ARE_Toolbar sInstance;
 

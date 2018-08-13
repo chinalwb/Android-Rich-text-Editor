@@ -305,14 +305,6 @@ public class AREditor extends RelativeLayout {
 	 * Customization part
 	 * ---------------------- */
 
-    public void hideToolbar() {
-
-    }
-
-    public void showToolbar() {
-
-    }
-
     public void setToolbarAlignment(ToolbarAlignment alignment) {
         mToolbarAlignment = alignment;
         doLayout();
