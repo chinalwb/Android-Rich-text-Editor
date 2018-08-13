@@ -28,6 +28,7 @@ import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 import com.chinalwb.are.styles.toolbar.IARE_Toolbar;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_Bold;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_Italic;
+import com.chinalwb.are.styles.toolitems.ARE_ToolItem_Underline;
 import com.chinalwb.are.styles.toolitems.IARE_ToolItem;
 
 import java.io.File;
@@ -93,8 +94,10 @@ public class MainActivity extends AppCompatActivity {
         IARE_Toolbar toolbar = this.findViewById(R.id.areToolbar);
         IARE_ToolItem bold = new ARE_ToolItem_Bold();
         IARE_ToolItem italic = new ARE_ToolItem_Italic();
+        IARE_ToolItem underline = new ARE_ToolItem_Underline();
         toolbar.addToolbarItem(bold);
         toolbar.addToolbarItem(italic);
+        toolbar.addToolbarItem(underline);
 
         AREditText editText = this.findViewById(R.id.xView);
         editText.setToolbar(toolbar);
