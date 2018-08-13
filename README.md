@@ -41,7 +41,7 @@ Supported styles:
 * All styles support save as HTML file
 * Load from HTML then continue editing or displaying - New in 0.1.0
 
-Plan for 0.1.2:
+Plan for 0.1.2 （I am working on decoupling toolbar and edittext from AREditor）:
 ---
 
 * Maintain release, includes:
@@ -113,6 +113,22 @@ arEditor.setExpandMode(AREditor.ExpandMode.FULL);
 arEditor.setHideToolbar(false);
 arEditor.setToolbarAlignment(AREditor.ToolbarAlignment.BOTTOM);
 ```
+
+Screenshots:
+---
+FULL_TOP:
+
+![image](https://github.com/chinalwb/are/blob/master/ARE/demo/FULL_TOP.png)
+
+MIN_BOTTOM：
+![image](https://github.com/chinalwb/are/blob/master/ARE/demo/MIN_BOTTOM.png)
+
+MIN_HideToolbar：
+![image](https://github.com/chinalwb/are/blob/master/ARE/demo/MIN_HideToolbar.png)
+
+MIN_TOP：
+
+![image](https://github.com/chinalwb/are/blob/master/ARE/demo/MIN_TOP.png)
 
 In progress items:
 ---
