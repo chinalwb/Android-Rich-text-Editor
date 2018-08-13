@@ -73,7 +73,7 @@ public class ARE_Style_Quote implements IARE_Style {
         EditText editText = getEditText();
         int currentLine = Util.getCurrentCursorLine(editText);
         int start = Util.getThisLineStart(editText, currentLine);
-        int end = Util.getThisLineEnd(editText, currentLine);
+        int end;
         Editable editable = editText.getText();
         editable.insert(start, Constants.ZERO_WIDTH_SPACE_STR);
         start = Util.getThisLineStart(editText, currentLine);
@@ -93,13 +93,18 @@ public class ARE_Style_Quote implements IARE_Style {
                 // Merge forward
                 int quoteStart = editable.getSpanStart(existingQuoteSpans[0]);
                 editable.setSpan(existingQuoteSpans[0], quoteStart, end, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                if (mCheckUpdater != null) {
+                    mCheckUpdater.onCheckStatusUpdate(true);
+                }
                 return;
             }
         }
         AreQuoteSpan quoteSpan = new AreQuoteSpan();
         editable.setSpan(quoteSpan, start, end,
                 Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        ARE_Helper.updateCheckStatus(ARE_Style_Quote.this, true);
+        if (mCheckUpdater != null) {
+            mCheckUpdater.onCheckStatusUpdate(true);
+        }
     }
 
     private void removeQuote() {
@@ -158,7 +163,9 @@ public class ARE_Style_Quote implements IARE_Style {
                     + spanEnd + " ,, start == " + start);
             if (spanStart == spanEnd) {
                 setChecked(false);
-                ARE_Helper.updateCheckStatus(ARE_Style_Quote.this, false);
+                if (mCheckUpdater != null) {
+                    mCheckUpdater.onCheckStatusUpdate(false);
+                }
                 removeQuote();
             }
             if (end > 2) {

@@ -71,7 +71,16 @@ public class ARE_ToolItem_Quote extends ARE_ToolItem_Abstract {
             if (quoteSpans != null && quoteSpans.length > 0) {
                 quoteExists = true;
             }
+        } else {
+            QuoteSpan[] quoteSpans = editable.getSpans(selStart, selEnd, QuoteSpan.class);
+            if (quoteSpans != null && quoteSpans.length > 0) {
+                if (editable.getSpanStart(quoteSpans[0]) <= selStart
+                        && editable.getSpanEnd(quoteSpans[0]) >= selEnd) {
+                    quoteExists = true;
+                }
+            }
         }
+
 
         mToolItemUpdater.onCheckStatusUpdate(quoteExists);
     }

@@ -74,7 +74,20 @@ public class ARE_ToolItem_Strikethrough extends ARE_ToolItem_Abstract {
 					strikethroughExists = true;
 				}
             }
-        }
+        } else {
+			//
+			// Selection is a range
+			CharacterStyle[] styleSpans = editable.getSpans(selStart, selEnd, CharacterStyle.class);
+
+			for (int i = 0; i < styleSpans.length; i++) {
+				if (styleSpans[i] instanceof StrikethroughSpan) {
+					if (editable.getSpanStart(styleSpans[i]) <= selStart
+							&& editable.getSpanEnd(styleSpans[i]) >= selEnd) {
+						strikethroughExists = true;
+					}
+				}
+			}
+		}
 
         mToolItemUpdater.onCheckStatusUpdate(strikethroughExists);
     }

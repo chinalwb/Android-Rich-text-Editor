@@ -75,7 +75,21 @@ public class ARE_ToolItem_Underline extends ARE_ToolItem_Abstract {
 					underlinedExists = true;
 				}
             }
-        }
+        } else {
+			//
+			// Selection is a range
+			CharacterStyle[] styleSpans = editable.getSpans(selStart, selEnd, CharacterStyle.class);
+
+			for (int i = 0; i < styleSpans.length; i++) {
+
+				if (styleSpans[i] instanceof AreUnderlineSpan) {
+					if (editable.getSpanStart(styleSpans[i]) <= selStart
+							&& editable.getSpanEnd(styleSpans[i]) >= selEnd) {
+						underlinedExists = true;
+					}
+				}
+			}
+		}
 
         mToolItemUpdater.onCheckStatusUpdate(underlinedExists);
     }
