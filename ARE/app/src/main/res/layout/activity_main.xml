@@ -36,19 +36,21 @@
         android:weightSum="10"
         android:orientation="horizontal">
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="8"
-            />
 
         <com.chinalwb.are.styles.toolbar.ARE_ToolbarDefault
             android:id="@+id/areToolbar"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="6"
             android:gravity="center_vertical"
             android:background="@color/colorPrimaryDark" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:background="@color/colorAccent"
+            />
     </LinearLayout>
 
     <!--<com.chinalwb.are.styles.toolbar.ARE_ToolbarDefault-->

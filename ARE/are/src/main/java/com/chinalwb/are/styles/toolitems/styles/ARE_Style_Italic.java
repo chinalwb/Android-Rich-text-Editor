@@ -9,6 +9,7 @@ import com.chinalwb.are.AREditText;
 import com.chinalwb.are.spans.AreItalicSpan;
 import com.chinalwb.are.styles.ARE_ABS_Style;
 import com.chinalwb.are.styles.ARE_Helper;
+import com.chinalwb.are.styles.toolitems.IARE_ToolItem_Updater;
 
 import javax.microedition.khronos.egl.EGLDisplay;
 
@@ -20,14 +21,17 @@ public class ARE_Style_Italic extends ARE_ABS_Style<AreItalicSpan> {
 
 	private AREditText mEditText;
 
+	private IARE_ToolItem_Updater mCheckUpdater;
+
 	/**
 	 *
 	 * @param italicImage
 	 */
-	public ARE_Style_Italic(AREditText editText, ImageView italicImage) {
+	public ARE_Style_Italic(AREditText editText, ImageView italicImage, IARE_ToolItem_Updater checkUpdater) {
 	    super(editText.getContext());
 		this.mEditText = editText;
 		this.mItalicImageView = italicImage;
+		this.mCheckUpdater = checkUpdater;
 		setListenerForImageView(this.mItalicImageView);
 	}
 
@@ -50,7 +54,9 @@ public class ARE_Style_Italic extends ARE_ABS_Style<AreItalicSpan> {
 			@Override
 			public void onClick(View v) {
 				mItalicChecked = !mItalicChecked;
-				ARE_Helper.updateCheckStatus(ARE_Style_Italic.this, mItalicChecked);
+				if (null != mCheckUpdater) {
+					mCheckUpdater.onCheckStatusUpdate(mItalicChecked);
+				}
 				if (null != mEditText) {
 					applyStyle(mEditText.getEditableText(), mEditText.getSelectionStart(), mEditText.getSelectionEnd());
 				}

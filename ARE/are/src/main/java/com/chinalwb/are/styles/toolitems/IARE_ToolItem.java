@@ -21,6 +21,7 @@ public interface IARE_ToolItem {
 
     /**
      * Each tool item has a view.
+     * If context is null, return the generated view.
      */
     public View getView(Context context);
 
@@ -42,5 +43,17 @@ public interface IARE_ToolItem {
      * Sets the toolbar for this tool item.
      */
     public void setToolbar(IARE_Toolbar toolbar);
+
+    /**
+     * Gets the tool item updater instance, will be called when style being checked and unchecked.
+     * @return
+     */
+    public IARE_ToolItem_Updater getToolItemUpdater();
+
+    /**
+     * Sets the tool item updater.
+     * @param toolItemUpdater
+     */
+    public void setToolItemUpdater(IARE_ToolItem_Updater toolItemUpdater);
 
 }

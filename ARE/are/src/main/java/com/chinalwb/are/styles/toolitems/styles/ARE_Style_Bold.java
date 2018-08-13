@@ -10,6 +10,9 @@ import com.chinalwb.are.Util;
 import com.chinalwb.are.spans.AreBoldSpan;
 import com.chinalwb.are.styles.ARE_ABS_Style;
 import com.chinalwb.are.styles.ARE_Helper;
+import com.chinalwb.are.styles.toolitems.IARE_ToolItem_Updater;
+
+import java.nio.charset.CharsetEncoder;
 
 public class ARE_Style_Bold extends ARE_ABS_Style<AreBoldSpan> {
 
@@ -19,13 +22,16 @@ public class ARE_Style_Bold extends ARE_ABS_Style<AreBoldSpan> {
 
     private AREditText mEditText;
 
+    private IARE_ToolItem_Updater mCheckUpdater;
+
     /**
      * @param boldImage
      */
-    public ARE_Style_Bold(AREditText editText, ImageView boldImage) {
+    public ARE_Style_Bold(AREditText editText, ImageView boldImage, IARE_ToolItem_Updater checkUpdater) {
         super(editText.getContext());
         this.mEditText = editText;
         this.mBoldImageView = boldImage;
+        this.mCheckUpdater = checkUpdater;
         setListenerForImageView(this.mBoldImageView);
     }
 
@@ -47,8 +53,9 @@ public class ARE_Style_Bold extends ARE_ABS_Style<AreBoldSpan> {
             @Override
             public void onClick(View v) {
                 mBoldChecked = !mBoldChecked;
-                Util.toast(mContext, "Bold checked? " + mBoldChecked);
-                ARE_Helper.updateCheckStatus(ARE_Style_Bold.this, mBoldChecked);
+                if (mCheckUpdater != null) {
+                    mCheckUpdater.onCheckStatusUpdate(mBoldChecked);
+                }
                 if (null != mEditText) {
                     applyStyle(mEditText.getEditableText(),
                             mEditText.getSelectionStart(),
