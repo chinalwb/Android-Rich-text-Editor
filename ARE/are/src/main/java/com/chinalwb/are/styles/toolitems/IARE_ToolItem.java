@@ -1,6 +1,7 @@
 package com.chinalwb.are.styles.toolitems;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 
 import com.chinalwb.are.AREditText;
@@ -55,5 +56,13 @@ public interface IARE_ToolItem {
      * @param toolItemUpdater
      */
     public void setToolItemUpdater(IARE_ToolItem_Updater toolItemUpdater);
+
+    /**
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    public void onActivityResult(int requestCode, int resultCode, Intent data);
 
 }

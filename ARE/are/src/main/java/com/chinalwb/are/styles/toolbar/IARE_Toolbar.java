@@ -1,5 +1,7 @@
 package com.chinalwb.are.styles.toolbar;
 
+import android.content.Intent;
+
 import com.chinalwb.are.AREditText;
 import com.chinalwb.are.styles.toolitems.IARE_ToolItem;
 
@@ -18,4 +20,6 @@ public interface IARE_Toolbar {
     public void setEditText(AREditText editText);
 
     public AREditText getEditText();
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data);
 }

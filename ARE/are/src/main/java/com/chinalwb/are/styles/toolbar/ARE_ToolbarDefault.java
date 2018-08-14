@@ -2,6 +2,7 @@ package com.chinalwb.are.styles.toolbar;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -63,6 +64,13 @@ public class ARE_ToolbarDefault extends HorizontalScrollView implements IARE_Too
     @Override
     public AREditText getEditText() {
         return mAREditText;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        for (IARE_ToolItem toolItem : this.mToolItems) {
+            toolItem.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     private void initSelf() {
