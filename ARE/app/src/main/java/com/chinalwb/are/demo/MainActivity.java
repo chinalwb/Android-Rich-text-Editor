@@ -26,6 +26,9 @@ import com.chinalwb.are.strategies.AtStrategy;
 import com.chinalwb.are.strategies.VideoStrategy;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 import com.chinalwb.are.styles.toolbar.IARE_Toolbar;
+import com.chinalwb.are.styles.toolitems.ARE_ToolItem_AlignmentCenter;
+import com.chinalwb.are.styles.toolitems.ARE_ToolItem_AlignmentLeft;
+import com.chinalwb.are.styles.toolitems.ARE_ToolItem_AlignmentRight;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_Bold;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_Hr;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_Italic;
@@ -111,6 +114,9 @@ public class MainActivity extends AppCompatActivity {
         IARE_ToolItem link = new ARE_ToolItem_Link();
         IARE_ToolItem subscript = new ARE_ToolItem_Subscript();
         IARE_ToolItem superscript = new ARE_ToolItem_Superscript();
+        IARE_ToolItem left = new ARE_ToolItem_AlignmentLeft();
+        IARE_ToolItem center = new ARE_ToolItem_AlignmentCenter();
+        IARE_ToolItem right = new ARE_ToolItem_AlignmentRight();
         toolbar.addToolbarItem(bold);
         toolbar.addToolbarItem(italic);
         toolbar.addToolbarItem(underline);
@@ -122,6 +128,9 @@ public class MainActivity extends AppCompatActivity {
         toolbar.addToolbarItem(link);
         toolbar.addToolbarItem(subscript);
         toolbar.addToolbarItem(superscript);
+        toolbar.addToolbarItem(left);
+        toolbar.addToolbarItem(center);
+        toolbar.addToolbarItem(right);
 
         AREditText editText = this.findViewById(R.id.xView);
         editText.setToolbar(toolbar);
