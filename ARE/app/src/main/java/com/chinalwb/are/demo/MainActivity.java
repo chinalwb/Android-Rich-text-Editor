@@ -41,6 +41,7 @@ import com.chinalwb.are.styles.toolitems.ARE_ToolItem_Strikethrough;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_Subscript;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_Superscript;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_Underline;
+import com.chinalwb.are.styles.toolitems.ARE_ToolItem_Video;
 import com.chinalwb.are.styles.toolitems.IARE_ToolItem;
 
 import java.io.File;
@@ -63,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQ_WRITE_EXTERNAL_STORAGE = 10000;
 
     private AREditor arEditor;
+
+    private IARE_Toolbar mToolbar;
 
     private AtStrategy mAtStrategy = new AtStrategy() {
         @Override
@@ -103,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
-        IARE_Toolbar toolbar = this.findViewById(R.id.areToolbar);
+        mToolbar = this.findViewById(R.id.areToolbar);
         IARE_ToolItem bold = new ARE_ToolItem_Bold();
         IARE_ToolItem italic = new ARE_ToolItem_Italic();
         IARE_ToolItem underline = new ARE_ToolItem_Underline();
@@ -119,24 +122,26 @@ public class MainActivity extends AppCompatActivity {
         IARE_ToolItem center = new ARE_ToolItem_AlignmentCenter();
         IARE_ToolItem right = new ARE_ToolItem_AlignmentRight();
         IARE_ToolItem image = new ARE_ToolItem_Image();
-        toolbar.addToolbarItem(bold);
-        toolbar.addToolbarItem(italic);
-        toolbar.addToolbarItem(underline);
-        toolbar.addToolbarItem(strikethrough);
-        toolbar.addToolbarItem(quote);
-        toolbar.addToolbarItem(listNumber);
-        toolbar.addToolbarItem(listBullet);
-        toolbar.addToolbarItem(hr);
-        toolbar.addToolbarItem(link);
-        toolbar.addToolbarItem(subscript);
-        toolbar.addToolbarItem(superscript);
-        toolbar.addToolbarItem(left);
-        toolbar.addToolbarItem(center);
-        toolbar.addToolbarItem(right);
-        toolbar.addToolbarItem(image);
+        IARE_ToolItem video = new ARE_ToolItem_Video();
+        mToolbar.addToolbarItem(bold);
+        mToolbar.addToolbarItem(italic);
+        mToolbar.addToolbarItem(underline);
+        mToolbar.addToolbarItem(strikethrough);
+        mToolbar.addToolbarItem(quote);
+        mToolbar.addToolbarItem(listNumber);
+        mToolbar.addToolbarItem(listBullet);
+        mToolbar.addToolbarItem(hr);
+        mToolbar.addToolbarItem(link);
+        mToolbar.addToolbarItem(subscript);
+        mToolbar.addToolbarItem(superscript);
+        mToolbar.addToolbarItem(left);
+        mToolbar.addToolbarItem(center);
+        mToolbar.addToolbarItem(right);
+        mToolbar.addToolbarItem(image);
+        mToolbar.addToolbarItem(video);
 
         AREditText editText = this.findViewById(R.id.xView);
-        editText.setToolbar(toolbar);
+        editText.setToolbar(mToolbar);
 
 //        this.arEditor = this.findViewById(R.id.areditor);
 //        this.arEditor.setHideToolbar(false);
@@ -269,6 +274,8 @@ public class MainActivity extends AppCompatActivity {
             saveHtml(html);
             return;
         }
-        this.arEditor.onActivityResult(requestCode, resultCode, data);
+
+        mToolbar.onActivityResult(requestCode, resultCode, data);
+//        this.arEditor.onActivityResult(requestCode, resultCode, data);
     }
 }
