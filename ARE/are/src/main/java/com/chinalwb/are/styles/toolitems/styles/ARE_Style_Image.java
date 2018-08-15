@@ -21,6 +21,7 @@ import com.chinalwb.are.AREditText;
 import com.chinalwb.are.Constants;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.spans.AreImageSpan;
+import com.chinalwb.are.styles.IARE_Image;
 import com.chinalwb.are.styles.IARE_Style;
 import com.chinalwb.are.styles.windows.ImageSelectDialog;
 import com.rainliu.glidesupport.GlideApp;
@@ -28,7 +29,9 @@ import com.rainliu.glidesupport.GlideRequests;
 
 import static com.chinalwb.are.spans.AreImageSpan.ImageType;
 
-public class ARE_Style_Image implements IARE_Style {
+public class ARE_Style_Image implements IARE_Style, IARE_Image {
+
+	public static int REQUEST_CODE = 1001;
 
 	private ImageView mInsertImageView;
 
@@ -67,9 +70,8 @@ public class ARE_Style_Image implements IARE_Style {
 	 * Open system image chooser page.
 	 */
 	private void openImageChooser() {
-		// TODO
-//		ImageSelectDialog dialog = new ImageSelectDialog(mContext, this);
-//		dialog.show();
+		ImageSelectDialog dialog = new ImageSelectDialog(mContext, this, REQUEST_CODE);
+		dialog.show();
 	}
 
 	/**
