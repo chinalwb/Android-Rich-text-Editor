@@ -29,6 +29,7 @@ import com.chinalwb.are.styles.toolbar.IARE_Toolbar;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_AlignmentCenter;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_AlignmentLeft;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_AlignmentRight;
+import com.chinalwb.are.styles.toolitems.ARE_ToolItem_At;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_Bold;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_Hr;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_Image;
@@ -123,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
         IARE_ToolItem right = new ARE_ToolItem_AlignmentRight();
         IARE_ToolItem image = new ARE_ToolItem_Image();
         IARE_ToolItem video = new ARE_ToolItem_Video();
+        IARE_ToolItem at = new ARE_ToolItem_At();
         mToolbar.addToolbarItem(bold);
         mToolbar.addToolbarItem(italic);
         mToolbar.addToolbarItem(underline);
@@ -139,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
         mToolbar.addToolbarItem(right);
         mToolbar.addToolbarItem(image);
         mToolbar.addToolbarItem(video);
+        mToolbar.addToolbarItem(at);
 
         AREditText editText = this.findViewById(R.id.xView);
         editText.setToolbar(mToolbar);
