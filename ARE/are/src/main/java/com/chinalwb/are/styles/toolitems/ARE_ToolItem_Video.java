@@ -44,7 +44,7 @@ public class ARE_ToolItem_Video extends ARE_ToolItem_Abstract {
         }
         if (mToolItemView == null) {
             ImageView imageView = new ImageView(context);
-            int size = Util.getPixelByDp(context, 40);
+            int size = Util.getPixelByDp(context, 30);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size, size);
             imageView.setLayoutParams(params);
             imageView.setImageResource(R.drawable.video);
