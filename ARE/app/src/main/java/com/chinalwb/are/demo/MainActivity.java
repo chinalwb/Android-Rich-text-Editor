@@ -12,7 +12,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -25,6 +28,7 @@ import com.chinalwb.are.models.AtItem;
 import com.chinalwb.are.strategies.AtStrategy;
 import com.chinalwb.are.strategies.VideoStrategy;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
+import com.chinalwb.are.styles.toolbar.ARE_ToolbarDefault;
 import com.chinalwb.are.styles.toolbar.IARE_Toolbar;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_AlignmentCenter;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_AlignmentLeft;
@@ -67,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
     private AREditor arEditor;
 
     private IARE_Toolbar mToolbar;
+
+    private boolean scrollerAtEnd;
 
     private AtStrategy mAtStrategy = new AtStrategy() {
         @Override
@@ -146,6 +152,8 @@ public class MainActivity extends AppCompatActivity {
         AREditText editText = this.findViewById(R.id.xView);
         editText.setToolbar(mToolbar);
 
+        initToolbarArrow();
+
 //        this.arEditor = this.findViewById(R.id.areditor);
 //        this.arEditor.setHideToolbar(false);
 //        this.arEditor.setExpandMode(AREditor.ExpandMode.FULL);
@@ -220,6 +228,41 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void initToolbarArrow() {
+        final ImageView imageView = this.findViewById(R.id.arrow);
+        if (this.mToolbar instanceof ARE_ToolbarDefault) {
+            ((ARE_ToolbarDefault) mToolbar).getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+                @Override
+                public void onScrollChanged() {
+                    int scrollX = ((ARE_ToolbarDefault) mToolbar).getScrollX();
+                    int scrollWidth = ((ARE_ToolbarDefault) mToolbar).getWidth();
+                    int fullWidth = ((ARE_ToolbarDefault) mToolbar).getChildAt(0).getWidth();
+
+                    if (scrollX + scrollWidth < fullWidth) {
+                        imageView.setImageResource(R.drawable.arrow_right);
+                        scrollerAtEnd = false;
+                    } else {
+                        imageView.setImageResource(R.drawable.arrow_left);
+                        scrollerAtEnd = true;
+                    }
+                }
+            });
+        }
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (scrollerAtEnd) {
+                    ((ARE_ToolbarDefault) mToolbar).smoothScrollBy(-Integer.MAX_VALUE, 0);
+                    scrollerAtEnd = false;
+                } else {
+                    ((ARE_ToolbarDefault) mToolbar).smoothScrollBy(1000, 0);
+                    scrollerAtEnd = true;
+                }
+            }
+        });
     }
 
     @SuppressLint("SimpleDateFormat") private void saveHtml(String html) {
