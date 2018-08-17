@@ -4,6 +4,8 @@ import android.text.Editable;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.chinalwb.are.styles.toolitems.IARE_ToolItem_Updater;
+
 public interface IARE_Style {
 
   /**
@@ -51,5 +53,4 @@ public interface IARE_Style {
    * @return
    */
   public EditText getEditText();
-  
 }

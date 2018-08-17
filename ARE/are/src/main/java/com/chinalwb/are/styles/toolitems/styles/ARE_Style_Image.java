@@ -1,4 +1,4 @@
-package com.chinalwb.are.styles;
+package com.chinalwb.are.styles.toolitems.styles;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -10,7 +10,6 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.AlignmentSpan;
 import android.text.style.ImageSpan;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -22,14 +21,17 @@ import com.chinalwb.are.AREditText;
 import com.chinalwb.are.Constants;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.spans.AreImageSpan;
-import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
+import com.chinalwb.are.styles.IARE_Image;
+import com.chinalwb.are.styles.IARE_Style;
 import com.chinalwb.are.styles.windows.ImageSelectDialog;
 import com.rainliu.glidesupport.GlideApp;
 import com.rainliu.glidesupport.GlideRequests;
 
 import static com.chinalwb.are.spans.AreImageSpan.ImageType;
 
-public class ARE_Image implements IARE_Style, IARE_Image {
+public class ARE_Style_Image implements IARE_Style, IARE_Image {
+
+	public static int REQUEST_CODE = 1001;
 
 	private ImageView mInsertImageView;
 
@@ -45,16 +47,13 @@ public class ARE_Image implements IARE_Style, IARE_Image {
 	 *
 	 * @param emojiImageView the emoji image view
 	 */
-	public ARE_Image(ImageView emojiImageView) {
+	public ARE_Style_Image(AREditText editText, ImageView emojiImageView) {
+		this.mEditText = editText;
 		this.mInsertImageView = emojiImageView;
 		this.mContext = emojiImageView.getContext();
 		sGlideRequests = GlideApp.with(mContext);
         sWidth = Util.getScreenWidthAndHeight(mContext)[0];
 		setListenerForImageView(this.mInsertImageView);
-	}
-
-	public void setEditText(AREditText editText) {
-		this.mEditText = editText;
 	}
 
 	@Override
@@ -71,7 +70,7 @@ public class ARE_Image implements IARE_Style, IARE_Image {
 	 * Open system image chooser page.
 	 */
 	private void openImageChooser() {
-		ImageSelectDialog dialog = new ImageSelectDialog(mContext, this, ARE_Toolbar.REQ_IMAGE);
+		ImageSelectDialog dialog = new ImageSelectDialog(mContext, this, REQUEST_CODE);
 		dialog.show();
 	}
 

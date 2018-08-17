@@ -14,6 +14,13 @@ public abstract class ARE_ABS_FreeStyle implements IARE_Style {
 
 	protected Context mContext;
 
+	public ARE_ABS_FreeStyle(Context context) {
+		mContext = context;
+		if (mContext == null) {
+			this.mContext = ARE_Toolbar.getInstance().getContext();
+		}
+	}
+
 	public ARE_ABS_FreeStyle() {
 		this.mContext = ARE_Toolbar.getInstance().getContext();
 	}
