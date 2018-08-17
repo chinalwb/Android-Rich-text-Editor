@@ -14,8 +14,8 @@ import com.chinalwb.are.AREditText;
 import com.chinalwb.are.Constants;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.android.inner.Html;
-import com.rainliu.glidesupport.GlideApp;
-import com.rainliu.glidesupport.GlideRequests;
+import com.chinalwb.are.glidesupport.GlideApp;
+import com.chinalwb.are.glidesupport.GlideRequests;
 
 public class AreImageGetter implements Html.ImageGetter {
 

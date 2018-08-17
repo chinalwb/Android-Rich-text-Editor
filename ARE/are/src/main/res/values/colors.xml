@@ -27,4 +27,9 @@
     </array>
 
     <color name="black_overlay">#66000000</color>
+
+    <array name="colors">
+        <item>#000000</item>
+        <item>#0000FF</item>
+    </array>
 </resources>

@@ -18,11 +18,11 @@ import com.chinalwb.are.spans.AreImageSpan;
 import com.chinalwb.are.spans.EmojiSpan;
 
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
-import com.rainliu.emojipanel.EmojiGridViewAdapter;
-import com.rainliu.emojipanel.EmojiGroup;
-import com.rainliu.emojipanel.EmojiGroupDesc;
-import com.rainliu.emojipanel.EmojiPagerAdapter;
-import com.rainliu.emojipanel.EmojiPanel;
+import com.chinalwb.are.emojipanel.EmojiGridViewAdapter;
+import com.chinalwb.are.emojipanel.EmojiGroup;
+import com.chinalwb.are.emojipanel.EmojiGroupDesc;
+import com.chinalwb.are.emojipanel.EmojiPagerAdapter;
+import com.chinalwb.are.emojipanel.EmojiPanel;
 
 import java.util.ArrayList;
 

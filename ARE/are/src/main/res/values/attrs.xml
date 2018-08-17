@@ -9,6 +9,18 @@
         <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="ColorPickerView">
+        <attr name="colorViewWidth" format="dimension" />
+        <attr name="colorViewHeight" format="dimension" />
+        <attr name="colorViewMarginLeft" format="dimension" />
+        <attr name="colorViewMarginRight" format="dimension" />
+        <attr name="colorViewCheckedType" format="enum">
+            <enum name="dot" value="0" />
+            <enum name="checkMark" value="1" />
+        </attr>
+        <attr name="colors" format="reference" />
+    </declare-styleable>
+
     <declare-styleable name="are">
         <attr name="expandMode" format="enum">
             <enum name="FULL" value="0" />
