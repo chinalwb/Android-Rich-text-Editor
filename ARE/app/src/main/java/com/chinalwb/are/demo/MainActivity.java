@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -66,6 +67,8 @@ import static com.chinalwb.are.demo.TextViewActivity.HTML_TEXT;
  */
 public class MainActivity extends AppCompatActivity {
 
+    private static boolean useOption1 = true;
+
     private static final int REQ_WRITE_EXTERNAL_STORAGE = 10000;
 
     private AREditor arEditor;
@@ -115,53 +118,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
-        mToolbar = this.findViewById(R.id.areToolbar);
-        IARE_ToolItem bold = new ARE_ToolItem_Bold();
-        IARE_ToolItem italic = new ARE_ToolItem_Italic();
-        IARE_ToolItem underline = new ARE_ToolItem_Underline();
-        IARE_ToolItem strikethrough = new ARE_ToolItem_Strikethrough();
-        IARE_ToolItem quote = new ARE_ToolItem_Quote();
-        IARE_ToolItem listNumber = new ARE_ToolItem_ListNumber();
-        IARE_ToolItem listBullet = new ARE_ToolItem_ListBullet();
-        IARE_ToolItem hr = new ARE_ToolItem_Hr();
-        IARE_ToolItem link = new ARE_ToolItem_Link();
-        IARE_ToolItem subscript = new ARE_ToolItem_Subscript();
-        IARE_ToolItem superscript = new ARE_ToolItem_Superscript();
-        IARE_ToolItem left = new ARE_ToolItem_AlignmentLeft();
-        IARE_ToolItem center = new ARE_ToolItem_AlignmentCenter();
-        IARE_ToolItem right = new ARE_ToolItem_AlignmentRight();
-        IARE_ToolItem image = new ARE_ToolItem_Image();
-        IARE_ToolItem video = new ARE_ToolItem_Video();
-        IARE_ToolItem at = new ARE_ToolItem_At();
-        mToolbar.addToolbarItem(bold);
-        mToolbar.addToolbarItem(italic);
-        mToolbar.addToolbarItem(underline);
-        mToolbar.addToolbarItem(strikethrough);
-        mToolbar.addToolbarItem(quote);
-        mToolbar.addToolbarItem(listNumber);
-        mToolbar.addToolbarItem(listBullet);
-        mToolbar.addToolbarItem(hr);
-        mToolbar.addToolbarItem(link);
-        mToolbar.addToolbarItem(subscript);
-        mToolbar.addToolbarItem(superscript);
-        mToolbar.addToolbarItem(left);
-        mToolbar.addToolbarItem(center);
-        mToolbar.addToolbarItem(right);
-        mToolbar.addToolbarItem(image);
-        mToolbar.addToolbarItem(video);
-        mToolbar.addToolbarItem(at);
+        if (useOption1) {
+            option1();
+        } else {
+            option2();
+        }
 
-        mEditText = this.findViewById(R.id.xView);
-        mEditText.setToolbar(mToolbar);
-
-        initToolbarArrow();
-
-//        this.arEditor = this.findViewById(R.id.areditor);
-//        this.arEditor.setHideToolbar(false);
-//        this.arEditor.setExpandMode(AREditor.ExpandMode.FULL);
-//        this.arEditor.setToolbarAlignment(AREditor.ToolbarAlignment.BOTTOM);
-//        this.arEditor.setAtStrategy(mAtStrategy);
-//        this.arEditor.setVideoStrategy(mVideoStrategy);
         String html = "<html><body><p><b>aaaa</b></p><p><i>bbbb</i></p>\n" +
                 "    <p><u>cccc</u></p>\n" +
                 "    <p><span style=\"text-decoration:line-through;\">dddd</span></p>\n" +
@@ -205,7 +167,64 @@ public class MainActivity extends AppCompatActivity {
                 "    <p style=\"text-align:center;\"><video src=\"http://ivi.bupt.edu.cn/hls/cctv6hd.m3u8\" controls=\"controls\"></video></p>" +
                 "    <p style=\"text-align:start;\"><img src=\"http://a.hiphotos.baidu.com/image/h%3D300/sign=13dc7fee3512b31bd86ccb29b6193674/730e0cf3d7ca7bcb6a172486b2096b63f624a82f.jpg\" /></p>" +
                 "    </body></html>";
-        // this.arEditor.fromHtml(html);
+
+        if (useOption1) {
+            mEditText.fromHtml(html);
+        } else {
+            arEditor.fromHtml(html);
+        }
+    }
+
+    private void option2() {
+        this.arEditor = this.findViewById(R.id.areditor);
+//        this.arEditor.setHideToolbar(false);
+//        this.arEditor.setExpandMode(AREditor.ExpandMode.FULL);
+//        this.arEditor.setToolbarAlignment(AREditor.ToolbarAlignment.BOTTOM);
+        this.arEditor.setAtStrategy(mAtStrategy);
+        this.arEditor.setVideoStrategy(mVideoStrategy);
+    }
+
+    private void option1() {
+        mToolbar = this.findViewById(R.id.areToolbar);
+        IARE_ToolItem bold = new ARE_ToolItem_Bold();
+        IARE_ToolItem italic = new ARE_ToolItem_Italic();
+        IARE_ToolItem underline = new ARE_ToolItem_Underline();
+        IARE_ToolItem strikethrough = new ARE_ToolItem_Strikethrough();
+        IARE_ToolItem quote = new ARE_ToolItem_Quote();
+        IARE_ToolItem listNumber = new ARE_ToolItem_ListNumber();
+        IARE_ToolItem listBullet = new ARE_ToolItem_ListBullet();
+        IARE_ToolItem hr = new ARE_ToolItem_Hr();
+        IARE_ToolItem link = new ARE_ToolItem_Link();
+        IARE_ToolItem subscript = new ARE_ToolItem_Subscript();
+        IARE_ToolItem superscript = new ARE_ToolItem_Superscript();
+        IARE_ToolItem left = new ARE_ToolItem_AlignmentLeft();
+        IARE_ToolItem center = new ARE_ToolItem_AlignmentCenter();
+        IARE_ToolItem right = new ARE_ToolItem_AlignmentRight();
+        IARE_ToolItem image = new ARE_ToolItem_Image();
+        IARE_ToolItem video = new ARE_ToolItem_Video();
+        IARE_ToolItem at = new ARE_ToolItem_At();
+        mToolbar.addToolbarItem(bold);
+        mToolbar.addToolbarItem(italic);
+        mToolbar.addToolbarItem(underline);
+        mToolbar.addToolbarItem(strikethrough);
+        mToolbar.addToolbarItem(quote);
+        mToolbar.addToolbarItem(listNumber);
+        mToolbar.addToolbarItem(listBullet);
+        mToolbar.addToolbarItem(hr);
+        mToolbar.addToolbarItem(link);
+        mToolbar.addToolbarItem(subscript);
+        mToolbar.addToolbarItem(superscript);
+        mToolbar.addToolbarItem(left);
+        mToolbar.addToolbarItem(center);
+        mToolbar.addToolbarItem(right);
+        mToolbar.addToolbarItem(image);
+        mToolbar.addToolbarItem(video);
+        mToolbar.addToolbarItem(at);
+
+        mEditText = this.findViewById(R.id.xView);
+        mEditText.setToolbar(mToolbar);
+
+        initToolbarArrow();
     }
 
     @Override
@@ -218,21 +237,21 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int menuId = item.getItemId();
         if (menuId == com.chinalwb.are.R.id.action_save) {
-            if (this.arEditor != null) {
-                String html = this.arEditor.getHtml();
+            if (useOption1) {
+                String html = this.mEditText.getHtml();
                 saveHtml(html);
             } else {
-                String html = this.mEditText.getHtml();
+                String html = this.arEditor.getHtml();
                 saveHtml(html);
             }
             return true;
         }
         if (menuId == R.id.action_show_tv) {
             String html = "";
-            if (this.arEditor != null) {
-                html = this.arEditor.getHtml();
-            } else {
+            if (useOption1) {
                 html = this.mEditText.getHtml();
+            } else {
+                html = this.arEditor.getHtml();
             }
             Intent intent = new Intent(this, TextViewActivity.class);
             intent.putExtra(HTML_TEXT, html);
@@ -334,7 +353,10 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        mToolbar.onActivityResult(requestCode, resultCode, data);
-//        this.arEditor.onActivityResult(requestCode, resultCode, data);
+        if (useOption1) {
+            mToolbar.onActivityResult(requestCode, resultCode, data);
+        } else {
+            this.arEditor.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }

@@ -4,12 +4,42 @@
     android:layout_height="match_parent"
     android:background="@android:color/holo_blue_dark">
 
+    <!-- Option 2 below -->
+    <TextView
+        android:id="@+id/placeHolderView"
+        android:layout_above="@+id/areditor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="1dp"
+        android:background="@color/colorAccent"
+        android:gravity="center"
+        android:textSize="50sp"
+        android:text="Your ListView may go here"
+
+        android:visibility="gone"
+        />
+
+    <com.chinalwb.are.AREditor
+        android:id="@+id/areditor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/holo_green_dark"
+        are:expandMode="MIN"
+        are:hideToolbar="false"
+        are:toolbarAlignment="TOP"
+        android:visibility="gone"
+        />
+
+
+    <!-- Option 1 below -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottombar"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:visibility="visible"
         android:background="@android:color/white">
 
         <com.chinalwb.are.AREditText
@@ -20,16 +50,6 @@
             android:hint="Your EditText goes here"
             android:textSize="50sp" />
     </ScrollView>
-    <!--<com.chinalwb.are.AREditor-->
-    <!--android:id="@+id/areditor"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignParentBottom="true"-->
-    <!--android:background="@android:color/holo_green_dark"-->
-    <!--are:expandMode="MIN"-->
-    <!--are:hideToolbar="false"-->
-    <!--are:toolbarAlignment="TOP" />-->
-
 
     <LinearLayout
         android:id="@+id/bottombar"
@@ -37,6 +57,7 @@
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
+        android:visibility="visible"
         android:weightSum="1000">
 
 
@@ -58,24 +79,16 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="95"
-            android:gravity="center"
-            android:background="@color/colorAccent">
+            android:background="@color/colorAccent"
+            android:gravity="center">
+
             <ImageView
                 android:id="@+id/arrow"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/arrow_right"/>
+                android:src="@drawable/arrow_right" />
         </LinearLayout>
     </LinearLayout>
-
-    <!--<com.chinalwb.are.styles.toolbar.ARE_ToolbarDefault-->
-    <!--android:id="@+id/areToolbar"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="50dp"-->
-    <!--android:layout_alignParentBottom="true"-->
-    <!--android:layout_weight="10"-->
-    <!--android:gravity="center_vertical"-->
-    <!--android:background="@color/colorPrimaryDark" />-->
 
 
 </RelativeLayout>
