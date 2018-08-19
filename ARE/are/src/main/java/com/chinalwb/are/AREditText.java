@@ -11,6 +11,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 
+import com.chinalwb.are.android.inner.Html;
 import com.chinalwb.are.events.AREMovementMethod;
 import com.chinalwb.are.strategies.AtStrategy;
 import com.chinalwb.are.strategies.VideoStrategy;
@@ -292,6 +293,17 @@ public class AREditText extends AppCompatEditText {
 //		ARE_Helper.updateCheckStatus(sToolbar.getBackgroundColoStyle(), backgroundColorExists);
 //		ARE_Helper.updateCheckStatus(sToolbar.getQuoteStyle(), quoteExists);
 	} // #End of method:: onSelectionChanged
+
+	public String getHtml() {
+		StringBuffer html = new StringBuffer();
+		html.append("<html><body>");
+		String editTextHtml = Html.toHtml(getEditableText(), Html.TO_HTML_PARAGRAPH_LINES_INDIVIDUAL);
+		html.append(editTextHtml);
+		html.append("</body></html>");
+		String htmlContent = html.toString().replaceAll(Constants.ZERO_WIDTH_SPACE_STR_ESCAPE, "");
+		System.out.println(htmlContent);
+		return htmlContent;
+	}
 
 	/**
 	 * Needs this because of this bug in Android O:

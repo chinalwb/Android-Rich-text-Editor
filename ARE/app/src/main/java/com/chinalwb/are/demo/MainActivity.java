@@ -72,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
 
     private IARE_Toolbar mToolbar;
 
+    private AREditText mEditText;
+
     private boolean scrollerAtEnd;
 
     private AtStrategy mAtStrategy = new AtStrategy() {
@@ -149,8 +151,8 @@ public class MainActivity extends AppCompatActivity {
         mToolbar.addToolbarItem(video);
         mToolbar.addToolbarItem(at);
 
-        AREditText editText = this.findViewById(R.id.xView);
-        editText.setToolbar(mToolbar);
+        mEditText = this.findViewById(R.id.xView);
+        mEditText.setToolbar(mToolbar);
 
         initToolbarArrow();
 
@@ -216,12 +218,22 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int menuId = item.getItemId();
         if (menuId == com.chinalwb.are.R.id.action_save) {
-            String html = this.arEditor.getHtml();
-            saveHtml(html);
+            if (this.arEditor != null) {
+                String html = this.arEditor.getHtml();
+                saveHtml(html);
+            } else {
+                String html = this.mEditText.getHtml();
+                saveHtml(html);
+            }
             return true;
         }
         if (menuId == R.id.action_show_tv) {
-            String html = this.arEditor.getHtml();
+            String html = "";
+            if (this.arEditor != null) {
+                html = this.arEditor.getHtml();
+            } else {
+                html = this.mEditText.getHtml();
+            }
             Intent intent = new Intent(this, TextViewActivity.class);
             intent.putExtra(HTML_TEXT, html);
             startActivity(intent);
@@ -258,7 +270,8 @@ public class MainActivity extends AppCompatActivity {
                     ((ARE_ToolbarDefault) mToolbar).smoothScrollBy(-Integer.MAX_VALUE, 0);
                     scrollerAtEnd = false;
                 } else {
-                    ((ARE_ToolbarDefault) mToolbar).smoothScrollBy(1000, 0);
+                    int hsWidth = ((ARE_ToolbarDefault) mToolbar).getChildAt(0).getWidth();
+                    ((ARE_ToolbarDefault) mToolbar).smoothScrollBy(hsWidth, 0);
                     scrollerAtEnd = true;
                 }
             }
