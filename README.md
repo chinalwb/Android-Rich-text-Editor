@@ -41,7 +41,7 @@ Supported styles:
 * All styles support save as HTML file
 * Load from HTML then continue editing or displaying - New in 0.1.0
 
-Plan for 0.1.2 （I am working on decoupling toolbar and edittext from AREditor）:
+Plan for 0.1.2 （I am working on decoupling toolbar and edittext from AREditor, done in this [branch](https://github.com/chinalwb/Android-Rich-text-Editor/tree/toolbar-refa), will merge back when more demo pages worked out）:
 ---
 
 * Maintain release, includes:
