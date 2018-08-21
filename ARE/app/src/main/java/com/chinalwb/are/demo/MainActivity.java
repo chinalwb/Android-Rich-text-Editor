@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
                 "    </body></html>";
 
         if (useOption1) {
-            mEditText.fromHtml(html);
+            // mEditText.fromHtml(html);
         } else {
             arEditor.fromHtml(html);
         }
@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
         mToolbar.addToolbarItem(video);
         mToolbar.addToolbarItem(at);
 
-        mEditText = this.findViewById(R.id.xView);
+        mEditText = this.findViewById(R.id.yView);
         mEditText.setToolbar(mToolbar);
 
         initToolbarArrow();

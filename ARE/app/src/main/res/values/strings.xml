@@ -9,4 +9,10 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="title_activity_at">AtActivity</string>
+    <string name="title_areditor_full_bottom">FULL &amp; BOTTOM</string>
+    <string name="title_areditor_min_bottom">MIN &amp; BOTTOM</string>
+    <string name="title_areditor_full_top">FULL &amp; TOP</string>
+    <string name="title_areditor_min_top">MIN &amp; TOP</string>
+    <string name="title_areditor_min_hide">MIN &amp; HIDE</string>
+    <string name="title_aredittext_toolbar">EDITTEXT &amp; TOOLBAR</string>
 </resources>
