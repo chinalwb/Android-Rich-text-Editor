@@ -90,7 +90,22 @@ public class ARE_DefaultToolbarActivity extends AppCompatActivity {
         mEditText = this.findViewById(R.id.arEditText);
         mEditText.setToolbar(mToolbar);
 
+        setHtml();
+
         initToolbarArrow();
+    }
+
+    private void setHtml() {
+        String html = "<p style=\"text-align: center;\"><strong>New Feature in 0.1.2</strong></p>\n" +
+                "<p style=\"text-align: center;\">&nbsp;</p>\n" +
+                "<p style=\"text-align: left;\"><span style=\"color: #3366ff;\">In this release, you have a new usage with ARE.</span></p>\n" +
+                "<p style=\"text-align: left;\">&nbsp;</p>\n" +
+                "<p style=\"text-align: left;\"><span style=\"color: #3366ff;\">AREditText + ARE_Toolbar, you are now able to control the position of the input area and where to put the toolbar at and, what ToolItems you'd like to have in the toolbar. </span></p>\n" +
+                "<p style=\"text-align: left;\">&nbsp;</p>\n" +
+                "<p style=\"text-align: left;\"><span style=\"color: #3366ff;\">You can not only define the Toolbar (and it's style), you can also add your own ARE_ToolItem with your style into ARE.</span></p>\n" +
+                "<p style=\"text-align: left;\">&nbsp;</p>\n" +
+                "<p style=\"text-align: left;\"><span style=\"color: #ff00ff;\"><em><strong>Why not give it a try now?</strong></em></span></p>";
+        mEditText.fromHtml(html);
     }
 
     private void initToolbarArrow() {

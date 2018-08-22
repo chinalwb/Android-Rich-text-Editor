@@ -51,12 +51,14 @@ Plan for 0.1.2 （Done, will update readme and release soon）:
 
 More features you can open feature request but will need to wait for 0.1.3 if it is not urgent.
 
+![image](https://github.com/chinalwb/are/blob/master/ARE/demo/new_012.png)
+
 ## Attributes
 
 | Name             | Format  | Description                                                                                                                                                                                                                                                  |
 |:----------------:|:-------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
 | expandMode       | enum    | FULL (default: Full screen editor) / MIN (min height editor, maxLines = 3)                                                                                                                                                                                   |
-| hideToolbar      | boolean | Whether to hide the toolbar, by default toolbar will be shown. You may want to set it as true when you use `MIN` expand mode, `@`feature will still be available but other features won't work because those styles on toolbar has been hidden with toolbar. |
+| hideToolbar      | boolean | Whether to hide the toolbar, by default toolbar will be shown. You may want to set it as true when you use `MIN` expand mode, `@`feature will still be available but other features won't work because those styles on toolbar has been hidden with toolbar. |
 | toolbarAlignment | enum    | BOTTOM (default: at bottom of AREditor) / TOP (at top of AREditor)                                                                                                                                                                                           |
 
 ## APIs
@@ -114,21 +116,11 @@ arEditor.setHideToolbar(false);
 arEditor.setToolbarAlignment(AREditor.ToolbarAlignment.BOTTOM);
 ```
 
-Screenshots:
----
-FULL_TOP:
+## Available features demo:
 
-![image](https://github.com/chinalwb/are/blob/master/ARE/demo/FULL_TOP.png)
+![image](https://github.com/chinalwb/are/blob/master/ARE/demo/new_012_demos.png)
 
-MIN_BOTTOM：
-![image](https://github.com/chinalwb/are/blob/master/ARE/demo/MIN_BOTTOM.png)
 
-MIN_HideToolbar：
-![image](https://github.com/chinalwb/are/blob/master/ARE/demo/MIN_HideToolbar.png)
-
-MIN_TOP：
-
-![image](https://github.com/chinalwb/are/blob/master/ARE/demo/MIN_TOP.png)
 
 In progress items:
 ---
