@@ -48,8 +48,8 @@ import com.chinalwb.are.styles.ARE_Underline;
 import com.chinalwb.are.styles.ARE_Video;
 import com.chinalwb.are.styles.IARE_Style;
 import com.chinalwb.are.styles.toolitems.IARE_ToolItem;
-import com.rainliu.colorpicker.ColorPickerListener;
-import com.rainliu.colorpicker.ColorPickerView;
+import com.chinalwb.are.colorpicker.ColorPickerListener;
+import com.chinalwb.are.colorpicker.ColorPickerView;
 
 import java.util.ArrayList;
 import java.util.List;

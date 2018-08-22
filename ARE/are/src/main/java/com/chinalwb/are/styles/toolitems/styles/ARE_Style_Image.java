@@ -24,8 +24,8 @@ import com.chinalwb.are.spans.AreImageSpan;
 import com.chinalwb.are.styles.IARE_Image;
 import com.chinalwb.are.styles.IARE_Style;
 import com.chinalwb.are.styles.windows.ImageSelectDialog;
-import com.rainliu.glidesupport.GlideApp;
-import com.rainliu.glidesupport.GlideRequests;
+import com.chinalwb.are.glidesupport.GlideApp;
+import com.chinalwb.are.glidesupport.GlideRequests;
 
 import static com.chinalwb.are.spans.AreImageSpan.ImageType;
 

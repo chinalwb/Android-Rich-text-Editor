@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.chinalwb.are.demo.IndexActivity">
+
+
+    <Button
+        android:id="@+id/defaultToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="AREditText + Default Toolbar"/>
+
+    <Button
+        android:id="@+id/fullBottomButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="AREditor Full Bottom"/>
+
+    <Button
+        android:id="@+id/fullTopButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="AREditor Full Top"/>
+
+    <Button
+        android:id="@+id/minBottomButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="AREditor Min Bottom"/>
+
+    <Button
+        android:id="@+id/minTopButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="AREditor Min Top"/>
+
+    <Button
+        android:id="@+id/minHideButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="AREditor Min Hide"/>
+
+
+</LinearLayout>
