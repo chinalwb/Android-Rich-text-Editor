@@ -161,6 +161,7 @@ public class AREditText extends AppCompatEditText {
 	}
 
     public void setToolbar(IARE_Toolbar toolbar) {
+	    sStylesList.clear();
         this.mToolbar = toolbar;
         this.mToolbar.setEditText(this);
         List<IARE_ToolItem> toolItems = toolbar.getToolItems();

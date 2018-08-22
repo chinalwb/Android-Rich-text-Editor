@@ -1,13 +1,11 @@
 package com.chinalwb.are.demo;
 
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewStub;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
@@ -33,44 +31,27 @@ import com.chinalwb.are.styles.toolitems.ARE_ToolItem_Underline;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_Video;
 import com.chinalwb.are.styles.toolitems.IARE_ToolItem;
 
-public class PageFragment extends Fragment {
-    @LayoutRes
-    int layoutRes;
-    @LayoutRes
-    int practiceLayoutRes;
+import static com.chinalwb.are.demo.TextViewActivity.HTML_TEXT;
+
+public class ARE_DefaultToolbarActivity extends AppCompatActivity {
+
+    private IARE_Toolbar mToolbar;
+
+    private AREditText mEditText;
 
     private boolean scrollerAtEnd;
 
-    public static PageFragment newInstance(@LayoutRes int sampleLayoutRes) {
-        PageFragment fragment = new PageFragment();
-        Bundle args = new Bundle();
-        args.putInt("layoutRes", sampleLayoutRes);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_page, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_are__default_toolbar);
 
-        ViewStub sampleStub = (ViewStub) view.findViewById(R.id.stub);
-        sampleStub.setLayoutResource(layoutRes);
-        sampleStub.inflate();
-
-        init(view);
-        return view;
-    }
-
-    private void init(View view) {
-        if (layoutRes == R.layout.aredittext_all) {
-            initToolbar(view);
-        }
+        initToolbar();
     }
 
 
-    private void initToolbar(View view) {
-        final IARE_Toolbar mToolbar = view.findViewById(R.id.areToolbar);
+    private void initToolbar() {
+        mToolbar = this.findViewById(R.id.areToolbar);
         IARE_ToolItem bold = new ARE_ToolItem_Bold();
         IARE_ToolItem italic = new ARE_ToolItem_Italic();
         IARE_ToolItem underline = new ARE_ToolItem_Underline();
@@ -106,26 +87,32 @@ public class PageFragment extends Fragment {
         mToolbar.addToolbarItem(video);
         mToolbar.addToolbarItem(at);
 
-        AREditText mEditText = view.findViewById(R.id.editText);
+        mEditText = this.findViewById(R.id.arEditText);
         mEditText.setToolbar(mToolbar);
 
-        final ImageView imageView = view.findViewById(R.id.arrow);
-        ((ARE_ToolbarDefault) mToolbar).getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-            @Override
-            public void onScrollChanged() {
-                int scrollX = ((ARE_ToolbarDefault) mToolbar).getScrollX();
-                int scrollWidth = ((ARE_ToolbarDefault) mToolbar).getWidth();
-                int fullWidth = ((ARE_ToolbarDefault) mToolbar).getChildAt(0).getWidth();
+        initToolbarArrow();
+    }
 
-                if (scrollX + scrollWidth < fullWidth) {
-                    imageView.setImageResource(R.drawable.arrow_right);
-                    scrollerAtEnd = false;
-                } else {
-                    imageView.setImageResource(R.drawable.arrow_left);
-                    scrollerAtEnd = true;
+    private void initToolbarArrow() {
+        final ImageView imageView = this.findViewById(R.id.arrow);
+        if (this.mToolbar instanceof ARE_ToolbarDefault) {
+            ((ARE_ToolbarDefault) mToolbar).getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+                @Override
+                public void onScrollChanged() {
+                    int scrollX = ((ARE_ToolbarDefault) mToolbar).getScrollX();
+                    int scrollWidth = ((ARE_ToolbarDefault) mToolbar).getWidth();
+                    int fullWidth = ((ARE_ToolbarDefault) mToolbar).getChildAt(0).getWidth();
+
+                    if (scrollX + scrollWidth < fullWidth) {
+                        imageView.setImageResource(R.drawable.arrow_right);
+                        scrollerAtEnd = false;
+                    } else {
+                        imageView.setImageResource(R.drawable.arrow_left);
+                        scrollerAtEnd = true;
+                    }
                 }
-            }
-        });
+            });
+        }
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,14 +129,33 @@ public class PageFragment extends Fragment {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int menuId = item.getItemId();
+        if (menuId == com.chinalwb.are.R.id.action_save) {
+            String html = this.mEditText.getHtml();
+            DemoUtil.saveHtml(this, html);
+            return true;
+        }
+        if (menuId == R.id.action_show_tv) {
+            String html = this.mEditText.getHtml();
+            Intent intent = new Intent(this, TextViewActivity.class);
+            intent.putExtra(HTML_TEXT, html);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Bundle args = getArguments();
-        if (args != null) {
-            layoutRes = args.getInt("layoutRes");
-        }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mToolbar.onActivityResult(requestCode, resultCode, data);
     }
 }

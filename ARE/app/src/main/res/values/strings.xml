@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">ARE</string>
+    <string name="app_name">ARE Demo</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="are_link_title">Link</string>
@@ -15,4 +15,10 @@
     <string name="title_areditor_min_top">MIN &amp; TOP</string>
     <string name="title_areditor_min_hide">MIN &amp; HIDE</string>
     <string name="title_aredittext_toolbar">EDITTEXT &amp; TOOLBAR</string>
+    <string name="title_activity_are__full_bottom">Full Bottom Demo</string>
+    <string name="title_activity_are__full_top">Full Top Demo</string>
+    <string name="title_activity_are__min_bottom">Min Bottom Demo</string>
+    <string name="title_activity_are__min_top">Min Top Demo</string>
+    <string name="title_activity_are__min_hide">Min Hide Demo</string>
+    <string name="title_activity_are__default_toolbar">Default Toolbar Demo</string>
 </resources>
