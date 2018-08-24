@@ -97,6 +97,8 @@ import static com.chinalwb.are.android.inner.Html.sContext;
  */
 public class Html {
 
+    public static boolean escapeCJK = false;
+
     public static Context sContext;
 
     public static final String OL = "ol";
@@ -744,7 +746,11 @@ public class Html {
                     }
                 }
             } else if (c > 0x7E || c < ' ') {
-                out.append("&#").append((int) c).append(";");
+                if (escapeCJK) {
+                    out.append("&#").append((int) c).append(";");
+                } else {
+                    out.append(c);
+                }
             } else if (c == ' ') {
                 while (i + 1 < end && text.charAt(i + 1) == ' ') {
                     out.append("&nbsp;");
