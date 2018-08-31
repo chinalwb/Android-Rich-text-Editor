@@ -41,7 +41,7 @@ Supported styles:
 * All styles support save as HTML file
 * Load from HTML then continue editing or displaying - New in 0.1.0
 
-Plan for 0.1.2 （Done, will update readme and release soon）:
+Plan for 0.1.2 - Released:
 ---
 
 * Maintain release, includes:
@@ -49,11 +49,19 @@ Plan for 0.1.2 （Done, will update readme and release soon）:
 * UI improvements
 * Bugs fixing
 
-More features you can open feature request but will need to wait for 0.1.3 if it is not urgent.
-
 ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/new_012.png)
 
-## How it works
+
+
+##### Plan for 0.1.3 (cannot provide ETA)
+
+* Undo
+
+* Redo
+
+
+
+
 
 * Two usage modes
 
@@ -423,7 +431,6 @@ public class ARE_DefaultToolbarActivity extends AppCompatActivity {
     }
 }
 ```
-
 
 #### APIs for `AREditor`
 
