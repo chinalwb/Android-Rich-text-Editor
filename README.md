@@ -41,8 +41,7 @@ Supported styles:
 * All styles support save as HTML file
 * Load from HTML then continue editing or displaying - New in 0.1.0
 
-Plan for 0.1.2 - Released:
----
+## Released 0.1.2:
 
 * Maintain release, includes:
 * Documents for installation and developement
@@ -454,7 +453,7 @@ public class ARE_DefaultToolbarActivity extends AppCompatActivity {
 
 ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/new_012_demos.png)
 
-![image](https://github.com/chinalwb/are/blob/master/ARE/demo/new-demo.png)
+![image](https://github.com/chinalwb/are/blob/master/ARE/demo/new-demo.gif)
 
 In progress items:
 ---
@@ -467,24 +466,9 @@ In progress items:
 * Notes list
 * Headline - defered, can be done with font size and center style
 
-How to use?
----
+## You can download the APK here:
 
-Check out [usage guideline](https://github.com/chinalwb/Android-Rich-text-Editor/blob/master/Usage.md):
-Before the general release, you need to checkout the code and add this to a layout file and include the layout file in your Activity. Just refer to the MainActivity.java in the source code.
-
-```
-<com.chinalwb.are.AREditor xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/areditor"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white" />
-```
-
-You can download the APK here:
-
-[Click ARE_20180702_0.1.1.apk to download](https://github.com/chinalwb/Android-Rich-text-Editor/releases/download/v0.1.1/ARE_20180702_0.1.1.apk)
+[Click ARE_20180830_0.1.2.apk to download](https://github.com/chinalwb/Android-Rich-text-Editor/releases/download/v0.1.2/ARE_20180830_0.1.2.apk)
 
 Known issues:
 
