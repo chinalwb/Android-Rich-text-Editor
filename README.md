@@ -58,6 +58,7 @@ Supported styles:
 
 * Redo
 
+  Let me know what features you want to have in the next version if there is any, thanks.
 
 
 
