@@ -55,13 +55,13 @@ Supported styles:
 ##### Plan for 0.1.3 (cannot provide ETA)
 
 * Undo
-
 * Redo
 
-  Let me know what features you want to have in the next version if there is any, thanks.
+Let me know what features you want to have in the next version if there is any, thanks.
 
 
 
+## How ARE works
 
 * Two usage modes
 
