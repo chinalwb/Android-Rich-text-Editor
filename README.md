@@ -52,7 +52,7 @@ Supported styles:
 
 
 
-##### Plan for 0.1.3 (cannot provide ETA)
+##### Plan for 0.1.3
 
 * Undo
 * Redo
