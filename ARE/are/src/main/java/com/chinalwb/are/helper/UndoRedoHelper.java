@@ -1,4 +1,4 @@
-package com.chinalwb.are;
+package com.chinalwb.are.helper;
 
 import android.content.SharedPreferences;
 import android.text.Editable;
@@ -169,7 +169,7 @@ public class UndoRedoHelper {
 
         int i = 0;
         for (EditItem ei : mEditHistory.mmHistory) {
-            String pre = prefix + "." + i;
+            String pre = prefix + "" + i;
 
             editor.putInt(pre + ".start", ei.mmStart);
             editor.putString(pre + ".before", ei.mmBefore.toString());
@@ -219,7 +219,7 @@ public class UndoRedoHelper {
         }
 
         for (int i = 0; i < count; i++) {
-            String pre = prefix + "." + i;
+            String pre = prefix + "" + i;
 
             int start = sp.getInt(pre + ".start", -1);
             String before = sp.getString(pre + ".before", null);
