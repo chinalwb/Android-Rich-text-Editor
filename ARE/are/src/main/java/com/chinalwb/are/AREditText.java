@@ -84,7 +84,7 @@ public class AREditText extends AppCompatEditText {
 	}
 
 	private void init() {
-		this.setMovementMethod(new AREMovementMethod());
+		// this.setMovementMethod(new AREMovementMethod());
 		this.setFocusableInTouchMode(true);
 		this.setBackgroundColor(Color.WHITE);
 		this.setInputType(EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE
