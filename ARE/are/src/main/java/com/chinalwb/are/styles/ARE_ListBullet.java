@@ -260,10 +260,13 @@ public class ARE_ListBullet extends ARE_ABS_FreeStyle {
 			Util.log("Delete spanStart = " + spanStart + ", spanEnd = " + spanEnd);
 
 			if (spanStart >= spanEnd) {
+				Util.log("case 1");
 				//
 				// User deletes the last char of the span
 				// So we think he wants to remove the span
-				editable.removeSpan(listSpans[0]);
+				for (ListBulletSpan listSpan : listSpans) {
+					editable.removeSpan(listSpan);
+				}
 
 				//
 				// To delete the previous span's \n
@@ -284,7 +287,7 @@ public class ARE_ListBullet extends ARE_ABS_FreeStyle {
 						Util.log("case 3-1");
 						ListBulletSpan[] spans = editable.getSpans(start, start, ListBulletSpan.class);
 						Util.log(" spans len == " + spans.length);
-						if (spans.length > 1) {
+						if (spans.length > 0) {
 							mergeForward(editable, theFirstSpan, spanStart, spanEnd);
 						}
 					} else {
@@ -384,12 +387,14 @@ public class ARE_ListBullet extends ARE_ABS_FreeStyle {
 		EditText editText = getEditText();
 		int currentLine = Util.getCurrentCursorLine(editText);
 		int start = Util.getThisLineStart(editText, currentLine);
-		int end = Util.getThisLineEnd(editText, currentLine);
 		Editable editable = editText.getText();
 		editable.insert(start, Constants.ZERO_WIDTH_SPACE_STR);
 		start = Util.getThisLineStart(editText, currentLine);
-		end = Util.getThisLineEnd(editText, currentLine);
+		int end = Util.getThisLineEnd(editText, currentLine);
 
+		if (end < 1) {
+			return null;
+		}
 		if (editable.charAt(end - 1) == Constants.CHAR_NEW_LINE) {
 			end--;
 		}
@@ -440,11 +445,11 @@ public class ARE_ListBullet extends ARE_ABS_FreeStyle {
 		int lastListNumberSpanEnd = editable.getSpanEnd(lastListNumberSpan);
 		
 		// -- Change the content to trigger the editable redraw
-        editable.insert(lastListNumberSpanEnd, Constants.ZERO_WIDTH_SPACE_STR); 
-        editable.delete(lastListNumberSpanEnd, lastListNumberSpanEnd + 1);
+        editable.insert(lastListNumberSpanEnd, Constants.ZERO_WIDTH_SPACE_STR);
+        editable.delete(lastListNumberSpanEnd + 1, lastListNumberSpanEnd + 1);
         // -- End: Change the content to trigger the editable redraw
         
-		ARE_ListNumber.reNumberBehindListItemSpans(lastListNumberSpanEnd, editable, 0);
+		ARE_ListNumber.reNumberBehindListItemSpans(lastListNumberSpanEnd + 1, editable, 0);
 		
 		// 
 		// - Replace all ListNumberSpan to ListBulletSpan

@@ -8,7 +8,9 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.PixelFormat;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -25,6 +27,9 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * All Rights Reserved.
@@ -216,11 +221,11 @@ public class Util {
         int bgWidth = background.getWidth();
         int bgHeight = background.getHeight();
 
-        //create the new blank bitmap 创建一个新的和SRC长度宽度一样的位图
+        //create the new blank bitmap
         Bitmap newBitmap = Bitmap.createBitmap(bgWidth, bgHeight, Bitmap.Config.ARGB_8888);
         Canvas cv = new Canvas(newBitmap);
         //draw bg into
-        cv.drawBitmap(background, 0, 0, null);//在 0，0坐标开始画入bg
+        cv.drawBitmap(background, 0, 0, null);
 
         int fgWidth = foreground.getWidth();
         int fgHeight = foreground.getHeight();
@@ -228,18 +233,18 @@ public class Util {
         int fgTop = (bgHeight - fgHeight) / 2;
 
         //draw fg into
-        cv.drawBitmap(foreground, fgLeft, fgTop, null);//在 0，0坐标开始画入fg ，可以从任意位置画入
+        cv.drawBitmap(foreground, fgLeft, fgTop, null);
         //save all clip
-        cv.save(Canvas.ALL_SAVE_FLAG);//保存
+        cv.save(Canvas.ALL_SAVE_FLAG);
         //store
-        cv.restore();//存储
+        cv.restore();
         return newBitmap;
     }
 
     public static class GetPathFromUri4kitkat {
 
         /**
-         * 专为Android4.4设计的从Uri获取文件绝对路径，以前的方法已不好使
+         * For Android 4.4
          */
         @SuppressLint("NewApi")
         public static String getPath(final Context context, final Uri uri) {
@@ -264,6 +269,9 @@ public class Util {
                 else if (isDownloadsDocument(uri)) {
 
                     final String id = DocumentsContract.getDocumentId(uri);
+                    if (id.startsWith("raw:")) {
+                        return id.substring(4);
+                    }
                     final Uri contentUri = ContentUris.withAppendedId(
                             Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
 
@@ -372,5 +380,21 @@ public class Util {
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         }
+    }
+
+    public static Bitmap drawableToBitmap(Drawable drawable) {
+        int w = drawable.getBounds().width();
+        int h = drawable.getBounds().height();
+        Bitmap bitmap = Bitmap.createBitmap(
+                w,
+                h,
+                drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
+                        : Bitmap.Config.RGB_565);
+
+        Canvas canvas = new Canvas(bitmap);
+        //canvas.setBitmap(bitmap);
+        drawable.setBounds(0, 0, w, h);
+        drawable.draw(canvas);
+        return bitmap;
     }
 }

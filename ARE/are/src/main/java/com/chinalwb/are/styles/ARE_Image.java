@@ -22,11 +22,14 @@ import com.chinalwb.are.AREditText;
 import com.chinalwb.are.Constants;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.spans.AreImageSpan;
+import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 import com.chinalwb.are.styles.windows.ImageSelectDialog;
-import com.rainliu.glidesupport.GlideApp;
-import com.rainliu.glidesupport.GlideRequests;
+import com.chinalwb.are.glidesupport.GlideApp;
+import com.chinalwb.are.glidesupport.GlideRequests;
 
-public class ARE_Image implements IARE_Style {
+import static com.chinalwb.are.spans.AreImageSpan.ImageType;
+
+public class ARE_Image implements IARE_Style, IARE_Image {
 
 	private ImageView mInsertImageView;
 
@@ -64,17 +67,11 @@ public class ARE_Image implements IARE_Style {
 		});
 	} // #End of setListenerForImageView(..)
 
-	public enum ImageType {
-		URI,
-		URL,
-		RES,
-	}
-
 	/**
 	 * Open system image chooser page.
 	 */
 	private void openImageChooser() {
-		ImageSelectDialog dialog = new ImageSelectDialog(mContext, this);
+		ImageSelectDialog dialog = new ImageSelectDialog(mContext, this, ARE_Toolbar.REQ_IMAGE);
 		dialog.show();
 	}
 
@@ -105,7 +102,6 @@ public class ARE_Image implements IARE_Style {
 		SimpleTarget myTarget = new SimpleTarget<Bitmap>() {
 			@Override
 			public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
-				Log.e("x", bitmap.toString());
 				if (bitmap == null) { return; }
 
                 bitmap = Util.scaleBitmapToFitWidth(bitmap, sWidth);

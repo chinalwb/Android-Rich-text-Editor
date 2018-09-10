@@ -2,7 +2,7 @@ package com.chinalwb.are;
 
 public class Constants {
 
-	public static final int CHECKED_COLOR = 0Xff99cc00; // android.R.color.holo_green_light;
+	public static final int CHECKED_COLOR = 0XffFF4081; // android.R.color.holo_green_light;
 
 	public static final int UNCHECKED_COLOR = 0X00000000; // android.R.color.transparent;
 

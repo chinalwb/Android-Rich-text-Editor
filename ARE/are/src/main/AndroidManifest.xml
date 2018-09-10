@@ -7,12 +7,16 @@
             android:name=".activities.Are_VideoPlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_are__video_player"
-            android:theme="@style/FullscreenTheme"></activity>
-
+            android:theme="@style/FullscreenTheme" />
         <activity
             android:name=".activities.Are_AtPickerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_are__video_player"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".strategies.defaults.DefaultProfileActivity" />
+        <activity
+            android:name=".strategies.defaults.DefaultImagePreviewActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_default_image_preview"
             android:theme="@style/FullscreenTheme"></activity>
     </application>
 

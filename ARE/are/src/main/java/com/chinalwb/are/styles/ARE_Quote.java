@@ -123,9 +123,10 @@ public class ARE_Quote implements IARE_Style {
 
     @Override
     public void applyStyle(Editable editable, int start, int end) {
-        if (!mQuoteChecked) {
-            return;
-        }
+//        Util.log("Quote apply style, start == " + start + ", end == " + end + ", is quote checked == " + mQuoteChecked);
+//        if (!mQuoteChecked) {
+//            return;
+//        }
 
         AreQuoteSpan[] quoteSpans = editable.getSpans(start, end, AreQuoteSpan.class);
         if (null == quoteSpans || quoteSpans.length == 0) {
@@ -144,6 +145,8 @@ public class ARE_Quote implements IARE_Style {
             AreQuoteSpan quoteSpan = quoteSpans[0];
             int spanStart = editable.getSpanStart(quoteSpan);
             int spanEnd = editable.getSpanEnd(quoteSpan);
+            Util.log("Delete spanStart = " + spanStart + ", spanEnd = "
+                    + spanEnd + " ,, start == " + start);
             if (spanStart == spanEnd) {
                 setChecked(false);
                 ARE_Helper.updateCheckStatus(ARE_Quote.this, false);

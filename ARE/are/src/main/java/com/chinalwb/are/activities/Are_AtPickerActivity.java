@@ -109,7 +109,7 @@ public class Are_AtPickerActivity extends AppCompatActivity {
             int index = new Random().nextInt(10);
             if (index > 9) index = 9;
             if (index < 0) index = 0;
-            AtItem atItem = new AtItem(iconIds[index], names[index]);
+            AtItem atItem = new AtItem(String.valueOf(iconIds[index]), names[index]);
             itemsList.add(atItem);
         }
         return itemsList;

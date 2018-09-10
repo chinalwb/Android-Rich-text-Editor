@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="emojiPanelId" type="id"></item>
+    <item name="are_toolbar" type="id"></item>
+    <item name="are_scrollview" type="id"></item>
 </resources>

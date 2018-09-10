@@ -46,9 +46,11 @@ public class ListNumberSpan implements AreListSpan {
 
           // Util.log("mNumber == " + mNumber);
           if (mNumber != -1) {
-              c.drawText(mNumber + ".", 
+              c.drawText(
+                  mNumber + ".",
                   x + dir + LEADING_MARGIN, 
-                  baseline, p);
+                  baseline,
+                  p);
               
           } else {
               c.drawText("\u2022", x + dir, baseline, p);

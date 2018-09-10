@@ -81,7 +81,9 @@ public abstract class ARE_ABS_Dynamic_Style<E extends AreDynamicSpan> extends AR
                 editable.setSpan(newSpan(endSpanFeature), start, endSpanEnd, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
             } else {
                 editable.setSpan(newSpan(startSpanFeature), startSpanStart, start, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                editable.setSpan(newSpan(endSpanFeature), end, endSpanEnd, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                if (endSpanEnd > end) {
+                    editable.setSpan(newSpan(endSpanFeature), end, endSpanEnd, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                }
                 editable.setSpan(newSpan(), start, end, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
             }
         } else {

@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.text.Layout.Alignment;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +23,7 @@ import com.chinalwb.are.R;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.activities.Are_VideoPlayerActivity;
 import com.chinalwb.are.models.AtItem;
+import com.chinalwb.are.spans.AreImageSpan;
 import com.chinalwb.are.styles.ARE_Alignment;
 import com.chinalwb.are.styles.ARE_At;
 import com.chinalwb.are.styles.ARE_BackgroundColor;
@@ -47,13 +47,20 @@ import com.chinalwb.are.styles.ARE_Superscript;
 import com.chinalwb.are.styles.ARE_Underline;
 import com.chinalwb.are.styles.ARE_Video;
 import com.chinalwb.are.styles.IARE_Style;
-import com.rainliu.colorpicker.ColorPickerListener;
-import com.rainliu.colorpicker.ColorPickerView;
+import com.chinalwb.are.styles.toolitems.IARE_ToolItem;
+import com.chinalwb.are.colorpicker.ColorPickerListener;
+import com.chinalwb.are.colorpicker.ColorPickerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ARE_Toolbar extends LinearLayout {
+
+	public void addToolItem(IARE_ToolItem toolItem) {
+		View view = null ; // toolItem.getView();
+		// addView to toolbar
+		// add tool item to a collection
+	}
 
 	private static ARE_Toolbar sInstance;
 
@@ -597,7 +604,7 @@ public class ARE_Toolbar extends LinearLayout {
 		if (resultCode == Activity.RESULT_OK) {
 			if (REQ_IMAGE == requestCode) {
 				Uri uri = data.getData();
-				this.mImageStyle.insertImage(uri, ARE_Image.ImageType.URI);
+				this.mImageStyle.insertImage(uri, AreImageSpan.ImageType.URI);
 			} else if (REQ_AT == requestCode) {
 				AtItem atItem = (AtItem) data.getSerializableExtra(ARE_At.EXTRA_TAG);
 				if (null == atItem) { return; }

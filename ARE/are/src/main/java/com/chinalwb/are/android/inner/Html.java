@@ -21,11 +21,13 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.ccil.cowan.tagsoup.HTMLSchema;
 import org.ccil.cowan.tagsoup.Parser;
+import org.w3c.dom.Text;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
@@ -35,9 +37,17 @@ import org.xml.sax.XMLReader;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.media.MediaMetadataRetriever;
+import android.media.ThumbnailUtils;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.Layout;
 import android.text.Spannable;
@@ -62,14 +72,24 @@ import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
 
+import com.chinalwb.are.Constants;
 import com.chinalwb.are.R;
 import com.chinalwb.are.Util;
+import com.chinalwb.are.models.AtItem;
 import com.chinalwb.are.spans.ARE_Span;
+import com.chinalwb.are.spans.AreAtSpan;
 import com.chinalwb.are.spans.AreFontSizeSpan;
 import com.chinalwb.are.spans.AreHrSpan;
+import com.chinalwb.are.spans.AreImageSpan;
 import com.chinalwb.are.spans.AreListSpan;
 import com.chinalwb.are.spans.AreQuoteSpan;
+import com.chinalwb.are.spans.AreUrlSpan;
+import com.chinalwb.are.spans.AreVideoSpan;
+import com.chinalwb.are.spans.EmojiSpan;
+import com.chinalwb.are.spans.ListBulletSpan;
 import com.chinalwb.are.spans.ListNumberSpan;
+
+import static com.chinalwb.are.android.inner.Html.sContext;
 
 /**
  * This class processes HTML strings into displayable styled text.
@@ -77,10 +97,14 @@ import com.chinalwb.are.spans.ListNumberSpan;
  */
 public class Html {
 
+    public static boolean escapeCJK = false;
+
     public static Context sContext;
 
     public static final String OL = "ol";
     public static final String UL = "ul";
+
+    public static int sListNumber = -1;
 
     /**
      * Retrieves images for HTML &lt;img&gt; tags.
@@ -462,11 +486,11 @@ public class Html {
                             // && 
                     		paragraphStyle instanceof AreListSpan) {
 
-                        // Util.log("paragraphStyle == " + paragraphStyle.toString());
+                        Util.log("paragraphStyle == " + paragraphStyle.toString());
                         boolean closed = false;
                         if (paragraphStyle instanceof ListNumberSpan) {
                             closed = checkToClosePreviousList(out, listType, OL);
-                        	listType = OL;
+                            listType = OL;
                         }
                         else {
                             closed = checkToClosePreviousList(out, listType, UL);
@@ -514,7 +538,7 @@ public class Html {
 
                 if (next == end && isInList) {
                     isInList = false;
-                    out.append("</ul>\n");
+                    out.append("</" + listType + ">\n");
                 }
             }
 
@@ -523,7 +547,7 @@ public class Html {
     }
 
     private static boolean checkToClosePreviousList(StringBuilder out, String srcListType, String targetListType) {
-        // Util.log("src list type = " + srcListType + ", target list type == " + targetListType);
+         Util.log("src list type = " + srcListType + ", target list type == " + targetListType);
         if (!srcListType.equals(targetListType) && !TextUtils.isEmpty(srcListType)) {
             out.append("</" + srcListType + ">");
             return true;
@@ -617,7 +641,7 @@ public class Html {
                 if (style[j] instanceof ImageSpan) {
                     out.append("<img src=\"");
                     out.append(((ImageSpan) style[j]).getSource());
-                    out.append("\">");
+                    out.append("\" />");
 
                     // Don't output the dummy character underlying the image.
                     i = next;
@@ -722,7 +746,11 @@ public class Html {
                     }
                 }
             } else if (c > 0x7E || c < ' ') {
-                out.append("&#").append((int) c).append(";");
+                if (escapeCJK) {
+                    out.append("&#").append((int) c).append(";");
+                } else {
+                    out.append(c);
+                }
             } else if (c == ' ') {
                 while (i + 1 < end && text.charAt(i + 1) == ' ') {
                     out.append("&nbsp;");
@@ -850,7 +878,17 @@ class HtmlToSpannedConverter implements ContentHandler {
             if (end == start) {
                 mSpannableStringBuilder.removeSpan(obj[i]);
             } else {
-                mSpannableStringBuilder.setSpan(obj[i], start, end, Spannable.SPAN_PARAGRAPH);
+                if (obj[i] instanceof AreListSpan) {
+                    if (mSpannableStringBuilder.charAt(start) != Constants.ZERO_WIDTH_SPACE_INT) {
+                        mSpannableStringBuilder.insert(start, Constants.ZERO_WIDTH_SPACE_STR);
+                    }
+                    if (mSpannableStringBuilder.charAt(end - 1) == '\n') {
+                         end = end - 1;
+                    }
+                    mSpannableStringBuilder.setSpan(obj[i], start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                } else {
+                    mSpannableStringBuilder.setSpan(obj[i], start, end, Spannable.SPAN_PARAGRAPH);
+                }
             }
         }
 
@@ -865,8 +903,10 @@ class HtmlToSpannedConverter implements ContentHandler {
             startBlockElement(mSpannableStringBuilder, attributes, getMarginParagraph());
             startCssStyle(mSpannableStringBuilder, attributes);
         } else if (tag.equalsIgnoreCase("ol")) {
+            startOL(mSpannableStringBuilder);
             startBlockElement(mSpannableStringBuilder, attributes, getMarginList());
         } else if (tag.equalsIgnoreCase("ul")) {
+            startUL(mSpannableStringBuilder);
             startBlockElement(mSpannableStringBuilder, attributes, getMarginList());
         } else if (tag.equalsIgnoreCase("li")) {
             startLi(mSpannableStringBuilder, attributes);
@@ -916,8 +956,12 @@ class HtmlToSpannedConverter implements ContentHandler {
             startHeading(mSpannableStringBuilder, attributes, tag.charAt(1) - '1');
         } else if (tag.equalsIgnoreCase("img")) {
             startImg(mSpannableStringBuilder, attributes, mImageGetter);
+        } else if (tag.equalsIgnoreCase("video")) {
+            startVideo(mSpannableStringBuilder, attributes, mImageGetter);
         } else if (tag.equalsIgnoreCase("hr")) {
             startHr(mSpannableStringBuilder);
+        } else if (tag.equalsIgnoreCase("emoji")) {
+            startEmoji(mSpannableStringBuilder, attributes);
         } else if (mTagHandler != null) {
             mTagHandler.handleTag(true, tag, mSpannableStringBuilder, mReader);
         }
@@ -929,8 +973,12 @@ class HtmlToSpannedConverter implements ContentHandler {
         } else if (tag.equalsIgnoreCase("p")) {
             endCssStyle(mSpannableStringBuilder);
             endBlockElement(mSpannableStringBuilder);
+        } else if (tag.equalsIgnoreCase("ol")) {
+            endOL(mSpannableStringBuilder);
+             endBlockElement(mSpannableStringBuilder);
         } else if (tag.equalsIgnoreCase("ul")) {
-            endBlockElement(mSpannableStringBuilder);
+            endUL(mSpannableStringBuilder);
+             endBlockElement(mSpannableStringBuilder);
         } else if (tag.equalsIgnoreCase("li")) {
             endLi(mSpannableStringBuilder);
         } else if (tag.equalsIgnoreCase("div")) {
@@ -991,7 +1039,8 @@ class HtmlToSpannedConverter implements ContentHandler {
     }
 
     private int getMarginListItem() {
-        return getMargin(Html.FROM_HTML_SEPARATOR_LINE_BREAK_LIST_ITEM);
+        // return getMargin(Html.FROM_HTML_SEPARATOR_LINE_BREAK_LIST_ITEM);
+        return 1;
     }
 
     private int getMarginList() {
@@ -1076,16 +1125,63 @@ class HtmlToSpannedConverter implements ContentHandler {
         text.append('\n');
     }
 
+    private void startOL(Editable text) {
+        int level = OL_UL_STACK.size();
+        OL ol = new OL(level);
+        start(text, ol);
+        OL_UL_STACK.push(ol);
+        Html.sListNumber = 0;
+    }
+
+    private void endOL(Editable text) {
+        Html.sListNumber = -1;
+        if (OL_UL_STACK.isEmpty()) {
+            return;
+        }
+        Object peekEle = OL_UL_STACK.peek();
+        if (peekEle instanceof OL) {
+            OL_UL_STACK.pop();
+        }
+    }
+
+    private void startUL(Editable text) {
+        int level = OL_UL_STACK.size();
+        UL ul = new UL(level);
+        start(text, ul);
+        OL_UL_STACK.push(ul);
+    }
+
+    private void endUL(Editable text) {
+        if (OL_UL_STACK.isEmpty()) {
+            return;
+        }
+        Object peekEle = OL_UL_STACK.peek();
+        if (peekEle instanceof UL) {
+            OL_UL_STACK.pop();
+        }
+    }
+
     private void startLi(Editable text, Attributes attributes) {
         startBlockElement(text, attributes, getMarginListItem());
-        start(text, new Bullet());
+        Object peekEle = OL_UL_STACK.peek();
+        if (peekEle instanceof OL) {
+            start(text, new Numeric());
+        } else {
+            start(text, new Bullet());
+        }
         startCssStyle(text, attributes);
     }
 
     private static void endLi(Editable text) {
         endCssStyle(text);
         endBlockElement(text);
-        end(text, Bullet.class, new BulletSpan());
+        Object peekEle = OL_UL_STACK.peek();
+        if (peekEle instanceof OL) {
+            Html.sListNumber = Html.sListNumber + 1;
+            end(text, Numeric.class, new ListNumberSpan(Html.sListNumber));
+        } else {
+            end(text, Bullet.class, new ListBulletSpan());
+        }
     }
 
     private void startBlockquote(Editable text, Attributes attributes) {
@@ -1133,9 +1229,6 @@ class HtmlToSpannedConverter implements ContentHandler {
         int where = text.getSpanStart(mark);
         text.removeSpan(mark);
         int len = text.length();
-        if (spans.length > 0 && spans[0] instanceof AreHrSpan) {
-            Util.log("where == " + where + " end == " + len);
-        }
         if (where != len) {
             for (Object span : spans) {
                 text.setSpan(span, where, len, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -1216,19 +1309,27 @@ class HtmlToSpannedConverter implements ContentHandler {
     private static void startImg(Editable text, Attributes attributes, Html.ImageGetter img) {
         String src = attributes.getValue("", "src");
         Drawable d = null;
-
+        ImageSpan imageSpan = null;
         if (img != null) {
             d = img.getDrawable(src);
+            if (src.startsWith(Constants.EMOJI)) {
+                String resIdStr = src.substring(6);
+                int resId = Integer.parseInt(resIdStr);
+                imageSpan = new AreImageSpan(sContext, resId);
+            } else if (src.startsWith("http")) {
+                imageSpan = new AreImageSpan(sContext, d, src);
+            } else {
+                // content://com.android.providers.media.documents/document/image%3A33
+                // Such uri cannot be loaded from AreImageGetter.
+                imageSpan = new AreImageSpan(sContext, Uri.parse(src));
+            }
         }
 
         if (d == null) {
-//            d = Resources.getSystem().
-//                    getDrawable(com.android.internal.R.drawable.unknown_image);
-
-            if (Html.sContext == null) {
+            if (sContext == null) {
                 d = Resources.getSystem().getDrawable(R.drawable.ic_launcher);
             } else {
-                d = Html.sContext.getResources().getDrawable(R.drawable.ic_launcher);
+                d = sContext.getResources().getDrawable(R.drawable.ic_launcher);
             }
 
             d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
@@ -1237,8 +1338,34 @@ class HtmlToSpannedConverter implements ContentHandler {
         int len = text.length();
         text.append("\uFFFC");
 
-        text.setSpan(new ImageSpan(d, src), len, text.length(),
+        text.setSpan(imageSpan, len, text.length(),
                      Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    }
+
+    private static void startVideo(Editable text, Attributes attributes, Html.ImageGetter img) {
+        Bitmap thumb = null;
+        String uriPath = attributes.getValue("", "uri");
+        String videoUrl = attributes.getValue("", "src");
+        thumb = ThumbnailUtils.createVideoThumbnail(uriPath, MediaStore.Images.Thumbnails.MINI_KIND);
+        if (thumb == null) {
+            // thumb = null; // TODO should load first frame bitmap
+            thumb = Bitmap.createBitmap(400, 300, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(thumb);
+            Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            paint.setColor(Color.BLACK);
+            canvas.drawRect(0, 0, 400, 300, paint);
+        }
+        Drawable d;
+        ImageSpan imageSpan;
+
+        Bitmap play = BitmapFactory.decodeResource(sContext.getResources(), R.drawable.play);
+        Bitmap video = thumb == null ? play : Util.mergeBitmaps(thumb, play);
+        imageSpan = new AreVideoSpan(sContext, video, uriPath, videoUrl);
+        int len = text.length();
+        text.append("\uFFFC");
+
+        text.setSpan(imageSpan, len, text.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
 
@@ -1246,6 +1373,18 @@ class HtmlToSpannedConverter implements ContentHandler {
         int len = text.length();
         text.append("\u200B");
         text.setSpan(new AreHrSpan(), len, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+    }
+
+    private static void startEmoji(Editable text, Attributes attributes) {
+        String src = attributes.getValue("", "src");
+        int emojiSrc = Integer.parseInt(src);
+        Drawable d = sContext.getResources().getDrawable(emojiSrc);
+        int size = d.getIntrinsicHeight();
+        EmojiSpan emojiSpan = new EmojiSpan(sContext, emojiSrc, size);
+        int len = text.length();
+        text.append("\uFFFC");
+        text.setSpan(emojiSpan, len, text.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
     private void startFont(Editable text, Attributes attributes) {
@@ -1278,15 +1417,37 @@ class HtmlToSpannedConverter implements ContentHandler {
     }
 
     private static void startA(Editable text, Attributes attributes) {
+        String atKey = attributes.getValue("", "ukey"); // Can only be lower-case!!
+        String atName = attributes.getValue("", "uname");
+        String style = attributes.getValue("", "style");
+        int atColor = Color.BLUE;
+        if (style != null) {
+            Matcher m = getForegroundColorPattern().matcher(style);
+            if (m.find()) {
+                atColor = getHtmlColor(m.group(1));
+            }
+        }
+
+        if (!TextUtils.isEmpty(atKey)) {
+            start(text, new At(atKey, atName, atColor));
+            return;
+        }
         String href = attributes.getValue("", "href");
         start(text, new Href(href));
     }
 
     private static void endA(Editable text) {
+        At at = getLast(text, At.class);
+        if (at != null) {
+            AtItem atItem = new AtItem(at.mKey, at.mName, at.mColor);
+            AreAtSpan atSpan = new AreAtSpan(atItem);
+            setSpanFromMark(text, at, atSpan);
+            return;
+        }
         Href h = getLast(text, Href.class);
         if (h != null) {
             if (h.mHref != null) {
-                setSpanFromMark(text, h, new URLSpan((h.mHref)));
+                setSpanFromMark(text, h, new AreUrlSpan((h.mHref)));
             }
         }
     }
@@ -1373,6 +1534,18 @@ class HtmlToSpannedConverter implements ContentHandler {
     public void skippedEntity(String name) throws SAXException {
     }
 
+    private static class At {
+        public String mKey;
+        public String mName;
+        public int mColor;
+
+        public At(String key, String name, int color) {
+            mKey = key;
+            mName = name;
+            mColor = color;
+        }
+    }
+
     private static class Bold { }
     private static class Italic { }
     private static class Underline { }
@@ -1384,6 +1557,7 @@ class HtmlToSpannedConverter implements ContentHandler {
     private static class Super { }
     private static class Sub { }
     private static class Bullet { }
+    private static class Numeric { }
 
     private static class Font {
         public String mFace;
@@ -1448,6 +1622,25 @@ class HtmlToSpannedConverter implements ContentHandler {
             mAlignment = alignment;
         }
     }
+
+    private static class OL {
+        private int level;
+
+        public OL(int level) {
+            this.level = level;
+        }
+    }
+
+    private static class UL {
+        private int level;
+
+        public UL(int level) {
+            this.level = level;
+        }
+    }
+
+    private static Stack OL_UL_STACK = new Stack();
+
     
     private static HashMap<String, Integer> COLORS = buildColorMap();
     

@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
+import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.CharacterStyle;
@@ -16,6 +17,10 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 
+import com.chinalwb.are.android.inner.Html;
+import com.chinalwb.are.events.AREMovementMethod;
+import com.chinalwb.are.render.AreImageGetter;
+import com.chinalwb.are.render.AreTagHandler;
 import com.chinalwb.are.spans.AreSubscriptSpan;
 import com.chinalwb.are.spans.AreSuperscriptSpan;
 import com.chinalwb.are.spans.AreUnderlineSpan;
@@ -24,7 +29,10 @@ import com.chinalwb.are.strategies.VideoStrategy;
 import com.chinalwb.are.styles.ARE_Helper;
 import com.chinalwb.are.styles.IARE_Style;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
+import com.chinalwb.are.styles.toolbar.IARE_Toolbar;
+import com.chinalwb.are.styles.toolitems.IARE_ToolItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,11 +43,15 @@ import java.util.List;
  */
 public class AREditText extends AppCompatEditText {
 
+    private IARE_Toolbar mToolbar;
+
 	private static boolean LOG = false;
+
+	private static boolean MONITORING = true;
 
 	private ARE_Toolbar sToolbar;
 
-	private static List<IARE_Style> sStylesList;
+	private static List<IARE_Style> sStylesList = new ArrayList<>();
 
 	private Context mContext;
 
@@ -58,7 +70,9 @@ public class AREditText extends AppCompatEditText {
 		mContext = context;
 		initGlobalValues();
 		sToolbar = ARE_Toolbar.getInstance();
-		sStylesList = sToolbar.getStylesList();
+		if (sToolbar != null) {
+			sStylesList = sToolbar.getStylesList();
+		}
 		init();
 		setupListener();
 	}
@@ -70,6 +84,7 @@ public class AREditText extends AppCompatEditText {
 	}
 
 	private void init() {
+		this.setMovementMethod(new AREMovementMethod());
 		this.setFocusableInTouchMode(true);
 		this.setBackgroundColor(Color.WHITE);
 		this.setInputType(EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE
@@ -98,6 +113,9 @@ public class AREditText extends AppCompatEditText {
 
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				if (!MONITORING) {
+					return;
+				}
 				if (LOG) {
 					Util.log("beforeTextChanged:: s = " + s + ", start = " + start + ", count = " + count
 							+ ", after = " + after);
@@ -107,6 +125,10 @@ public class AREditText extends AppCompatEditText {
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				if (!MONITORING) {
+					return;
+				}
+
 				if (LOG) {
 					Util.log("onTextChanged:: s = " + s + ", start = " + start + ", count = " + count + ", before = "
 							+ before);
@@ -117,6 +139,10 @@ public class AREditText extends AppCompatEditText {
 
 			@Override
 			public void afterTextChanged(Editable s) {
+				if (!MONITORING) {
+					return;
+				}
+
 				if (LOG) {
 					Util.log("afterTextChanged:: s = " + s);
 				}
@@ -134,13 +160,27 @@ public class AREditText extends AppCompatEditText {
 		this.addTextChangedListener(mTextWatcher);
 	}
 
-	/*
-	 * ----------------------------------------- * Rich Text Style Area
-	 * -----------------------------------------
-	 */
+    public void setToolbar(IARE_Toolbar toolbar) {
+	    sStylesList.clear();
+        this.mToolbar = toolbar;
+        this.mToolbar.setEditText(this);
+        List<IARE_ToolItem> toolItems = toolbar.getToolItems();
+        for (IARE_ToolItem toolItem : toolItems) {
+            IARE_Style style = toolItem.getStyle();
+            sStylesList.add(style);
+        }
+    }
 
 	@Override
 	public void onSelectionChanged(int selStart, int selEnd) {
+	    if (mToolbar == null) {
+	        return;
+        }
+	    List<IARE_ToolItem> toolItems = mToolbar.getToolItems();
+	    for (IARE_ToolItem toolItem : toolItems) {
+	        toolItem.onSelectionChanged(selStart, selEnd);
+        }
+
 		if (sToolbar == null) {
 			return;
 		}
@@ -274,6 +314,33 @@ public class AREditText extends AppCompatEditText {
 		ARE_Helper.updateCheckStatus(sToolbar.getQuoteStyle(), quoteExists);
 	} // #End of method:: onSelectionChanged
 
+    /**
+     * Sets html content to EditText.
+     *
+     * @param html
+     * @return
+     */
+    public void fromHtml(String html) {
+        Html.sContext = mContext;
+        Html.ImageGetter imageGetter = new AreImageGetter(mContext, this);
+        Html.TagHandler tagHandler = new AreTagHandler();
+        Spanned spanned = Html.fromHtml(html, Html.FROM_HTML_SEPARATOR_LINE_BREAK_PARAGRAPH, imageGetter, tagHandler);
+        AREditText.stopMonitor();
+        this.getEditableText().append(spanned);
+        AREditText.startMonitor();
+    }
+
+	public String getHtml() {
+		StringBuffer html = new StringBuffer();
+		html.append("<html><body>");
+		String editTextHtml = Html.toHtml(getEditableText(), Html.TO_HTML_PARAGRAPH_LINES_INDIVIDUAL);
+		html.append(editTextHtml);
+		html.append("</body></html>");
+		String htmlContent = html.toString().replaceAll(Constants.ZERO_WIDTH_SPACE_STR_ESCAPE, "");
+		System.out.println(htmlContent);
+		return htmlContent;
+	}
+
 	/**
 	 * Needs this because of this bug in Android O:
 	 * https://issuetracker.google.com/issues/67102093
@@ -284,6 +351,13 @@ public class AREditText extends AppCompatEditText {
 		}
 	}
 
+	public static void startMonitor() {
+		MONITORING = true;
+	}
+
+	public static void stopMonitor() {
+		MONITORING = false;
+	}
 	/* ----------------------
 	 * Customization part
 	 * ---------------------- */

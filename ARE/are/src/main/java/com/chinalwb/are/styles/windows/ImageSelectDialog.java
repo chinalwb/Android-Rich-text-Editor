@@ -14,7 +14,9 @@ import android.widget.TextView;
 
 import com.chinalwb.are.R;
 import com.chinalwb.are.Util;
+import com.chinalwb.are.spans.AreImageSpan;
 import com.chinalwb.are.styles.ARE_Image;
+import com.chinalwb.are.styles.IARE_Image;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
 public class ImageSelectDialog {
@@ -25,11 +27,14 @@ public class ImageSelectDialog {
 
     private Dialog mDialog;
 
-    private ARE_Image mAreImage;
+    private IARE_Image mAreImage;
 
-    public ImageSelectDialog(Context context, ARE_Image areImage) {
+    private int mRequestCode;
+
+    public ImageSelectDialog(Context context, IARE_Image areImage, int requestCode) {
         mContext = context;
         mAreImage = areImage;
+        mRequestCode = requestCode;
         mRootView = initView();
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle("Insert Image");
@@ -72,7 +77,7 @@ public class ImageSelectDialog {
         Intent intent = new Intent();
 		intent.setType("image/*");
 		intent.setAction(Intent.ACTION_GET_CONTENT);
-		((Activity) this.mContext).startActivityForResult(intent, ARE_Toolbar.REQ_IMAGE);
+		((Activity) this.mContext).startActivityForResult(intent, mRequestCode);
 		mDialog.dismiss();
     }
 
@@ -81,7 +86,7 @@ public class ImageSelectDialog {
         String imageUrl = editText.getText().toString();
         if (imageUrl.startsWith("http")
                 &&  (imageUrl.endsWith("png") || imageUrl.endsWith("jpg") || imageUrl.endsWith("jpeg"))) {
-            mAreImage.insertImage(imageUrl, ARE_Image.ImageType.URL);
+            mAreImage.insertImage(imageUrl, AreImageSpan.ImageType.URL);
             mDialog.dismiss();
         } else {
             Util.toast(mContext, "Not a valid image");

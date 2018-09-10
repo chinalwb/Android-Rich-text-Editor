@@ -193,7 +193,7 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
 
     @Override
     public void applyStyle(Editable editable, int start, int end) {
-//    logAllListItems(editable);
+        // logAllListItems(editable, true);
         ListNumberSpan[] listSpans = editable.getSpans(start, end,
                 ListNumberSpan.class);
         if (null == listSpans || listSpans.length == 0) {
@@ -299,13 +299,14 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
 
             Util.log("Delete spanStart = " + spanStart + ", spanEnd = "
                     + spanEnd + " ,, start == " + start);
-
             if (spanStart >= spanEnd) {
                 Util.log("case 1");
                 //
                 // User deletes the last char of the span
                 // So we think he wants to remove the span
-                editable.removeSpan(theFirstSpan);
+                for (ListNumberSpan listSpan : listSpans) {
+                    editable.removeSpan(listSpan);
+                }
 
                 //
                 // To delete the previous span's \n
@@ -314,9 +315,14 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
                     editable.delete(spanStart - 1, spanEnd);
                 }
 
-                int removedNumber = theFirstSpan.getNumber();
-                reNumberBehindListItemSpans(spanStart, editable,
-                        removedNumber - 1);
+                if (editable.length() > spanEnd) {
+                    ListNumberSpan[] spansBehind = editable.getSpans(spanEnd, spanEnd + 1, ListNumberSpan.class);
+                    if (spansBehind.length > 0) {
+                        int removedNumber = theFirstSpan.getNumber();
+                        reNumberBehindListItemSpans(spanStart, editable,
+                                removedNumber - 1);
+                    }
+                }
             } else if (start == spanStart) {
                 Util.log("case 2");
                 return;
@@ -331,8 +337,12 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
                         Util.log("case 3-1");
                         ListNumberSpan[] spans = editable.getSpans(start, start, ListNumberSpan.class);
                         Util.log(" spans len == " + spans.length);
-                        if (spans.length > 1) {
+                        if (spans.length > 0) {
+                            Util.log("case 3-1-1");
                             mergeForward(editable, theFirstSpan, spanStart, spanEnd);
+                        } else {
+                            Util.log("case 3-1-2");
+                            editable.removeSpan(spans[0]);
                         }
                     } else {
                         mergeForward(editable, theFirstSpan, spanStart, spanEnd);
@@ -385,14 +395,15 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
             return;
         }
         Util.log("merge forward 2");
-        ListNumberSpan[] targetSpans = editable.getSpans(
-                spanEnd, spanEnd + 1, ListNumberSpan.class);
+        ListNumberSpan[] targetSpans = editable.getSpans(spanEnd, spanEnd + 1, ListNumberSpan.class);
+        // logAllListItems(editable, false);
         if (targetSpans == null || targetSpans.length == 0) {
+            reNumberBehindListItemSpans(spanEnd, editable, listSpan.getNumber());
             return;
         }
-
         ListNumberSpan firstTargetSpan = targetSpans[0];
         ListNumberSpan lastTargetSpan = targetSpans[0];
+
         if (targetSpans.length > 0) {
             int firstTargetSpanNumber = firstTargetSpan.getNumber();
             int lastTargetSpanNumber = lastTargetSpan.getNumber();
@@ -427,21 +438,24 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
         reNumberBehindListItemSpans(spanEnd, editable, listSpan.getNumber());
     }
 
-    private void logAllListItems(Editable editable) {
+    private void logAllListItems(Editable editable, boolean printDetail) {
         ListNumberSpan[] listItemSpans = editable.getSpans(0,
                 editable.length(), ListNumberSpan.class);
         for (ListNumberSpan span : listItemSpans) {
             int ss = editable.getSpanStart(span);
             int se = editable.getSpanEnd(span);
+            int flag = editable.getSpanFlags(span);
             Util.log("List All: " + span.getNumber() + " :: start == " + ss
-                    + ", end == " + se);
-//       for (int i = ss; i < se; i++) {
-//         Util.log("char at " + i + " = " + editable.charAt(i) + " int = " + ((int) (editable.charAt(i))));
-//       }
-//
-//       if (editable.length() > se) {
-//              Util.log("char at " + se + " = " + editable.charAt(se)+ " int = " + ((int) (editable.charAt(se))));
-//       }
+                    + ", end == " + se + ", flag == " + flag);
+           if (printDetail) {
+               for (int i = ss; i < se; i++) {
+                   Util.log("char at " + i + " = " + editable.charAt(i) + " int = " + ((int) (editable.charAt(i))));
+               }
+
+               if (editable.length() > se) {
+                   Util.log("char at " + se + " = " + editable.charAt(se)+ " int = " + ((int) (editable.charAt(se))));
+               }
+           }
         }
     }
 
@@ -617,10 +631,10 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
 
         // -- Change the content to trigger the editable redraw
         editable.insert(lastListNumberSpanEnd, Constants.ZERO_WIDTH_SPACE_STR);
-        editable.delete(lastListNumberSpanEnd, lastListNumberSpanEnd + 1);
+        editable.delete(lastListNumberSpanEnd + 1, lastListNumberSpanEnd + 1);
         // -- End: Change the content to trigger the editable redraw
 
-        ARE_ListNumber.reNumberBehindListItemSpans(lastListNumberSpanEnd,
+        ARE_ListNumber.reNumberBehindListItemSpans(lastListNumberSpanEnd + 1,
                 editable, previousListNumber);
     }
 

@@ -19,10 +19,17 @@ public abstract class ARE_ABS_Style<E> implements IARE_Style {
 	protected Class<E> clazzE;
 
 	public ARE_ABS_Style() {
-		this.mContext = ARE_Toolbar.getInstance().getContext();
+		this(null);
+	}
+
+	public ARE_ABS_Style(Context context) {
+		mContext = context;
+		if (mContext == null) {
+			this.mContext = ARE_Toolbar.getInstance().getContext();
+		}
 		clazzE = (Class<E>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
-	
+
 	@Override
 	public EditText getEditText() {
 		return ARE_Toolbar.getInstance().getEditText();

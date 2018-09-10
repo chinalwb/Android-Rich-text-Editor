@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.rainliu.colorpicker.ColorPickerView
+    <com.chinalwb.are.colorpicker.ColorPickerView
         android:id="@+id/rteColorPalette"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
         colorPickerView:colorViewWidth="30dp"
         colorPickerView:colorViewMarginLeft="2dp"
         colorPickerView:colorViewMarginRight="2dp"
-        colorPickerView:colorViewCheckedType="dot"
+        colorPickerView:colorViewCheckedType="checkMark"
         colorPickerView:colors="@array/colorPickerColors"
         />
 

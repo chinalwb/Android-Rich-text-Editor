@@ -237,11 +237,19 @@ public class Are_VideoPlayerActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            mDialog = ProgressDialog.show(
-                    mActivity,
-                    "",
-                    "Uploading video. Please wait...",
-                    true);
+            if (mActivity == null || mActivity.isFinishing()) {
+                return;
+            }
+            if (mDialog == null) {
+                mDialog = ProgressDialog.show(
+                        mActivity,
+                        "",
+                        "Uploading video. Please wait...",
+                        true);
+            } else {
+                mDialog.show();
+            }
+
             super.onPreExecute();
         }
 

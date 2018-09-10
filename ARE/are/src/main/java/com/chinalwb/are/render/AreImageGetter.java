@@ -10,11 +10,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.chinalwb.are.AREditText;
 import com.chinalwb.are.Constants;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.android.inner.Html;
-import com.rainliu.glidesupport.GlideApp;
-import com.rainliu.glidesupport.GlideRequests;
+import com.chinalwb.are.glidesupport.GlideApp;
+import com.chinalwb.are.glidesupport.GlideRequests;
 
 public class AreImageGetter implements Html.ImageGetter {
 
@@ -53,6 +54,7 @@ public class AreImageGetter implements Html.ImageGetter {
                 sGlideRequests.asBitmap().load(uri).into(bitmapTarget);
                 return areUrlDrawable;
             } catch (Exception ignored) {
+                ignored.printStackTrace();
             }
         }
         return null;
@@ -77,8 +79,10 @@ public class AreImageGetter implements Html.ImageGetter {
             bitmapDrawable.setBounds(rect);
             areUrlDrawable.setBounds(rect);
             areUrlDrawable.setDrawable(bitmapDrawable);
+            AREditText.stopMonitor();
             textView.setText(textView.getText());
             textView.invalidate();
+            AREditText.startMonitor();
         }
     }
 }

@@ -18,7 +18,7 @@ import com.chinalwb.are.Constants;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.spans.AreForegroundColorSpan;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
-import com.rainliu.colorpicker.ColorPickerListener;
+import com.chinalwb.are.colorpicker.ColorPickerListener;
 
 public class ARE_FontColor extends ARE_ABS_Dynamic_Style<AreForegroundColorSpan> {
 
