@@ -1,5 +1,6 @@
 package com.chinalwb.are.styles;
 
+import android.content.Context;
 import android.text.Editable;
 import android.text.Spanned;
 
@@ -16,6 +17,13 @@ import com.chinalwb.are.spans.AreDynamicSpan;
  */
 public abstract class ARE_ABS_Dynamic_Style<E extends AreDynamicSpan> extends ARE_ABS_Style<E> {
 
+    public ARE_ABS_Dynamic_Style() {
+        super();
+    }
+
+    public ARE_ABS_Dynamic_Style(Context context) {
+        super(context);
+    }
 
     protected void applyNewStyle(Editable editable, int start, int end, int currentStyle) {
         E startSpan = null;

@@ -20,7 +20,7 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.android.support:design:27.1.0'
     compile 'com.android.support:appcompat-v7:27.1.0'
-    // implementation project(':are')
-    implementation 'com.github.bumptech.glide:glide:4.3.1'
-    implementation 'com.github.chinalwb:are:0.1.2'
+     implementation project(':are')
+//    implementation 'com.github.bumptech.glide:glide:4.3.1'
+//    implementation 'com.github.chinalwb:are:0.1.2'
 }

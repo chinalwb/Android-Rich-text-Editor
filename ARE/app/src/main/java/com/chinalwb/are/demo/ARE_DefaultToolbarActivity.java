@@ -17,6 +17,7 @@ import com.chinalwb.are.styles.toolitems.ARE_ToolItem_AlignmentLeft;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_AlignmentRight;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_At;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_Bold;
+import com.chinalwb.are.styles.toolitems.ARE_ToolItem_FontSize;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_Hr;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_Image;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_Italic;
@@ -56,6 +57,7 @@ public class ARE_DefaultToolbarActivity extends AppCompatActivity {
         IARE_ToolItem italic = new ARE_ToolItem_Italic();
         IARE_ToolItem underline = new ARE_ToolItem_Underline();
         IARE_ToolItem strikethrough = new ARE_ToolItem_Strikethrough();
+        ARE_ToolItem_FontSize fontSize = new ARE_ToolItem_FontSize();
         IARE_ToolItem quote = new ARE_ToolItem_Quote();
         IARE_ToolItem listNumber = new ARE_ToolItem_ListNumber();
         IARE_ToolItem listBullet = new ARE_ToolItem_ListBullet();
@@ -69,10 +71,12 @@ public class ARE_DefaultToolbarActivity extends AppCompatActivity {
         IARE_ToolItem image = new ARE_ToolItem_Image();
         IARE_ToolItem video = new ARE_ToolItem_Video();
         IARE_ToolItem at = new ARE_ToolItem_At();
+
         mToolbar.addToolbarItem(bold);
         mToolbar.addToolbarItem(italic);
         mToolbar.addToolbarItem(underline);
         mToolbar.addToolbarItem(strikethrough);
+        mToolbar.addToolbarItem(fontSize);
         mToolbar.addToolbarItem(quote);
         mToolbar.addToolbarItem(listNumber);
         mToolbar.addToolbarItem(listBullet);
