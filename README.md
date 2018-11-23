@@ -9,7 +9,7 @@ It's still in progress now, welcome fork and join me!
 
 I published [colorpicker](https://github.com/chinalwb/SimpleColorPicker) and [emojipicker](https://github.com/chinalwb/SimpleEmojiPicker) as standalone components so they can be reused in other projects easily.
 
-*I didn't stop this project, I am just working on other most important things to myself, I probably could not be able to fix your issues or enchements but I will provide my suggest if I could or just check in the fix to master. I will make it more stable and usable and with more features, I have plan but sorry I have no time schedule for now, welcome form and join me*
+*I didn't stop this project, I am just working on other most important things to myself, I probably could not be able to fix your issues or enchements requests but I will provide my suggest if I could or just check in the fix to master. I will make it more stable and usable and with more features, I have plan but sorry I have no time schedule for now, welcome form and join me*
 
 This is implemented by Java
 
