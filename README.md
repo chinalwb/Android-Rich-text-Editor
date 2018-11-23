@@ -9,6 +9,8 @@ It's still in progress now, welcome fork and join me!
 
 I published [colorpicker](https://github.com/chinalwb/SimpleColorPicker) and [emojipicker](https://github.com/chinalwb/SimpleEmojiPicker) as standalone components so they can be reused in other projects easily.
 
+*I didn't stop this project, I am just working on other most important things to myself, I probably could not be able to fix your issues or enchements but I will provide my suggest if I could or just check in the fix to master. I will make it more stable and usable and with more features, I have plan but sorry I have no time schedule for now, welcome form and join me*
+
 This is implemented by Java
 
  ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/are_demo.gif)
@@ -120,6 +122,12 @@ In your gradle.build of app module, add this in the dependencies:
 ```groovy
     implementation 'com.github.bumptech.glide:glide:4.3.1'
     implementation 'com.github.chinalwb:are:0.1.2'
+```
+
+or, as `are` is still not stable enough to handle kinds of issues in different business scenarios, I'd like recommend to import `are` into your project direclty and add it as a local module dependency.
+
+```
+	implementation project(':are')
 ```
 
 ## Customization & Samples
