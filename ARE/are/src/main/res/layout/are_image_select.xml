@@ -53,7 +53,7 @@
             android:layout_alignParentRight="true"
             android:textSize="18sp"
             android:layout_marginBottom="10dp"
-            android:textColor="@color/colorPrimary"
+            android:textColor="?attr/colorPrimary"
             android:text="Insert" />
     </RelativeLayout>
 </RelativeLayout>
