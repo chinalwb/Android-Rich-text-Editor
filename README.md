@@ -1,4 +1,4 @@
-# ARE
+# ARE  [ ![Download](https://api.bintray.com/packages/chinalwb/are/are/images/download.svg) ](https://bintray.com/chinalwb/are/are/_latestVersion)
 
 Android Rich text Editor ([中文说明见这里](https://github.com/chinalwb/Android-Rich-text-Editor/blob/master/README-zh.md))
 ===
