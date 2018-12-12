@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
+import android.text.Layout;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.style.BackgroundColorSpan;
@@ -14,6 +15,7 @@ import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 
@@ -21,6 +23,8 @@ import com.chinalwb.are.android.inner.Html;
 import com.chinalwb.are.events.AREMovementMethod;
 import com.chinalwb.are.render.AreImageGetter;
 import com.chinalwb.are.render.AreTagHandler;
+import com.chinalwb.are.spans.ARE_Clickable_Span;
+import com.chinalwb.are.spans.AreImageSpan;
 import com.chinalwb.are.spans.AreSubscriptSpan;
 import com.chinalwb.are.spans.AreSuperscriptSpan;
 import com.chinalwb.are.spans.AreUnderlineSpan;
@@ -84,7 +88,7 @@ public class AREditText extends AppCompatEditText {
 	}
 
 	private void init() {
-		// this.setMovementMethod(new AREMovementMethod());
+        // this.setMovementMethod(new AREMovementMethod());
 		this.setFocusableInTouchMode(true);
 		this.setBackgroundColor(Color.WHITE);
 		this.setInputType(EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE
@@ -93,6 +97,17 @@ public class AREditText extends AppCompatEditText {
 		padding = Util.getPixelByDp(mContext, padding);
 		this.setPadding(padding, padding, padding, padding);
 		this.setTextSize(TypedValue.COMPLEX_UNIT_SP, Constants.DEFAULT_FONT_SIZE);
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		int off = AREMovementMethod.getTextOffset(this, this.getEditableText(), event);
+		ARE_Clickable_Span[] clickableSpans = this.getText().getSpans(off, off, ARE_Clickable_Span.class);
+		if (clickableSpans.length == 1 && clickableSpans[0] instanceof AreImageSpan) {
+			return true;
+		}
+
+		return super.onTouchEvent(event);
 	}
 
 	/**
