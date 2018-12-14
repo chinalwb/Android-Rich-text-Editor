@@ -46,18 +46,20 @@ Supported styles:
 * All styles support save as HTML file
 * Load from HTML then continue editing or displaying - New in 0.1.0
 
-## Released 0.1.2:
+## Released 0.1.4:
 
 * Maintain release, includes:
 * Documents for installation and developement
 * UI improvements
+* Fixed ARE color override customer project issue
+* Won't bring up keyboard by clicking an image
 * Bugs fixing
 
 ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/new_012.png)
 
 
 
-##### Plan for 0.1.3
+##### Plan for next version:
 
 * Undo
 * Redo
@@ -480,7 +482,7 @@ In progress items:
 
 ## You can download the APK here:
 
-[Click ARE_20180830_0.1.2.apk to download](https://github.com/chinalwb/Android-Rich-text-Editor/releases/download/v0.1.2/ARE_20180830_0.1.2.apk)
+[Click ARE_20181214_0.1.4.apk to download](https://github.com/chinalwb/Android-Rich-text-Editor/releases/download/0.1.4/ARE_20181214_0.1.4.apk)
 
 Known issues:
 
