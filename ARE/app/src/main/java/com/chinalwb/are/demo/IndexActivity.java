@@ -5,6 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+
+import com.chinalwb.are.glidesupport.GlideApp;
 
 public class IndexActivity extends AppCompatActivity {
 
@@ -14,6 +17,10 @@ public class IndexActivity extends AppCompatActivity {
         setContentView(R.layout.activity_index);
 
         initViews();
+
+        ImageView imageView = (ImageView) findViewById(R.id.image);
+
+        GlideApp.with(this).load("http://a.hiphotos.baidu.com/image/h%3D300/sign=b18b23079522720e64cee4fa4bca0a3a/4a36acaf2edda3ccc4a53e450ce93901213f9216.jpg").into(imageView);
     }
 
     private void initViews() {
