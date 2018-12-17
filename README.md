@@ -53,7 +53,7 @@ Supported styles:
 * UI improvements
 * Fixed ARE color override customer project issue
 * Won't bring up keyboard by clicking an image
-* Added `ImageStrategy` for uploading and inserting an image
+* Added `ImageStrategy` for uploading and inserting an image [See doc](./docs/image_upload_insert.md)
 * Bugs fixing
 
 ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/new_012.png)
