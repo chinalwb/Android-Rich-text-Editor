@@ -1,6 +1,7 @@
 package com.chinalwb.are.demo;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,6 +11,8 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
 import com.chinalwb.are.AREditText;
+import com.chinalwb.are.demo.helpers.DemoImageStrategy;
+import com.chinalwb.are.strategies.ImageStrategy;
 import com.chinalwb.are.styles.toolbar.ARE_ToolbarDefault;
 import com.chinalwb.are.styles.toolbar.IARE_Toolbar;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_AlignmentCenter;
@@ -31,6 +34,7 @@ import com.chinalwb.are.styles.toolitems.ARE_ToolItem_Superscript;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_Underline;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_Video;
 import com.chinalwb.are.styles.toolitems.IARE_ToolItem;
+import com.chinalwb.are.styles.toolitems.styles.ARE_Style_Image;
 
 import static com.chinalwb.are.demo.TextViewActivity.HTML_TEXT;
 
@@ -41,6 +45,8 @@ public class ARE_DefaultToolbarActivity extends AppCompatActivity {
     private AREditText mEditText;
 
     private boolean scrollerAtEnd;
+
+    private ImageStrategy imageStrategy = new DemoImageStrategy();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +99,7 @@ public class ARE_DefaultToolbarActivity extends AppCompatActivity {
 
         mEditText = this.findViewById(R.id.arEditText);
         mEditText.setToolbar(mToolbar);
+        mEditText.setImageStrategy(imageStrategy);
 
         setHtml();
 

@@ -2,6 +2,7 @@ package com.chinalwb.are;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.media.Image;
 import android.os.Build;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
@@ -29,6 +30,7 @@ import com.chinalwb.are.spans.AreSubscriptSpan;
 import com.chinalwb.are.spans.AreSuperscriptSpan;
 import com.chinalwb.are.spans.AreUnderlineSpan;
 import com.chinalwb.are.strategies.AtStrategy;
+import com.chinalwb.are.strategies.ImageStrategy;
 import com.chinalwb.are.strategies.VideoStrategy;
 import com.chinalwb.are.styles.ARE_Helper;
 import com.chinalwb.are.styles.IARE_Style;
@@ -385,4 +387,9 @@ public class AREditText extends AppCompatEditText {
 	private VideoStrategy mVideoStrategy;
 	public void setVideoStrategy(VideoStrategy videoStrategy) { mVideoStrategy = videoStrategy; }
 	public VideoStrategy getVideoStrategy() { return mVideoStrategy; }
+
+	// ImageStrategy
+	private ImageStrategy mImageStrategy;
+	public void setImageStrategy(ImageStrategy imageStrategy) { mImageStrategy = imageStrategy; }
+	public ImageStrategy getImageStrategy() { return mImageStrategy; }
 }

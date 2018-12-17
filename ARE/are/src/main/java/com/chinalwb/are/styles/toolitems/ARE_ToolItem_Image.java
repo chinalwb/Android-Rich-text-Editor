@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.text.Editable;
 import android.text.style.CharacterStyle;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,10 +19,13 @@ import com.chinalwb.are.Util;
 import com.chinalwb.are.activities.Are_VideoPlayerActivity;
 import com.chinalwb.are.models.AtItem;
 import com.chinalwb.are.spans.AreImageSpan;
+import com.chinalwb.are.strategies.ImageStrategy;
 import com.chinalwb.are.styles.ARE_At;
 import com.chinalwb.are.styles.IARE_Style;
 import com.chinalwb.are.styles.toolitems.styles.ARE_Style_Bold;
 import com.chinalwb.are.styles.toolitems.styles.ARE_Style_Image;
+
+import java.io.File;
 
 /**
  * Created by wliu on 13/08/2018.
@@ -72,6 +76,11 @@ public class ARE_ToolItem_Image extends ARE_ToolItem_Abstract {
             if (ARE_Style_Image.REQUEST_CODE == requestCode) {
                 ARE_Style_Image imageStyle = (ARE_Style_Image) getStyle();
                 Uri uri = data.getData();
+                ImageStrategy imageStrategy = this.getEditText().getImageStrategy();
+                if (imageStrategy != null) {
+                    imageStrategy.uploadAndInsertImage(uri, imageStyle);
+                    return;
+                }
                 imageStyle.insertImage(uri, AreImageSpan.ImageType.URI);
             }
         }

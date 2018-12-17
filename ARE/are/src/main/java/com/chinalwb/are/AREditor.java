@@ -15,6 +15,7 @@ import com.chinalwb.are.android.inner.Html;
 import com.chinalwb.are.render.AreImageGetter;
 import com.chinalwb.are.render.AreTagHandler;
 import com.chinalwb.are.strategies.AtStrategy;
+import com.chinalwb.are.strategies.ImageStrategy;
 import com.chinalwb.are.strategies.VideoStrategy;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
@@ -326,6 +327,10 @@ public class AREditor extends RelativeLayout {
 
     public void setVideoStrategy(VideoStrategy videoStrategy) {
         this.mAre.setVideoStrategy(videoStrategy);
+    }
+
+    public void setImageStrategy(ImageStrategy imageStrategy) {
+        this.mAre.setImageStrategy(imageStrategy);
     }
 
 }
