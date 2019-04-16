@@ -1,17 +1,21 @@
 package com.chinalwb.are.demo;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.chinalwb.are.AREditText;
 import com.chinalwb.are.demo.helpers.DemoImageStrategy;
 import com.chinalwb.are.strategies.ImageStrategy;
+import com.chinalwb.are.strategies.VideoStrategy;
 import com.chinalwb.are.styles.toolbar.ARE_ToolbarDefault;
 import com.chinalwb.are.styles.toolbar.IARE_Toolbar;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_AlignmentCenter;
@@ -45,6 +49,28 @@ public class ARE_DefaultToolbarActivity extends AppCompatActivity {
     private boolean scrollerAtEnd;
 
     private ImageStrategy imageStrategy = new DemoImageStrategy();
+
+    private VideoStrategy mVideoStrategy = new VideoStrategy() {
+        @Override
+        public String uploadVideo(Uri uri) {
+            try {
+                Thread.sleep(3000); // Do upload here
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "http://www.xx.com/x.mp4";
+        }
+
+        @Override
+        public String uploadVideo(String videoPath) {
+            try {
+                Thread.sleep(3000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "http://www.xx.com/x.mp4";
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +124,8 @@ public class ARE_DefaultToolbarActivity extends AppCompatActivity {
         mEditText = this.findViewById(R.id.arEditText);
         mEditText.setToolbar(mToolbar);
         mEditText.setImageStrategy(imageStrategy);
+        mEditText.setVideoStrategy(mVideoStrategy);
+
 
         setHtml();
 
