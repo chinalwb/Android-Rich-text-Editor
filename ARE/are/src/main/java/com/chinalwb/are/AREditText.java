@@ -1,5 +1,8 @@
 package com.chinalwb.are;
 
+import android.annotation.TargetApi;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.media.Image;
@@ -7,6 +10,8 @@ import android.os.Build;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.Layout;
+import android.text.Selection;
+import android.text.Spannable;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.style.BackgroundColorSpan;
@@ -16,9 +21,13 @@ import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.ActionMode;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Toast;
 
 import com.chinalwb.are.android.inner.Html;
 import com.chinalwb.are.events.AREMovementMethod;
@@ -49,7 +58,7 @@ import java.util.List;
  */
 public class AREditText extends AppCompatEditText {
 
-    private IARE_Toolbar mToolbar;
+	private IARE_Toolbar mToolbar;
 
 	private static boolean LOG = false;
 
@@ -99,9 +108,116 @@ public class AREditText extends AppCompatEditText {
 		padding = Util.getPixelByDp(mContext, padding);
 		this.setPadding(padding, padding, padding, padding);
 		this.setTextSize(TypedValue.COMPLEX_UNIT_SP, Constants.DEFAULT_FONT_SIZE);
+//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            this.setCustomInsertionActionModeCallback(new ActionMode.Callback() {
+//                @Override
+//                public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+//                    return true;
+//                }
+//
+//                @Override
+//                public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+//                    return false;
+//                }
+//
+//                @Override
+//                public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+//                    ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+//                    ClipData clip = clipboard.getPrimaryClip();
+//                    switch (item.getItemId()) {
+//                        case android.R.id.paste:
+//                            paste(clip);
+//                            return true;
+//                        default:
+//                            return false;
+//                    }
+//                }
+//
+//                @Override
+//                public void onDestroyActionMode(ActionMode mode) {
+//
+//                }
+//            });
+//        }
+//
+//		this.setCustomSelectionActionModeCallback(new ActionMode.Callback() {
+//			@Override
+//			public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+//				return true;
+//			}
+//
+//			@Override
+//			public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+//				return false;
+//			}
+//
+//			@Override
+//			public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+//                ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+//                ClipData clip = clipboard.getPrimaryClip();
+//				switch (item.getItemId()) {
+//					case android.R.id.paste:
+//                        paste(clip);
+//                        return true;
+//					default:
+//						return false;
+//				}
+//			}
+//
+//			@Override
+//			public void onDestroyActionMode(ActionMode mode) {
+//				// Do nothing
+//			}
+//		});
 	}
 
-	@Override
+	private void paste(ClipData clip) {
+	    Editable mText = this.getEditableText();
+	    int min = 0;
+	    int max = mText.length();
+        if (clip != null) {
+            boolean didFirst = false;
+            for (int i = 0; i < clip.getItemCount(); i++) {
+                final CharSequence paste;
+                paste = getClipItemCharSequence(clip.getItemAt(i));
+                if (paste != null) {
+                    if (!didFirst) {
+                        Selection.setSelection((Spannable) mText, max);
+                        ((Editable) mText).replace(min, max, paste);
+                        didFirst = true;
+                    } else {
+                        ((Editable) mText).insert(getSelectionEnd(), "\n");
+                        ((Editable) mText).insert(getSelectionEnd(), paste);
+                    }
+                }
+            }
+        }
+    }
+
+    @TargetApi(16)
+    private CharSequence getClipItemCharSequence(ClipData.Item itemAt) {
+        CharSequence text = getText();
+        if (text instanceof Spanned) {
+            return text;
+        }
+        String htmlText = itemAt.getHtmlText();
+        if (htmlText != null) {
+            try {
+                Html.ImageGetter imageGetter = new AreImageGetter(mContext, this);
+                Html.TagHandler tagHandler = new AreTagHandler();
+                CharSequence newText = Html.fromHtml(htmlText, Html.FROM_HTML_SEPARATOR_LINE_BREAK_PARAGRAPH, imageGetter, tagHandler);
+                if (newText != null) {
+                    return newText;
+                }
+            } catch (RuntimeException e) {
+                // If anything bad happens, we'll fall back on the plain text.
+            }
+        }
+
+        return itemAt.coerceToStyledText(mContext);
+    }
+
+    @Override
 	public boolean onTouchEvent(MotionEvent event) {
 		int off = AREMovementMethod.getTextOffset(this, this.getEditableText(), event);
 		ARE_Clickable_Span[] clickableSpans = this.getText().getSpans(off, off, ARE_Clickable_Span.class);
