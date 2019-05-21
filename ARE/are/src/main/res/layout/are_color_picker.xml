@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.chinalwb.are.colorpicker.ColorPickerView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:colorPickerView="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rteColorPalette"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/background_light"
+    android:padding="10dp"
+    android:layout_centerHorizontal="true"
+    colorPickerView:colorViewHeight="30dp"
+    colorPickerView:colorViewWidth="30dp"
+    colorPickerView:colorViewMarginLeft="2dp"
+    colorPickerView:colorViewMarginRight="2dp"
+    colorPickerView:colorViewCheckedType="checkMark"
+    colorPickerView:colors="@array/colorPickerColors"
+    />
