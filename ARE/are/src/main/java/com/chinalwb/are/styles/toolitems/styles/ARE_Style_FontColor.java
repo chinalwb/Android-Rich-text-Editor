@@ -5,13 +5,13 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.chinalwb.are.AREditText;
-import com.chinalwb.are.Constants;
-import com.chinalwb.are.spans.AreFontSizeSpan;
+import com.chinalwb.are.Util;
+import com.chinalwb.are.colorpicker.ColorPickerListener;
 import com.chinalwb.are.spans.AreForegroundColorSpan;
 import com.chinalwb.are.styles.ARE_ABS_Dynamic_Style;
 import com.chinalwb.are.styles.windows.ColorPickerWindow;
 
-public class ARE_Style_FontColor extends ARE_ABS_Dynamic_Style<AreForegroundColorSpan> {
+public class ARE_Style_FontColor extends ARE_ABS_Dynamic_Style<AreForegroundColorSpan> implements ColorPickerListener {
 
     private ImageView mFontColorImageView;
 
@@ -54,14 +54,15 @@ public class ARE_Style_FontColor extends ARE_ABS_Dynamic_Style<AreForegroundColo
 
     private void showFontColorPickerWindow() {
         if (mColorPickerWindow == null) {
-            mColorPickerWindow = new ColorPickerWindow(mContext);
+            mColorPickerWindow = new ColorPickerWindow(mContext, this);
         }
-        mColorPickerWindow.showAsDropDown(mFontColorImageView, 0, 0);
+        int yOff = Util.getPixelByDp(mContext, -5);
+        mColorPickerWindow.showAsDropDown(mFontColorImageView, 0, yOff);
     }
 
     @Override
     public AreForegroundColorSpan newSpan() {
-        return new AreForegroundColorSpan(-1);
+        return new AreForegroundColorSpan(mColor);
     }
 
     @Override
@@ -83,12 +84,27 @@ public class ARE_Style_FontColor extends ARE_ABS_Dynamic_Style<AreForegroundColo
     protected void featureChangedHook(int lastSpanFontColor) {
         mColor = lastSpanFontColor;
         if (mColorPickerWindow != null) {
-//            mColorPickerWindow.setFontSize(mSize);
+            mColorPickerWindow.setColor(lastSpanFontColor);
         }
     }
 
     @Override
     protected AreForegroundColorSpan newSpan(int color) {
         return new AreForegroundColorSpan(color);
+    }
+
+    @Override
+    public void onPickColor(int color) {
+        mIsChecked = true;
+        mColor = color;
+        if (null != mEditText) {
+            Editable editable = mEditText.getEditableText();
+            int start = mEditText.getSelectionStart();
+            int end = mEditText.getSelectionEnd();
+
+            if (end >= start) {
+                applyNewStyle(editable, start, end, color);
+            }
+        }
     }
 }
