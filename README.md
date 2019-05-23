@@ -46,14 +46,11 @@ Supported styles:
 * All styles support save as HTML file
 * Load from HTML then continue editing or displaying - New in 0.1.0
 
-## Released 0.1.5:
+## Released 0.1.6:
 
 * Maintain release, includes:
-* Documents for installation and developement
-* UI improvements
-* Fixed ARE color override customer project issue
-* Won't bring up keyboard by clicking an image
-* Added `ImageStrategy` for uploading and inserting an image [See doc](./docs/image_upload_insert.md)
+* Added foreground color style to ARE_Toolbar_Default
+* Added background color style to ARE_Toolbar_Default
 * Bugs fixing
 
 ![image](https://github.com/chinalwb/are/blob/master/ARE/demo/new_012.png)
