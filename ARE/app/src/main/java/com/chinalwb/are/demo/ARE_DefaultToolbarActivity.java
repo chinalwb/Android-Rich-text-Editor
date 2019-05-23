@@ -22,6 +22,7 @@ import com.chinalwb.are.styles.toolitems.ARE_ToolItem_AlignmentCenter;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_AlignmentLeft;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_AlignmentRight;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_At;
+import com.chinalwb.are.styles.toolitems.ARE_ToolItem_BackgroundColor;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_Bold;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_FontColor;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_FontSize;
@@ -88,8 +89,9 @@ public class ARE_DefaultToolbarActivity extends AppCompatActivity {
         IARE_ToolItem italic = new ARE_ToolItem_Italic();
         IARE_ToolItem underline = new ARE_ToolItem_Underline();
         IARE_ToolItem strikethrough = new ARE_ToolItem_Strikethrough();
-        ARE_ToolItem_FontSize fontSize = new ARE_ToolItem_FontSize();
-        ARE_ToolItem_FontColor fontColor = new ARE_ToolItem_FontColor();
+        IARE_ToolItem fontSize = new ARE_ToolItem_FontSize();
+        IARE_ToolItem fontColor = new ARE_ToolItem_FontColor();
+        IARE_ToolItem backgroundColor = new ARE_ToolItem_BackgroundColor();
         IARE_ToolItem quote = new ARE_ToolItem_Quote();
         IARE_ToolItem listNumber = new ARE_ToolItem_ListNumber();
         IARE_ToolItem listBullet = new ARE_ToolItem_ListBullet();
@@ -110,6 +112,7 @@ public class ARE_DefaultToolbarActivity extends AppCompatActivity {
         mToolbar.addToolbarItem(strikethrough);
         mToolbar.addToolbarItem(fontSize);
         mToolbar.addToolbarItem(fontColor);
+        mToolbar.addToolbarItem(backgroundColor);
         mToolbar.addToolbarItem(quote);
         mToolbar.addToolbarItem(listNumber);
         mToolbar.addToolbarItem(listBullet);

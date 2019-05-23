@@ -14,7 +14,6 @@ import com.chinalwb.are.Util;
 import com.chinalwb.are.spans.AreForegroundColorSpan;
 import com.chinalwb.are.styles.IARE_Style;
 import com.chinalwb.are.styles.toolitems.styles.ARE_Style_FontColor;
-import com.chinalwb.are.styles.toolitems.styles.ARE_Style_FontSize;
 
 public class ARE_ToolItem_FontColor extends ARE_ToolItem_Abstract {
     @Override
