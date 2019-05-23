@@ -83,8 +83,12 @@ public class ARE_Style_FontColor extends ARE_ABS_Dynamic_Style<AreForegroundColo
     @Override
     protected void featureChangedHook(int lastSpanFontColor) {
         mColor = lastSpanFontColor;
+        setColorChecked(lastSpanFontColor);
+    }
+
+    public void setColorChecked(int color) {
         if (mColorPickerWindow != null) {
-            mColorPickerWindow.setColor(lastSpanFontColor);
+            mColorPickerWindow.setColor(color);
         }
     }
 

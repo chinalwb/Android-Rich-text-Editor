@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
@@ -123,6 +124,7 @@ public class ColorPickerView extends HorizontalScrollView {
             View childView = mColorsContainer.getChildAt(i);
             if (childView instanceof ColorView) {
                 int viewColor = ((ColorView) childView).getColor();
+                Log.w("ARE", "view/selected color " + viewColor + ", " + selectedColor);
                 if (viewColor == selectedColor) {
                     childView.performClick();
                     break;
