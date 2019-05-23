@@ -3,9 +3,8 @@ apply plugin: 'com.android.library'
 ext {
     PUBLISH_GROUP_ID = 'com.github.chinalwb'
     PUBLISH_ARTIFACT_ID = 'are'
-    PUBLISH_VERSION = '0.1.5'
+    PUBLISH_VERSION = '0.1.6'
 }
-
 
 tasks.withType(Javadoc) {
     options.addStringOption('Xdoclint:none', '-quiet')
