@@ -480,13 +480,13 @@ In progress items:
 
 ## You can download the APK here:
 
-[Click ARE_20181214_0.1.4.apk to download](https://github.com/chinalwb/Android-Rich-text-Editor/releases/download/0.1.4/ARE_20181214_0.1.4.apk)
+[Click ARE_20190524_0.1.6.apk to download](https://github.com/chinalwb/Android-Rich-text-Editor/releases/download/0.1.6/ARE_20190524_0.1.6.apk)
 
 Known issues:
 
 * Background color - cursor invisible when put it in the range of BackgroundColorSpan
 
-Thanks [@Yasujizr](https://github.com/Yasujizr) providing the logo for ARE. 
+Thanks [@Yasujizr](https://github.com/Yasujizr) providing the logo for ARE. [@Yasujizr](https://github.com/Yasujizr) I hope to get a new logo now :) Could you please help me?
 
 ---
 
