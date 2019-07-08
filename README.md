@@ -46,8 +46,9 @@ Supported styles:
 * All styles support save as HTML file
 * Load from HTML then continue editing or displaying - New in 0.1.0
 
-## Released 0.1.6:
+## Released 0.1.7: update glide to 4.9.0
 
+## In 0.1.6
 * Maintain release, includes:
 * Added foreground color style to ARE_Toolbar_Default
 * Added background color style to ARE_Toolbar_Default
