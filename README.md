@@ -124,8 +124,8 @@ Let me know what features you want to have in the next version if there is any, 
 In your gradle.build of app module, add this in the dependencies:
 
 ```groovy
-    implementation 'com.github.bumptech.glide:glide:4.3.1'
-    implementation 'com.github.chinalwb:are:0.1.5'
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    implementation 'com.github.chinalwb:are:0.1.7'
 ```
 
 or, as `are` is still not stable enough to handle kinds of issues in different business scenarios, I'd like recommend to import `are` into your project direclty and add it as a local module dependency.
