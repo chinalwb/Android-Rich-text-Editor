@@ -35,6 +35,7 @@
                 android:layout_height="40dp"
                 android:padding="5dp"
                 android:src="@drawable/emoji"
+                android:visibility="gone"
                 />
 
             <ImageView

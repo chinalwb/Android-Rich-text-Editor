@@ -1,5 +1,6 @@
 package com.chinalwb.are.styles.toolitems.styles;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
@@ -23,8 +24,8 @@ import com.chinalwb.are.styles.ARE_ABS_FreeStyle;
 
 public class ARE_Style_Link extends ARE_ABS_FreeStyle {
 
-    public static final String HTTP = "http://";
-    public static final String HTTPS = "https://";
+    private static final String HTTP = "http://";
+    private static final String HTTPS = "https://";
     private ImageView mLinkImageView;
     private AREditText mEditText;
 
@@ -40,10 +41,6 @@ public class ARE_Style_Link extends ARE_ABS_FreeStyle {
         return this.mEditText;
     }
 
-    /**
-     *
-     * @param editText
-     */
     public void setEditText(AREditText editText) {
         this.mEditText = editText;
     }
@@ -68,13 +65,13 @@ public class ARE_Style_Link extends ARE_ABS_FreeStyle {
         builder.setTitle(R.string.are_link_title);
 
         LayoutInflater layoutInflater = activity.getLayoutInflater();
-        final View areInsertLinkView = layoutInflater.inflate(R.layout.are_link_insert, null);
+        @SuppressLint("InflateParams") final View areInsertLinkView = layoutInflater.inflate(R.layout.are_link_insert, null);
 
         builder.setView(areInsertLinkView)
         // Add the buttons
             .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                EditText editText = (EditText) areInsertLinkView.findViewById(R.id.are_insert_link_edit);
+                EditText editText = areInsertLinkView.findViewById(R.id.are_insert_link_edit);
                 String url = editText.getText().toString();
                 if (TextUtils.isEmpty(url)) {
                     dialog.dismiss();

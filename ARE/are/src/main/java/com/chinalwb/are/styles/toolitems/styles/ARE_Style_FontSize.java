@@ -2,6 +2,7 @@ package com.chinalwb.are.styles.toolitems.styles;
 
 import android.text.Editable;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.chinalwb.are.AREditText;
@@ -46,6 +47,10 @@ public class ARE_Style_FontSize extends ARE_ABS_Dynamic_Style<AreFontSizeSpan> i
         this.mEditText = editText;
     }
 
+    @Override
+    public EditText getEditText() {
+        return mEditText;
+    }
 
     @Override
     public void setListenerForImageView(final ImageView imageView) {

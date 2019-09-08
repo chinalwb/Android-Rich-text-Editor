@@ -12,6 +12,7 @@ import com.chinalwb.are.Constants;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.spans.ListBulletSpan;
 import com.chinalwb.are.spans.ListNumberSpan;
+import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
 /**
  * All Rights Reserved.
@@ -23,7 +24,8 @@ public class ARE_ListBullet extends ARE_ABS_FreeStyle {
 
 	private ImageView mListBulletImageView;
 
-	public ARE_ListBullet(ImageView imageView) {
+	public ARE_ListBullet(ImageView imageView, ARE_Toolbar toolbar) {
+		super(toolbar);
 		this.mListBulletImageView = imageView;
 		setListenerForImageView(this.mListBulletImageView);
 	}

@@ -30,6 +30,10 @@ public class ARE_Emoji extends ARE_ABS_FreeStyle {
 
 	private ImageView mEmojiImageView;
 
+	public ARE_Emoji(ARE_Toolbar toolbar) {
+		super(toolbar);
+	}
+
 	private AdapterView.OnItemClickListener listenerA = new AdapterView.OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -50,7 +54,7 @@ public class ARE_Emoji extends ARE_ABS_FreeStyle {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			int resId = ((EmojiGridViewAdapter.ViewHolder) view.getTag()).resId;
-			ARE_Toolbar.getInstance().getImageStyle().insertImage(resId, AreImageSpan.ImageType.RES);
+			mToolbar.getImageStyle().insertImage(resId, AreImageSpan.ImageType.RES);
 		}
 	};
 
@@ -58,7 +62,8 @@ public class ARE_Emoji extends ARE_ABS_FreeStyle {
 	 * 
 	 * @param emojiImageView
 	 */
-	public ARE_Emoji(ImageView emojiImageView) {
+	public ARE_Emoji(ImageView emojiImageView, ARE_Toolbar toolbar) {
+		super(toolbar);
 		this.mEmojiImageView = emojiImageView;
 		initEmojiPanel();
 		setListenerForImageView(this.mEmojiImageView);
@@ -71,7 +76,7 @@ public class ARE_Emoji extends ARE_ABS_FreeStyle {
 		ArrayList<EmojiGroup> emojiGroups = initEmojiGroups();
 		EmojiPagerAdapter adapter = new EmojiPagerAdapter(mContext, emojiGroups, fragmentManager);
 		emojiPanel.setAdapter(adapter);
-		ARE_Toolbar.getInstance().setEmojiPanel(emojiPanel);
+		mToolbar.setEmojiPanel(emojiPanel);
 	}
 
 	private ArrayList<EmojiGroup> initEmojiGroups() {
@@ -197,7 +202,7 @@ public class ARE_Emoji extends ARE_ABS_FreeStyle {
 		// Hide keyboard
 		// Get keyboard height
 		// Show emoji panel
-		 ARE_Toolbar.getInstance().toggleEmojiPanel(true);
+		 mToolbar.toggleEmojiPanel(true);
 	}
 
 	@NonNull
@@ -241,4 +246,5 @@ public class ARE_Emoji extends ARE_ABS_FreeStyle {
 			Util.log("List All: " + " :: start == " + ss + ", end == " + se);
 		}
 	}
+
 }

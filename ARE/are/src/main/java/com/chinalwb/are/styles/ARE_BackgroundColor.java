@@ -1,16 +1,13 @@
 package com.chinalwb.are.styles;
 
 
-import android.text.Editable;
-import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.chinalwb.are.AREditText;
-import com.chinalwb.are.Util;
-import com.chinalwb.are.spans.AreUnderlineSpan;
 
 public class ARE_BackgroundColor extends ARE_ABS_Style<BackgroundColorSpan> {
 
@@ -26,17 +23,19 @@ public class ARE_BackgroundColor extends ARE_ABS_Style<BackgroundColorSpan> {
      * @param backgroundImage
      */
     public ARE_BackgroundColor(ImageView backgroundImage, int backgroundColor) {
+        super(backgroundImage.getContext());
         this.mBackgroundImageView = backgroundImage;
         this.mColor = backgroundColor;
         setListenerForImageView(this.mBackgroundImageView);
     }
 
-    /**
-     *
-     * @param editText
-     */
     public void setEditText(AREditText editText) {
         this.mEditText = editText;
+    }
+
+    @Override
+    public EditText getEditText() {
+        return mEditText;
     }
 
     @Override

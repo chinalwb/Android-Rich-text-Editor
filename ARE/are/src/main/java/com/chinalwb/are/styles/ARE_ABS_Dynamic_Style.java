@@ -17,10 +17,6 @@ import com.chinalwb.are.spans.AreDynamicSpan;
  */
 public abstract class ARE_ABS_Dynamic_Style<E extends AreDynamicSpan> extends ARE_ABS_Style<E> {
 
-    public ARE_ABS_Dynamic_Style() {
-        super();
-    }
-
     public ARE_ABS_Dynamic_Style(Context context) {
         super(context);
     }

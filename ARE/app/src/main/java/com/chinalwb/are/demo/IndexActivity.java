@@ -41,6 +41,9 @@ public class IndexActivity extends AppCompatActivity {
 
         Button minHideButton = this.findViewById(R.id.minHideButton);
         openPage(minHideButton, ARE_MinHideActivity.class);
+
+        Button multipleInstanceButton = this.findViewById(R.id.multiInstanceButton);
+        openPage(multipleInstanceButton, ARE_MultiInstanceActivity.class);
     }
 
     private void openPage(Button button, final Class activity) {

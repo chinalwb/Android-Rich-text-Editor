@@ -12,6 +12,7 @@
         are:expandMode="FULL"
         are:hideToolbar="false"
         are:toolbarAlignment="BOTTOM"
+        are:useEmoji="true"
         />
 
 </RelativeLayout>

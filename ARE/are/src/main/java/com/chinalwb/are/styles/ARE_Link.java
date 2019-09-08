@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import com.chinalwb.are.AREditText;
 import com.chinalwb.are.R;
 import com.chinalwb.are.spans.AreUrlSpan;
+import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
 import org.w3c.dom.Text;
 
@@ -25,20 +26,17 @@ import org.w3c.dom.Text;
 
 public class ARE_Link extends ARE_ABS_FreeStyle {
 
-    public static final String HTTP = "http://";
-    public static final String HTTPS = "https://";
+    private static final String HTTP = "http://";
+    private static final String HTTPS = "https://";
     private ImageView mLinkImageView;
     private AREditText mEditText;
 
-    public ARE_Link(ImageView imageView) {
+    public ARE_Link(ImageView imageView, ARE_Toolbar toolbar) {
+        super(toolbar);
         this.mLinkImageView = imageView;
         setListenerForImageView(imageView);
     }
 
-    /**
-     *
-     * @param editText
-     */
     public void setEditText(AREditText editText) {
         this.mEditText = editText;
     }

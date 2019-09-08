@@ -50,6 +50,13 @@
         android:textAllCaps="false"
         android:text="AREditor Min Hide"/>
 
+    <Button
+        android:id="@+id/multiInstanceButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="Multiple AREditor in One Page"/>
+
     <ImageView
         android:id="@+id/image"
         android:layout_width="300dp"

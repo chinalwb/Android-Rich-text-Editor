@@ -11,11 +11,13 @@ import android.widget.ImageView;
 import com.chinalwb.are.Constants;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.spans.AreLeadingMarginSpan;
+import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
 public class ARE_IndentRight extends ARE_ABS_FreeStyle {
 
-	public ARE_IndentRight(ImageView atImageView) {
-		setListenerForImageView(atImageView);
+	public ARE_IndentRight(ImageView indentImageView, ARE_Toolbar toolbar) {
+		super(toolbar);
+		setListenerForImageView(indentImageView);
 	}
 
 	@Override

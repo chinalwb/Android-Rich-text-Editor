@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 26
@@ -21,6 +23,7 @@ dependencies {
     implementation 'com.android.support:design:27.1.1'
 //    implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation project(':are')
-     implementation 'com.github.bumptech.glide:glide:4.9.0'
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
 //     implementation 'com.github.chinalwb:are:0.1.6'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:are="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ARE_MultiInstanceActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:background="@color/color_100"
+                android:padding="8dp"
+                android:text="ARE One"
+                android:textColor="@android:color/white"
+                />
+
+            <com.chinalwb.are.AREditor
+                android:id="@+id/are_1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                are:expandMode="FULL"
+                are:hideToolbar="false"
+                are:toolbarAlignment="BOTTOM" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:background="@color/color_300"
+                android:padding="8dp"
+                android:text="ARE Two"
+                android:textColor="@android:color/white"
+                />
+
+            <com.chinalwb.are.AREditor
+                android:id="@+id/are_2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                are:expandMode="FULL"
+                are:hideToolbar="false"
+                are:toolbarAlignment="BOTTOM" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:background="@color/color_600"
+                android:padding="8dp"
+                android:text="ARE Three"
+                android:textColor="@android:color/white"
+                />
+
+            <com.chinalwb.are.AREditor
+                android:id="@+id/are_3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                are:expandMode="FULL"
+                are:hideToolbar="false"
+                are:toolbarAlignment="BOTTOM" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:background="@color/color_900"
+                android:padding="8dp"
+                android:text="ARE Four"
+                android:textColor="@android:color/white"
+                />
+
+            <com.chinalwb.are.AREditor
+                android:id="@+id/are_4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                are:expandMode="FULL"
+                are:hideToolbar="false"
+                are:toolbarAlignment="BOTTOM" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>
