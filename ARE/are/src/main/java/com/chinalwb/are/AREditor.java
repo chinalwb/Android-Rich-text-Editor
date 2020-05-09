@@ -164,6 +164,8 @@ public class AREditor extends RelativeLayout {
         this.mToolbar.setUseEmoji(mUseEmoji);
 
         this.mAreScrollView = new NestedScrollView(mContext);
+	//修复点击空白处无法拉起键盘的BUG：设置下面的属性后,EditText会充满整个NestedScrollView。
+	mAreScrollView.setFillViewport(true);
         mAreScrollView.setFitsSystemWindows(true);
         this.mAreScrollView.setId(R.id.are_scrollview);
     }
