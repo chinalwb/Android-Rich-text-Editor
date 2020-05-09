@@ -3,7 +3,7 @@ apply plugin: 'com.android.library'
 ext {
     PUBLISH_GROUP_ID = 'com.github.chinalwb'
     PUBLISH_ARTIFACT_ID = 'are'
-    PUBLISH_VERSION = '0.1.7'
+    PUBLISH_VERSION = '0.1.9'
 }
 
 tasks.withType(Javadoc) {
@@ -53,5 +53,6 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 }
 
+// apply from: './android-release-aar.gradle'
 // apply from: 'https://raw.githubusercontent.com/blundell/release-android-library/master/android-release-aar.gradle'
 // ./gradlew clean build generateRelease
