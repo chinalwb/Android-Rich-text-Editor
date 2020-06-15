@@ -85,7 +85,7 @@ public class ARE_DefaultToolbarActivity extends AppCompatActivity {
 
     private void initToolbar() {
         mToolbar = this.findViewById(R.id.areToolbar);
-        IARE_ToolItem bold = new ARE_ToolItem_Bold();
+        IARE_ToolItem bold = new ARE_ToolItem_MyBold();
         IARE_ToolItem italic = new ARE_ToolItem_Italic();
         IARE_ToolItem underline = new ARE_ToolItem_Underline();
         IARE_ToolItem strikethrough = new ARE_ToolItem_Strikethrough();
