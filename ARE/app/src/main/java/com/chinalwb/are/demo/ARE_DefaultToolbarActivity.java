@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import com.chinalwb.are.AREditText;
 import com.chinalwb.are.demo.helpers.DemoImageStrategy;
 import com.chinalwb.are.demo.toolitems.ARE_ToolItem_MyBold;
+import com.chinalwb.are.demo.toolitems.ARE_ToolItem_Youtube;
 import com.chinalwb.are.strategies.ImageStrategy;
 import com.chinalwb.are.strategies.VideoStrategy;
 import com.chinalwb.are.styles.toolbar.ARE_ToolbarDefault;
@@ -84,6 +85,7 @@ public class ARE_DefaultToolbarActivity extends AppCompatActivity {
     private void initToolbar() {
         mToolbar = this.findViewById(R.id.areToolbar);
         IARE_ToolItem bold = new ARE_ToolItem_MyBold();
+        IARE_ToolItem youtube = new ARE_ToolItem_Youtube();
         IARE_ToolItem italic = new ARE_ToolItem_Italic();
         IARE_ToolItem underline = new ARE_ToolItem_Underline();
         IARE_ToolItem strikethrough = new ARE_ToolItem_Strikethrough();
@@ -105,6 +107,7 @@ public class ARE_DefaultToolbarActivity extends AppCompatActivity {
         IARE_ToolItem at = new ARE_ToolItem_At();
 
         mToolbar.addToolbarItem(bold);
+        mToolbar.addToolbarItem(youtube);
         mToolbar.addToolbarItem(italic);
         mToolbar.addToolbarItem(underline);
         mToolbar.addToolbarItem(strikethrough);
