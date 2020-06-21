@@ -1,4 +1,4 @@
-package com.chinalwb.are.demo;
+package com.chinalwb.are.demo.toolitems;
 
 import android.content.Context;
 import android.view.View;
@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.chinalwb.are.Util;
+import com.chinalwb.are.demo.R;
 import com.chinalwb.are.styles.IARE_Style;
 import com.chinalwb.are.styles.toolitems.ARE_ToolItem_Bold;
 
