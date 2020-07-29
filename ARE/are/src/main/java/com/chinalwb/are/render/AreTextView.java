@@ -98,5 +98,6 @@ public class AreTextView extends AppCompatTextView {
 
     public void setClickStrategy(AreClickStrategy clickStrategy) {
         this.mClickStrategy = clickStrategy;
+        this.setMovementMethod(new AREMovementMethod(this.mClickStrategy));
     }
 }
