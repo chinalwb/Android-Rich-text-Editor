@@ -3,7 +3,6 @@
  
  
  # Android Rich text Editor ([中文说明见这里](https://github.com/chinalwb/Android-Rich-text-Editor/blob/master/README-zh.md))
----
 
 If you are looking for a good rich text editor on Android, DON'T MISS THIS ONE!
 
