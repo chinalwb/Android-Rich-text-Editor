@@ -10,7 +10,7 @@ It's still in progress now, welcome fork and join me!
 
 I published [colorpicker](https://github.com/chinalwb/SimpleColorPicker) and [emojipicker](https://github.com/chinalwb/SimpleEmojiPicker) as standalone components so they can be reused in other projects easily.
 
-*I didn't stop this project, I am just working on other most important things to myself, I probably could not be able to fix your issues or enchements requests but I will provide my suggest if I could or just check in the fix to master. I will make it more stable and usable and with more features, I have plan but sorry I have no time schedule for now, welcome form and join me*
+*I didn't stop this project, I am just working on other most important things to myself, I probably could not be able to fix your issues or enhancement requests but I will provide my suggest if I could or just check in the fix to master. I will make it more stable and usable and with more features, I have plan but sorry I have no time schedule for now, welcome form and join me*
 
 This is implemented by Java
 
@@ -81,7 +81,7 @@ Let me know what features you want to have in the next version if there is any, 
 
      1. `AREditText` extends `AppCompatEditText`, in its `afterTextChanged` method of `TextWatcher`, it calls the `applyStyle` of `IARE_Style`.
 
-     2. `ARE_Toolbar` extends `LinearLayout`, the tool items inside are`IARE_Style` instances, each instance contains an `ImageView`, which is being shown in the toolbar.
+     2. `ARE_Toolbar` extends `LinearLayout`, the tool items inside are `IARE_Style` instances, each instance contains an `ImageView`, which is being shown in the toolbar.
 
   2. AREditText + IARE_Toolbar.
 
@@ -111,7 +111,7 @@ Let me know what features you want to have in the next version if there is any, 
            ARE_ToolItem_UpdaterDefault
            ARE_ToolItem_Video
 
-        2. The abve tool items can be added to toolbar by calling: `addToolbarItem(IARE_ToolItem toolItem)`
+        2. The above tool items can be added to toolbar by calling: `addToolbarItem(IARE_ToolItem toolItem)`
 
         3. If you want to add your own tool item, you just need to implement your `IARE_ToolItem`, for example, if you want to add a tool item to change font family, then you can define ARE_ToolItem_FontFamily and implements the methods in `IARE_ToolItem`. You can check out any of the above ToolItems as reference.
 
@@ -128,7 +128,7 @@ In your gradle.build of app module, add this in the dependencies:
     implementation 'com.github.chinalwb:are:0.1.7'
 ```
 
-or, as `are` is still not stable enough to handle kinds of issues in different business scenarios, I'd like recommend to import `are` into your project direclty and add it as a local module dependency.
+or, as `are` is still not stable enough to handle kinds of issues in different business scenarios, I'd like recommend to import `are` into your project directly and add it as a local module dependency.
 
 ```
 	implementation project(':are')
@@ -216,7 +216,7 @@ It extends `HorizontalScrollView`, so anything applies to `HorizontalScrollView`
 | IARE_Toolbar | getToolItems     | -none-                                        | Returns all of the tool items in the toolbar                                                                                                                                                    |
 | IARE_Toolbar | setEditText      | AREditText                                    | Binds AREditText with toolbar                                                                                                                                                                   |
 | IARE_Toolbar | getEditText      | -none-                                        | Returns the bound AREditText                                                                                                                                                                    |
-| IARE_Toolbar | onActivityResult | requestCode(int) resultCode(int) data(Intent) | For some styles like inert image or video or @ feature, you need open a new Activity, and need to handle the data via onActivityResult, in this method you can dispatch to the specific styles. |
+| IARE_Toolbar | onActivityResult | requestCode(int) resultCode(int) data(Intent) | For some styles like insert image or video or @ feature, you need open a new Activity, and need to handle the data via onActivityResult, in this method you can dispatch to the specific styles. |
 
 #### APIs for `IARE_ToolItem`
 
@@ -477,7 +477,7 @@ In progress items:
 * Indent left
 * Save editings to local SQLite
 * Notes list
-* Headline - defered, can be done with font size and center style
+* Headline - deferred, can be done with font size and center style
 
 ## You can download the APK here:
 
