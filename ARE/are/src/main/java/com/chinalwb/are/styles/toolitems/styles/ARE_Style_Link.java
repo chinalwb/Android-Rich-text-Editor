@@ -3,7 +3,7 @@ package com.chinalwb.are.styles.toolitems.styles;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 import android.text.Editable;
 import android.text.Spanned;
 import android.text.TextUtils;

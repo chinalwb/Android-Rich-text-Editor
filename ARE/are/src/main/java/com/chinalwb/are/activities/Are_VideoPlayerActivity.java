@@ -6,9 +6,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.v4.widget.ContentLoadingProgressBar;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import androidx.core.widget.ContentLoadingProgressBar;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
@@ -17,7 +17,6 @@ import android.widget.Button;
 import android.widget.VideoView;
 
 import com.chinalwb.are.R;
-import com.chinalwb.are.Util;
 import com.chinalwb.are.strategies.VideoStrategy;
 
 /**

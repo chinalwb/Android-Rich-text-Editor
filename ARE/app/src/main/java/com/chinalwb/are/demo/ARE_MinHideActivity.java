@@ -2,7 +2,7 @@ package com.chinalwb.are.demo;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -72,6 +72,7 @@ public class ARE_MinHideActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         this.arEditor.onActivityResult(requestCode, resultCode, data);
     }
 
