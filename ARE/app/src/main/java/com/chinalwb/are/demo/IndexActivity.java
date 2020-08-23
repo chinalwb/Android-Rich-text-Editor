@@ -20,7 +20,7 @@ public class IndexActivity extends AppCompatActivity {
 
         ImageView imageView = (ImageView) findViewById(R.id.image);
 
-        Glide.with(this).load("http://a.hiphotos.baidu.com/image/h%3D300/sign=b18b23079522720e64cee4fa4bca0a3a/4a36acaf2edda3ccc4a53e450ce93901213f9216.jpg").into(imageView);
+        Glide.with(this).load("https://findicons.com/files/icons/734/phuzion/128/apps.png").into(imageView);
     }
 
     private void initViews() {

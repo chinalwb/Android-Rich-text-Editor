@@ -7,6 +7,13 @@
     android:orientation="vertical"
     tools:context="com.chinalwb.are.demo.IndexActivity">
 
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_margin="36dp"
+        />
 
     <Button
         android:id="@+id/defaultToolbar"
@@ -57,11 +64,7 @@
         android:textAllCaps="false"
         android:text="Multiple AREditor in One Page"/>
 
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:background="@color/colorAccent"/>
+
 
 
 </LinearLayout>
