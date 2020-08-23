@@ -1,16 +1,10 @@
 package com.chinalwb.are.demo.toolitems
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Color.TRANSPARENT
 import android.graphics.Paint
 import android.text.style.ReplacementSpan
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
-import com.chinalwb.are.glidesupport.GlideApp
 import com.chinalwb.are.spans.ARE_Clickable_Span
 import com.chinalwb.are.spans.ARE_Span
 

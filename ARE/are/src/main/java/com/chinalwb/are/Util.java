@@ -28,9 +28,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.Arrays;
-import java.util.Collections;
-
 /**
  * All Rights Reserved.
  *
@@ -235,7 +232,7 @@ public class Util {
         //draw fg into
         cv.drawBitmap(foreground, fgLeft, fgTop, null);
         //save all clip
-        cv.save(Canvas.ALL_SAVE_FLAG);
+        cv.save();
         //store
         cv.restore();
         return newBitmap;

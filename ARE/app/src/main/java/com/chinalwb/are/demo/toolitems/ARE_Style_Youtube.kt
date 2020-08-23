@@ -3,18 +3,18 @@ package com.chinalwb.are.demo.toolitems
 import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.support.v7.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.text.Editable
 import android.text.Spanned
 import android.text.TextUtils
 import android.widget.EditText
 import android.widget.ImageView
+import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.chinalwb.are.AREditText
 import com.chinalwb.are.demo.R
-import com.chinalwb.are.glidesupport.GlideApp
 import com.chinalwb.are.styles.ARE_ABS_FreeStyle
 
 class ARE_Style_Youtube(editText: AREditText, imageView: ImageView) : ARE_ABS_FreeStyle(editText.context) {
@@ -79,7 +79,7 @@ class ARE_Style_Youtube(editText: AREditText, imageView: ImageView) : ARE_ABS_Fr
             editable.insert(start, title)
             end = start + title.length
         }
-        GlideApp.with(mImageView.context).asBitmap().load(com.chinalwb.are.demo.R.drawable.youtube)
+        Glide.with(mImageView.context).asBitmap().load(com.chinalwb.are.demo.R.drawable.youtube)
                 .apply(RequestOptions().override(50, 50))
                 .listener(object : RequestListener<Bitmap> {
                     override fun onLoadFailed(e: GlideException?, model: Any?, target: com.bumptech.glide.request.target.Target<Bitmap>?, isFirstResource: Boolean): Boolean {
