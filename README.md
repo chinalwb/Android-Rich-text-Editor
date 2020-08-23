@@ -44,6 +44,10 @@ Supported styles:
 * All styles support save as HTML file
 * Load from HTML then continue editing or displaying - New in 0.1.0
 
+## Released 0.2.0: migrated to AndroidX
+* Update Glide to 4.11.0
+* The last non-androidx version is 0.1.10
+
 ## Released 0.1.8: added support for multiple ARE instances in one page
 
 ## Released 0.1.7: update glide to 4.9.0
