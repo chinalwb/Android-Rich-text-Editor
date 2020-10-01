@@ -2,8 +2,6 @@ package com.chinalwb.are.styles.toolitems;
 
 import android.content.Context;
 import android.text.Editable;
-import android.text.style.CharacterStyle;
-import android.text.style.StyleSpan;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -11,16 +9,28 @@ import android.widget.LinearLayout;
 import com.chinalwb.are.AREditText;
 import com.chinalwb.are.R;
 import com.chinalwb.are.Util;
+import com.chinalwb.are.colorpicker.ColorPickerView;
 import com.chinalwb.are.spans.AreForegroundColorSpan;
 import com.chinalwb.are.styles.IARE_Style;
 import com.chinalwb.are.styles.toolitems.styles.ARE_Style_FontColor;
 
 public class ARE_ToolItem_FontColor extends ARE_ToolItem_Abstract {
+
+    private final ColorPickerView colorPickerView;
+
+    public ARE_ToolItem_FontColor() {
+        this.colorPickerView = null;
+    }
+
+    public ARE_ToolItem_FontColor(ColorPickerView colorPickerView) {
+        this.colorPickerView = colorPickerView;
+    }
+
     @Override
     public IARE_Style getStyle() {
         if (mStyle == null) {
             AREditText editText = this.getEditText();
-            mStyle = new ARE_Style_FontColor(editText, (ImageView) mToolItemView);
+            mStyle = new ARE_Style_FontColor(editText, (ImageView) mToolItemView, colorPickerView);
         }
         return mStyle;
     }
