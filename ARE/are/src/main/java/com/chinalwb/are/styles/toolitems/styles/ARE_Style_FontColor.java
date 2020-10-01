@@ -105,6 +105,14 @@ public class ARE_Style_FontColor extends ARE_ABS_Dynamic_Style<AreForegroundColo
     @Override
     public void onPickColor(int color) {
         mIsChecked = true;
+
+        mFontColorImageView.post(new Runnable() {
+            @Override
+            public void run() {
+                mFontColorImageView.setColorFilter(mColor);
+            }
+        });
+
         mColor = color;
         if (null != mEditText) {
             Editable editable = mEditText.getEditableText();
