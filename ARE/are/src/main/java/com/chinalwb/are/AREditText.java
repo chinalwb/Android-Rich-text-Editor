@@ -93,8 +93,13 @@ public class AREditText extends AppCompatEditText {
         // this.setMovementMethod(new AREMovementMethod());
 		this.setFocusableInTouchMode(true);
 		this.setBackgroundColor(Color.WHITE);
-		this.setInputType(EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE
-				| EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+			this.setInputType(EditorInfo.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE
+					| EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+		} else {
+			this.setInputType(EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE
+					| EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+		}
 		int padding = 8;
 		padding = Util.getPixelByDp(mContext, padding);
 		this.setPadding(padding, padding, padding, padding);
