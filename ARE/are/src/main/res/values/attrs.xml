@@ -21,6 +21,12 @@
         <attr name="colors" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="ARE_ToolbarDefault">
+        <attr name="toolbarIconBackground" format="reference" />
+        <attr name="toolbarIconSize" format="dimension" />
+        <attr name="toolbarIconMargin" format="dimension" />
+    </declare-styleable>
+
     <declare-styleable name="are">
         <attr name="expandMode" format="enum">
             <enum name="FULL" value="0" />

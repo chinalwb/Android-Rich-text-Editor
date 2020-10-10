@@ -4,6 +4,8 @@ import android.view.View;
 
 import com.chinalwb.are.styles.IARE_Style;
 
+import androidx.annotation.DrawableRes;
+
 /**
  * The default tool item check status updater.
  */
@@ -11,14 +13,14 @@ public class ARE_ToolItem_UpdaterDefault implements IARE_ToolItem_Updater {
 
     private IARE_ToolItem mToolItem;
 
-    private int mCheckedColor;
+    @DrawableRes
+    private final int mIconBackground;
+    private final int mIconSize;
 
-    private int mUncheckedColor;
-
-    public ARE_ToolItem_UpdaterDefault(IARE_ToolItem toolItem, int checkedColor, int uncheckedColor) {
+    public ARE_ToolItem_UpdaterDefault(IARE_ToolItem toolItem, @DrawableRes int iconBackground, int iconSize) {
         mToolItem = toolItem;
-        mCheckedColor = checkedColor;
-        mUncheckedColor = uncheckedColor;
+        mIconBackground = iconBackground;
+        mIconSize = iconSize;
     }
 
     @Override
@@ -26,7 +28,7 @@ public class ARE_ToolItem_UpdaterDefault implements IARE_ToolItem_Updater {
         IARE_Style areStyle = mToolItem.getStyle();
         areStyle.setChecked(checked);
         View view = mToolItem.getView(null);
-        int color = checked ? mCheckedColor : mUncheckedColor;
-        view.setBackgroundColor(color);
+        view.setBackgroundResource(mIconBackground);
+        view.setSelected(checked);
     }
 }

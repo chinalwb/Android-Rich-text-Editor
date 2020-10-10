@@ -4,9 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
-import com.chinalwb.are.AREditText;
 import com.chinalwb.are.styles.IARE_Style;
 import com.chinalwb.are.styles.toolbar.IARE_Toolbar;
+
+import androidx.annotation.DrawableRes;
 
 /**
  * Created by wliu on 13/08/2018.
@@ -42,7 +43,7 @@ public interface IARE_ToolItem {
     /**
      * Sets the toolbar for this tool item.
      */
-    public void setToolbar(IARE_Toolbar toolbar);
+    public void setToolbar(IARE_Toolbar toolbar, @DrawableRes int iconBackground, int iconSize, int iconMargin);
 
     /**
      * Gets the tool item updater instance, will be called when style being checked and unchecked.

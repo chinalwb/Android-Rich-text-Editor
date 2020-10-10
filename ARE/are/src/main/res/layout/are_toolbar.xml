@@ -8,58 +8,59 @@
         android:id="@+id/rteColorPalette"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:background="@android:color/background_light"
         android:padding="10dp"
-        android:layout_centerHorizontal="true"
         android:visibility="gone"
+        colorPickerView:colorViewCheckedType="checkMark"
         colorPickerView:colorViewHeight="30dp"
-        colorPickerView:colorViewWidth="30dp"
         colorPickerView:colorViewMarginLeft="2dp"
         colorPickerView:colorViewMarginRight="2dp"
-        colorPickerView:colorViewCheckedType="checkMark"
-        colorPickerView:colors="@array/colorPickerColors"
-        />
+        colorPickerView:colorViewWidth="30dp"
+        colorPickerView:colors="@array/colorPickerColors" />
 
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="?attr/colorPrimary">
+            android:background="?attr/colorPrimary"
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/rteEmoji"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:background="@drawable/background_icon"
                 android:padding="5dp"
                 android:src="@drawable/emoji"
-                android:visibility="gone"
-                />
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/rteFontsize"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:background="@drawable/background_icon"
                 android:padding="5dp"
                 android:src="@drawable/fontsize"
-                android:visibility="visible"
-                />
+                android:visibility="visible" />
 
             <ImageView
                 android:id="@+id/rteFontface"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:background="@drawable/background_icon"
                 android:padding="5dp"
                 android:src="@drawable/fontface"
-                android:visibility="gone"
-                />
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/rteBold"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:background="@drawable/background_icon"
                 android:padding="5dp"
                 android:src="@drawable/bold" />
 
@@ -67,6 +68,7 @@
                 android:id="@+id/rteItalic"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:background="@drawable/background_icon"
                 android:padding="5dp"
                 android:src="@drawable/italic" />
 
@@ -74,6 +76,7 @@
                 android:id="@+id/rteUnderline"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:background="@drawable/background_icon"
                 android:padding="5dp"
                 android:src="@drawable/underline" />
 
@@ -81,6 +84,7 @@
                 android:id="@+id/rteStrikethrough"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:background="@drawable/background_icon"
                 android:padding="5dp"
                 android:src="@drawable/strikethrough" />
 
@@ -88,6 +92,7 @@
                 android:id="@+id/rteHr"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:background="@drawable/background_icon"
                 android:padding="5dp"
                 android:src="@drawable/hr" />
 
@@ -96,6 +101,7 @@
                 android:id="@+id/rteSubscript"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:background="@drawable/background_icon"
                 android:padding="5dp"
                 android:src="@drawable/subscript" />
 
@@ -103,6 +109,7 @@
                 android:id="@+id/rteSuperscript"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:background="@drawable/background_icon"
                 android:padding="5dp"
                 android:src="@drawable/superscript" />
 
@@ -110,6 +117,7 @@
                 android:id="@+id/rteQuote"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:background="@drawable/background_icon"
                 android:padding="5dp"
                 android:src="@drawable/quote" />
 
@@ -118,6 +126,7 @@
                 android:id="@+id/rteFontColor"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:background="@drawable/background_icon"
                 android:padding="5dp"
                 android:src="@drawable/foregroundcolor" />
 
@@ -125,22 +134,23 @@
                 android:id="@+id/rteBackground"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:background="@drawable/background_icon"
                 android:padding="5dp"
-                android:src="@drawable/background"
-                />
+                android:src="@drawable/background" />
 
             <ImageView
                 android:id="@+id/rteLink"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:background="@drawable/background_icon"
                 android:padding="5dp"
-                android:src="@drawable/ic_insert_link_black_48dp"
-                />
+                android:src="@drawable/ic_insert_link_black_48dp" />
 
             <ImageView
                 android:id="@+id/rteListNumber"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:background="@drawable/background_icon"
                 android:padding="5dp"
                 android:src="@drawable/listnumber" />
 
@@ -148,6 +158,7 @@
                 android:id="@+id/rteListBullet"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:background="@drawable/background_icon"
                 android:padding="5dp"
                 android:src="@drawable/listbullet" />
 
@@ -155,24 +166,25 @@
                 android:id="@+id/rteIndentRight"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:background="@drawable/background_icon"
                 android:padding="5dp"
                 android:src="@drawable/indentright"
-                android:visibility="gone"
-                 />
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/rteIndentLeft"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:background="@drawable/background_icon"
                 android:padding="5dp"
                 android:src="@drawable/indentleft"
-                android:visibility="gone"
-                />
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/rteAlignLeft"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:background="@drawable/background_icon"
                 android:padding="5dp"
                 android:src="@drawable/alignleft" />
 
@@ -180,6 +192,7 @@
                 android:id="@+id/rteAlignCenter"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:background="@drawable/background_icon"
                 android:padding="5dp"
                 android:src="@drawable/aligncenter" />
 
@@ -187,6 +200,7 @@
                 android:id="@+id/rteAlignRight"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:background="@drawable/background_icon"
                 android:padding="5dp"
                 android:src="@drawable/alignright" />
 
@@ -194,6 +208,7 @@
                 android:id="@+id/rteInsertImage"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:background="@drawable/background_icon"
                 android:padding="5dp"
                 android:src="@drawable/image" />
 
@@ -201,27 +216,29 @@
                 android:id="@+id/rteInsertVideo"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:background="@drawable/background_icon"
                 android:padding="5dp"
-                android:src="@drawable/video"
-                />
+                android:src="@drawable/video" />
 
             <ImageView
                 android:id="@+id/rteAt"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:background="@drawable/background_icon"
                 android:padding="5dp"
                 android:src="@drawable/at"
                 android:visibility="gone" />
         </LinearLayout>
     </HorizontalScrollView>
+
     <LinearLayout
         android:id="@+id/rteEmojiPanel"
         android:layout_width="match_parent"
         android:layout_height="0px"
-        android:visibility="gone"
         android:gravity="center"
+        android:orientation="horizontal"
         android:paddingTop="10dp"
-        android:orientation="horizontal">
+        android:visibility="gone">
 
     </LinearLayout>
 </merge>

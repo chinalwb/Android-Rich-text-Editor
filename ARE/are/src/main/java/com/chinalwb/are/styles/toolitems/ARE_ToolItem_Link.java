@@ -3,13 +3,10 @@ package com.chinalwb.are.styles.toolitems;
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.chinalwb.are.AREditText;
 import com.chinalwb.are.R;
-import com.chinalwb.are.Util;
 import com.chinalwb.are.styles.IARE_Style;
-import com.chinalwb.are.styles.toolitems.styles.ARE_Style_Hr;
 import com.chinalwb.are.styles.toolitems.styles.ARE_Style_Link;
 
 /**
@@ -38,13 +35,7 @@ public class ARE_ToolItem_Link extends ARE_ToolItem_Abstract {
             return mToolItemView;
         }
         if (mToolItemView == null) {
-            ImageView imageView = new ImageView(context);
-            int size = Util.getPixelByDp(context, 40);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size, size);
-            imageView.setLayoutParams(params);
-            imageView.setImageResource(R.drawable.link);
-            imageView.bringToFront();
-            mToolItemView = imageView;
+            mToolItemView = createIcon(context, R.drawable.link);
         }
 
         return mToolItemView;

@@ -6,15 +6,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.chinalwb.are.AREditText;
 import com.chinalwb.are.R;
-import com.chinalwb.are.Util;
 import com.chinalwb.are.activities.Are_VideoPlayerActivity;
 import com.chinalwb.are.strategies.VideoStrategy;
 import com.chinalwb.are.styles.IARE_Style;
-import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 import com.chinalwb.are.styles.toolitems.styles.ARE_Style_Video;
 
 /**
@@ -43,13 +40,7 @@ public class ARE_ToolItem_Video extends ARE_ToolItem_Abstract {
             return mToolItemView;
         }
         if (mToolItemView == null) {
-            ImageView imageView = new ImageView(context);
-            int size = Util.getPixelByDp(context, 30);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size, size);
-            imageView.setLayoutParams(params);
-            imageView.setImageResource(R.drawable.video);
-            imageView.bringToFront();
-            mToolItemView = imageView;
+            mToolItemView = createIcon(context, R.drawable.video);
         }
 
         return mToolItemView;
