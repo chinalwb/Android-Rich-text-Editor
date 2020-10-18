@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import com.chinalwb.are.AREditText;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.colorpicker.ColorPickerListener;
+import com.chinalwb.are.colorpicker.ColorPickerView;
 import com.chinalwb.are.spans.AreForegroundColorSpan;
 import com.chinalwb.are.styles.ARE_ABS_Dynamic_Style;
 import com.chinalwb.are.styles.windows.ColorPickerWindow;
@@ -15,6 +16,8 @@ import com.chinalwb.are.styles.windows.ColorPickerWindow;
 public class ARE_Style_FontColor extends ARE_ABS_Dynamic_Style<AreForegroundColorSpan> implements ColorPickerListener {
 
     private ImageView mFontColorImageView;
+
+    private final ColorPickerView colorPickerView;
 
     private AREditText mEditText;
 
@@ -25,13 +28,16 @@ public class ARE_Style_FontColor extends ARE_ABS_Dynamic_Style<AreForegroundColo
     private boolean mIsChecked;
 
     /**
-     * @param fontSizeImage
+     * @param fontColorImage
+     * @param colorPickerView
      */
-    public ARE_Style_FontColor(AREditText editText, ImageView fontSizeImage) {
+    public ARE_Style_FontColor(AREditText editText, ImageView fontColorImage, ColorPickerView colorPickerView) {
         super(editText.getContext());
         this.mEditText = editText;
-        this.mFontColorImageView = fontSizeImage;
+        this.mFontColorImageView = fontColorImage;
+        this.colorPickerView = colorPickerView;
         setListenerForImageView(this.mFontColorImageView);
+        if (this.colorPickerView != null) colorPickerView.setColorPickerListener(this);
     }
 
 
@@ -52,9 +58,18 @@ public class ARE_Style_FontColor extends ARE_ABS_Dynamic_Style<AreForegroundColo
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFontColorPickerWindow();
+                if (colorPickerView != null) {
+                    toggleColorPickerView();
+                } else {
+                    showFontColorPickerWindow();
+                }
             }
         });
+    }
+
+    private void toggleColorPickerView() {
+        boolean isVisible = colorPickerView.getVisibility() == View.VISIBLE;
+        colorPickerView.setVisibility(isVisible ? View.GONE : View.VISIBLE);
     }
 
     private void showFontColorPickerWindow() {
@@ -92,7 +107,9 @@ public class ARE_Style_FontColor extends ARE_ABS_Dynamic_Style<AreForegroundColo
     }
 
     public void setColorChecked(int color) {
-        if (mColorPickerWindow != null) {
+        if (colorPickerView != null) {
+            colorPickerView.setColor(color);
+        } else if (mColorPickerWindow != null) {
             mColorPickerWindow.setColor(color);
         }
     }
