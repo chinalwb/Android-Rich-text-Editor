@@ -18,8 +18,15 @@ public class ARE_ToolItem_FontColor extends ARE_ToolItem_Abstract {
 
     private final ColorPickerView colorPickerView;
 
+    private int colorPickerBackgroundColor;
+
     public ARE_ToolItem_FontColor() {
+        this(android.R.color.white);
+    }
+
+    public ARE_ToolItem_FontColor(int colorPickerBackgroundColor) {
         this.colorPickerView = null;
+        this.colorPickerBackgroundColor = colorPickerBackgroundColor;
     }
 
     public ARE_ToolItem_FontColor(ColorPickerView colorPickerView) {
@@ -32,6 +39,7 @@ public class ARE_ToolItem_FontColor extends ARE_ToolItem_Abstract {
             AREditText editText = this.getEditText();
             mStyle = new ARE_Style_FontColor(editText, (ImageView) mToolItemView, colorPickerView);
         }
+        ((ARE_Style_FontColor) mStyle).setColorPickerBackgroundColor(colorPickerBackgroundColor);
         return mStyle;
     }
 

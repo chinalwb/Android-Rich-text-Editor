@@ -55,4 +55,8 @@ public class ColorPickerWindow extends PopupWindow {
     private void setupListeners() {
         this.colorPickerView.setColorPickerListener(mColorPickerListener);
     }
+
+    public void setBackgroundColor(int backgroundColor) {
+        this.colorPickerView.setBackgroundColor(backgroundColor);
+    }
 }

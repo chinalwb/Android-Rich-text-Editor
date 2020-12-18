@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import androidx.annotation.ColorInt;
+
 import com.chinalwb.are.AREditText;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.colorpicker.ColorPickerListener;
@@ -24,6 +26,8 @@ public class ARE_Style_FontColor extends ARE_ABS_Dynamic_Style<AreForegroundColo
     private ColorPickerWindow mColorPickerWindow;
 
     private int mColor;
+
+    @ColorInt private int mColorPickerBackgroundColor;
 
     private boolean mIsChecked;
 
@@ -78,6 +82,7 @@ public class ARE_Style_FontColor extends ARE_ABS_Dynamic_Style<AreForegroundColo
         }
         int yOff = Util.getPixelByDp(mContext, -5);
         mColorPickerWindow.showAsDropDown(mFontColorImageView, 0, yOff);
+        mColorPickerWindow.setBackgroundColor(mColorPickerBackgroundColor);
     }
 
     @Override
@@ -140,5 +145,9 @@ public class ARE_Style_FontColor extends ARE_ABS_Dynamic_Style<AreForegroundColo
                 applyNewStyle(editable, start, end, color);
             }
         }
+    }
+
+    public void setColorPickerBackgroundColor(int colorPickerBackgroundColor) {
+        mColorPickerBackgroundColor = colorPickerBackgroundColor;
     }
 }
