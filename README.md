@@ -10,7 +10,7 @@ It's still in progress now, welcome fork and join me!
 
 I published [colorpicker](https://github.com/chinalwb/SimpleColorPicker) and [emojipicker](https://github.com/chinalwb/SimpleEmojiPicker) as standalone components so they can be reused in other projects easily.
 
-*Hey guys! If you're reading this, I believe you are kind of in struggle to find out some solution for rich text editor on Android, and specifically, you want to use the Android SDK to implement. If I am right, maybe I can help. But starting from the very beginning of this project, I open-sourced all of the code, and have helped tens to even hundreds of friends out from their troubles, for free! Now I have to charge for the future helps, starting from $49 per feature implementation; $19 per feature contact. And the improvement will all be open-source to help others out. Reach out 751510471@qq.com for details. Thank you!*
+*Hey guys! If you're reading this, I believe you are kind of struggling to find out some solution for rich text editor on Android, and specifically, you want to use the Android native APIs to implement. If I was right, maybe I can help. But starting from the very beginning of this project, I open-sourced all of the code, and have helped tens to even hundreds of friends out from their troubles, for free! Now I have to charge for the future helps, starting from $49 per feature implementation; $19 per feature contact. And the improvement will all be open-source to help others out. Reach out 329055754@qq.com for details. Thank you!*
 
 This is implemented by Java
 
