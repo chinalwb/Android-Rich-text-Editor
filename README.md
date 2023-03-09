@@ -6,6 +6,8 @@
 
 If you are looking for a good rich text editor on Android, DON'T MISS THIS ONE!
 
+And, I am open to work. Feel free to contact me at chinalwb168@gmail.com if you have an opening. Thank you!
+
 It's still in progress now, welcome fork and join me!
 
 I published [colorpicker](https://github.com/chinalwb/SimpleColorPicker) and [emojipicker](https://github.com/chinalwb/SimpleEmojiPicker) as standalone components so they can be reused in other projects easily.
