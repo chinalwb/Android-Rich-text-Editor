@@ -1130,11 +1130,9 @@ class HtmlToSpannedConverter implements ContentHandler {
         OL ol = new OL(level);
         start(text, ol);
         OL_UL_STACK.push(ol);
-        Html.sListNumber = 0;
     }
 
     private void endOL(Editable text) {
-        Html.sListNumber = -1;
         if (OL_UL_STACK.isEmpty()) {
             return;
         }
@@ -1177,8 +1175,9 @@ class HtmlToSpannedConverter implements ContentHandler {
         endBlockElement(text);
         Object peekEle = OL_UL_STACK.peek();
         if (peekEle instanceof OL) {
-            Html.sListNumber = Html.sListNumber + 1;
-            end(text, Numeric.class, new ListNumberSpan(Html.sListNumber));
+            OL ol = (OL) peekEle;
+            end(text, Numeric.class, new ListNumberSpan(ol.getListItemNumber()));
+            ol.incrementListItemNumber();
         } else {
             end(text, Bullet.class, new ListBulletSpan());
         }
@@ -1625,6 +1624,15 @@ class HtmlToSpannedConverter implements ContentHandler {
 
     private static class OL {
         private int level;
+        private int listItemNumber = 1;
+
+        public int getListItemNumber() {
+            return listItemNumber;
+        }
+
+        public void incrementListItemNumber() {
+            listItemNumber++;
+        }
 
         public OL(int level) {
             this.level = level;
