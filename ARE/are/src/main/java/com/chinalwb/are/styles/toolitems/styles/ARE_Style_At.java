@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.text.Editable;
 import android.text.Spanned;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.chinalwb.are.AREditText;
@@ -13,7 +14,6 @@ import com.chinalwb.are.models.AtItem;
 import com.chinalwb.are.spans.AreAtSpan;
 import com.chinalwb.are.strategies.AtStrategy;
 import com.chinalwb.are.styles.ARE_ABS_FreeStyle;
-import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
 public class ARE_Style_At extends ARE_ABS_FreeStyle {
 
@@ -90,5 +90,10 @@ public class ARE_Style_At extends ARE_ABS_FreeStyle {
 	public void setChecked(boolean isChecked) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public EditText getEditText() {
+		return this.mEditText;
 	}
 }

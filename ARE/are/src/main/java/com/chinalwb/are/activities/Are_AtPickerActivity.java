@@ -1,10 +1,9 @@
 package com.chinalwb.are.activities;
 
 import android.app.Activity;
-import android.content.ClipData;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,9 +15,7 @@ import com.chinalwb.are.models.AtItem;
 import com.chinalwb.are.styles.ARE_At;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ExecutorService;
 
 import static android.os.AsyncTask.THREAD_POOL_EXECUTOR;
 

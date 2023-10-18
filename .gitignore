@@ -3,6 +3,7 @@ ARE/gen/com/chinalwb/are/R.java
 ARE/bin/res/crunch/drawable-hdpi/image.png
 ARE/bin/res/crunch/drawable-hdpi/ic_launcher.png
 ARE/bin/*
+ARE/local.properties
 *.keystore
 */**/.DS_Store
 ARE/.gradle

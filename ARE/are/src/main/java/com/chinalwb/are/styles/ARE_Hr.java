@@ -1,28 +1,22 @@
 package com.chinalwb.are.styles;
 
-import android.test.mock.MockContext;
 import android.text.Editable;
-import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.style.AlignmentSpan;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.chinalwb.are.AREditText;
 import com.chinalwb.are.Constants;
-import com.chinalwb.are.spans.AreAtSpan;
 import com.chinalwb.are.spans.AreHrSpan;
+import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
 public class ARE_Hr extends ARE_ABS_FreeStyle {
 
 	private AREditText mEditText;
 
-	private ImageView mImageView;
-
-	public ARE_Hr(ImageView imageView) {
-		mImageView = imageView;
+	public ARE_Hr(ImageView imageView, ARE_Toolbar toolbar) {
+		super(toolbar);
 		setListenerForImageView(imageView);
 	}
 

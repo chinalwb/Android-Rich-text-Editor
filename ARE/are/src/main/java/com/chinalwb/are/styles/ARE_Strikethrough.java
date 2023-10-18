@@ -5,6 +5,7 @@ import android.text.Spanned;
 import android.text.style.StrikethroughSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.chinalwb.are.AREditText;
@@ -18,12 +19,9 @@ public class ARE_Strikethrough extends ARE_ABS_Style<StrikethroughSpan> {
 
 	private AREditText mEditText;
 
-	/**
-	 * 
-	 * @param StrikethroughImage
-	 */
-	public ARE_Strikethrough(ImageView StrikethroughImage) {
-		this.mStrikethroughImageView = StrikethroughImage;
+	public ARE_Strikethrough(ImageView strikethroughImage) {
+		super(strikethroughImage.getContext());
+		this.mStrikethroughImageView = strikethroughImage;
 		setListenerForImageView(this.mStrikethroughImageView);
 	}
 
@@ -33,6 +31,11 @@ public class ARE_Strikethrough extends ARE_ABS_Style<StrikethroughSpan> {
 	 */
 	public void setEditText(AREditText editText) {
 		this.mEditText = editText;
+	}
+
+	@Override
+	public EditText getEditText() {
+		return mEditText;
 	}
 
 	@Override

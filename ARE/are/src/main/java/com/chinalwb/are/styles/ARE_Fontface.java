@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.chinalwb.are.Constants;
 import com.chinalwb.are.spans.MyTypefaceSpan;
+import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
 public class ARE_Fontface extends ARE_ABS_FreeStyle {
 
@@ -21,7 +22,8 @@ public class ARE_Fontface extends ARE_ABS_FreeStyle {
 	 * 
 	 * @param fontSizeImage
 	 */
-	public ARE_Fontface(ImageView fontSizeImage) {
+	public ARE_Fontface(ImageView fontSizeImage, ARE_Toolbar toolbar) {
+		super(toolbar);
 		this.mFontfaceImageView = fontSizeImage;
 		setListenerForImageView(this.mFontfaceImageView);
 	}
@@ -66,5 +68,4 @@ public class ARE_Fontface extends ARE_ABS_FreeStyle {
 	public void setChecked(boolean isChecked) {
 		// Do nothing.
 	}
-
 }
