@@ -1,13 +1,11 @@
 package com.chinalwb.are.styles;
 
-import android.text.Editable;
-import android.text.Spanned;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.chinalwb.are.AREditText;
-import com.chinalwb.are.Util;
 import com.chinalwb.are.spans.AreUnderlineSpan;
 
 public class ARE_Underline extends ARE_ABS_Style<AreUnderlineSpan> {
@@ -18,21 +16,19 @@ public class ARE_Underline extends ARE_ABS_Style<AreUnderlineSpan> {
 
 	private AREditText mEditText;
 
-	/**
-	 * 
-	 * @param UnderlineImage
-	 */
-	public ARE_Underline(ImageView UnderlineImage) {
-		this.mUnderlineImageView = UnderlineImage;
+	public ARE_Underline(ImageView imageView) {
+		super(imageView.getContext());
+		this.mUnderlineImageView = imageView;
 		setListenerForImageView(this.mUnderlineImageView);
 	}
 
-	/**
-	 * 
-	 * @param editText
-	 */
 	public void setEditText(AREditText editText) {
 		this.mEditText = editText;
+	}
+
+	@Override
+	public EditText getEditText() {
+		return mEditText;
 	}
 
 	@Override

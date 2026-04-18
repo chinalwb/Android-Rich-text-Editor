@@ -5,18 +5,18 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.chinalwb.are.R;
 import com.chinalwb.are.Util;
-import com.chinalwb.are.glidesupport.GlideApp;
-import com.chinalwb.are.glidesupport.GlideRequests;
 
 import static com.chinalwb.are.spans.AreImageSpan.ImageType;
 
@@ -44,7 +44,7 @@ public class DefaultImagePreviewActivity extends AppCompatActivity {
     private static final int UI_ANIMATION_DELAY = 300;
     private final Handler mHideHandler = new Handler();
 
-    private static GlideRequests sGlideRequests;
+    private static RequestManager sGlideRequests;
 
     private static int sWidth;
 
@@ -108,7 +108,7 @@ public class DefaultImagePreviewActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_default_image_preview);
 
-        sGlideRequests = GlideApp.with(this);
+        sGlideRequests = Glide.with(this);
         sWidth = Util.getScreenWidthAndHeight(this)[0];
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);

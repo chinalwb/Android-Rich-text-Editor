@@ -21,8 +21,7 @@ public interface IARE_ToolItem {
     public IARE_Style getStyle();
 
     /**
-     * Each tool item has a view.
-     * If context is null, return the generated view.
+     * Each tool item has a view. If context is null, return the generated view.
      */
     public View getView(Context context);
 

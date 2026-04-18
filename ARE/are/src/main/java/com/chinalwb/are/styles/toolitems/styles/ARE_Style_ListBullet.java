@@ -26,13 +26,10 @@ public class ARE_Style_ListBullet extends ARE_ABS_FreeStyle {
 
 	private AREditText mEditText;
 
-	private ImageView mListBulletImageView;
-
 	public ARE_Style_ListBullet(AREditText editText, ImageView imageView) {
 		super(editText.getContext());
 		this.mEditText = editText;
-		this.mListBulletImageView = imageView;
-		setListenerForImageView(this.mListBulletImageView);
+		setListenerForImageView(imageView);
 	}
 
 	@Override
@@ -166,7 +163,6 @@ public class ARE_Style_ListBullet extends ARE_ABS_FreeStyle {
 						//
 						// Case 1
 						makeLineAsBullet();
-						return;
 					}
 				} else {
 					//
@@ -183,8 +179,7 @@ public class ARE_Style_ListBullet extends ARE_ABS_FreeStyle {
 	@Override
 	public void applyStyle(Editable editable, int start, int end) {
 		logAllBulletListItems(editable);
-		ListBulletSpan[] listSpans = editable.getSpans(start, end,
-				ListBulletSpan.class);
+		ListBulletSpan[] listSpans = editable.getSpans(start, end, ListBulletSpan.class);
 		if (null == listSpans || listSpans.length == 0) {
 			return;
 		}
@@ -261,7 +256,7 @@ public class ARE_Style_ListBullet extends ARE_ABS_FreeStyle {
 		} else {
 			//
 			// User deletes
-			ListBulletSpan theFirstSpan = listSpans[0];
+			ListBulletSpan theFirstSpan = null;
 			if (listSpans.length > 0) {
 				FindFirstAndLastBulletSpan findFirstAndLastBulletSpan = new FindFirstAndLastBulletSpan(editable, listSpans).invoke();
 				theFirstSpan = findFirstAndLastBulletSpan.getFirstTargetSpan();

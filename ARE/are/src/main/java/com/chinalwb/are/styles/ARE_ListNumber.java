@@ -12,6 +12,7 @@ import com.chinalwb.are.Constants;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.spans.ListBulletSpan;
 import com.chinalwb.are.spans.ListNumberSpan;
+import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
 import java.util.List;
 
@@ -26,7 +27,8 @@ public class ARE_ListNumber extends ARE_ABS_FreeStyle {
 
     private boolean toMergeForward = false;
 
-    public ARE_ListNumber(ImageView imageView) {
+    public ARE_ListNumber(ImageView imageView, ARE_Toolbar toolbar) {
+        super(toolbar);
         this.mListNumberImageView = imageView;
         setListenerForImageView(this.mListNumberImageView);
     }

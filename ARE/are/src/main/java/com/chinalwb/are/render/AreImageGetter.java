@@ -8,14 +8,14 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.chinalwb.are.AREditText;
 import com.chinalwb.are.Constants;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.android.inner.Html;
-import com.chinalwb.are.glidesupport.GlideApp;
-import com.chinalwb.are.glidesupport.GlideRequests;
 
 public class AreImageGetter implements Html.ImageGetter {
 
@@ -23,13 +23,13 @@ public class AreImageGetter implements Html.ImageGetter {
 
     private TextView mTextView;
 
-    private static GlideRequests sGlideRequests;
+    private static RequestManager sGlideRequests;
 
 
     public AreImageGetter(Context context, TextView textView) {
         mContext = context;
         mTextView = textView;
-        sGlideRequests = GlideApp.with(mContext);
+        sGlideRequests = Glide.with(mContext);
     }
 
     @Override

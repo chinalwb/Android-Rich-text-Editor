@@ -9,11 +9,13 @@ import android.widget.ImageView;
 
 import com.chinalwb.are.Util;
 import com.chinalwb.are.spans.AreLeadingMarginSpan;
+import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
 public class ARE_IndentLeft extends ARE_ABS_FreeStyle {
 
-	public ARE_IndentLeft(ImageView atImageView) {
-		setListenerForImageView(atImageView);
+	public ARE_IndentLeft(ImageView indentImageView, ARE_Toolbar toolbar) {
+		super(toolbar);
+		setListenerForImageView(indentImageView);
 	}
 
 	@Override
@@ -62,5 +64,4 @@ public class ARE_IndentLeft extends ARE_ABS_FreeStyle {
 		// TODO Auto-generated method stub
 
 	}
-
 }

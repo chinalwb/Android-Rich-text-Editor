@@ -42,6 +42,14 @@
                 android:text="@string/btn_attach_video" />
 
         </LinearLayout>
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/are_video_upload_progress"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
     </FrameLayout>
 
 </FrameLayout>

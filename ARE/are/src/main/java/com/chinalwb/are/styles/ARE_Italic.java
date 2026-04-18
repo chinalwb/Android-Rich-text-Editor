@@ -1,16 +1,13 @@
 package com.chinalwb.are.styles;
 
-import android.graphics.Typeface;
-import android.text.Editable;
-import android.text.Spanned;
-import android.text.style.StyleSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.chinalwb.are.AREditText;
-import com.chinalwb.are.Util;
 import com.chinalwb.are.spans.AreItalicSpan;
+import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
 public class ARE_Italic extends ARE_ABS_Style<AreItalicSpan> {
 
@@ -20,21 +17,19 @@ public class ARE_Italic extends ARE_ABS_Style<AreItalicSpan> {
 
 	private AREditText mEditText;
 
-	/**
-	 * 
-	 * @param italicImage
-	 */
 	public ARE_Italic(ImageView italicImage) {
+		super(italicImage.getContext());
 		this.mItalicImageView = italicImage;
 		setListenerForImageView(this.mItalicImageView);
 	}
 
-	/**
-	 * 
-	 * @param editText
-	 */
 	public void setEditText(AREditText editText) {
 		this.mEditText = editText;
+	}
+
+	@Override
+	public EditText getEditText() {
+		return mEditText;
 	}
 
 	@Override

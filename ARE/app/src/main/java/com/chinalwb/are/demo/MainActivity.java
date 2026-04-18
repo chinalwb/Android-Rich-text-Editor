@@ -3,7 +3,6 @@ package com.chinalwb.are.demo;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,11 +44,9 @@ import static com.chinalwb.are.demo.TextViewActivity.HTML_TEXT;
  * @author Wenbin Liu
  *
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AREDemoBaseActivity {
 
     private static boolean useOption1 = true;
-
-    private static final int REQ_WRITE_EXTERNAL_STORAGE = 10000;
 
     private AREditor arEditor;
 
@@ -63,7 +60,13 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void openAtPage() {
             Intent intent = new Intent(MainActivity.this, AtActivity.class);
-            startActivityForResult(intent, ARE_Toolbar.REQ_AT);
+            launchAtPicker(intent, data -> {
+                if (useOption1) {
+                    mToolbar.onActivityResult(ARE_Toolbar.REQ_AT, RESULT_OK, data);
+                } else {
+                    arEditor.onActivityResult(ARE_Toolbar.REQ_AT, RESULT_OK, data);
+                }
+            });
         }
 
         @Override
@@ -127,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
                 "    <p style=\"text-align:start;\"><hr /> </p>\n" +
                 "    <p style=\"text-align:start;\">Text <span style=\"font-size:32px\";>SIZE </span><span style=\"font-size:18px\";><span style=\"font-size:21px\";>normal</span></span></p>\n" +
                 "    <br>\n" +
-                "    <p style=\"text-align:center;\"><img src=\"emoji|" + R.drawable.wx_d_8 + "\"></p>\n" +
+                "    <p style=\"text-align:center;\"><img src=\"emoji|" + com.chinalwb.are.R.drawable.wx_d_8 + "\"></p>\n" +
                 "    <p style=\"text-align:start;\">Image:</p>\n" +
                 "    <p style=\"text-align:start;\"><img src=\"http://d.hiphotos.baidu.com/image/pic/item/6159252dd42a2834171827b357b5c9ea14cebfcf.jpg\" /></p>\n" +
                 "    <p style=\"text-align:start;\"></p>\n" +
@@ -287,18 +290,4 @@ public class MainActivity extends AppCompatActivity {
         return R.layout.activity_main;
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQ_WRITE_EXTERNAL_STORAGE) {
-            String html = this.arEditor.getHtml();
-            DemoUtil.saveHtml(this, html);
-            return;
-        }
-
-        if (useOption1) {
-            mToolbar.onActivityResult(requestCode, resultCode, data);
-        } else {
-            this.arEditor.onActivityResult(requestCode, resultCode, data);
-        }
-    }
 }

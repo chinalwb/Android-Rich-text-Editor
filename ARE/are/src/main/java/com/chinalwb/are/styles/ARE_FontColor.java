@@ -1,28 +1,23 @@
 package com.chinalwb.are.styles;
 
-import android.graphics.Color;
 import android.text.Editable;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.chinalwb.are.AREditText;
-import com.chinalwb.are.Constants;
 import com.chinalwb.are.Util;
+import com.chinalwb.are.colorpicker.ColorPickerListener;
 import com.chinalwb.are.spans.AreForegroundColorSpan;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
-import com.chinalwb.are.colorpicker.ColorPickerListener;
 
 public class ARE_FontColor extends ARE_ABS_Dynamic_Style<AreForegroundColorSpan> {
 
 	private ImageView mFontColorImageView;
+
+	private ARE_Toolbar mToolbar;
 
 	private AREditText mEditText;
 
@@ -45,13 +40,10 @@ public class ARE_FontColor extends ARE_ABS_Dynamic_Style<AreForegroundColorSpan>
 	};
 
 
-
-	/**
-	 *
-	 * @param fontColorImage
-	 */
-	public ARE_FontColor(ImageView fontColorImage) {
+	public ARE_FontColor(ImageView fontColorImage, ARE_Toolbar toolbar) {
+		super(fontColorImage.getContext());
 		this.mFontColorImageView = fontColorImage;
+		this.mToolbar = toolbar;
 		setListenerForImageView(this.mFontColorImageView);
 	}
 
@@ -68,7 +60,7 @@ public class ARE_FontColor extends ARE_ABS_Dynamic_Style<AreForegroundColorSpan>
 		imageView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-		    	ARE_Toolbar.getInstance().toggleColorPalette(mColorPickerListener);
+		    	mToolbar.toggleColorPalette(mColorPickerListener);
 			}
 		});
 	}
@@ -126,6 +118,6 @@ public class ARE_FontColor extends ARE_ABS_Dynamic_Style<AreForegroundColorSpan>
 	@Override
 	protected void featureChangedHook(int lastSpanColor) {
 		mColor = lastSpanColor;
-		ARE_Toolbar.getInstance().setColorPaletteColor(mColor);
+		mToolbar.setColorPaletteColor(mColor);
 	}
 }

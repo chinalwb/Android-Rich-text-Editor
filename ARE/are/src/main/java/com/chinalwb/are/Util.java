@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -11,6 +12,7 @@ import android.graphics.Matrix;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -28,8 +30,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * All Rights Reserved.
@@ -153,6 +156,9 @@ public class Util {
     public static int getPixelByDp(Context context, int dp) {
         int pixels = dp;
         DisplayMetrics displayMetrics = new DisplayMetrics();
+        while (!(context instanceof Activity)) {
+            context = ((ContextWrapper)context).getBaseContext();
+        }
         ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         pixels = (int) (displayMetrics.density * dp + 0.5);
         return pixels;
@@ -221,11 +227,11 @@ public class Util {
         int bgWidth = background.getWidth();
         int bgHeight = background.getHeight();
 
-        //create the new blank bitmap 创建一个新的和SRC长度宽度一样的位图
+        //create the new blank bitmap
         Bitmap newBitmap = Bitmap.createBitmap(bgWidth, bgHeight, Bitmap.Config.ARGB_8888);
         Canvas cv = new Canvas(newBitmap);
         //draw bg into
-        cv.drawBitmap(background, 0, 0, null);//在 0，0坐标开始画入bg
+        cv.drawBitmap(background, 0, 0, null);
 
         int fgWidth = foreground.getWidth();
         int fgHeight = foreground.getHeight();
@@ -233,18 +239,18 @@ public class Util {
         int fgTop = (bgHeight - fgHeight) / 2;
 
         //draw fg into
-        cv.drawBitmap(foreground, fgLeft, fgTop, null);//在 0，0坐标开始画入fg ，可以从任意位置画入
+        cv.drawBitmap(foreground, fgLeft, fgTop, null);
         //save all clip
-        cv.save(Canvas.ALL_SAVE_FLAG);//保存
+        cv.save();
         //store
-        cv.restore();//存储
+        cv.restore();
         return newBitmap;
     }
 
     public static class GetPathFromUri4kitkat {
 
         /**
-         * 专为Android4.4设计的从Uri获取文件绝对路径，以前的方法已不好使
+         * For Android 4.4
          */
         @SuppressLint("NewApi")
         public static String getPath(final Context context, final Uri uri) {
@@ -263,7 +269,10 @@ public class Util {
                         return Environment.getExternalStorageDirectory() + "/" + split[1];
                     }
 
-                    // TODO handle non-primary volumes
+                    String externalStoragePath = findExternalStorageDocumentPath(context, type, split[1]);
+                    if (externalStoragePath != null) {
+                        return externalStoragePath;
+                    }
                 }
                 // DownloadsProvider
                 else if (isDownloadsDocument(uri)) {
@@ -305,6 +314,44 @@ public class Util {
             // File
             else if ("file".equalsIgnoreCase(uri.getScheme())) {
                 return uri.getPath();
+            }
+
+            return null;
+        }
+
+        static String findExternalStorageDocumentPath(Context context, String type, String relativePath) {
+            File[] externalDirs = context.getExternalFilesDirs(null);
+            if (externalDirs == null) {
+                return null;
+            }
+
+            List<String> externalDirPaths = new ArrayList<>();
+            for (File externalDir : externalDirs) {
+                if (externalDir != null) {
+                    externalDirPaths.add(externalDir.getAbsolutePath());
+                }
+            }
+
+            return buildExternalStorageDocumentPath(type, relativePath, externalDirPaths.toArray(new String[0]));
+        }
+
+        static String buildExternalStorageDocumentPath(String type, String relativePath, String[] externalDirPaths) {
+            if (type == null || relativePath == null || externalDirPaths == null) {
+                return null;
+            }
+
+            for (String externalDirPath : externalDirPaths) {
+                if (externalDirPath == null) {
+                    continue;
+                }
+                int androidDataIndex = externalDirPath.indexOf("/Android/data/");
+                if (androidDataIndex == -1) {
+                    continue;
+                }
+                String volumeRoot = externalDirPath.substring(0, androidDataIndex);
+                if (volumeRoot.toLowerCase().contains(type.toLowerCase())) {
+                    return volumeRoot + "/" + relativePath;
+                }
             }
 
             return null;
@@ -396,5 +443,24 @@ public class Util {
         drawable.setBounds(0, 0, w, h);
         drawable.draw(canvas);
         return bitmap;
+    }
+
+    public static Bitmap createVideoThumbnail(Context context, Uri uri) {
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        try {
+            retriever.setDataSource(context, uri);
+            return retriever.getFrameAtTime();
+        } catch (RuntimeException e) {
+            String path = GetPathFromUri4kitkat.getPath(context, uri);
+            if (path == null) {
+                return null;
+            }
+            return android.media.ThumbnailUtils.createVideoThumbnail(path, MediaStore.Images.Thumbnails.MINI_KIND);
+        } finally {
+            try {
+                retriever.release();
+            } catch (Exception ignored) {
+            }
+        }
     }
 }

@@ -2,13 +2,11 @@ package com.chinalwb.are.activities;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.support.v4.widget.ContentLoadingProgressBar;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import androidx.core.widget.ContentLoadingProgressBar;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
@@ -17,14 +15,18 @@ import android.widget.Button;
 import android.widget.VideoView;
 
 import com.chinalwb.are.R;
-import com.chinalwb.are.Util;
 import com.chinalwb.are.strategies.VideoStrategy;
+
+import java.lang.ref.WeakReference;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
 public class Are_VideoPlayerActivity extends AppCompatActivity {
+    private static final ExecutorService VIDEO_UPLOAD_EXECUTOR = Executors.newSingleThreadExecutor();
 
     public static final String VIDEO_URL = "VIDEO_URL";
 
@@ -50,6 +52,7 @@ public class Are_VideoPlayerActivity extends AppCompatActivity {
     private final Handler mHideHandler = new Handler();
     private VideoView mVideoView;
     private Button mAttachVideoButton;
+    private ContentLoadingProgressBar mUploadProgress;
     private Intent mIntent;
     private Uri mUri;
     private final Runnable mHidePart2Runnable = new Runnable() {
@@ -115,13 +118,21 @@ public class Are_VideoPlayerActivity extends AppCompatActivity {
         UploadCallback callBack = new UploadCallback() {
             @Override
             public void uploadFinish(Uri uri, String videoUrl) {
+                if (mUploadProgress != null) {
+                    mUploadProgress.hide();
+                }
+                mAttachVideoButton.setEnabled(true);
                 mIntent.putExtra(VIDEO_URL, videoUrl);
                 Are_VideoPlayerActivity.this.setResult(RESULT_OK, mIntent);
                 Are_VideoPlayerActivity.this.finish();
             }
         };
+        mAttachVideoButton.setEnabled(false);
+        if (mUploadProgress != null) {
+            mUploadProgress.show();
+        }
         VideoUploadTask task = new VideoUploadTask(this, callBack, mUri, sVideoStrategy);
-        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        task.execute();
     }
 
     @Override
@@ -139,6 +150,7 @@ public class Are_VideoPlayerActivity extends AppCompatActivity {
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mVideoView = findViewById(R.id.are_video_view);
+        mUploadProgress = findViewById(R.id.are_video_upload_progress);
 
         mIntent = getIntent();
         mUri = mIntent.getData();
@@ -217,53 +229,36 @@ public class Are_VideoPlayerActivity extends AppCompatActivity {
         void uploadFinish(Uri uri, String videoUrl);
     }
 
-    private static class VideoUploadTask extends AsyncTask<String, Boolean, String> {
+    private static class VideoUploadTask implements Runnable {
 
-        UploadCallback mCallback;
-        Uri mVideoUri;
-        Activity mActivity;
-        VideoStrategy mVideoStrategy;
-        ProgressDialog mDialog;
+        private final UploadCallback mCallback;
+        private final Uri mVideoUri;
+        private final WeakReference<Are_VideoPlayerActivity> mActivityRef;
+        private final VideoStrategy mVideoStrategy;
+
         private VideoUploadTask(
-                Activity activity,
+                Are_VideoPlayerActivity activity,
                 UploadCallback callback,
                 Uri uri,
                 VideoStrategy videoStrategy) {
-            mActivity = activity;
             mCallback = callback;
             mVideoUri = uri;
             mVideoStrategy = videoStrategy;
+            mActivityRef = new WeakReference<>(activity);
+        }
+
+        void execute() {
+            VIDEO_UPLOAD_EXECUTOR.execute(this);
         }
 
         @Override
-        protected void onPreExecute() {
-            if (mActivity == null || mActivity.isFinishing()) {
+        public void run() {
+            String url = mVideoStrategy.uploadVideo(mVideoUri);
+            Are_VideoPlayerActivity activity = mActivityRef.get();
+            if (activity == null || activity.isFinishing()) {
                 return;
             }
-            if (mDialog == null) {
-                mDialog = ProgressDialog.show(
-                        mActivity,
-                        "",
-                        "Uploading video. Please wait...",
-                        true);
-            } else {
-                mDialog.show();
-            }
-
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(String... strings) {
-            String url = mVideoStrategy.uploadVideo(mVideoUri);
-            return url;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            mDialog.dismiss();
-            mCallback.uploadFinish(mVideoUri, s);
+            activity.runOnUiThread(() -> mCallback.uploadFinish(mVideoUri, url));
         }
     }
 }

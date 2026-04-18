@@ -1,6 +1,7 @@
 package com.chinalwb.are.styles.toolitems.styles;
 
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.chinalwb.are.AREditText;
@@ -36,6 +37,11 @@ public class ARE_Style_Subscript extends ARE_ABS_Style<AreSubscriptSpan> {
      */
     public void setEditText(AREditText editText) {
         this.mEditText = editText;
+    }
+
+    @Override
+    public EditText getEditText() {
+        return mEditText;
     }
 
     @Override

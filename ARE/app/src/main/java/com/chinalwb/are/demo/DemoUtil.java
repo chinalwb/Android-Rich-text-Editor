@@ -1,14 +1,7 @@
 package com.chinalwb.are.demo;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
-
-import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -26,18 +19,19 @@ public class DemoUtil {
     @SuppressLint("SimpleDateFormat")
     public static void saveHtml(Activity activity, String html) {
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                    && activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
-                //申请授权
-                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, ARE_Toolbar.REQ_VIDEO);
+            File rootDir = activity.getExternalFilesDir("ARE");
+            if (rootDir == null) {
+                com.chinalwb.are.Util.toast(activity, "Cannot access app external files directory");
                 return;
             }
-
-            String filePath = Environment.getExternalStorageDirectory() + File.separator + "ARE" + File.separator;
+            String filePath = rootDir.getAbsolutePath() + File.separator;
             File dir = new File(filePath);
             if (!dir.exists()) {
-                dir.mkdir();
+                boolean created = dir.mkdirs();
+                if (!created) {
+                    com.chinalwb.are.Util.toast(activity, "Cannot create directory at: " + filePath);
+                    return;
+                }
             }
 
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_hh_mm_ss");

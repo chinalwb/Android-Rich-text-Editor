@@ -1,6 +1,7 @@
 package com.chinalwb.are.styles;
 
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.chinalwb.are.AREditText;
@@ -19,6 +20,7 @@ public class ARE_Subscript extends ARE_ABS_Style<AreSubscriptSpan> {
      * @param imageView image view
      */
     public ARE_Subscript(ImageView imageView) {
+        super(imageView.getContext());
         this.mSubscriptImage = imageView;
         setListenerForImageView(this.mSubscriptImage);
     }
@@ -28,6 +30,11 @@ public class ARE_Subscript extends ARE_ABS_Style<AreSubscriptSpan> {
      */
     public void setEditText(AREditText editText) {
         this.mEditText = editText;
+    }
+
+    @Override
+    public EditText getEditText() {
+        return mEditText;
     }
 
     @Override

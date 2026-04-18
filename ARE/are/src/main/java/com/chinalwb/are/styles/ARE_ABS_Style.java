@@ -1,14 +1,11 @@
 package com.chinalwb.are.styles;
 
-import com.chinalwb.are.Util;
-import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
-
 import android.content.Context;
 import android.text.Editable;
 import android.text.Spanned;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
-import android.widget.EditText;
+
+import com.chinalwb.are.Util;
 
 import java.lang.reflect.ParameterizedType;
 
@@ -18,21 +15,9 @@ public abstract class ARE_ABS_Style<E> implements IARE_Style {
 
 	protected Class<E> clazzE;
 
-	public ARE_ABS_Style() {
-		this(null);
-	}
-
 	public ARE_ABS_Style(Context context) {
 		mContext = context;
-		if (mContext == null) {
-			this.mContext = ARE_Toolbar.getInstance().getContext();
-		}
 		clazzE = (Class<E>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-	}
-
-	@Override
-	public EditText getEditText() {
-		return ARE_Toolbar.getInstance().getEditText();
 	}
 
 	@Override

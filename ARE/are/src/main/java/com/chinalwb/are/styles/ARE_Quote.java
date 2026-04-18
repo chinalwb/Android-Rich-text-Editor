@@ -110,7 +110,6 @@ public class ARE_Quote implements IARE_Style {
         if (quoteSpans == null || quoteSpans.length == 0) {
             quoteSpans = editable.getSpans(start, end, AreQuoteSpan.class);
             if (quoteSpans != null && quoteSpans.length == 0) {
-                editable.removeSpan(quoteSpans[0]);
                 return;
             }
         }

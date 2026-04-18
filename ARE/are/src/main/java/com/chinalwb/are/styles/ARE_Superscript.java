@@ -1,6 +1,7 @@
 package com.chinalwb.are.styles;
 
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.chinalwb.are.AREditText;
@@ -22,6 +23,7 @@ public class ARE_Superscript extends ARE_ABS_Style<AreSuperscriptSpan> {
      * @param imageView
      */
     public ARE_Superscript(ImageView imageView) {
+        super(imageView.getContext());
         this.mSuperscriptImage = imageView;
         setListenerForImageView(this.mSuperscriptImage);
     }
@@ -31,6 +33,11 @@ public class ARE_Superscript extends ARE_ABS_Style<AreSuperscriptSpan> {
      */
     public void setEditText(AREditText editText) {
         this.mEditText = editText;
+    }
+
+    @Override
+    public EditText getEditText() {
+        return mEditText;
     }
 
     @Override

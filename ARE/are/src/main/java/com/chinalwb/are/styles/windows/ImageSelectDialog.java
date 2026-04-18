@@ -12,12 +12,11 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.chinalwb.are.AREActivityResultHost;
 import com.chinalwb.are.R;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.spans.AreImageSpan;
-import com.chinalwb.are.styles.ARE_Image;
 import com.chinalwb.are.styles.IARE_Image;
-import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
 public class ImageSelectDialog {
 
@@ -74,11 +73,19 @@ public class ImageSelectDialog {
     }
 
     private void openImagePicker() {
-        Intent intent = new Intent();
-		intent.setType("image/*");
-		intent.setAction(Intent.ACTION_GET_CONTENT);
-		((Activity) this.mContext).startActivityForResult(intent, mRequestCode);
-		mDialog.dismiss();
+        if (mContext instanceof AREActivityResultHost) {
+            ((AREActivityResultHost) mContext).pickImage(uri -> {
+                if (uri != null) {
+                    mAreImage.insertImage(uri, AreImageSpan.ImageType.URI);
+                }
+            });
+        } else {
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            ((Activity) this.mContext).startActivityForResult(intent, mRequestCode);
+        }
+        mDialog.dismiss();
     }
 
     private void insertInternetImage() {

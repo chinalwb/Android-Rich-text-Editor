@@ -9,12 +9,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.chinalwb.are.AREditText;
+import com.chinalwb.are.AREActivityResultHost;
 import com.chinalwb.are.R;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.activities.Are_VideoPlayerActivity;
-import com.chinalwb.are.spans.AreImageSpan;
+import com.chinalwb.are.strategies.VideoStrategy;
 import com.chinalwb.are.styles.IARE_Style;
-import com.chinalwb.are.styles.toolitems.styles.ARE_Style_Image;
+import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 import com.chinalwb.are.styles.toolitems.styles.ARE_Style_Video;
 
 /**
@@ -80,9 +81,22 @@ public class ARE_ToolItem_Video extends ARE_ToolItem_Abstract {
      */
     public void openVideoPlayer(Uri uri) {
         Activity context = (Activity) getEditText().getContext();
+        VideoStrategy videoStrategy = getEditText().getVideoStrategy();
+        Are_VideoPlayerActivity.sVideoStrategy = videoStrategy;
+
         Intent intent = new Intent();
         intent.setClass(context, Are_VideoPlayerActivity.class);
         intent.setData(uri);
+        if (context instanceof AREActivityResultHost) {
+            ((AREActivityResultHost) context).launchVideoPlayer(intent, data -> {
+                String videoUrl = data.getStringExtra(Are_VideoPlayerActivity.VIDEO_URL);
+                Uri resultUri = data.getData();
+                if (resultUri != null) {
+                    ((ARE_Style_Video) getStyle()).insertVideo(resultUri, videoUrl);
+                }
+            });
+            return;
+        }
         context.startActivityForResult(intent, ARE_Style_Video.REQUEST_CODE_CHOOSE_RESULT);
     }
 }

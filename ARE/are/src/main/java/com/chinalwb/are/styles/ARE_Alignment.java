@@ -13,6 +13,7 @@ import android.widget.ImageView;
 
 import com.chinalwb.are.Constants;
 import com.chinalwb.are.Util;
+import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
 public class ARE_Alignment extends ARE_ABS_FreeStyle {
 
@@ -20,7 +21,8 @@ public class ARE_Alignment extends ARE_ABS_FreeStyle {
 	  
 	  private Alignment mAlignment;
 	  
-	  public ARE_Alignment(ImageView imageView, Alignment alignment) {
+	  public ARE_Alignment(ImageView imageView, Alignment alignment, ARE_Toolbar toolbar) {
+	  	super(toolbar);
 	    this.mAlignmentImageView = imageView;
 	    this.mAlignment = alignment;
 	    setListenerForImageView(this.mAlignmentImageView);

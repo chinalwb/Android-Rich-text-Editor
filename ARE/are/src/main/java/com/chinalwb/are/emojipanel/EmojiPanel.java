@@ -1,7 +1,7 @@
 package com.chinalwb.are.emojipanel;
 
 import android.content.Context;
-import android.support.v4.view.ViewPager;
+import androidx.viewpager.widget.ViewPager;
 
 /**
  * Created by wliu on 2018/3/17.
