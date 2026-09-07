@@ -96,7 +96,14 @@ public abstract class ARE_ABS_Style<E> implements IARE_Style {
 							// User inputs to the end of the existing e span
 							// End existing e span
 							editable.removeSpan(span);
-							editable.setSpan(span, ess, start - 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+							int newEnd = start - 1;
+							if (newEnd > ess) {
+								editable.setSpan(span, ess, newEnd, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+							}
+							//
+							// else: the span would end before it starts, which is what an
+							// empty span left behind by a deletion looks like. Setting it
+							// would throw, so leave the span removed.
 						} else if (start == ess && end == ese) {
 							// Case 1 desc:
 							// *BBBBBB*

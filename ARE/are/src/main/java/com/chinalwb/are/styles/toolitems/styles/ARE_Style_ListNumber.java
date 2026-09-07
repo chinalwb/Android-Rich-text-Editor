@@ -14,6 +14,7 @@ import com.chinalwb.are.Util;
 import com.chinalwb.are.spans.ListBulletSpan;
 import com.chinalwb.are.spans.ListNumberSpan;
 import com.chinalwb.are.styles.ARE_ABS_FreeStyle;
+import com.chinalwb.are.styles.ARE_ListNumbering;
 import com.chinalwb.are.styles.toolitems.IARE_ToolItem_Updater;
 
 /**
@@ -118,56 +119,48 @@ public class ARE_Style_ListNumber extends ARE_ABS_FreeStyle {
                     //
                     // Case 2
                     //
-                    // There are list item spans ahead current editing
-                    int thisNumber = 1;
-                    ListNumberSpan[] aheadListItemSpans = editable.getSpans(
-                            start - 2, start - 1, ListNumberSpan.class);
-                    if (null != aheadListItemSpans
-                            && aheadListItemSpans.length > 0) {
-                        ListNumberSpan previousListItemSpan = aheadListItemSpans[aheadListItemSpans.length - 1];
-                        if (null != previousListItemSpan) {
-                            int pStart = editable
-                                    .getSpanStart(previousListItemSpan);
-                            int pEnd = editable
-                                    .getSpanEnd(previousListItemSpan);
+                    // There are list item spans ahead current editing.
+                    // The previous item is looked up by paragraph rather than by
+                    // peeking two characters back, which broke down at the start
+                    // of the text and whenever the item above was not exactly one
+                    // separator away.
+                    int thisNumber = ARE_ListNumbering.getNextNumber(editable, start);
 
-                            //
-                            // Handle this case:
-                            // 1. A
-                            // B
-                            // C
-                            // 1. D
-                            //
-                            // User puts focus to B and click List icon, to
-                            // change it to:
-                            // 2. B
-                            //
-                            // Then user puts focus to C and click List icon, to
-                            // change it to:
-                            // 3. C
-                            // For this one, we need to finish the span "2. B"
-                            // correctly
-                            // Which means we need to set the span end to a
-                            // correct value
-                            // This is doing this.
-                            if (editable.charAt(pEnd - 1) == Constants.CHAR_NEW_LINE) {
-                                editable.removeSpan(previousListItemSpan);
-                                editable.setSpan(previousListItemSpan, pStart,
-                                        pEnd - 1,
-                                        Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                            }
+                    ListNumberSpan previousListItemSpan =
+                            findPreviousListItemSpan(editable, start);
+                    if (null != previousListItemSpan) {
+                        int pStart = editable.getSpanStart(previousListItemSpan);
+                        int pEnd = editable.getSpanEnd(previousListItemSpan);
 
-                            int previousNumber = previousListItemSpan
-                                    .getNumber();
-                            thisNumber = previousNumber + 1;
-                            makeLineAsList(thisNumber);
-                        }
-                    } else {
                         //
-                        // Case 1
-                        thisNumber = 1;
-                        makeLineAsList(1);
+                        // Handle this case:
+                        // 1. A
+                        // B
+                        // C
+                        // 1. D
+                        //
+                        // User puts focus to B and click List icon, to
+                        // change it to:
+                        // 2. B
+                        //
+                        // Then user puts focus to C and click List icon, to
+                        // change it to:
+                        // 3. C
+                        // For this one, we need to finish the span "2. B"
+                        // correctly
+                        // Which means we need to set the span end to a
+                        // correct value
+                        // This is doing this.
+                        if (pEnd > pStart
+                                && editable.charAt(pEnd - 1) == Constants.CHAR_NEW_LINE) {
+                            editable.removeSpan(previousListItemSpan);
+                            editable.setSpan(previousListItemSpan, pStart,
+                                    pEnd - 1,
+                                    Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                        }
                     }
+
+                    makeLineAsList(thisNumber);
 
                     //
                     // Case 2
@@ -183,13 +176,22 @@ public class ARE_Style_ListNumber extends ARE_ABS_FreeStyle {
                     // By clicking the image view, we should remove the
                     // ListItemSpan
                     ListNumberSpan currentLineListItemSpan = listNumberSpans[0];
+                    int spanStart = editable.getSpanStart(currentLineListItemSpan);
                     int spanEnd = editable.getSpanEnd(currentLineListItemSpan);
                     editable.removeSpan(currentLineListItemSpan);
 
                     //
-                    // Change the content to trigger the editable redraw
-                    editable.insert(spanEnd, Constants.ZERO_WIDTH_SPACE_STR);
-                    editable.delete(spanEnd, spanEnd + 1);
+                    // The line is no longer a list item, so its zero width marker
+                    // has to go with the span - otherwise it stays behind in the
+                    // text, costing an extra backspace and stacking up one more
+                    // invisible character on every toggle.
+                    if (!Util.removeZeroWidthMarker(editable, spanStart)) {
+                        //
+                        // Nothing was deleted, so change the content to trigger
+                        // the editable redraw
+                        editable.insert(spanEnd, Constants.ZERO_WIDTH_SPACE_STR);
+                        editable.delete(spanEnd, spanEnd + 1);
+                    }
 
                     //
                     // The new list should start from 1
@@ -349,8 +351,10 @@ public class ARE_Style_ListNumber extends ARE_ABS_FreeStyle {
                             Util.log("case 3-1-1");
                             mergeForward(editable, theFirstSpan, spanStart, spanEnd);
                         } else {
+                            //
+                            // Nothing to merge with: there is no list item on the
+                            // other side of the '\n' being deleted.
                             Util.log("case 3-1-2");
-                            editable.removeSpan(spans[0]);
                         }
                     } else {
                         mergeForward(editable, theFirstSpan, spanStart, spanEnd);
@@ -476,18 +480,50 @@ public class ARE_Style_ListNumber extends ARE_ABS_FreeStyle {
      * @return
      */
     private boolean isEmptyListItemSpan(CharSequence listItemSpanContent) {
-        int spanLen = listItemSpanContent.length();
-        if (spanLen == 2) {
-            //
-            // This case:
-            // 1. A
-            // 2.
-            //
-            // Line 2 is empty
+        if (null == listItemSpanContent) {
             return true;
-        } else {
-            return false;
         }
+
+        //
+        // A list item is empty when nothing but its zero width marker and the
+        // trailing new line are left. Testing the content instead of the length
+        // also catches the last item of a list, which has no trailing '\n' and
+        // so is one character shorter than the items above it.
+        for (int i = 0; i < listItemSpanContent.length(); i++) {
+            char c = listItemSpanContent.charAt(i);
+            if (c != Constants.ZERO_WIDTH_SPACE_INT && c != Constants.CHAR_NEW_LINE) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Returns the ordered list item of the paragraph right above {@code offset}, or
+     * {@code null} when that paragraph is not an ordered list item.
+     *
+     * @param editable the text to inspect
+     * @param offset   an offset inside the paragraph being turned into a list item
+     * @return the list item span above, or {@code null}
+     */
+    private static ListNumberSpan findPreviousListItemSpan(Editable editable, int offset) {
+        int paragraph = Util.getParagraphIndex(editable, offset);
+        if (paragraph <= 0) {
+            return null;
+        }
+
+        int previousStart = Util.getParagraphStart(editable, paragraph - 1);
+        int previousEnd = Util.getParagraphEnd(editable, paragraph - 1);
+        if (previousEnd > previousStart) {
+            previousEnd--;
+        }
+
+        ListNumberSpan[] spans =
+                editable.getSpans(previousStart, previousEnd, ListNumberSpan.class);
+        if (null == spans || spans.length == 0) {
+            return null;
+        }
+        return spans[spans.length - 1];
     }
 
     /**
@@ -516,29 +552,24 @@ public class ARE_Style_ListNumber extends ARE_ABS_FreeStyle {
     }
 
     /**
-     * @param end
-     * @param editable
-     * @param thisNumber
+     * Renumbers the ordered list items of the text.
+     *
+     * <p>Kept for source compatibility: {@code end} and {@code thisNumber} are no
+     * longer needed because {@link ARE_ListNumbering#renumber(Editable)} derives
+     * every number from the document itself.</p>
+     *
+     * @param end        ignored
+     * @param editable   the text to renumber
+     * @param thisNumber ignored
      */
     public static void reNumberBehindListItemSpans(int end, Editable editable,
                                                    int thisNumber) {
-        ListNumberSpan[] behindListItemSpans = editable.getSpans(end + 1,
-                end + 2, ListNumberSpan.class);
-        if (null != behindListItemSpans && behindListItemSpans.length > 0) {
-            int total = behindListItemSpans.length;
-            int index = 0;
-            for (ListNumberSpan listItemSpan : behindListItemSpans) {
-                int newNumber = ++thisNumber;
-                Util.log("Change old number == " + listItemSpan.getNumber()
-                        + " to new number == " + newNumber);
-                listItemSpan.setNumber(newNumber);
-                ++index;
-                if (total == index) {
-                    int newSpanEnd = editable.getSpanEnd(listItemSpan);
-                    reNumberBehindListItemSpans(newSpanEnd, editable, newNumber);
-                }
-            }
-        }
+        //
+        // The numbers are recomputed for the whole text rather than patched up from
+        // "end" forwards: the old walk only looked at the two characters right
+        // behind "end" and trusted Editable#getSpans to hand the spans back in
+        // document order, which it does not do.
+        ARE_ListNumbering.renumber(editable);
     }
 
 
@@ -639,7 +670,7 @@ public class ARE_Style_ListNumber extends ARE_ABS_FreeStyle {
 
         // -- Change the content to trigger the editable redraw
         editable.insert(lastListNumberSpanEnd, Constants.ZERO_WIDTH_SPACE_STR);
-        editable.delete(lastListNumberSpanEnd + 1, lastListNumberSpanEnd + 1);
+        editable.delete(lastListNumberSpanEnd, lastListNumberSpanEnd + 1);
         // -- End: Change the content to trigger the editable redraw
 
         ARE_Style_ListNumber.reNumberBehindListItemSpans(lastListNumberSpanEnd + 1,

@@ -57,8 +57,15 @@ dependencies {
 //    implementation 'com.android.support:support-v4:26.1.0'
 //    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.13'
-//    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-//    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    //
+    // androidx.test still asks for kotlin-stdlib-jdk7/jdk8 1.6.21, whose classes
+    // have since moved into kotlin-stdlib itself. The BOM aligns them so dexing
+    // does not see the same class twice.
+    androidTestImplementation platform("org.jetbrains.kotlin:kotlin-bom:$kotlin_version")
+    androidTestImplementation 'androidx.test:core:1.5.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test:runner:1.5.2'
+    androidTestImplementation 'androidx.test:rules:1.5.0'
 
     implementation files('libs/tagsoup-1.2.1.jar')
 
