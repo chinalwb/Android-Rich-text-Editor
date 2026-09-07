@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  A custom tool item icon, drawn on the same 24dp grid as the ARE icon set so a
+  third party button sits in the toolbar without looking out of place.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M2.5 4.24H8.7Q10.55 4.24 11.45 4.39Q12.36 4.55 13.07 5.03Q13.79 5.52 14.26 6.33Q14.74 7.14 14.74 8.15Q14.74 9.24 14.15 10.15Q13.56 11.06 12.56 11.51Q13.98 11.93 14.74 12.92Q15.5 13.92 15.5 15.26Q15.5 16.32 15.01 17.32Q14.52 18.32 13.66 18.92Q12.81 19.52 11.56 19.65Q10.78 19.74 7.78 19.76H2.5ZM5.63 6.82V10.41H7.69Q9.52 10.41 9.96 10.36Q10.77 10.26 11.23 9.8Q11.69 9.34 11.69 8.59Q11.69 7.87 11.29 7.42Q10.89 6.97 10.11 6.88Q9.65 6.82 7.43 6.82ZM5.63 13.0V17.14H8.53Q10.23 17.14 10.68 17.05Q11.38 16.92 11.82 16.43Q12.26 15.94 12.26 15.11Q12.26 14.41 11.92 13.93Q11.58 13.44 10.94 13.22Q10.3 13.0 8.16 13.0Z" />
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M19.4,3.2l0.85,2.05l2.05,0.85l-2.05,0.85l-0.85,2.05l-0.85,-2.05l-2.05,-0.85l2.05,-0.85z" />
+</vector>

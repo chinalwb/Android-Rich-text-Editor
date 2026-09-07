@@ -49,13 +49,8 @@ public class ARE_ToolItem_FontColor extends ARE_ToolItem_Abstract {
             return mToolItemView;
         }
         if (mToolItemView == null) {
-            ImageView imageView = new ImageView(context);
-            int size = Util.getPixelByDp(context, 35);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size, size);
-            imageView.setLayoutParams(params);
-            imageView.setImageResource(R.drawable.foregroundcolor);
-            imageView.bringToFront();
-            mToolItemView = imageView;
+            mToolItemView = createToolItemView(context,
+                    R.drawable.are_ic_foregroundcolor, R.string.are_tool_foregroundcolor);
         }
 
         return mToolItemView;

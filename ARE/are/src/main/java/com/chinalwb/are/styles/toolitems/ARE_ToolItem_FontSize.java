@@ -27,13 +27,8 @@ public class ARE_ToolItem_FontSize extends ARE_ToolItem_Abstract {
             return mToolItemView;
         }
         if (mToolItemView == null) {
-            ImageView imageView = new ImageView(context);
-            int size = Util.getPixelByDp(context, 40);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size, size);
-            imageView.setLayoutParams(params);
-            imageView.setImageResource(R.drawable.fontsize);
-            imageView.bringToFront();
-            mToolItemView = imageView;
+            mToolItemView = createToolItemView(context,
+                    R.drawable.are_ic_fontsize, R.string.are_tool_fontsize);
         }
 
         return mToolItemView;

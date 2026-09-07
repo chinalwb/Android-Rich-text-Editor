@@ -16,6 +16,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+
+import androidx.core.content.ContextCompat;
 import android.widget.LinearLayout;
 
 import com.chinalwb.are.AREActivityResultHost;
@@ -355,10 +357,33 @@ public class ARE_Toolbar extends LinearLayout {
 		init();
 	}
 
+
+	/**
+	 * Applies the shared icon tint to every button of the toolbar.
+	 *
+	 * <p>Done here rather than in the layout so it holds whichever inflater the
+	 * host app uses, and so the tint of the whole set can be changed by
+	 * overriding one colour resource.</p>
+	 *
+	 * @param root the inflated toolbar
+	 */
+	private void tintToolItems(View root) {
+		if (root instanceof ViewGroup) {
+			ViewGroup group = (ViewGroup) root;
+			for (int i = 0; i < group.getChildCount(); i++) {
+				tintToolItems(group.getChildAt(i));
+			}
+		} else if (root instanceof ImageView) {
+			((ImageView) root).setImageTintList(
+					ContextCompat.getColorStateList(getContext(), R.color.are_tool_item_tint));
+		}
+	}
+
 	private void init() {
 		LayoutInflater layoutInflater = LayoutInflater.from(this.mContext);
 		layoutInflater.inflate(getLayoutId(), this, true);
 		this.setOrientation(LinearLayout.VERTICAL);
+		tintToolItems(this);
 		initViews();
 		initStyles();
 		initKeyboard();
@@ -736,7 +761,7 @@ public class ARE_Toolbar extends LinearLayout {
 				mEmojiShownNow = true;
 
 				// 6. Change emoji icon to keyboard
-				mEmojiImageView.setImageResource(R.drawable.keyboard);
+				mEmojiImageView.setImageResource(R.drawable.are_ic_keyboard);
 			} else {
 				// Keyboard is shown now
 				// Toggle emoji panel to make the layout looks well for adjustPan
@@ -773,7 +798,7 @@ public class ARE_Toolbar extends LinearLayout {
 					mEmojiShownNow = false;
 
 					// 3. Change emoji icon to emoji
-					mEmojiImageView.setImageResource(R.drawable.emoji);
+					mEmojiImageView.setImageResource(R.drawable.are_ic_emoji);
 				} else {
 					// Case 2: keyboard is hidden and Emoji is hidden too
 					// And user clicks emoji icon
@@ -786,7 +811,7 @@ public class ARE_Toolbar extends LinearLayout {
 					// 1.1 Set emoji panel as shown now
 					mEmojiShownNow = true;
 					// 1.2 Change emoji icon to keyboard
-					mEmojiImageView.setImageResource(R.drawable.keyboard);
+					mEmojiImageView.setImageResource(R.drawable.are_ic_keyboard);
 				}
 
 			} else {
@@ -794,7 +819,7 @@ public class ARE_Toolbar extends LinearLayout {
 				// We should hide emoji panel
 				mEmojiPanelContainer.setVisibility(View.GONE);
 				mEmojiShownNow = false;
-				mEmojiImageView.setImageResource(R.drawable.emoji);
+				mEmojiImageView.setImageResource(R.drawable.are_ic_emoji);
 			}
 		}
 	}
