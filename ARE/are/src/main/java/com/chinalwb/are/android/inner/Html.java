@@ -367,6 +367,7 @@ public class Html {
     private static void withinDiv(StringBuilder out, Spanned text, int start, int end,
             int option) {
         int next;
+        boolean afterBlockClose = false;
         for (int i = start; i < end; i = next) {
             next = text.nextSpanTransition(i, end, QuoteSpan.class);
             QuoteSpan[] quotes = text.getSpans(i, next, QuoteSpan.class);
@@ -375,11 +376,12 @@ public class Html {
                 out.append("<blockquote>");
             }
 
-            withinBlockquote(out, text, i, next, option);
+            withinBlockquote(out, text, i, next, option, afterBlockClose && quotes.length == 0);
 
             for (QuoteSpan quote : quotes) {
                 out.append("</blockquote>\n");
             }
+            afterBlockClose = quotes.length > 0;
         }
     }
 
@@ -451,19 +453,42 @@ public class Html {
 
     private static void withinBlockquote(StringBuilder out, Spanned text, int start, int end,
             int option) {
+        withinBlockquote(out, text, start, end, option, false);
+    }
+
+    /**
+     * @param afterBlockClose true when this run of text directly follows a block
+     *                        element that was just closed. The close tag already
+     *                        produces a paragraph break when the html is read
+     *                        back, so the empty paragraph it left behind must not
+     *                        also be written out as a &lt;br&gt;.
+     */
+    private static void withinBlockquote(StringBuilder out, Spanned text, int start, int end,
+            int option, boolean afterBlockClose) {
         if ((option & TO_HTML_PARAGRAPH_FLAG) == TO_HTML_PARAGRAPH_LINES_CONSECUTIVE) {
             withinBlockquoteConsecutive(out, text, start, end);
         } else {
-            withinBlockquoteIndividual(out, text, start, end);
+            withinBlockquoteIndividual(out, text, start, end, afterBlockClose);
         }
     }
 
     private static void withinBlockquoteIndividual(StringBuilder out, Spanned text, int start,
             int end) {
+        withinBlockquoteIndividual(out, text, start, end, false);
+    }
+
+    private static void withinBlockquoteIndividual(StringBuilder out, Spanned text, int start,
+            int end, boolean afterBlockClose) {
+        boolean skipEmptyParagraph = afterBlockClose;
         boolean isInList = false;
         int next;
         String listType = "";
-        for (int i = start; i <= end; i = next) {
+        //
+        // "i < end", not "i <= end": the '\n' that ends the last paragraph closes
+        // it, it does not open an empty one after it. Emitting a <br> for that
+        // newline made every save/load cycle add one more blank line, because the
+        // <br> was parsed back into another trailing newline.
+        for (int i = start; i < end; i = next) {
             next = TextUtils.indexOf(text, '\n', i, end);
             if (next < 0) {
                 next = end;
@@ -474,9 +499,20 @@ public class Html {
                     // Current paragraph is no longer a list item; close the previously opened list
                     isInList = false;
                     out.append("</" + listType + ">\n");
+                    //
+                    // No <br> for this one: closing the list already produces the
+                    // paragraph break it stands for, so writing both would add a
+                    // blank line on every save/load cycle.
+                } else if (skipEmptyParagraph) {
+                    //
+                    // Same again for the block element that was closed just before
+                    // this run of text started.
+                    skipEmptyParagraph = false;
+                } else {
+                    out.append("<br>\n");
                 }
-                out.append("<br>\n");
             } else {
+                skipEmptyParagraph = false;
                 boolean isListItem = false;
                 ParagraphStyle[] paragraphStyles = text.getSpans(i, next, ParagraphStyle.class);
                 for (ParagraphStyle paragraphStyle : paragraphStyles) {
@@ -524,6 +560,24 @@ public class Html {
                     out.append("</" + listType + ">\n");
                 }
 
+                if (!isListItem && isHorizontalRuleOnly(text, i, next)) {
+                    //
+                    // <hr> is a block element, so wrapping it in a <p> is invalid
+                    // html. Parsers restructure it on the way back in, which used
+                    // to leave a stray space behind on every round trip.
+                    if (isInList) {
+                        isInList = false;
+                        out.append("</" + listType + ">\n");
+                    }
+                    //
+                    // No newline after it: the parser has nothing to hang trailing
+                    // whitespace on after a rule, so it would come back as a space
+                    // inside the paragraph.
+                    out.append("<hr />");
+                    next++;
+                    continue;
+                }
+
                 String tagType = isListItem ? "li" : "p";
                 out.append("<").append(tagType)
                         .append(getTextDirection(text, i, next))
@@ -544,6 +598,28 @@ public class Html {
 
             next++;
         }
+    }
+
+
+    /**
+     * Returns whether the paragraph is nothing but a horizontal rule.
+     *
+     * @param text  the text being written out
+     * @param start start of the paragraph
+     * @param end   end of the paragraph
+     * @return true when the paragraph holds a rule and nothing else
+     */
+    private static boolean isHorizontalRuleOnly(Spanned text, int start, int end) {
+        AreHrSpan[] rules = text.getSpans(start, end, AreHrSpan.class);
+        if (rules.length == 0) {
+            return false;
+        }
+        for (int i = start; i < end; i++) {
+            if (text.charAt(i) != Constants.ZERO_WIDTH_SPACE_INT) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private static boolean checkToClosePreviousList(StringBuilder out, String srcListType, String targetListType) {
@@ -597,6 +673,12 @@ public class Html {
         for (int i = start; i < end; i = next) {
             next = text.nextSpanTransition(i, end, CharacterStyle.class);
             CharacterStyle[] style = text.getSpans(i, next, CharacterStyle.class);
+            //
+            // getSpans hands the spans back in insertion order, so the same
+            // document could be written out as <b><i> one time and <i><b> the
+            // next. Ordering them makes an export reproducible, which is what
+            // lets saved documents be diffed and compared.
+            sortByTypeName(style);
 
             for (int j = 0; j < style.length; j++) {
                 if (style[j] instanceof ARE_Span) {
@@ -725,10 +807,46 @@ public class Html {
         }
     }
 
+
+    /**
+     * Orders spans by type so the tags around a run of text come out the same way
+     * every time.
+     *
+     * @param spans the spans covering one run of text
+     */
+    private static void sortByTypeName(CharacterStyle[] spans) {
+        java.util.Arrays.sort(spans, new java.util.Comparator<CharacterStyle>() {
+            @Override
+            public int compare(CharacterStyle left, CharacterStyle right) {
+                int byType = left.getClass().getName().compareTo(right.getClass().getName());
+                if (byType != 0) {
+                    return byType;
+                }
+                //
+                // Bold and italic are both a StyleSpan, so the type alone does not
+                // separate them.
+                if (left instanceof StyleSpan && right instanceof StyleSpan) {
+                    return Integer.compare(((StyleSpan) left).getStyle(),
+                            ((StyleSpan) right).getStyle());
+                }
+                return 0;
+            }
+        });
+    }
+
     private static void withinStyle(StringBuilder out, CharSequence text,
                                     int start, int end) {
         for (int i = start; i < end; i++) {
             char c = text.charAt(i);
+
+            if (c == Constants.ZERO_WIDTH_SPACE_INT) {
+                //
+                // The marker a list item carries so that an empty item still has a
+                // line to draw its bullet on. It is an editing aid, so it must not
+                // reach the exported HTML - the parser puts it back when the list
+                // is read again.
+                continue;
+            }
 
             if (c == '<') {
                 out.append("&lt;");
