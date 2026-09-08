@@ -18,6 +18,8 @@ package com.chinalwb.are.android.inner;
 
 //import com.android.internal.util.ArrayUtils;
 import java.io.IOException;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
@@ -479,10 +481,16 @@ public class Html {
 
     private static void withinBlockquoteIndividual(StringBuilder out, Spanned text, int start,
             int end, boolean afterBlockClose) {
-        boolean skipEmptyParagraph = afterBlockClose;
-        boolean isInList = false;
+        ListWriter lists = new ListWriter(out);
+        //
+        // Blank paragraphs are not written out as soon as they are seen: between
+        // two list items one is only the separator the parser will put back, while
+        // after the last item it is the break the closing tag stands for. What it
+        // means only becomes clear at the next paragraph with content in it.
+        int pendingBlanks = 0;
+        boolean skipOneBlank = afterBlockClose;
+
         int next;
-        String listType = "";
         //
         // "i < end", not "i <= end": the '\n' that ends the last paragraph closes
         // it, it does not open an empty one after it. Emitting a <br> for that
@@ -495,111 +503,187 @@ public class Html {
             }
 
             if (next == i) {
-                if (isInList) {
-                    // Current paragraph is no longer a list item; close the previously opened list
-                    isInList = false;
-                    out.append("</" + listType + ">\n");
+                pendingBlanks++;
+                next++;
+                continue;
+            }
+
+            AreListSpan item = listItemAt(text, i, next);
+
+            if (item != null && lists.isInList()) {
+                //
+                // A blank line between two items of the same list is only the
+                // separator between them.
+                pendingBlanks = 0;
+            } else {
+                if (lists.isInList()) {
+                    lists.closeTo(0);
                     //
-                    // No <br> for this one: closing the list already produces the
-                    // paragraph break it stands for, so writing both would add a
-                    // blank line on every save/load cycle.
-                } else if (skipEmptyParagraph) {
-                    //
-                    // Same again for the block element that was closed just before
-                    // this run of text started.
-                    skipEmptyParagraph = false;
-                } else {
+                    // Closing the list already produces one paragraph break.
+                    pendingBlanks = Math.max(0, pendingBlanks - 1);
+                }
+                if (skipOneBlank && pendingBlanks > 0) {
+                    pendingBlanks--;
+                }
+                for (int blank = 0; blank < pendingBlanks; blank++) {
                     out.append("<br>\n");
                 }
-            } else {
-                skipEmptyParagraph = false;
-                boolean isListItem = false;
-                ParagraphStyle[] paragraphStyles = text.getSpans(i, next, ParagraphStyle.class);
-                for (ParagraphStyle paragraphStyle : paragraphStyles) {
-                    final int spanFlags = text.getSpanFlags(paragraphStyle);
-                    if (
-                    		// (spanFlags & Spanned.SPAN_PARAGRAPH) == Spanned.SPAN_PARAGRAPH
-                            // && 
-                    		paragraphStyle instanceof AreListSpan) {
+                pendingBlanks = 0;
+            }
+            skipOneBlank = false;
 
-                        Util.log("paragraphStyle == " + paragraphStyle.toString());
-                        boolean closed = false;
-                        if (paragraphStyle instanceof ListNumberSpan) {
-                            closed = checkToClosePreviousList(out, listType, OL);
-                            listType = OL;
-                        }
-                        else {
-                            closed = checkToClosePreviousList(out, listType, UL);
-                            listType = UL;
-                        }
-
-                        if (closed) {
-                            // If the list item has been closed,
-                            // It will no longer be in list.
-                            // So set it as false then the following
-                            // logic can start a new list item again
-                            isInList = false;
-                        }
-
-                        isListItem = true;
-                        break;
-                    }
-                }
-
-                if (isListItem && !isInList) {
-                    // Current paragraph is the first item in a list
-                    isInList = true;
-                    out.append("<" + listType)
-                            .append(getTextStyles(text, i, next, true, false))
-                            .append(">\n");
-                }
-
-                if (isInList && !isListItem) {
-                    // Current paragraph is no longer a list item; close the previously opened list
-                    isInList = false;
-                    out.append("</" + listType + ">\n");
-                }
-
-                if (!isListItem && isHorizontalRuleOnly(text, i, next)) {
+            if (item == null) {
+                if (isHorizontalRuleOnly(text, i, next)) {
                     //
                     // <hr> is a block element, so wrapping it in a <p> is invalid
                     // html. Parsers restructure it on the way back in, which used
-                    // to leave a stray space behind on every round trip.
-                    if (isInList) {
-                        isInList = false;
-                        out.append("</" + listType + ">\n");
-                    }
-                    //
-                    // No newline after it: the parser has nothing to hang trailing
-                    // whitespace on after a rule, so it would come back as a space
-                    // inside the paragraph.
+                    // to leave a stray space behind on every round trip. No newline
+                    // after it either: a rule has nothing to hang trailing
+                    // whitespace on, so it would come back as a space.
                     out.append("<hr />");
                     next++;
                     continue;
                 }
 
-                String tagType = isListItem ? "li" : "p";
-                out.append("<").append(tagType)
+                out.append("<p")
                         .append(getTextDirection(text, i, next))
-                        .append(getTextStyles(text, i, next, !isListItem, !isListItem))
+                        .append(getTextStyles(text, i, next, true, true))
                         .append(">");
-
                 withinParagraph(out, text, i, next);
-
-                out.append("</");
-                out.append(tagType);
-                out.append(">\n");
-
-                if (next == end && isInList) {
-                    isInList = false;
-                    out.append("</" + listType + ">\n");
-                }
+                out.append("</p>\n");
+            } else {
+                String listType = item instanceof ListNumberSpan ? OL : UL;
+                lists.openItem(listType, item.getLevel(),
+                        getTextStyles(text, i, next, true, false));
+                withinParagraph(out, text, i, next);
             }
 
             next++;
         }
+
+        lists.closeTo(0);
     }
 
+    /**
+     * Writes the {@code <ol>} / {@code <ul>} / {@code <li>} nesting of a document.
+     *
+     * <p>A sublist belongs inside the item it hangs off - {@code <li>a<ol>...</ol></li>}
+     * - so the item stays open while its sublist is written. Closing a list closes
+     * the item inside it and hands the parent item back.</p>
+     */
+    private static class ListWriter {
+
+        private final StringBuilder out;
+
+        /** The open lists, innermost first; the size is the current depth. */
+        private final Deque<String> openLists = new ArrayDeque<>();
+
+        /** Whether the item of the innermost open list still has to be closed. */
+        private boolean itemOpen;
+
+        ListWriter(StringBuilder out) {
+            this.out = out;
+        }
+
+        boolean isInList() {
+            return !openLists.isEmpty();
+        }
+
+        /**
+         * Opens an item of the given kind at the given depth, closing and opening
+         * whatever lists that takes, and leaves the item open for its content.
+         *
+         * @param listType {@code ol} or {@code ul}
+         * @param level    how deep the item sits, 0 for a top level item
+         * @param styles   attributes for a list this item has to open
+         */
+        void openItem(String listType, int level, String styles) {
+            int wanted = level + 1;
+
+            //
+            // Anything deeper belongs to a sublist this item has left.
+            closeTo(wanted);
+
+            if (openLists.size() == wanted) {
+                if (listType.equals(openLists.peek())) {
+                    //
+                    // A sibling: only the previous item has to be closed.
+                    closeItem();
+                } else {
+                    //
+                    // A list of the other kind at this depth, so it ends here and a
+                    // new one starts.
+                    closeTo(wanted - 1);
+                }
+            }
+
+            while (openLists.size() < wanted) {
+                //
+                // Going deeper: the sublist opens inside the item above it, which
+                // is why that item is left open.
+                out.append("<").append(listType);
+                if (openLists.size() == wanted - 1) {
+                    out.append(styles);
+                }
+                out.append(">\n");
+                openLists.push(listType);
+            }
+
+            out.append("<li>");
+            itemOpen = true;
+        }
+
+        /**
+         * Closes open lists until only {@code depth} of them are left.
+         */
+        void closeTo(int depth) {
+            while (openLists.size() > depth) {
+                closeItem();
+                out.append("</").append(openLists.pop()).append(">\n");
+                //
+                // The item of the list above this one is open again: it is what
+                // the sublist was written inside.
+                itemOpen = !openLists.isEmpty();
+            }
+            if (openLists.isEmpty()) {
+                closeItem();
+            }
+        }
+
+        private void closeItem() {
+            if (itemOpen) {
+                out.append("</li>\n");
+                itemOpen = false;
+            }
+        }
+    }
+
+    /**
+     * Returns the list item a paragraph belongs to, or {@code null}.
+     *
+     * <p>The span of an item that has a sublist covers that sublist too, so a
+     * paragraph can be inside several of them. The deepest one is the item this
+     * paragraph actually is.</p>
+     *
+     * @param text  the text being written out
+     * @param start start of the paragraph
+     * @param end   end of the paragraph
+     * @return the item, or {@code null} when the paragraph is not a list item
+     */
+    private static AreListSpan listItemAt(Spanned text, int start, int end) {
+        ParagraphStyle[] paragraphStyles = text.getSpans(start, end, ParagraphStyle.class);
+        AreListSpan deepest = null;
+        for (ParagraphStyle paragraphStyle : paragraphStyles) {
+            if (!(paragraphStyle instanceof AreListSpan)) {
+                continue;
+            }
+            AreListSpan candidate = (AreListSpan) paragraphStyle;
+            if (deepest == null || candidate.getLevel() > deepest.getLevel()) {
+                deepest = candidate;
+            }
+        }
+        return deepest;
+    }
 
     /**
      * Returns whether the paragraph is nothing but a horizontal rule.
@@ -1292,12 +1376,21 @@ class HtmlToSpannedConverter implements ContentHandler {
         endCssStyle(text);
         endBlockElement(text);
         Object peekEle = OL_UL_STACK.peek();
+        //
+        // How deep this item sits. The stack already tracked it; the level is now
+        // carried on the span, which is what indents the item, numbers each level
+        // on its own, and lets the nesting be written back out.
+        int level = OL_UL_STACK.size() - 1;
         if (peekEle instanceof OL) {
             OL ol = (OL) peekEle;
-            end(text, Numeric.class, new ListNumberSpan(ol.getListItemNumber()));
+            ListNumberSpan numbered = new ListNumberSpan(ol.getListItemNumber());
+            numbered.setLevel(level);
+            end(text, Numeric.class, numbered);
             ol.incrementListItemNumber();
         } else {
-            end(text, Bullet.class, new ListBulletSpan());
+            ListBulletSpan bulleted = new ListBulletSpan();
+            bulleted.setLevel(level);
+            end(text, Bullet.class, bulleted);
         }
     }
 

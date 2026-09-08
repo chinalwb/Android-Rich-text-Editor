@@ -4,6 +4,7 @@ import android.text.Editable;
 
 import com.chinalwb.are.Constants;
 import com.chinalwb.are.Util;
+import com.chinalwb.are.spans.AreListSpan;
 import com.chinalwb.are.spans.ListNumberSpan;
 
 import java.util.ArrayList;
@@ -74,7 +75,7 @@ public class ARE_ListNumbering {
             if (editable.getSpanStart(span) < 0) {
                 continue;
             }
-            int level = levelOf(editable, span, orderedSpans);
+            int level = span.getLevel();
             List<ListNumberSpan> atLevel = byLevel.get(level);
             if (atLevel == null) {
                 atLevel = new ArrayList<>();
@@ -105,7 +106,8 @@ public class ARE_ListNumbering {
                 continue;
             }
 
-            if (previousEnd >= 0 && continuesTheList(editable, previousEnd, spanStart)) {
+            if (previousEnd >= 0
+                    && continuesTheList(editable, previousEnd, spanStart, span.getLevel())) {
                 number++;
             } else {
                 number = 1;
@@ -118,14 +120,16 @@ public class ARE_ListNumbering {
     }
 
     /**
-     * Returns whether an item starting at {@code spanStart} carries on the list
-     * whose previous item ended at {@code previousEnd}.
+     * Returns whether an item at {@code level} starting at {@code spanStart}
+     * carries on the list whose previous item at that level ended at
+     * {@code previousEnd}.
      *
-     * <p>Only something with content of its own breaks a list. The blank paragraph
-     * a sublist or a block leaves behind does not, or an outer list would restart
-     * after every sublist.</p>
+     * <p>What sits in between decides. A sublist does not break the list it hangs
+     * off - nor does the blank paragraph it leaves behind - but a paragraph with
+     * content of its own starts a new list.</p>
      */
-    private static boolean continuesTheList(Editable editable, int previousEnd, int spanStart) {
+    private static boolean continuesTheList(Editable editable, int previousEnd, int spanStart,
+                                            int level) {
         int from = Util.getParagraphIndex(editable, previousEnd);
         int to = Util.getParagraphIndex(editable, spanStart);
         if (to <= from) {
@@ -135,40 +139,37 @@ public class ARE_ListNumbering {
         for (int paragraph = from + 1; paragraph < to; paragraph++) {
             int start = Util.getParagraphStart(editable, paragraph);
             int end = Util.getParagraphEnd(editable, paragraph);
-            for (int i = start; i < end; i++) {
-                char c = editable.charAt(i);
-                if (c != Constants.CHAR_NEW_LINE
-                        && c != Constants.ZERO_WIDTH_SPACE_INT
-                        && !Character.isWhitespace(c)) {
-                    return false;
-                }
+
+            if (isDeeperListItem(editable, start, end, level)) {
+                continue;
+            }
+            if (!isBlank(editable, start, end)) {
+                return false;
             }
         }
         return true;
     }
 
-    /**
-     * Returns how deep an item is nested, counting the items whose span covers it.
-     */
-    private static int levelOf(Editable editable, ListNumberSpan span,
-                               List<ListNumberSpan> all) {
-        int start = editable.getSpanStart(span);
-        int end = editable.getSpanEnd(span);
-
-        int level = 0;
-        for (ListNumberSpan other : all) {
-            if (other == span) {
-                continue;
-            }
-            int otherStart = editable.getSpanStart(other);
-            int otherEnd = editable.getSpanEnd(other);
-            boolean covers = otherStart <= start && otherEnd >= end
-                    && (otherStart < start || otherEnd > end);
-            if (covers) {
-                level++;
+    private static boolean isBlank(Editable editable, int start, int end) {
+        for (int i = start; i < end; i++) {
+            char c = editable.charAt(i);
+            if (c != Constants.CHAR_NEW_LINE
+                    && c != Constants.ZERO_WIDTH_SPACE_INT
+                    && !Character.isWhitespace(c)) {
+                return false;
             }
         }
-        return level;
+        return true;
+    }
+
+    private static boolean isDeeperListItem(Editable editable, int start, int end, int level) {
+        AreListSpan[] items = editable.getSpans(start, end, AreListSpan.class);
+        for (AreListSpan item : items) {
+            if (item.getLevel() > level) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

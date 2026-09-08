@@ -15,6 +15,7 @@ import com.chinalwb.are.styles.toolbar.IARE_Toolbar;
 import com.chinalwb.are.styles.toolitems.IARE_ToolItem;
 import com.chinalwb.are.styles.toolitems.IARE_ToolItem_Updater;
 import com.chinalwb.are.styles.toolitems.styles.ARE_Style_ListBullet;
+import com.chinalwb.are.styles.toolitems.styles.ARE_Style_ListIndent;
 import com.chinalwb.are.styles.toolitems.styles.ARE_Style_ListNumber;
 
 import org.junit.After;
@@ -30,6 +31,8 @@ public abstract class ListEditingTestBase {
     protected AREditText editText;
     protected ImageView numberButton;
     protected ImageView bulletButton;
+    protected ImageView indentButton;
+    protected ImageView outdentButton;
 
     @Before
     public void setUpEditor() {
@@ -43,13 +46,21 @@ public abstract class ListEditingTestBase {
 
                 numberButton = new ImageView(context);
                 bulletButton = new ImageView(context);
+                indentButton = new ImageView(context);
+                outdentButton = new ImageView(context);
 
                 IARE_Style numberStyle = new ARE_Style_ListNumber(editText, numberButton);
                 IARE_Style bulletStyle = new ARE_Style_ListBullet(editText, bulletButton);
+                IARE_Style indentStyle =
+                        new ARE_Style_ListIndent(editText, indentButton, 1);
+                IARE_Style outdentStyle =
+                        new ARE_Style_ListIndent(editText, outdentButton, -1);
 
                 FakeToolbar toolbar = new FakeToolbar(editText);
                 toolbar.addToolbarItem(new FakeToolItem(numberStyle, numberButton));
                 toolbar.addToolbarItem(new FakeToolItem(bulletStyle, bulletButton));
+                toolbar.addToolbarItem(new FakeToolItem(indentStyle, indentButton));
+                toolbar.addToolbarItem(new FakeToolItem(outdentStyle, outdentButton));
                 editText.setToolbar(toolbar);
             }
         });

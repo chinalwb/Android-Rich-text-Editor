@@ -71,6 +71,16 @@ public class HtmlRoundTripTest {
                     new Class[]{ListNumberSpan.class}},
             {"twoLists", "<ol><li>a</li></ol><p>x</p><ol><li>b</li></ol>",
                     new Class[]{ListNumberSpan.class}},
+            {"nestedNumbered",
+                    "<ol><li>a<ol><li>a1</li><li>a2</li></ol></li><li>b</li></ol>",
+                    new Class[]{ListNumberSpan.class}},
+            {"nestedBullets", "<ul><li>x<ul><li>y</li></ul></li><li>z</li></ul>",
+                    new Class[]{ListBulletSpan.class}},
+            {"nestedThreeDeep",
+                    "<ol><li>a<ol><li>b<ol><li>c</li></ol></li></ol></li><li>d</li></ol>",
+                    new Class[]{ListNumberSpan.class}},
+            {"bulletsUnderNumbers", "<ol><li>a<ul><li>bullet</li></ul></li><li>b</li></ol>",
+                    new Class[]{ListNumberSpan.class, ListBulletSpan.class}},
             {"mention", "<p><a href=\"#\" ukey=\"7\" uname=\"Ann\" style=\"color:#FF00FF;\">@Ann</a> hi</p>",
                     new Class[]{AreAtSpan.class}},
             {"mixed", "<p><b>a</b></p><p><i>b</i></p><ul><li>c</li></ul>",
@@ -254,6 +264,66 @@ public class HtmlRoundTripTest {
 
         assertEquals("", editor.text);
         assertEquals(load(editor.html).html, editor.html);
+    }
+
+
+    @Test
+    public void nestingSurvivesTheRoundTrip() {
+        Editor editor = load(load(
+                "<ol><li>a<ol><li>a1</li><li>a2</li></ol></li><li>b</li></ol>").html);
+
+        assertEquals(0, levelOf(editor, "a"));
+        assertEquals(1, levelOf(editor, "a1"));
+        assertEquals(1, levelOf(editor, "a2"));
+        assertEquals(0, levelOf(editor, "b"));
+    }
+
+    @Test
+    public void aSublistIsWrittenInsideTheItemItHangsOff() {
+        String html = load("<ol><li>a<ol><li>a1</li></ol></li><li>b</li></ol>").html;
+
+        //
+        // <ol> is only allowed inside an <li>, never as a direct child of another
+        // <ol>. The invalid form used to be written out, and parsers restructuring
+        // it turned the item after the sublist into a bullet.
+        assertFalse("a list is a direct child of another list: " + html,
+                html.replaceAll("\\s+", "").contains("</ol><ol>"));
+        assertFalse("a list is a direct child of another list: " + html,
+                html.replaceAll("\\s+", "").contains("<ol><ol>"));
+    }
+
+    @Test
+    public void nestedListNumbersCountPerLevel() {
+        Editor editor = load(load(
+                "<ol><li>a<ol><li>a1</li><li>a2</li></ol></li><li>b</li></ol>").html);
+
+        assertEquals(1, numberOf(editor, "a"));
+        assertEquals(1, numberOf(editor, "a1"));
+        assertEquals(2, numberOf(editor, "a2"));
+        assertEquals("the outer list carries on past the sublist",
+                2, numberOf(editor, "b"));
+    }
+
+    private static com.chinalwb.are.spans.AreListSpan itemOf(Editor editor, String needle) {
+        int at = editor.text.indexOf(needle);
+        assertTrue("\"" + needle + "\" is not in the document", at >= 0);
+        com.chinalwb.are.spans.AreListSpan deepest = null;
+        for (com.chinalwb.are.spans.AreListSpan candidate : editor.editable.getSpans(
+                at, at + needle.length(), com.chinalwb.are.spans.AreListSpan.class)) {
+            if (deepest == null || candidate.getLevel() > deepest.getLevel()) {
+                deepest = candidate;
+            }
+        }
+        assertTrue("\"" + needle + "\" is not a list item", deepest != null);
+        return deepest;
+    }
+
+    private static int levelOf(Editor editor, String needle) {
+        return itemOf(editor, needle).getLevel();
+    }
+
+    private static int numberOf(Editor editor, String needle) {
+        return ((ListNumberSpan) itemOf(editor, needle)).getNumber();
     }
 
     // --------------------------------------------------------------- harness

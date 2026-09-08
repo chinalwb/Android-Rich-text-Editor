@@ -15,11 +15,26 @@ public class ListBulletSpan implements AreListSpan {
 
 	protected static final int LEADING_MARGIN = 30;
 
+	private int mLevel;
+
+	@Override
+	public int getLevel() {
+		return mLevel;
+	}
+
+	@Override
+	public void setLevel(int level) {
+		this.mLevel = Math.max(0, level);
+	}
+
 	// Gap should be about 1em
 	public static final int STANDARD_GAP_WIDTH = 30;
 
 	public int getLeadingMargin(boolean first) {
-		return LEADING_MARGIN + 50;
+		//
+		// Every nesting level shifts the item, and its bullet with it, one indent
+		// to the right.
+		return (mLevel + 1) * LEVEL_INDENT;
 	}
 
 	@Override
@@ -35,7 +50,8 @@ public class ListBulletSpan implements AreListSpan {
 			// dir is the paragraph direction: multiplying by it puts the bullet
 			// inside the margin for RTL text too, where "x + dir" only shifted
 			// it by a single pixel.
-			c.drawText("\u2022", x + dir * LEADING_MARGIN, baseline, p);
+			c.drawText("\u2022",
+					x + dir * (mLevel * LEVEL_INDENT + LEADING_MARGIN), baseline, p);
 
 			p.setStyle(style);
 		}

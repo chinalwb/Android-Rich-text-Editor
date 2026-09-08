@@ -43,4 +43,6 @@
     <string name="are_tool_emoji">Emoji</string>
     <string name="are_tool_link">Link</string>
     <string name="are_tool_unlink">Remove link</string>
+    <string name="are_tool_list_indent">Indent list item</string>
+    <string name="are_tool_list_outdent">Outdent list item</string>
 </resources>

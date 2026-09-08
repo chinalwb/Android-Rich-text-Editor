@@ -43,6 +43,17 @@ Block-level styles (list, quote, alignment, indent) all resolve their range thro
 
 Ordered-list numbers are display-only state, recomputed for the whole document by `ARE_ListNumbering.renumber(Editable)` rather than patched span by span (`Editable#getSpans` returns spans in insertion order, never document order). `reNumberBehindListItemSpans` is kept as a thin delegating wrapper. Numbering restarts at 1 whenever a non-ordered paragraph — plain text or a bullet — interrupts the run.
 
+Nesting lives on the span: `AreListSpan.getLevel()` is what indents an item
+(`getLeadingMargin` returns `(level + 1) * LEVEL_INDENT`), what makes each level
+count on its own, and what `Html` writes back out as a nested `<ol>` / `<ul>`.
+The parser sets it from its `OL_UL_STACK` depth; `ARE_Style_ListIndent` changes
+it, capped at one level deeper than the item above. A sublist is serialized
+*inside* the item it hangs off (`<li>a<ol>…</ol></li>`) — a list is never a
+direct child of another list, which is invalid and made parsers restructure the
+document. Note that a parsed document's outer item span covers its sublist,
+while an editor-built one covers only its own paragraph; `listItemAt` therefore
+picks the deepest span on a paragraph.
+
 List items carry a leading `Constants.ZERO_WIDTH_SPACE_STR` marker so an empty item still has a line to draw on; anything that stops a line being a list item has to delete that marker too (`Util.removeZeroWidthMarker`), or it accumulates invisibly and lands in the exported HTML.
 
 `ARE_ABS_Style<E>` is the generic base for character styles. It reflects the span class `E` out of its generic superclass and implements the full checked/unchecked × insert/delete/select matrix of span splitting and merging. New character styles should extend it and implement `newSpan()` rather than hand-rolling span math.

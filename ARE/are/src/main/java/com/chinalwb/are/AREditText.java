@@ -140,7 +140,8 @@ public class AREditText extends AppCompatEditText {
             try {
                 Html.ImageGetter imageGetter = new AreImageGetter(mContext, this);
                 Html.TagHandler tagHandler = new AreTagHandler();
-                CharSequence newText = Html.fromHtml(htmlText, Html.FROM_HTML_SEPARATOR_LINE_BREAK_PARAGRAPH, imageGetter, tagHandler);
+                CharSequence newText = Html.fromHtml(htmlText, Html.FROM_HTML_SEPARATOR_LINE_BREAK_PARAGRAPH
+                        | Html.FROM_HTML_SEPARATOR_LINE_BREAK_LIST, imageGetter, tagHandler);
                 if (newText != null) {
                     return newText;
                 }
@@ -401,7 +402,8 @@ public class AREditText extends AppCompatEditText {
         Html.sContext = mContext;
         Html.ImageGetter imageGetter = new AreImageGetter(mContext, this);
         Html.TagHandler tagHandler = new AreTagHandler();
-        Spanned spanned = Html.fromHtml(html, Html.FROM_HTML_SEPARATOR_LINE_BREAK_PARAGRAPH, imageGetter, tagHandler);
+        Spanned spanned = Html.fromHtml(html, Html.FROM_HTML_SEPARATOR_LINE_BREAK_PARAGRAPH
+                        | Html.FROM_HTML_SEPARATOR_LINE_BREAK_LIST, imageGetter, tagHandler);
         stopMonitor();
         this.getEditableText().append(spanned);
         startMonitor();

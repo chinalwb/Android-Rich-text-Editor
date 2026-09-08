@@ -266,7 +266,8 @@ public class AREditor extends RelativeLayout {
         Html.sContext = mContext;
         Html.ImageGetter imageGetter = new AreImageGetter(mContext, this.mAre);
         Html.TagHandler tagHandler = new AreTagHandler();
-        Spanned spanned = Html.fromHtml(html, Html.FROM_HTML_SEPARATOR_LINE_BREAK_PARAGRAPH, imageGetter, tagHandler);
+        Spanned spanned = Html.fromHtml(html, Html.FROM_HTML_SEPARATOR_LINE_BREAK_PARAGRAPH
+                        | Html.FROM_HTML_SEPARATOR_LINE_BREAK_LIST, imageGetter, tagHandler);
         AREditText.stopMonitor();
         this.mAre.getEditableText().append(spanned);
         AREditText.startMonitor();

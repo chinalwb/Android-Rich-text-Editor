@@ -168,10 +168,10 @@ public class ARE_ListNumberingTest {
         Editable editable = new SpannableStringBuilder(
                 ZWSP + "a\n\n" + ZWSP + "a1\n" + ZWSP + "a2\n\n" + ZWSP + "b\n\n");
 
-        ListNumberSpan outerOne = new ListNumberSpan(1);
-        ListNumberSpan innerOne = new ListNumberSpan(1);
-        ListNumberSpan innerTwo = new ListNumberSpan(1);
-        ListNumberSpan outerTwo = new ListNumberSpan(1);
+        ListNumberSpan outerOne = itemAtLevel(0);
+        ListNumberSpan innerOne = itemAtLevel(1);
+        ListNumberSpan innerTwo = itemAtLevel(1);
+        ListNumberSpan outerTwo = itemAtLevel(0);
         editable.setSpan(outerOne, 0, 11, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         editable.setSpan(innerOne, 4, 7, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         editable.setSpan(innerTwo, 8, 11, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
@@ -196,10 +196,10 @@ public class ARE_ListNumberingTest {
         Editable editable = new SpannableStringBuilder(
                 ZWSP + "a\n\n" + ZWSP + "b\n\n" + ZWSP + "c\n\n" + ZWSP + "d\n\n");
 
-        ListNumberSpan deepest = new ListNumberSpan(1);
-        ListNumberSpan middle = new ListNumberSpan(1);
-        ListNumberSpan outer = new ListNumberSpan(1);
-        ListNumberSpan sibling = new ListNumberSpan(1);
+        ListNumberSpan deepest = itemAtLevel(2);
+        ListNumberSpan middle = itemAtLevel(1);
+        ListNumberSpan outer = itemAtLevel(0);
+        ListNumberSpan sibling = itemAtLevel(0);
         editable.setSpan(deepest, 8, 10, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         editable.setSpan(middle, 4, 10, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         editable.setSpan(outer, 0, 10, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
@@ -234,6 +234,12 @@ public class ARE_ListNumberingTest {
     }
 
     // ---------------------------------------------------------------- helpers
+
+    private static ListNumberSpan itemAtLevel(int level) {
+        ListNumberSpan span = new ListNumberSpan(1);
+        span.setLevel(level);
+        return span;
+    }
 
     private static void markAsNumbered(Editable editable, int paragraph) {
         setSpanOnParagraph(editable, paragraph, new ListNumberSpan(1));
