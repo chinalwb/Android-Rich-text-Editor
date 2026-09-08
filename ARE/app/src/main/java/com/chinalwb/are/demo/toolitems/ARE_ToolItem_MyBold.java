@@ -18,13 +18,11 @@ public class ARE_ToolItem_MyBold extends ARE_ToolItem_Bold {
             return mToolItemView;
         }
         if (mToolItemView == null) {
-            ImageView imageView = new ImageView(context);
-            int size = Util.getPixelByDp(context, 40);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size, size);
-            imageView.setLayoutParams(params);
-            imageView.setImageResource(R.drawable.my_bold);
-            imageView.bringToFront();
-            mToolItemView = imageView;
+            //
+            // createToolItemView gives a custom tool item the same box, icon size,
+            // tint and active treatment as the built in ones.
+            mToolItemView = createToolItemView(context,
+                    R.drawable.my_bold, R.string.demo_tool_my_bold);
         }
 
         return mToolItemView;

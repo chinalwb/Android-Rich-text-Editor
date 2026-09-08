@@ -113,58 +113,65 @@ public class ARE_ListBullet extends ARE_ABS_FreeStyle {
 					// Case 2
 					//
 					// There are list item spans ahead current editing
-					ListBulletSpan[] aheadListItemSpans = editable.getSpans(
-							start - 2, start - 1, ListBulletSpan.class);
-					if (null != aheadListItemSpans
-							&& aheadListItemSpans.length > 0) {
-						ListBulletSpan previousListItemSpan = aheadListItemSpans[aheadListItemSpans.length - 1];
-						if (null != previousListItemSpan) {
-							int pStart = editable
-									.getSpanStart(previousListItemSpan);
-							int pEnd = editable
-									.getSpanEnd(previousListItemSpan);
+					//
+					// The previous item is looked up by paragraph rather than by
+					// peeking two characters back, which broke down at the start
+					// of the text and whenever the item above was not exactly one
+					// separator away.
+					ListBulletSpan previousListItemSpan =
+							findPreviousListItemSpan(editable, start);
+					if (null != previousListItemSpan) {
+						int pStart = editable
+								.getSpanStart(previousListItemSpan);
+						int pEnd = editable
+								.getSpanEnd(previousListItemSpan);
 
-							//
-							// Handle this case:
-							// 1. A
-							// B
-							// C
-							// 1. D
-							//
-							// User puts focus to B and click List icon, to
-							// change it to:
-							// 2. B
-							//
-							// Then user puts focus to C and click List icon, to
-							// change it to:
-							// 3. C
-							// For this one, we need to finish the span "2. B"
-							// correctly
-							// Which means we need to set the span end to a
-							// correct value
-							// This is doing this.
-							if (editable.charAt(pEnd - 1) == Constants.CHAR_NEW_LINE) {
-								editable.removeSpan(previousListItemSpan);
-								editable.setSpan(previousListItemSpan, pStart,
-										pEnd - 1,
-										Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-							}
-
-							makeLineAsBullet();
-						}
-					} else {
 						//
-						// Case 1
-						makeLineAsBullet();
-						return;
+						// Handle this case:
+						// 1. A
+						// B
+						// C
+						// 1. D
+						//
+						// User puts focus to B and click List icon, to
+						// change it to:
+						// 2. B
+						//
+						// Then user puts focus to C and click List icon, to
+						// change it to:
+						// 3. C
+						// For this one, we need to finish the span "2. B"
+						// correctly
+						// Which means we need to set the span end to a
+						// correct value
+						// This is doing this.
+						if (pEnd > pStart
+								&& editable.charAt(pEnd - 1) == Constants.CHAR_NEW_LINE) {
+							editable.removeSpan(previousListItemSpan);
+							editable.setSpan(previousListItemSpan, pStart,
+									pEnd - 1,
+									Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+						}
 					}
+
+					makeLineAsBullet();
 				} else {
 					//
 					// Current line is list item span
 					// By clicking the image view, we should remove the
 					// BulletListItemSpan
 					//
-					editable.removeSpan(listBulletSpans[0]);
+					ListBulletSpan currentLineListItemSpan = listBulletSpans[0];
+					int currentSpanStart = editable
+							.getSpanStart(currentLineListItemSpan);
+					editable.removeSpan(currentLineListItemSpan);
+
+					//
+					// The line is no longer a list item, so its zero width marker
+					// has to go with the span - otherwise it stays behind in the
+					// text, costing an extra backspace and stacking up one more
+					// invisible character on every toggle.
+					Util.removeZeroWidthMarker(editable, currentSpanStart);
 				}
 			}
 		});
@@ -367,18 +374,50 @@ public class ARE_ListBullet extends ARE_ABS_FreeStyle {
 	 * @return
 	 */
 	private boolean isEmptyListItemSpan(CharSequence listItemSpanContent) {
-		int spanLen = listItemSpanContent.length();
-		if (spanLen == 2) {
-			//
-			// This case:
-			// 1. A
-			// 2.
-			//
-			// Line 2 is empty
+		if (null == listItemSpanContent) {
 			return true;
-		} else {
-			return false;
 		}
+
+		//
+		// A list item is empty when nothing but its zero width marker and the
+		// trailing new line are left. Testing the content instead of the length
+		// also catches the last item of a list, which has no trailing '\n' and
+		// so is one character shorter than the items above it.
+		for (int i = 0; i < listItemSpanContent.length(); i++) {
+			char c = listItemSpanContent.charAt(i);
+			if (c != Constants.ZERO_WIDTH_SPACE_INT && c != Constants.CHAR_NEW_LINE) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Returns the bullet list item of the paragraph right above {@code offset}, or
+	 * {@code null} when that paragraph is not a bullet list item.
+	 *
+	 * @param editable the text to inspect
+	 * @param offset   an offset inside the paragraph being turned into a list item
+	 * @return the list item span above, or {@code null}
+	 */
+	private static ListBulletSpan findPreviousListItemSpan(Editable editable, int offset) {
+		int paragraph = Util.getParagraphIndex(editable, offset);
+		if (paragraph <= 0) {
+			return null;
+		}
+
+		int previousStart = Util.getParagraphStart(editable, paragraph - 1);
+		int previousEnd = Util.getParagraphEnd(editable, paragraph - 1);
+		if (previousEnd > previousStart) {
+			previousEnd--;
+		}
+
+		ListBulletSpan[] spans =
+				editable.getSpans(previousStart, previousEnd, ListBulletSpan.class);
+		if (null == spans || spans.length == 0) {
+			return null;
+		}
+		return spans[spans.length - 1];
 	}
 
 	/**
@@ -448,7 +487,7 @@ public class ARE_ListBullet extends ARE_ABS_FreeStyle {
 		
 		// -- Change the content to trigger the editable redraw
         editable.insert(lastListNumberSpanEnd, Constants.ZERO_WIDTH_SPACE_STR);
-        editable.delete(lastListNumberSpanEnd + 1, lastListNumberSpanEnd + 1);
+        editable.delete(lastListNumberSpanEnd, lastListNumberSpanEnd + 1);
         // -- End: Change the content to trigger the editable redraw
         
 		ARE_ListNumber.reNumberBehindListItemSpans(lastListNumberSpanEnd + 1, editable, 0);

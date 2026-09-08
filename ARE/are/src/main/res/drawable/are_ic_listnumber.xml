@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Part of the ARE toolbar icon set: 24dp grid, 20dp live area, single weight. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M5.21 7.9H4.33V4.59Q3.85 5.04 3.19 5.26V4.46Q3.54 4.35 3.94 4.03Q4.34 3.72 4.49 3.3H5.21Z" />
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M5.74 13.58V14.4H2.66Q2.71 13.94 2.96 13.52Q3.21 13.11 3.95 12.43Q4.54 11.87 4.68 11.68Q4.86 11.4 4.86 11.14Q4.86 10.84 4.7 10.69Q4.54 10.53 4.26 10.53Q3.99 10.53 3.83 10.69Q3.66 10.86 3.64 11.24L2.76 11.16Q2.84 10.43 3.25 10.12Q3.67 9.8 4.29 9.8Q4.96 9.8 5.35 10.17Q5.74 10.53 5.74 11.08Q5.74 11.38 5.63 11.66Q5.52 11.94 5.28 12.25Q5.12 12.45 4.7 12.83Q4.29 13.22 4.18 13.34Q4.06 13.47 4.0 13.58Z" />
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M2.7 19.63 3.54 19.53Q3.58 19.85 3.75 20.02Q3.93 20.18 4.18 20.18Q4.45 20.18 4.63 19.98Q4.81 19.78 4.81 19.43Q4.81 19.11 4.64 18.92Q4.46 18.73 4.21 18.73Q4.04 18.73 3.81 18.79L3.91 18.09Q4.26 18.1 4.44 17.94Q4.63 17.77 4.63 17.51Q4.63 17.28 4.49 17.15Q4.36 17.01 4.13 17.01Q3.91 17.01 3.75 17.16Q3.6 17.32 3.56 17.61L2.77 17.48Q2.85 17.07 3.02 16.82Q3.19 16.58 3.49 16.44Q3.79 16.3 4.16 16.3Q4.79 16.3 5.18 16.71Q5.49 17.04 5.49 17.46Q5.49 18.05 4.85 18.4Q5.23 18.48 5.46 18.77Q5.7 19.06 5.7 19.47Q5.7 20.06 5.26 20.48Q4.83 20.9 4.18 20.9Q3.57 20.9 3.17 20.55Q2.77 20.2 2.7 19.63Z" />
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M9.4,4.4h12.6v2.2h-12.6z" />
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M9.4,10.9h12.6v2.2h-12.6z" />
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M9.4,17.4h12.6v2.2h-12.6z" />
+</vector>

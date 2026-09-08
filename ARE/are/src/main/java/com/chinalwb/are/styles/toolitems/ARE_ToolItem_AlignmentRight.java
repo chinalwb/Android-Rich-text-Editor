@@ -38,13 +38,8 @@ public class ARE_ToolItem_AlignmentRight extends ARE_ToolItem_Abstract {
             return mToolItemView;
         }
         if (mToolItemView == null) {
-            ImageView imageView = new ImageView(context);
-            int size = Util.getPixelByDp(context, 40);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size, size);
-            imageView.setLayoutParams(params);
-            imageView.setImageResource(R.drawable.alignright);
-            imageView.bringToFront();
-            mToolItemView = imageView;
+            mToolItemView = createToolItemView(context,
+                    R.drawable.are_ic_alignright, R.string.are_tool_alignright);
         }
 
         return mToolItemView;

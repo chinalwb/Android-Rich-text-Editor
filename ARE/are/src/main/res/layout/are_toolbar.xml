@@ -27,190 +27,214 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="?attr/colorPrimary">
+            android:background="@color/are_toolbar_background">
 
             <ImageView
                 android:id="@+id/rteEmoji"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="5dp"
-                android:src="@drawable/emoji"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:src="@drawable/are_ic_emoji"
+                android:background="@drawable/are_tool_item_background"
                 android:visibility="gone"
                 />
 
             <ImageView
                 android:id="@+id/rteFontsize"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="5dp"
-                android:src="@drawable/fontsize"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:src="@drawable/are_ic_fontsize"
+                android:background="@drawable/are_tool_item_background"
                 android:visibility="visible"
                 />
 
             <ImageView
                 android:id="@+id/rteFontface"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="5dp"
-                android:src="@drawable/fontface"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:src="@drawable/are_ic_fontface"
+                android:background="@drawable/are_tool_item_background"
                 android:visibility="gone"
                 />
 
             <ImageView
                 android:id="@+id/rteBold"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="5dp"
-                android:src="@drawable/bold" />
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:src="@drawable/are_ic_bold"
+                android:background="@drawable/are_tool_item_background" />
 
             <ImageView
                 android:id="@+id/rteItalic"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="5dp"
-                android:src="@drawable/italic" />
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:src="@drawable/are_ic_italic"
+                android:background="@drawable/are_tool_item_background" />
 
             <ImageView
                 android:id="@+id/rteUnderline"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="5dp"
-                android:src="@drawable/underline" />
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:src="@drawable/are_ic_underline"
+                android:background="@drawable/are_tool_item_background" />
 
             <ImageView
                 android:id="@+id/rteStrikethrough"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="5dp"
-                android:src="@drawable/strikethrough" />
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:src="@drawable/are_ic_strikethrough"
+                android:background="@drawable/are_tool_item_background" />
 
             <ImageView
                 android:id="@+id/rteHr"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="5dp"
-                android:src="@drawable/hr" />
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:src="@drawable/are_ic_hr"
+                android:background="@drawable/are_tool_item_background" />
 
 
             <ImageView
                 android:id="@+id/rteSubscript"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="5dp"
-                android:src="@drawable/subscript" />
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:src="@drawable/are_ic_subscript"
+                android:background="@drawable/are_tool_item_background" />
 
             <ImageView
                 android:id="@+id/rteSuperscript"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="5dp"
-                android:src="@drawable/superscript" />
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:src="@drawable/are_ic_superscript"
+                android:background="@drawable/are_tool_item_background" />
 
             <ImageView
                 android:id="@+id/rteQuote"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="5dp"
-                android:src="@drawable/quote" />
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:src="@drawable/are_ic_quote"
+                android:background="@drawable/are_tool_item_background" />
 
 
             <ImageView
                 android:id="@+id/rteFontColor"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="5dp"
-                android:src="@drawable/foregroundcolor" />
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:src="@drawable/are_ic_foregroundcolor"
+                android:background="@drawable/are_tool_item_background" />
 
             <ImageView
                 android:id="@+id/rteBackground"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="5dp"
-                android:src="@drawable/background"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:src="@drawable/are_ic_background"
+                android:background="@drawable/are_tool_item_background"
                 />
 
             <ImageView
                 android:id="@+id/rteLink"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="5dp"
-                android:src="@drawable/ic_insert_link_black_48dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:src="@drawable/are_ic_link"
+                android:background="@drawable/are_tool_item_background"
                 />
 
             <ImageView
                 android:id="@+id/rteListNumber"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="5dp"
-                android:src="@drawable/listnumber" />
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:src="@drawable/are_ic_listnumber"
+                android:background="@drawable/are_tool_item_background" />
 
             <ImageView
                 android:id="@+id/rteListBullet"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="5dp"
-                android:src="@drawable/listbullet" />
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:src="@drawable/are_ic_listbullet"
+                android:background="@drawable/are_tool_item_background" />
 
             <ImageView
                 android:id="@+id/rteIndentRight"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="5dp"
-                android:src="@drawable/indentright"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:src="@drawable/are_ic_indentright"
+                android:background="@drawable/are_tool_item_background"
                 android:visibility="gone"
                  />
 
             <ImageView
                 android:id="@+id/rteIndentLeft"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="5dp"
-                android:src="@drawable/indentleft"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:src="@drawable/are_ic_indentleft"
+                android:background="@drawable/are_tool_item_background"
                 android:visibility="gone"
                 />
 
             <ImageView
                 android:id="@+id/rteAlignLeft"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="5dp"
-                android:src="@drawable/alignleft" />
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:src="@drawable/are_ic_alignleft"
+                android:background="@drawable/are_tool_item_background" />
 
             <ImageView
                 android:id="@+id/rteAlignCenter"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="5dp"
-                android:src="@drawable/aligncenter" />
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:src="@drawable/are_ic_aligncenter"
+                android:background="@drawable/are_tool_item_background" />
 
             <ImageView
                 android:id="@+id/rteAlignRight"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="5dp"
-                android:src="@drawable/alignright" />
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:src="@drawable/are_ic_alignright"
+                android:background="@drawable/are_tool_item_background" />
 
             <ImageView
                 android:id="@+id/rteInsertImage"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="5dp"
-                android:src="@drawable/image" />
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:src="@drawable/are_ic_image"
+                android:background="@drawable/are_tool_item_background" />
 
             <ImageView
                 android:id="@+id/rteInsertVideo"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="5dp"
-                android:src="@drawable/video"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:src="@drawable/are_ic_video"
+                android:background="@drawable/are_tool_item_background"
                 />
 
             <ImageView
                 android:id="@+id/rteAt"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="5dp"
-                android:src="@drawable/at"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:src="@drawable/are_ic_at"
+                android:background="@drawable/are_tool_item_background"
                 android:visibility="gone" />
         </LinearLayout>
     </HorizontalScrollView>

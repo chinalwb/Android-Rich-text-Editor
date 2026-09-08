@@ -25,11 +25,21 @@ class ARE_ToolItem_Youtube : ARE_ToolItem_Abstract() {
 
     override fun getView(context: Context?): View? {
         return mToolItemView ?: {
+            //
+            // A full colour brand mark, so it is built by hand instead of through
+            // createToolItemView - but on the same metrics, so it still lines up
+            // with the rest of the toolbar.
             val imageView = ImageView(context)
-            val size = Util.getPixelByDp(context, 40)
+            val size = Util.getPixelByDp(context, TOOL_ITEM_SIZE_DP)
             val params = LinearLayout.LayoutParams(size, size)
             imageView.layoutParams = params
+            val padding = Util.getPixelByDp(context, TOOL_ITEM_PADDING_DP)
+            imageView.setPadding(padding, padding, padding, padding)
             imageView.setImageResource(R.drawable.youtube)
+            imageView.setBackgroundResource(
+                com.chinalwb.are.R.drawable.are_tool_item_background)
+            imageView.contentDescription =
+                context?.getString(R.string.demo_tool_youtube)
             imageView.bringToFront()
             this.mToolItemView = imageView
             this.mToolItemView
