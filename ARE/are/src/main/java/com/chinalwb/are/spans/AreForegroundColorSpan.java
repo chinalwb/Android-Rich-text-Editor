@@ -1,6 +1,6 @@
 package com.chinalwb.are.spans;
 
-import android.support.annotation.ColorInt;
+import androidx.annotation.ColorInt;
 import android.text.style.ForegroundColorSpan;
 
 public class AreForegroundColorSpan extends ForegroundColorSpan implements AreDynamicSpan {

@@ -2,7 +2,6 @@ package com.chinalwb.are.demo;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,7 +14,7 @@ import com.chinalwb.are.strategies.VideoStrategy;
 
 import static com.chinalwb.are.demo.TextViewActivity.HTML_TEXT;
 
-public class ARE_MinHideActivity extends AppCompatActivity {
+public class ARE_MinHideActivity extends AREDemoBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,11 +68,6 @@ public class ARE_MinHideActivity extends AppCompatActivity {
         });
     }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        this.arEditor.onActivityResult(requestCode, resultCode, data);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -1,10 +1,15 @@
 package com.chinalwb.are;
 
+import android.annotation.TargetApi;
+import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Build;
-import android.support.v7.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatEditText;
 import android.text.Editable;
+import android.text.Selection;
+import android.text.Spannable;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.style.BackgroundColorSpan;
@@ -14,6 +19,7 @@ import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 
@@ -21,10 +27,13 @@ import com.chinalwb.are.android.inner.Html;
 import com.chinalwb.are.events.AREMovementMethod;
 import com.chinalwb.are.render.AreImageGetter;
 import com.chinalwb.are.render.AreTagHandler;
+import com.chinalwb.are.spans.ARE_Clickable_Span;
+import com.chinalwb.are.spans.AreImageSpan;
 import com.chinalwb.are.spans.AreSubscriptSpan;
 import com.chinalwb.are.spans.AreSuperscriptSpan;
 import com.chinalwb.are.spans.AreUnderlineSpan;
 import com.chinalwb.are.strategies.AtStrategy;
+import com.chinalwb.are.strategies.ImageStrategy;
 import com.chinalwb.are.strategies.VideoStrategy;
 import com.chinalwb.are.styles.ARE_Helper;
 import com.chinalwb.are.styles.IARE_Style;
@@ -43,15 +52,15 @@ import java.util.List;
  */
 public class AREditText extends AppCompatEditText {
 
-    private IARE_Toolbar mToolbar;
+	private IARE_Toolbar mToolbar;
 
 	private static boolean LOG = false;
 
 	private static boolean MONITORING = true;
 
-	private ARE_Toolbar sToolbar;
+	private ARE_Toolbar mFixedToolbar;
 
-	private static List<IARE_Style> sStylesList = new ArrayList<>();
+	private List<IARE_Style> mToolbarStylesList = new ArrayList<>();
 
 	private Context mContext;
 
@@ -69,10 +78,6 @@ public class AREditText extends AppCompatEditText {
 		super(context, attrs, defStyleAttr);
 		mContext = context;
 		initGlobalValues();
-		sToolbar = ARE_Toolbar.getInstance();
-		if (sToolbar != null) {
-			sStylesList = sToolbar.getStylesList();
-		}
 		init();
 		setupListener();
 	}
@@ -84,15 +89,78 @@ public class AREditText extends AppCompatEditText {
 	}
 
 	private void init() {
-		this.setMovementMethod(new AREMovementMethod());
+		useSoftwareLayerOnAndroid8();
+        // this.setMovementMethod(new AREMovementMethod());
 		this.setFocusableInTouchMode(true);
 		this.setBackgroundColor(Color.WHITE);
-		this.setInputType(EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE
-				| EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+//			this.setInputType(EditorInfo.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE
+//					| EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+//		} else {
+			this.setInputType(EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE
+					| EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+//		}
 		int padding = 8;
 		padding = Util.getPixelByDp(mContext, padding);
 		this.setPadding(padding, padding, padding, padding);
 		this.setTextSize(TypedValue.COMPLEX_UNIT_SP, Constants.DEFAULT_FONT_SIZE);
+	}
+
+	private void paste(ClipData clip) {
+	    Editable mText = this.getEditableText();
+	    int min = 0;
+	    int max = mText.length();
+        if (clip != null) {
+            boolean didFirst = false;
+            for (int i = 0; i < clip.getItemCount(); i++) {
+                final CharSequence paste;
+                paste = getClipItemCharSequence(clip.getItemAt(i));
+                if (paste != null) {
+                    if (!didFirst) {
+                        Selection.setSelection((Spannable) mText, max);
+                        ((Editable) mText).replace(min, max, paste);
+                        didFirst = true;
+                    } else {
+                        ((Editable) mText).insert(getSelectionEnd(), "\n");
+                        ((Editable) mText).insert(getSelectionEnd(), paste);
+                    }
+                }
+            }
+        }
+    }
+
+    @TargetApi(16)
+    private CharSequence getClipItemCharSequence(ClipData.Item itemAt) {
+        CharSequence text = getText();
+        if (text instanceof Spanned) {
+            return text;
+        }
+        String htmlText = itemAt.getHtmlText();
+        if (htmlText != null) {
+            try {
+                Html.ImageGetter imageGetter = new AreImageGetter(mContext, this);
+                Html.TagHandler tagHandler = new AreTagHandler();
+                CharSequence newText = Html.fromHtml(htmlText, Html.FROM_HTML_SEPARATOR_LINE_BREAK_PARAGRAPH, imageGetter, tagHandler);
+                if (newText != null) {
+                    return newText;
+                }
+            } catch (RuntimeException e) {
+                // If anything bad happens, we'll fall back on the plain text.
+            }
+        }
+
+        return itemAt.coerceToStyledText(mContext);
+    }
+
+    @Override
+	public boolean onTouchEvent(MotionEvent event) {
+		int off = AREMovementMethod.getTextOffset(this, this.getEditableText(), event);
+		ARE_Clickable_Span[] clickableSpans = this.getText().getSpans(off, off, ARE_Clickable_Span.class);
+		if (clickableSpans.length == 1 && clickableSpans[0] instanceof AreImageSpan) {
+			return true;
+		}
+
+		return super.onTouchEvent(event);
 	}
 
 	/**
@@ -151,7 +219,7 @@ public class AREditText extends AppCompatEditText {
 					Util.log("User deletes: start == " + startPos + " endPos == " + endPos);
 				}
 
-				for (IARE_Style style : sStylesList) {
+				for (IARE_Style style : mToolbarStylesList) {
 					style.applyStyle(s, startPos, endPos);
 				}
 			}
@@ -161,34 +229,44 @@ public class AREditText extends AppCompatEditText {
 	}
 
     public void setToolbar(IARE_Toolbar toolbar) {
-	    sStylesList.clear();
+	    mToolbarStylesList.clear();
         this.mToolbar = toolbar;
         this.mToolbar.setEditText(this);
         List<IARE_ToolItem> toolItems = toolbar.getToolItems();
         for (IARE_ToolItem toolItem : toolItems) {
             IARE_Style style = toolItem.getStyle();
-            sStylesList.add(style);
+            mToolbarStylesList.add(style);
         }
     }
 
+	/**
+	 * Sets the fixed items toolbar to this EditText.
+	 */
+	public void setFixedToolbar(ARE_Toolbar fixedToolbar) {
+		mFixedToolbar = fixedToolbar;
+		if (mFixedToolbar != null) {
+			mToolbarStylesList = mFixedToolbar.getStylesList();
+		}
+	}
+
 	@Override
 	public void onSelectionChanged(int selStart, int selEnd) {
-	    if (mToolbar == null) {
+	    if (mToolbar != null) {
+			List<IARE_ToolItem> toolItems = mToolbar.getToolItems();
+			for (IARE_ToolItem toolItem : toolItems) {
+				toolItem.onSelectionChanged(selStart, selEnd);
+			}
 	        return;
         }
-	    List<IARE_ToolItem> toolItems = mToolbar.getToolItems();
-	    for (IARE_ToolItem toolItem : toolItems) {
-	        toolItem.onSelectionChanged(selStart, selEnd);
-        }
 
-		if (sToolbar == null) {
+		if (mFixedToolbar == null) {
 			return;
 		}
 
 		boolean boldExists = false;
 		boolean italicsExists = false;
 		boolean underlinedExists = false;
-		boolean striketrhoughExists = false;
+		boolean strikethroughExists = false;
 		boolean subscriptExists = false;
 		boolean superscriptExists = false;
 		boolean backgroundColorExists = false;
@@ -202,20 +280,20 @@ public class AREditText extends AppCompatEditText {
 		if (selStart > 0 && selStart == selEnd) {
 			CharacterStyle[] styleSpans = editable.getSpans(selStart - 1, selStart, CharacterStyle.class);
 
-			for (int i = 0; i < styleSpans.length; i++) {
-				if (styleSpans[i] instanceof StyleSpan) {
-					if (((StyleSpan) styleSpans[i]).getStyle() == android.graphics.Typeface.BOLD) {
+			for (CharacterStyle styleSpan : styleSpans) {
+				if (styleSpan instanceof StyleSpan) {
+					if (((StyleSpan) styleSpan).getStyle() == Typeface.BOLD) {
 						boldExists = true;
-					} else if (((StyleSpan) styleSpans[i]).getStyle() == android.graphics.Typeface.ITALIC) {
+					} else if (((StyleSpan) styleSpan).getStyle() == Typeface.ITALIC) {
 						italicsExists = true;
-					} else if (((StyleSpan) styleSpans[i]).getStyle() == android.graphics.Typeface.BOLD_ITALIC) {
+					} else if (((StyleSpan) styleSpan).getStyle() == Typeface.BOLD_ITALIC) {
 						// TODO
 					}
-				} else if (styleSpans[i] instanceof AreUnderlineSpan) {
+				} else if (styleSpan instanceof AreUnderlineSpan) {
 					underlinedExists = true;
-				} else if (styleSpans[i] instanceof StrikethroughSpan) {
-					striketrhoughExists = true;
-				} else if (styleSpans[i] instanceof BackgroundColorSpan) {
+				} else if (styleSpan instanceof StrikethroughSpan) {
+					strikethroughExists = true;
+				} else if (styleSpan instanceof BackgroundColorSpan) {
 					backgroundColorExists = true;
 				}
 			}
@@ -239,39 +317,38 @@ public class AREditText extends AppCompatEditText {
 			// Selection is a range
 			CharacterStyle[] styleSpans = editable.getSpans(selStart, selEnd, CharacterStyle.class);
 
-			for (int i = 0; i < styleSpans.length; i++) {
-
-				if (styleSpans[i] instanceof StyleSpan) {
-					if (((StyleSpan) styleSpans[i]).getStyle() == android.graphics.Typeface.BOLD) {
-						if (editable.getSpanStart(styleSpans[i]) <= selStart
-								&& editable.getSpanEnd(styleSpans[i]) >= selEnd) {
+			for (CharacterStyle styleSpan : styleSpans) {
+				if (styleSpan instanceof StyleSpan) {
+					if (((StyleSpan) styleSpan).getStyle() == Typeface.BOLD) {
+						if (editable.getSpanStart(styleSpan) <= selStart
+								&& editable.getSpanEnd(styleSpan) >= selEnd) {
 							boldExists = true;
 						}
-					} else if (((StyleSpan) styleSpans[i]).getStyle() == android.graphics.Typeface.ITALIC) {
-						if (editable.getSpanStart(styleSpans[i]) <= selStart
-								&& editable.getSpanEnd(styleSpans[i]) >= selEnd) {
+					} else if (((StyleSpan) styleSpan).getStyle() == Typeface.ITALIC) {
+						if (editable.getSpanStart(styleSpan) <= selStart
+								&& editable.getSpanEnd(styleSpan) >= selEnd) {
 							italicsExists = true;
 						}
-					} else if (((StyleSpan) styleSpans[i]).getStyle() == android.graphics.Typeface.BOLD_ITALIC) {
-						if (editable.getSpanStart(styleSpans[i]) <= selStart
-								&& editable.getSpanEnd(styleSpans[i]) >= selEnd) {
+					} else if (((StyleSpan) styleSpan).getStyle() == Typeface.BOLD_ITALIC) {
+						if (editable.getSpanStart(styleSpan) <= selStart
+								&& editable.getSpanEnd(styleSpan) >= selEnd) {
 							italicsExists = true;
 							boldExists = true;
 						}
 					}
-				} else if (styleSpans[i] instanceof AreUnderlineSpan) {
-					if (editable.getSpanStart(styleSpans[i]) <= selStart
-							&& editable.getSpanEnd(styleSpans[i]) >= selEnd) {
+				} else if (styleSpan instanceof AreUnderlineSpan) {
+					if (editable.getSpanStart(styleSpan) <= selStart
+							&& editable.getSpanEnd(styleSpan) >= selEnd) {
 						underlinedExists = true;
 					}
-				} else if (styleSpans[i] instanceof StrikethroughSpan) {
-					if (editable.getSpanStart(styleSpans[i]) <= selStart
-							&& editable.getSpanEnd(styleSpans[i]) >= selEnd) {
-						striketrhoughExists = true;
+				} else if (styleSpan instanceof StrikethroughSpan) {
+					if (editable.getSpanStart(styleSpan) <= selStart
+							&& editable.getSpanEnd(styleSpan) >= selEnd) {
+						strikethroughExists = true;
 					}
-				} else if (styleSpans[i] instanceof BackgroundColorSpan) {
-					if (editable.getSpanStart(styleSpans[i]) <= selStart
-							&& editable.getSpanEnd(styleSpans[i]) >= selEnd) {
+				} else if (styleSpan instanceof BackgroundColorSpan) {
+					if (editable.getSpanStart(styleSpan) <= selStart
+							&& editable.getSpanEnd(styleSpan) >= selEnd) {
 						backgroundColorExists = true;
 					}
 				}
@@ -304,14 +381,14 @@ public class AREditText extends AppCompatEditText {
 
 		//
 		// Set style checked status
-		ARE_Helper.updateCheckStatus(sToolbar.getBoldStyle(), boldExists);
-		ARE_Helper.updateCheckStatus(sToolbar.getItalicStyle(), italicsExists);
-		ARE_Helper.updateCheckStatus(sToolbar.getUnderlineStyle(), underlinedExists);
-		ARE_Helper.updateCheckStatus(sToolbar.getStrikethroughStyle(), striketrhoughExists);
-		ARE_Helper.updateCheckStatus(sToolbar.getSubscriptStyle(), subscriptExists);
-		ARE_Helper.updateCheckStatus(sToolbar.getSuperscriptStyle(), superscriptExists);
-		ARE_Helper.updateCheckStatus(sToolbar.getBackgroundColoStyle(), backgroundColorExists);
-		ARE_Helper.updateCheckStatus(sToolbar.getQuoteStyle(), quoteExists);
+		ARE_Helper.updateCheckStatus(mFixedToolbar.getBoldStyle(), boldExists);
+		ARE_Helper.updateCheckStatus(mFixedToolbar.getItalicStyle(), italicsExists);
+		ARE_Helper.updateCheckStatus(mFixedToolbar.getUnderlineStyle(), underlinedExists);
+		ARE_Helper.updateCheckStatus(mFixedToolbar.getStrikethroughStyle(), strikethroughExists);
+		ARE_Helper.updateCheckStatus(mFixedToolbar.getSubscriptStyle(), subscriptExists);
+		ARE_Helper.updateCheckStatus(mFixedToolbar.getSuperscriptStyle(), superscriptExists);
+		ARE_Helper.updateCheckStatus(mFixedToolbar.getBackgroundColoStyle(), backgroundColorExists);
+		ARE_Helper.updateCheckStatus(mFixedToolbar.getQuoteStyle(), quoteExists);
 	} // #End of method:: onSelectionChanged
 
     /**
@@ -325,9 +402,9 @@ public class AREditText extends AppCompatEditText {
         Html.ImageGetter imageGetter = new AreImageGetter(mContext, this);
         Html.TagHandler tagHandler = new AreTagHandler();
         Spanned spanned = Html.fromHtml(html, Html.FROM_HTML_SEPARATOR_LINE_BREAK_PARAGRAPH, imageGetter, tagHandler);
-        AREditText.stopMonitor();
+        stopMonitor();
         this.getEditableText().append(spanned);
-        AREditText.startMonitor();
+        startMonitor();
     }
 
 	public String getHtml() {
@@ -370,4 +447,9 @@ public class AREditText extends AppCompatEditText {
 	private VideoStrategy mVideoStrategy;
 	public void setVideoStrategy(VideoStrategy videoStrategy) { mVideoStrategy = videoStrategy; }
 	public VideoStrategy getVideoStrategy() { return mVideoStrategy; }
+
+	// ImageStrategy
+	private ImageStrategy mImageStrategy;
+	public void setImageStrategy(ImageStrategy imageStrategy) { mImageStrategy = imageStrategy; }
+	public ImageStrategy getImageStrategy() { return mImageStrategy; }
 }

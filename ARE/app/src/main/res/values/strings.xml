@@ -21,4 +21,8 @@
     <string name="title_activity_are__min_top">Min Top Demo</string>
     <string name="title_activity_are__min_hide">Min Hide Demo</string>
     <string name="title_activity_are__default_toolbar">Default Toolbar Demo</string>
+    <!-- Labels for the demo's own tool items. -->
+    <string name="demo_tool_my_bold">Bold (custom tool item)</string>
+    <string name="demo_tool_youtube">Insert YouTube video</string>
+    <string name="demo_tool_scroll_toolbar">More tools</string>
 </resources>

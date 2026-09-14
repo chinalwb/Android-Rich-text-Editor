@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <!-- Host for tests that need a real Activity context: AREditText resolves
+             its padding through Util#getPixelByDp, which walks up to an Activity. -->
+        <activity
+            android:name="com.chinalwb.are.TestHostActivity"
+            android:theme="@style/Theme.AppCompat.Light" />
+    </application>
+
+</manifest>

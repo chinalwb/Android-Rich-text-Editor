@@ -58,6 +58,22 @@ public class AREMovementMethod extends ArrowKeyMovementMethod {
         this.mAreClickStrategy = areClickStrategy;
     }
 
+    public static int getTextOffset(TextView widget, Spannable buffer, MotionEvent event) {
+        int x = (int) event.getX();
+        int y = (int) event.getY();
+
+        x -= widget.getTotalPaddingLeft();
+        y -= widget.getTotalPaddingTop();
+
+        x += widget.getScrollX();
+        y += widget.getScrollY();
+
+        Layout layout = widget.getLayout();
+        int line = layout.getLineForVertical(y);
+        int off = layout.getOffsetForHorizontal(line, x);
+        return off;
+    }
+
     @Override
     public boolean onTouchEvent(TextView widget, Spannable buffer, MotionEvent event) {
         // Supports android.text.method.LinkMovementMethod.onTouchEvent(TextView, Spannable, MotionEvent)'s
@@ -69,19 +85,7 @@ public class AREMovementMethod extends ArrowKeyMovementMethod {
         int action = event.getAction();
 
         if (action == MotionEvent.ACTION_UP) {
-            int x = (int) event.getX();
-            int y = (int) event.getY();
-
-            x -= widget.getTotalPaddingLeft();
-            y -= widget.getTotalPaddingTop();
-
-            x += widget.getScrollX();
-            y += widget.getScrollY();
-
-            Layout layout = widget.getLayout();
-            int line = layout.getLineForVertical(y);
-            int off = layout.getOffsetForHorizontal(line, x);
-
+            int off = getTextOffset(widget, buffer, event);
             ARE_Clickable_Span[] clickableSpans = buffer.getSpans(off, off, ARE_Clickable_Span.class);
             Context context = widget.getContext();
             boolean handled = false;

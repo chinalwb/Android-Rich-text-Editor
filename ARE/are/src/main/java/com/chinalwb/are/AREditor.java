@@ -4,17 +4,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import androidx.core.widget.NestedScrollView;
 import android.text.Editable;
 import android.text.Spanned;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 
 import com.chinalwb.are.android.inner.Html;
 import com.chinalwb.are.render.AreImageGetter;
 import com.chinalwb.are.render.AreTagHandler;
 import com.chinalwb.are.strategies.AtStrategy;
+import com.chinalwb.are.strategies.ImageStrategy;
 import com.chinalwb.are.strategies.VideoStrategy;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
@@ -74,7 +76,7 @@ public class AREditor extends RelativeLayout {
     /**
      * The scroll view out of AREditText.
      */
-    private ScrollView mAreScrollView;
+    private NestedScrollView mAreScrollView;
 
     /**
      * The are editor.
@@ -95,6 +97,11 @@ public class AREditor extends RelativeLayout {
      * Whether to hide the toolbar.
      */
     private boolean mHideToolbar = false;
+
+    /**
+     * By default, no emoji
+     */
+    private boolean mUseEmoji = false;
 
 	/*
 	 * --------------------------------------------
@@ -144,18 +151,21 @@ public class AREditor extends RelativeLayout {
      * Initialization.
      */
     private void init(AttributeSet attrs) {
-        initGlobal();
         initAttrs(attrs);
+        initGlobal();
 
         doLayout();
-
     } // # End of init()
 
     private void initGlobal() {
         this.mToolbar = new ARE_Toolbar(mContext);
         this.mToolbar.setId(R.id.are_toolbar);
+        this.mToolbar.setUseEmoji(mUseEmoji);
 
-        this.mAreScrollView = new ScrollView(mContext);
+        this.mAreScrollView = new NestedScrollView(mContext);
+	    //修复点击空白处无法拉起键盘的BUG：设置下面的属性后,EditText会充满整个NestedScrollView。
+	    mAreScrollView.setFillViewport(true);
+        mAreScrollView.setFitsSystemWindows(true);
         this.mAreScrollView.setId(R.id.are_scrollview);
     }
 
@@ -173,10 +183,12 @@ public class AREditor extends RelativeLayout {
         // Sets hide toolbar
         this.mHideToolbar = ta.getBoolean(R.styleable.are_hideToolbar, mHideToolbar);
 
+        // Use emoji or not
+        this.mUseEmoji = ta.getBoolean(R.styleable.are_useEmoji, false);
         ta.recycle();
     }
 
-    private void addToolbar(boolean isBelow, int belowId, boolean isFull) {
+    private void addToolbar(boolean isBelow, int belowId) {
         LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
         if (mExpandMode == ExpandMode.FULL) {
@@ -214,6 +226,7 @@ public class AREditor extends RelativeLayout {
         LayoutParams editTextLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, height);
         mAreScrollView.addView(mAre, editTextLayoutParams);
         this.mToolbar.setEditText(mAre);
+        this.mAre.setFixedToolbar(mToolbar);
 
         if (mExpandMode == ExpandMode.FULL) {
             mAreScrollView.setBackgroundColor(Color.WHITE);
@@ -234,11 +247,11 @@ public class AREditor extends RelativeLayout {
             // EditText
             // Toolbar
             addEditText(false, -1);
-            addToolbar(true, mAreScrollView.getId(), true);
+            addToolbar(true, mAreScrollView.getId());
         } else {
             // Toolbar is up, so EditText is below
             // EditText is below
-            addToolbar(false, -1, false);
+            addToolbar(false, -1);
             addEditText(true, mToolbar.getId());
         }
     }
@@ -328,4 +341,30 @@ public class AREditor extends RelativeLayout {
         this.mAre.setVideoStrategy(videoStrategy);
     }
 
+    public void setImageStrategy(ImageStrategy imageStrategy) {
+        this.mAre.setImageStrategy(imageStrategy);
+    }
+
+    /**
+     * Focus change callback interface.
+     */
+    public interface ARE_FocusChangeListener {
+        void onFocusChanged(AREditor arEditor, boolean hasFocus);
+    }
+
+    private ARE_FocusChangeListener mFocusListener;
+
+    public void setAreFocusChangeListener(ARE_FocusChangeListener listener) {
+        this.mFocusListener = listener;
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if (ev.getActionMasked() == MotionEvent.ACTION_DOWN) {
+            if (null != mFocusListener) {
+                mFocusListener.onFocusChanged(this, true);
+            }
+        }
+        return super.onInterceptTouchEvent(ev);
+    }
 }

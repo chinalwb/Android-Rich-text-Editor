@@ -16,6 +16,8 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.chinalwb.are.AREditText;
@@ -24,8 +26,6 @@ import com.chinalwb.are.Util;
 import com.chinalwb.are.spans.AreImageSpan;
 import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 import com.chinalwb.are.styles.windows.ImageSelectDialog;
-import com.chinalwb.are.glidesupport.GlideApp;
-import com.chinalwb.are.glidesupport.GlideRequests;
 
 import static com.chinalwb.are.spans.AreImageSpan.ImageType;
 
@@ -37,7 +37,7 @@ public class ARE_Image implements IARE_Style, IARE_Image {
 
 	private Context mContext;
 
-    private static GlideRequests sGlideRequests;
+    private static RequestManager sGlideRequests;
 
     private static int sWidth = 0;
 
@@ -48,7 +48,7 @@ public class ARE_Image implements IARE_Style, IARE_Image {
 	public ARE_Image(ImageView emojiImageView) {
 		this.mInsertImageView = emojiImageView;
 		this.mContext = emojiImageView.getContext();
-		sGlideRequests = GlideApp.with(mContext);
+		sGlideRequests = Glide.with(mContext);
         sWidth = Util.getScreenWidthAndHeight(mContext)[0];
 		setListenerForImageView(this.mInsertImageView);
 	}

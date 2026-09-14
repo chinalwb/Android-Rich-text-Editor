@@ -9,7 +9,10 @@ import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 
+import androidx.core.content.ContextCompat;
+
 import com.chinalwb.are.AREditText;
+import com.chinalwb.are.R;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.styles.toolitems.IARE_ToolItem;
 
@@ -81,5 +84,14 @@ public class ARE_ToolbarDefault extends HorizontalScrollView implements IARE_Too
         mContainer.setGravity(Gravity.CENTER_VERTICAL);
         mContainer.setLayoutParams(params);
         this.addView(mContainer);
+
+        if (null == getBackground()) {
+            //
+            // A toolbar that was not given a background of its own reads as a
+            // surface the icon set was drawn for, rather than inheriting whatever
+            // the host theme paints behind it. Setting android:background in the
+            // layout still wins: this only fills in the default.
+            setBackgroundColor(ContextCompat.getColor(mContext, R.color.are_toolbar_background));
+        }
     }
 }

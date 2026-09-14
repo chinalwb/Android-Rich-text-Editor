@@ -3,6 +3,7 @@ ARE/gen/com/chinalwb/are/R.java
 ARE/bin/res/crunch/drawable-hdpi/image.png
 ARE/bin/res/crunch/drawable-hdpi/ic_launcher.png
 ARE/bin/*
+ARE/local.properties
 *.keystore
 */**/.DS_Store
 ARE/.gradle
@@ -14,3 +15,4 @@ ARE/app/src/main/.DS_Store
 ARE/app/release/ARE_20180405_0.0.4.apk
 ARE/app/release/output.json
 *.iml
+.idea/

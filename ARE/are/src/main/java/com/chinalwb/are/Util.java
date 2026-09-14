@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -11,6 +12,7 @@ import android.graphics.Matrix;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -28,8 +30,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * All Rights Reserved.
@@ -53,94 +56,222 @@ public class Util {
     }
 
     /**
-     * Returns the line number of current cursor.
+     * Returns the paragraph (logical line) index of the given offset.
+     *
+     * <p>A paragraph is the text between two {@code '\n'} characters. This is
+     * deliberately not the same as a {@link Layout} line, which is a <i>visual</i>
+     * line and therefore changes when the text wraps. Block styles (list / quote /
+     * alignment / indent) apply to whole paragraphs, so they must not be computed
+     * from the visual layout.</p>
+     *
+     * @param text   the text to inspect
+     * @param offset an offset inside {@code text}
+     * @return the zero based paragraph index, or -1 if the input is unusable
+     */
+    public static int getParagraphIndex(CharSequence text, int offset) {
+        if (null == text) {
+            return -1;
+        }
+        if (offset < 0) {
+            return -1;
+        }
+        if (offset > text.length()) {
+            offset = text.length();
+        }
+
+        int paragraph = 0;
+        for (int i = 0; i < offset; i++) {
+            if (text.charAt(i) == Constants.CHAR_NEW_LINE) {
+                paragraph++;
+            }
+        }
+        return paragraph;
+    }
+
+    /**
+     * Returns the offset the given paragraph starts at.
+     *
+     * @param text           the text to inspect
+     * @param paragraphIndex the zero based paragraph index
+     * @return the start offset, clamped into {@code text}
+     */
+    public static int getParagraphStart(CharSequence text, int paragraphIndex) {
+        if (null == text || paragraphIndex <= 0) {
+            return 0;
+        }
+
+        int paragraph = 0;
+        int length = text.length();
+        for (int i = 0; i < length; i++) {
+            if (text.charAt(i) == Constants.CHAR_NEW_LINE) {
+                paragraph++;
+                if (paragraph == paragraphIndex) {
+                    return i + 1;
+                }
+            }
+        }
+        return length;
+    }
+
+    /**
+     * Returns the offset the given paragraph ends at.
+     *
+     * <p>Consistent with {@link Layout#getLineEnd(int)}, the returned offset is
+     * <i>after</i> the trailing {@code '\n'} when the paragraph has one.</p>
+     *
+     * @param text           the text to inspect
+     * @param paragraphIndex the zero based paragraph index
+     * @return the end offset, clamped into {@code text}
+     */
+    public static int getParagraphEnd(CharSequence text, int paragraphIndex) {
+        if (null == text) {
+            return 0;
+        }
+
+        int length = text.length();
+        int start = getParagraphStart(text, paragraphIndex);
+        for (int i = start; i < length; i++) {
+            if (text.charAt(i) == Constants.CHAR_NEW_LINE) {
+                return i + 1;
+            }
+        }
+        return length;
+    }
+
+    /**
+     * Returns the number of paragraphs in the given text.
+     *
+     * @param text the text to inspect
+     * @return the paragraph count, at least 1 for a non null text
+     */
+    public static int getParagraphCount(CharSequence text) {
+        if (null == text) {
+            return 0;
+        }
+
+        int count = 1;
+        int length = text.length();
+        for (int i = 0; i < length; i++) {
+            if (text.charAt(i) == Constants.CHAR_NEW_LINE && i != length - 1) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * Returns the paragraph number the cursor is currently in.
+     *
+     * <p>The value is derived from the text itself rather than from the
+     * {@link Layout}, so it is correct for wrapped lines and is available before
+     * the first layout pass has happened (or right after an edit, when the layout
+     * has not been rebuilt yet).</p>
      *
      * @param editText
      * @return
      */
     public static int getCurrentCursorLine(EditText editText) {
-        int selectionStart = Selection.getSelectionStart(editText.getText());
-        Layout layout = editText.getLayout();
-
-        if (null == layout) {
+        if (null == editText) {
             return -1;
         }
-        if (selectionStart != -1) {
-            return layout.getLineForOffset(selectionStart);
+        Editable editable = editText.getText();
+        if (null == editable) {
+            return -1;
         }
 
-        return -1;
+        int selectionStart = Selection.getSelectionStart(editable);
+        if (selectionStart == -1) {
+            return -1;
+        }
+
+        return getParagraphIndex(editable, selectionStart);
     }
 
     /**
-     * Returns the selected area line numbers.
+     * Returns the selected area paragraph numbers.
      *
      * @param editText
      * @return
      */
     public static int[] getCurrentSelectionLines(EditText editText) {
+        int[] lines = new int[2];
+        if (null == editText) {
+            return lines;
+        }
         Editable editable = editText.getText();
+        if (null == editable) {
+            return lines;
+        }
+
         int selectionStart = Selection.getSelectionStart(editable);
         int selectionEnd = Selection.getSelectionEnd(editable);
-        Layout layout = editText.getLayout();
 
-        int[] lines = new int[2];
         if (selectionStart != -1) {
-            int startLine = layout.getLineForOffset(selectionStart);
-            lines[0] = startLine;
+            lines[0] = getParagraphIndex(editable, selectionStart);
         }
 
         if (selectionEnd != -1) {
-            int endLine = layout.getLineForOffset(selectionEnd);
-            lines[1] = endLine;
+            lines[1] = getParagraphIndex(editable, selectionEnd);
         }
 
         return lines;
     }
 
     /**
-     * Returns the line start position of the current line (which cursor is focusing now).
+     * Returns the start position of the paragraph the cursor is focusing now.
      *
      * @param editText
      * @return
      */
     public static int getThisLineStart(EditText editText, int currentLine) {
-        Layout layout = editText.getLayout();
-        int start = 0;
-        if (currentLine > 0) {
-            start = layout.getLineStart(currentLine);
-            if (start > 0) {
-                String text = editText.getText().toString();
-                char lastChar = text.charAt(start - 1);
-                while (lastChar != '\n') {
-                    if (currentLine > 0) {
-                        currentLine--;
-                        start = layout.getLineStart(currentLine);
-                        if (start > 1) {
-                            start--;
-                            lastChar = text.charAt(start);
-                        } else {
-                            break;
-                        }
-                    }
-                }
-            }
+        if (null == editText || null == editText.getText()) {
+            return 0;
         }
-        return start;
+        return getParagraphStart(editText.getText(), currentLine);
     }
 
     /**
-     * Returns the line end position of the current line (which cursor is focusing now).
+     * Returns the end position of the paragraph the cursor is focusing now.
+     *
+     * <p>The trailing {@code '\n'} is included, so callers that want the visible
+     * content of the paragraph need to step back over it.</p>
      *
      * @param editText
      * @return
      */
     public static int getThisLineEnd(EditText editText, int currentLine) {
-        Layout layout = editText.getLayout();
-        if (-1 != currentLine) {
-            return layout.getLineEnd(currentLine);
+        if (-1 == currentLine) {
+            return -1;
         }
-        return -1;
+        if (null == editText || null == editText.getText()) {
+            return -1;
+        }
+        return getParagraphEnd(editText.getText(), currentLine);
+    }
+
+    /**
+     * Deletes the zero width marker a list item keeps at its start.
+     *
+     * <p>List items are created by inserting a {@link Constants#ZERO_WIDTH_SPACE_STR}
+     * so that an empty item still has a line to draw its bullet or number on. The
+     * marker has to go when the item stops being a list item, otherwise it stays
+     * behind in the text and one more of them piles up on every toggle.</p>
+     *
+     * @param editable the text to edit
+     * @param offset   the offset the list item started at
+     * @return true when a marker was deleted
+     */
+    public static boolean removeZeroWidthMarker(Editable editable, int offset) {
+        if (null == editable || offset < 0 || offset >= editable.length()) {
+            return false;
+        }
+
+        if (editable.charAt(offset) != Constants.ZERO_WIDTH_SPACE_INT) {
+            return false;
+        }
+
+        editable.delete(offset, offset + 1);
+        return true;
     }
 
     /**
@@ -153,6 +284,9 @@ public class Util {
     public static int getPixelByDp(Context context, int dp) {
         int pixels = dp;
         DisplayMetrics displayMetrics = new DisplayMetrics();
+        while (!(context instanceof Activity)) {
+            context = ((ContextWrapper)context).getBaseContext();
+        }
         ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         pixels = (int) (displayMetrics.density * dp + 0.5);
         return pixels;
@@ -221,11 +355,11 @@ public class Util {
         int bgWidth = background.getWidth();
         int bgHeight = background.getHeight();
 
-        //create the new blank bitmap 创建一个新的和SRC长度宽度一样的位图
+        //create the new blank bitmap
         Bitmap newBitmap = Bitmap.createBitmap(bgWidth, bgHeight, Bitmap.Config.ARGB_8888);
         Canvas cv = new Canvas(newBitmap);
         //draw bg into
-        cv.drawBitmap(background, 0, 0, null);//在 0，0坐标开始画入bg
+        cv.drawBitmap(background, 0, 0, null);
 
         int fgWidth = foreground.getWidth();
         int fgHeight = foreground.getHeight();
@@ -233,18 +367,18 @@ public class Util {
         int fgTop = (bgHeight - fgHeight) / 2;
 
         //draw fg into
-        cv.drawBitmap(foreground, fgLeft, fgTop, null);//在 0，0坐标开始画入fg ，可以从任意位置画入
+        cv.drawBitmap(foreground, fgLeft, fgTop, null);
         //save all clip
-        cv.save(Canvas.ALL_SAVE_FLAG);//保存
+        cv.save();
         //store
-        cv.restore();//存储
+        cv.restore();
         return newBitmap;
     }
 
     public static class GetPathFromUri4kitkat {
 
         /**
-         * 专为Android4.4设计的从Uri获取文件绝对路径，以前的方法已不好使
+         * For Android 4.4
          */
         @SuppressLint("NewApi")
         public static String getPath(final Context context, final Uri uri) {
@@ -263,7 +397,10 @@ public class Util {
                         return Environment.getExternalStorageDirectory() + "/" + split[1];
                     }
 
-                    // TODO handle non-primary volumes
+                    String externalStoragePath = findExternalStorageDocumentPath(context, type, split[1]);
+                    if (externalStoragePath != null) {
+                        return externalStoragePath;
+                    }
                 }
                 // DownloadsProvider
                 else if (isDownloadsDocument(uri)) {
@@ -305,6 +442,44 @@ public class Util {
             // File
             else if ("file".equalsIgnoreCase(uri.getScheme())) {
                 return uri.getPath();
+            }
+
+            return null;
+        }
+
+        static String findExternalStorageDocumentPath(Context context, String type, String relativePath) {
+            File[] externalDirs = context.getExternalFilesDirs(null);
+            if (externalDirs == null) {
+                return null;
+            }
+
+            List<String> externalDirPaths = new ArrayList<>();
+            for (File externalDir : externalDirs) {
+                if (externalDir != null) {
+                    externalDirPaths.add(externalDir.getAbsolutePath());
+                }
+            }
+
+            return buildExternalStorageDocumentPath(type, relativePath, externalDirPaths.toArray(new String[0]));
+        }
+
+        static String buildExternalStorageDocumentPath(String type, String relativePath, String[] externalDirPaths) {
+            if (type == null || relativePath == null || externalDirPaths == null) {
+                return null;
+            }
+
+            for (String externalDirPath : externalDirPaths) {
+                if (externalDirPath == null) {
+                    continue;
+                }
+                int androidDataIndex = externalDirPath.indexOf("/Android/data/");
+                if (androidDataIndex == -1) {
+                    continue;
+                }
+                String volumeRoot = externalDirPath.substring(0, androidDataIndex);
+                if (volumeRoot.toLowerCase().contains(type.toLowerCase())) {
+                    return volumeRoot + "/" + relativePath;
+                }
             }
 
             return null;
@@ -396,5 +571,24 @@ public class Util {
         drawable.setBounds(0, 0, w, h);
         drawable.draw(canvas);
         return bitmap;
+    }
+
+    public static Bitmap createVideoThumbnail(Context context, Uri uri) {
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        try {
+            retriever.setDataSource(context, uri);
+            return retriever.getFrameAtTime();
+        } catch (RuntimeException e) {
+            String path = GetPathFromUri4kitkat.getPath(context, uri);
+            if (path == null) {
+                return null;
+            }
+            return android.media.ThumbnailUtils.createVideoThumbnail(path, MediaStore.Images.Thumbnails.MINI_KIND);
+        } finally {
+            try {
+                retriever.release();
+            } catch (Exception ignored) {
+            }
+        }
     }
 }

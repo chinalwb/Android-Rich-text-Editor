@@ -25,7 +25,7 @@ public class ARE_ToolItem_Subscript extends ARE_ToolItem_Abstract {
     @Override
     public IARE_ToolItem_Updater getToolItemUpdater() {
         if (mToolItemUpdater == null) {
-            mToolItemUpdater = new ARE_ToolItem_UpdaterDefault(this, Constants.CHECKED_COLOR, Constants.UNCHECKED_COLOR);
+            mToolItemUpdater = new ARE_ToolItem_UpdaterDefault(this);
             setToolItemUpdater(mToolItemUpdater);
         }
         return mToolItemUpdater;
@@ -47,13 +47,8 @@ public class ARE_ToolItem_Subscript extends ARE_ToolItem_Abstract {
             return mToolItemView;
         }
         if (mToolItemView == null) {
-            ImageView imageView = new ImageView(context);
-            int size = Util.getPixelByDp(context, 30);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size, size);
-            imageView.setLayoutParams(params);
-            imageView.setImageResource(R.drawable.subscript);
-            imageView.bringToFront();
-            mToolItemView = imageView;
+            mToolItemView = createToolItemView(context,
+                    R.drawable.are_ic_subscript, R.string.are_tool_subscript);
         }
 
         return mToolItemView;

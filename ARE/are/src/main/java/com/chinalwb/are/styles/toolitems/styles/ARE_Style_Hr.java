@@ -16,12 +16,9 @@ public class ARE_Style_Hr extends ARE_ABS_FreeStyle {
 
 	private AREditText mEditText;
 
-	private ImageView mImageView;
-
 	public ARE_Style_Hr(AREditText editText, ImageView imageView) {
 		super(editText.getContext());
 		this.mEditText = editText;
-		mImageView = imageView;
 		setListenerForImageView(imageView);
 	}
 
@@ -30,9 +27,6 @@ public class ARE_Style_Hr extends ARE_ABS_FreeStyle {
 		return this.mEditText;
 	}
 
-	/**
-	 * @param editText
-	 */
 	public void setEditText(AREditText editText) {
 		this.mEditText = editText;
 	}

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Part of the ARE toolbar icon set: 24dp grid, 20dp live area, single weight. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M14.5 19.48H11.65L10.52 16.54H5.34L4.27 19.48H1.5L6.55 6.52H9.31ZM9.68 14.35 7.9 9.54 6.15 14.35Z" />
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M23.0 20.44H21.14L20.4 18.51H17.01L16.31 20.44H14.5L17.8 11.96H19.61ZM19.85 17.08 18.68 13.94 17.54 17.08Z" />
+</vector>

@@ -31,6 +31,7 @@
             <enum name="BOTTOM" value="0" />
             <enum name="TOP" value="1" />
         </attr>
+        <attr name="useEmoji" format="boolean" />
     </declare-styleable>
 
 </resources>

@@ -16,4 +16,31 @@
 
     <string name="title_activity_default_image_preview">ARE DefaultImagePreviewActivity</string>
     <string name="save_to_local">Save to local</string>
+
+    <!-- Toolbar button labels, read out by accessibility services. -->
+    <string name="are_tool_bold">Bold</string>
+    <string name="are_tool_italic">Italic</string>
+    <string name="are_tool_underline">Underline</string>
+    <string name="are_tool_strikethrough">Strikethrough</string>
+    <string name="are_tool_fontsize">Text size</string>
+    <string name="are_tool_fontface">Font</string>
+    <string name="are_tool_foregroundcolor">Text colour</string>
+    <string name="are_tool_background">Highlight colour</string>
+    <string name="are_tool_superscript">Superscript</string>
+    <string name="are_tool_subscript">Subscript</string>
+    <string name="are_tool_quote">Quote</string>
+    <string name="are_tool_at">Mention</string>
+    <string name="are_tool_listbullet">Bullet list</string>
+    <string name="are_tool_listnumber">Numbered list</string>
+    <string name="are_tool_alignleft">Align left</string>
+    <string name="are_tool_aligncenter">Align centre</string>
+    <string name="are_tool_alignright">Align right</string>
+    <string name="are_tool_indentleft">Decrease indent</string>
+    <string name="are_tool_indentright">Increase indent</string>
+    <string name="are_tool_hr">Horizontal rule</string>
+    <string name="are_tool_image">Insert image</string>
+    <string name="are_tool_video">Insert video</string>
+    <string name="are_tool_emoji">Emoji</string>
+    <string name="are_tool_link">Link</string>
+    <string name="are_tool_unlink">Remove link</string>
 </resources>

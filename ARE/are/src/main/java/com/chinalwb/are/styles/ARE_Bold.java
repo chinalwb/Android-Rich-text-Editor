@@ -1,15 +1,11 @@
 package com.chinalwb.are.styles;
 
-import android.graphics.Typeface;
-import android.text.Editable;
-import android.text.Spanned;
-import android.text.style.StyleSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.chinalwb.are.AREditText;
-import com.chinalwb.are.Util;
 import com.chinalwb.are.spans.AreBoldSpan;
 
 public class ARE_Bold extends ARE_ABS_Style<AreBoldSpan> {
@@ -24,6 +20,7 @@ public class ARE_Bold extends ARE_ABS_Style<AreBoldSpan> {
      * @param boldImage
      */
     public ARE_Bold(ImageView boldImage) {
+        super(boldImage.getContext());
         this.mBoldImageView = boldImage;
         setListenerForImageView(this.mBoldImageView);
     }
@@ -33,6 +30,11 @@ public class ARE_Bold extends ARE_ABS_Style<AreBoldSpan> {
      */
     public void setEditText(AREditText editText) {
         this.mEditText = editText;
+    }
+
+    @Override
+    public EditText getEditText() {
+        return mEditText;
     }
 
     @Override

@@ -2,11 +2,10 @@ package com.chinalwb.are.styles;
 
 import android.app.Activity;
 import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 import android.text.Editable;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.URLSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -15,8 +14,7 @@ import android.widget.ImageView;
 import com.chinalwb.are.AREditText;
 import com.chinalwb.are.R;
 import com.chinalwb.are.spans.AreUrlSpan;
-
-import org.w3c.dom.Text;
+import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
 
 
 /**
@@ -25,20 +23,17 @@ import org.w3c.dom.Text;
 
 public class ARE_Link extends ARE_ABS_FreeStyle {
 
-    public static final String HTTP = "http://";
-    public static final String HTTPS = "https://";
+    private static final String HTTP = "http://";
+    private static final String HTTPS = "https://";
     private ImageView mLinkImageView;
     private AREditText mEditText;
 
-    public ARE_Link(ImageView imageView) {
+    public ARE_Link(ImageView imageView, ARE_Toolbar toolbar) {
+        super(toolbar);
         this.mLinkImageView = imageView;
         setListenerForImageView(imageView);
     }
 
-    /**
-     *
-     * @param editText
-     */
     public void setEditText(AREditText editText) {
         this.mEditText = editText;
     }

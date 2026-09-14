@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tint for the monochrome toolbar icons. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="false" android:color="#61000000" />
+    <item android:state_selected="true" android:color="@color/are_tool_item_active" />
+    <item android:state_activated="true" android:color="@color/are_tool_item_active" />
+    <item android:color="@color/are_tool_item_normal" />
+</selector>

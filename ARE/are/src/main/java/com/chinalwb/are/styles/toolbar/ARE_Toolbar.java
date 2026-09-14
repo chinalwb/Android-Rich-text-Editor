@@ -16,12 +16,17 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+
+import androidx.core.content.ContextCompat;
 import android.widget.LinearLayout;
 
+import com.chinalwb.are.AREActivityResultHost;
 import com.chinalwb.are.AREditText;
 import com.chinalwb.are.R;
 import com.chinalwb.are.Util;
 import com.chinalwb.are.activities.Are_VideoPlayerActivity;
+import com.chinalwb.are.colorpicker.ColorPickerListener;
+import com.chinalwb.are.colorpicker.ColorPickerView;
 import com.chinalwb.are.models.AtItem;
 import com.chinalwb.are.spans.AreImageSpan;
 import com.chinalwb.are.styles.ARE_Alignment;
@@ -47,22 +52,16 @@ import com.chinalwb.are.styles.ARE_Superscript;
 import com.chinalwb.are.styles.ARE_Underline;
 import com.chinalwb.are.styles.ARE_Video;
 import com.chinalwb.are.styles.IARE_Style;
-import com.chinalwb.are.styles.toolitems.IARE_ToolItem;
-import com.chinalwb.are.colorpicker.ColorPickerListener;
-import com.chinalwb.are.colorpicker.ColorPickerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A fixed toolbar, for including only static tool items.
+ * Not friendly for extending.
+ * See {@link IARE_Toolbar} and {@link ARE_ToolbarDefault} for more info about dynamic toolbar.
+ */
 public class ARE_Toolbar extends LinearLayout {
-
-	public void addToolItem(IARE_ToolItem toolItem) {
-		View view = null ; // toolItem.getView();
-		// addView to toolbar
-		// add tool item to a collection
-	}
-
-	private static ARE_Toolbar sInstance;
 
 	/**
 	 * Request code for selecting an image.
@@ -92,7 +91,7 @@ public class ARE_Toolbar extends LinearLayout {
 	/**
 	 * Supported styles list.
 	 */
-	private ArrayList<IARE_Style> mStylesList = new ArrayList<IARE_Style>();
+	private ArrayList<IARE_Style> mStylesList = new ArrayList<>();
 
 	/**
 	 * Video Style
@@ -355,14 +354,36 @@ public class ARE_Toolbar extends LinearLayout {
 	public ARE_Toolbar(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		this.mContext = (Activity) context;
-		sInstance = this;
 		init();
+	}
+
+
+	/**
+	 * Applies the shared icon tint to every button of the toolbar.
+	 *
+	 * <p>Done here rather than in the layout so it holds whichever inflater the
+	 * host app uses, and so the tint of the whole set can be changed by
+	 * overriding one colour resource.</p>
+	 *
+	 * @param root the inflated toolbar
+	 */
+	private void tintToolItems(View root) {
+		if (root instanceof ViewGroup) {
+			ViewGroup group = (ViewGroup) root;
+			for (int i = 0; i < group.getChildCount(); i++) {
+				tintToolItems(group.getChildAt(i));
+			}
+		} else if (root instanceof ImageView) {
+			((ImageView) root).setImageTintList(
+					ContextCompat.getColorStateList(getContext(), R.color.are_tool_item_tint));
+		}
 	}
 
 	private void init() {
 		LayoutInflater layoutInflater = LayoutInflater.from(this.mContext);
 		layoutInflater.inflate(getLayoutId(), this, true);
 		this.setOrientation(LinearLayout.VERTICAL);
+		tintToolItems(this);
 		initViews();
 		initStyles();
 		initKeyboard();
@@ -432,30 +453,30 @@ public class ARE_Toolbar extends LinearLayout {
 	 *
 	 */
 	private void initStyles() {
-		this.mEmojiStyle = new ARE_Emoji(this.mEmojiImageView);
-		this.mFontsizeStyle = new ARE_FontSize(this.mFontsizeImageView);
-		this.mFontfaceStyle = new ARE_Fontface(this.mFontfaceImageView);
+		this.mEmojiStyle = new ARE_Emoji(this.mEmojiImageView, this);
+		this.mFontsizeStyle = new ARE_FontSize(this.mFontsizeImageView, this);
+		this.mFontfaceStyle = new ARE_Fontface(this.mFontfaceImageView, this);
 		this.mBoldStyle = new ARE_Bold(this.mBoldImageView);
 		this.mItalicStyle = new ARE_Italic(this.mItalicImageView);
 		this.mUnderlineStyle = new ARE_Underline(this.mUnderlineImageView);
 		this.mStrikethroughStyle = new ARE_Strikethrough(this.mStrikethroughImageView);
-		this.mHrStyle = new ARE_Hr(this.mHrImageView);
+		this.mHrStyle = new ARE_Hr(this.mHrImageView, this);
 		this.mSubscriptStyle = new ARE_Subscript(this.mSubscriptImageView);
 		this.mSuperscriptStyle = new ARE_Superscript(this.mSuperscriptImageView);
 		this.mQuoteStyle = new ARE_Quote(this.mQuoteImageView);
-		this.mFontColorStyle = new ARE_FontColor(this.mFontColorImageView);
+		this.mFontColorStyle = new ARE_FontColor(this.mFontColorImageView, this);
 		this.mBackgroundColoStyle = new ARE_BackgroundColor(this.mBackgroundImageView, Color.YELLOW);
-		this.mLinkStyle = new ARE_Link(this.mLinkImageView);
-		this.mListNumberStyle = new ARE_ListNumber(this.mRteListNumber);
-		this.mListBulletStyle = new ARE_ListBullet(this.mRteListBullet);
-		this.mIndentRightStyle = new ARE_IndentRight(this.mRteIndentRight);
-		this.mIndentLeftStyle = new ARE_IndentLeft(this.mRteIndentLeft);
-		this.mAlignLeft = new ARE_Alignment(this.mRteAlignLeft, Alignment.ALIGN_NORMAL);
-		this.mAlignCenter = new ARE_Alignment(this.mRteAlignCenter, Alignment.ALIGN_CENTER);
-		this.mAlignRight = new ARE_Alignment(this.mRteAlignRight, Alignment.ALIGN_OPPOSITE);
+		this.mLinkStyle = new ARE_Link(this.mLinkImageView, this);
+		this.mListNumberStyle = new ARE_ListNumber(this.mRteListNumber, this);
+		this.mListBulletStyle = new ARE_ListBullet(this.mRteListBullet, this);
+		this.mIndentRightStyle = new ARE_IndentRight(this.mRteIndentRight, this);
+		this.mIndentLeftStyle = new ARE_IndentLeft(this.mRteIndentLeft, this);
+		this.mAlignLeft = new ARE_Alignment(this.mRteAlignLeft, Alignment.ALIGN_NORMAL, this);
+		this.mAlignCenter = new ARE_Alignment(this.mRteAlignCenter, Alignment.ALIGN_CENTER, this);
+		this.mAlignRight = new ARE_Alignment(this.mRteAlignRight, Alignment.ALIGN_OPPOSITE, this);
 		this.mImageStyle = new ARE_Image(this.mRteInsertImage);
 		this.mVideoStyle = new ARE_Video(this.mRteInsertVideo);
-		this.mAtStyle = new ARE_At();
+		this.mAtStyle = new ARE_At(this);
 
 		this.mStylesList.add(this.mEmojiStyle);
 		this.mStylesList.add(this.mFontsizeStyle);
@@ -483,9 +504,12 @@ public class ARE_Toolbar extends LinearLayout {
 		this.mStylesList.add(this.mAtStyle);
 	}
 
-
-	public static ARE_Toolbar getInstance() {
-		return sInstance;
+	public void setUseEmoji(boolean useEmoji) {
+		if (useEmoji) {
+			mEmojiImageView.setVisibility(View.VISIBLE);
+		} else {
+			mEmojiImageView.setVisibility(View.GONE);
+		}
 	}
 
 	public void setEditText(AREditText editText) {
@@ -557,12 +581,6 @@ public class ARE_Toolbar extends LinearLayout {
 		return mImageStyle;
 	}
 
-	public ARE_Video getVideoStyle() { return mVideoStyle; }
-
-	public ARE_At getmAtStyle() {
-		return mAtStyle;
-	}
-
 	public List<IARE_Style> getStylesList() {
 		return this.mStylesList;
 	}
@@ -588,6 +606,16 @@ public class ARE_Toolbar extends LinearLayout {
 	    Intent intent = new Intent();
 	    intent.setClass(mContext, Are_VideoPlayerActivity.class);
 	    intent.setData(uri);
+        if (mContext instanceof AREActivityResultHost) {
+            ((AREActivityResultHost) mContext).launchVideoPlayer(intent, data -> {
+                String videoUrl = data.getStringExtra(Are_VideoPlayerActivity.VIDEO_URL);
+                Uri resultUri = data.getData();
+                if (resultUri != null) {
+                    mVideoStyle.insertVideo(resultUri, videoUrl);
+                }
+            });
+            return;
+        }
 	    mContext.startActivityForResult(intent, REQ_VIDEO);
     }
 
@@ -733,7 +761,7 @@ public class ARE_Toolbar extends LinearLayout {
 				mEmojiShownNow = true;
 
 				// 6. Change emoji icon to keyboard
-				mEmojiImageView.setImageResource(R.drawable.keyboard);
+				mEmojiImageView.setImageResource(R.drawable.are_ic_keyboard);
 			} else {
 				// Keyboard is shown now
 				// Toggle emoji panel to make the layout looks well for adjustPan
@@ -770,7 +798,7 @@ public class ARE_Toolbar extends LinearLayout {
 					mEmojiShownNow = false;
 
 					// 3. Change emoji icon to emoji
-					mEmojiImageView.setImageResource(R.drawable.emoji);
+					mEmojiImageView.setImageResource(R.drawable.are_ic_emoji);
 				} else {
 					// Case 2: keyboard is hidden and Emoji is hidden too
 					// And user clicks emoji icon
@@ -783,7 +811,7 @@ public class ARE_Toolbar extends LinearLayout {
 					// 1.1 Set emoji panel as shown now
 					mEmojiShownNow = true;
 					// 1.2 Change emoji icon to keyboard
-					mEmojiImageView.setImageResource(R.drawable.keyboard);
+					mEmojiImageView.setImageResource(R.drawable.are_ic_keyboard);
 				}
 
 			} else {
@@ -791,7 +819,7 @@ public class ARE_Toolbar extends LinearLayout {
 				// We should hide emoji panel
 				mEmojiPanelContainer.setVisibility(View.GONE);
 				mEmojiShownNow = false;
-				mEmojiImageView.setImageResource(R.drawable.emoji);
+				mEmojiImageView.setImageResource(R.drawable.are_ic_emoji);
 			}
 		}
 	}

@@ -1,14 +1,11 @@
 package com.chinalwb.are.styles;
 
-import com.chinalwb.are.Util;
-import com.chinalwb.are.styles.toolbar.ARE_Toolbar;
-
 import android.content.Context;
 import android.text.Editable;
 import android.text.Spanned;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
-import android.widget.EditText;
+
+import com.chinalwb.are.Util;
 
 import java.lang.reflect.ParameterizedType;
 
@@ -18,21 +15,9 @@ public abstract class ARE_ABS_Style<E> implements IARE_Style {
 
 	protected Class<E> clazzE;
 
-	public ARE_ABS_Style() {
-		this(null);
-	}
-
 	public ARE_ABS_Style(Context context) {
 		mContext = context;
-		if (mContext == null) {
-			this.mContext = ARE_Toolbar.getInstance().getContext();
-		}
 		clazzE = (Class<E>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-	}
-
-	@Override
-	public EditText getEditText() {
-		return ARE_Toolbar.getInstance().getEditText();
 	}
 
 	@Override
@@ -111,7 +96,14 @@ public abstract class ARE_ABS_Style<E> implements IARE_Style {
 							// User inputs to the end of the existing e span
 							// End existing e span
 							editable.removeSpan(span);
-							editable.setSpan(span, ess, start - 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+							int newEnd = start - 1;
+							if (newEnd > ess) {
+								editable.setSpan(span, ess, newEnd, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+							}
+							//
+							// else: the span would end before it starts, which is what an
+							// empty span left behind by a deletion looks like. Setting it
+							// would throw, so leave the span removed.
 						} else if (start == ess && end == ese) {
 							// Case 1 desc:
 							// *BBBBBB*

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:are="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -25,36 +26,38 @@
     <LinearLayout
         android:id="@+id/bottombar"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="48dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
-        android:weightSum="1000">
+        android:background="@color/are_toolbar_background">
 
         <com.chinalwb.are.styles.toolbar.ARE_ToolbarDefault
             android:id="@+id/areToolbar"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="900"
-            android:background="@color/colorPrimary"
             android:gravity="center_vertical" />
 
         <View
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:background="@color/colorPrimaryDark" />
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/are_toolbar_divider" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="95"
-            android:background="@color/colorAccent"
+            android:background="@color/are_toolbar_background"
             android:gravity="center">
 
             <ImageView
                 android:id="@+id/arrow"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:background="@drawable/are_tool_item_background"
+                app:tint="@color/are_tool_item_tint"
+                android:contentDescription="@string/demo_tool_scroll_toolbar"
                 android:src="@drawable/arrow_right" />
         </LinearLayout>
     </LinearLayout>

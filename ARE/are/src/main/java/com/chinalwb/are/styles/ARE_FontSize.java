@@ -26,6 +26,8 @@ public class ARE_FontSize extends ARE_ABS_Dynamic_Style<AreFontSizeSpan> impleme
 
 	private ImageView mFontsizeImageView;
 
+	private ARE_Toolbar mToolbar;
+
 	private AREditText mEditText;
 
 	private int mSize = Constants.DEFAULT_FONT_SIZE;
@@ -39,7 +41,9 @@ public class ARE_FontSize extends ARE_ABS_Dynamic_Style<AreFontSizeSpan> impleme
 	/**
 	 * @param fontSizeImage
 	 */
-	public ARE_FontSize(ImageView fontSizeImage) {
+	public ARE_FontSize(ImageView fontSizeImage, ARE_Toolbar toolbar) {
+		super(fontSizeImage.getContext());
+		this.mToolbar = toolbar;
 		this.mFontsizeImageView = fontSizeImage;
 		setListenerForImageView(this.mFontsizeImageView);
 	}
@@ -52,6 +56,10 @@ public class ARE_FontSize extends ARE_ABS_Dynamic_Style<AreFontSizeSpan> impleme
 		this.mEditText = editText;
 	}
 
+	@Override
+	public EditText getEditText() {
+		return mEditText;
+	}
 
 	@Override
 	public void setListenerForImageView(final ImageView imageView) {
@@ -68,7 +76,8 @@ public class ARE_FontSize extends ARE_ABS_Dynamic_Style<AreFontSizeSpan> impleme
 			mFontPickerWindow = new FontsizePickerWindow(mContext, this);
 		}
 		mFontPickerWindow.setFontSize(mSize);
-		mFontPickerWindow.showAsDropDown(ARE_Toolbar.getInstance(),0, 0);
+		int yOff = 0 - Util.getPixelByDp(mContext, 150);
+		mFontPickerWindow.showAsDropDown(mFontsizeImageView,0, yOff);
 	}
 
 	@Override

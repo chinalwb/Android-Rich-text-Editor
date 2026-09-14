@@ -1,10 +1,13 @@
 package com.chinalwb.are.demo;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 
 public class IndexActivity extends AppCompatActivity {
 
@@ -14,6 +17,10 @@ public class IndexActivity extends AppCompatActivity {
         setContentView(R.layout.activity_index);
 
         initViews();
+
+        ImageView imageView = (ImageView) findViewById(R.id.image);
+
+        Glide.with(this).load("https://findicons.com/files/icons/734/phuzion/128/apps.png").into(imageView);
     }
 
     private void initViews() {
@@ -34,6 +41,9 @@ public class IndexActivity extends AppCompatActivity {
 
         Button minHideButton = this.findViewById(R.id.minHideButton);
         openPage(minHideButton, ARE_MinHideActivity.class);
+
+        Button multipleInstanceButton = this.findViewById(R.id.multiInstanceButton);
+        openPage(multipleInstanceButton, ARE_MultiInstanceActivity.class);
     }
 
     private void openPage(Button button, final Class activity) {

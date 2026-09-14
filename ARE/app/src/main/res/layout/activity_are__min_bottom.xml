@@ -28,6 +28,7 @@
         are:expandMode="MIN"
         are:hideToolbar="false"
         are:toolbarAlignment="BOTTOM"
+        are:useEmoji="true"
         android:visibility="visible"
         />
 </RelativeLayout>

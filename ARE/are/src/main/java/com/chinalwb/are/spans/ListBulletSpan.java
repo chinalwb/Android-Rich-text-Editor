@@ -31,7 +31,11 @@ public class ListBulletSpan implements AreListSpan {
 			Paint.Style style = p.getStyle();
 			p.setStyle(Paint.Style.FILL);
 
-			c.drawText("\u2022", x + dir + LEADING_MARGIN, baseline, p);
+			//
+			// dir is the paragraph direction: multiplying by it puts the bullet
+			// inside the margin for RTL text too, where "x + dir" only shifted
+			// it by a single pixel.
+			c.drawText("\u2022", x + dir * LEADING_MARGIN, baseline, p);
 
 			p.setStyle(style);
 		}
